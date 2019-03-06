@@ -1,0 +1,100 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ 
+    <head>
+        <link rel="stylesheet" type="text/css" href="ErrorPageTemplate.css" >
+ 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Internet Explorer 无法显示该网页</title>
+ 
+        <script src="errorPageStrings.js" language="javascript" type="text/javascript">
+        </script>
+        <script src="httpErrorPagesScripts.js" language="javascript" type="text/javascript">
+        </script>
+    </head>
+ 
+    <body onLoad="javascript:initMoreInfo('infoBlockID');">
+ 
+        <table width="730" cellpadding="0" cellspacing="0" border="0">
+ 
+        <!-- Error title -->
+            <tr>
+                <td id="infoIconAlign" width="60" align="left" valign="top" rowspan="2">&nbsp;</td>
+                <td id="mainTitleAlign" valign="middle" align="left" width="*">
+                    <h1 id="mainTitle">404错误</h1>
+                </td>
+            </tr>
+ 
+            <tr>
+                <!-- This row is for HTTP status code, as well as the divider-->
+                <td id="errorCodeAlign" class="errorCodeAndDivider" align="right">&nbsp;</td>
+            </tr>
+ 
+        <!-- What you can do -->
+        <!-- Check Connection -->
+            <tr>
+                <td >&nbsp;
+                    
+                </td>
+                <td id="checkConnectionAlign" align="left" valign="middle">
+                    <DIV id="wrapper_wrapper">
+                      <DIV id="content_left">
+                        <DIV>
+                          <DIV>
+                            <H3>很抱歉，您要访问的页面不存在！</H3>
+                            <p>温馨提示：</p>
+                            <OL>
+                              <LI>请检查您访问的网址是否正确</LI>
+                              <LI>如果您不能确认访问的网址，请返回首页查看更多网址。</LI>
+                            </OL>
+                          </DIV>
+                        </DIV>
+                      </DIV>
+                    </DIV>
+                    <h4>&nbsp;</h4>
+                </td>
+            </tr>
+ 
+ 
+        <!-- InfoBlock -->
+            <tr>
+                <td id="infoBlockAlign" align="right" valign="top">&nbsp;
+                    
+                </td>
+                <td id="moreInformationAlign" align="left" valign="middle">
+                    <h4>&nbsp;</h4>
+                    <div id="infoBlockID" class="infoBlock" style="display: none">
+                        <p>
+                            <ID id="errorExpl1">此问题可能是由下列各种问题导致的:</ID>
+                            <ul>
+                                <li id="errorExpl2">Internet 连接已丢失。</li>
+                                <li id="errorExpl3">该网站暂时不可用。</li>
+                                <li id="errorExpl4">无法连接到域名服务器(DNS)。</li>
+                                <li id="errorExpl5">域名服务器(DNS)没有该网站的域的列表。</li>
+                                <li id="errorExpl7">在地址中可能存在键入错误。</li> 
+                                <li id="errorExpl6">如果这是 HTTPS (安全)地址，请单击“工具”菜单下的“Internet 选项”，再单击“高级”选项卡，然后请检查以确保“安全”部分下的 SSL 和 TLS 协议已启用。</li>
+                            </ul>
+                        </p>
+                        <p id="offlineUsers">对于脱机用户<b></b></p>                                     
+                        <p id="viewSubscribedFeeds1">
+                           仍可查看已订阅的源和最近查看过的一些网页。<br/>
+                           若要查看已订阅的源
+                           <ol>
+                               <li id="viewSubscribedFeeds2">单击“收藏夹”按钮<img src="favcenter.png" border="0">，单击“源”，然后单击希望查看的源。</li>
+                           </ol>
+                        </p>
+                        <p id="viewRecentWebpages1">查看最近访问过的网页(不查看所有页面)
+                           <ol>
+                              <li id="viewRecentWebpages2">单击“工具”<img src="tools.png" border="0">，然后单击“脱机工作”。</li>
+                              <li id="viewRecentWebpages3">单击“收藏夹”按钮<img src="favcenter.png" border="0">，单击“历史记录”，然后单击希望查看的页面。</li>
+                           </ol>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+ 
+        </table>
+ 
+    </body>
+</html>
+
