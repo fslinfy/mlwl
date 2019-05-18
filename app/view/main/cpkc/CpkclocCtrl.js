@@ -203,13 +203,13 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
                 }
             }
         }, {
-            'text': '规格      ', "style": {
+            'text': '     规格      ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '批号    ', "style": {
+            'text': '     批号    ', "style": {
                 "font": {
                     "bold": true
                 }
@@ -221,13 +221,13 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
                 }
             }
         }, {
-            'text': '数量      ', "style": {
+            'text': '    数量    ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '重量       ', "style": {
+            'text': '    重量    ', "style": {
                 "font": {
                     "bold": true
                 }

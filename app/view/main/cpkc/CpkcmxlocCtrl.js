@@ -202,21 +202,21 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
                     "bold": true
                 }
             }
-        }, {  
-            'text': '   商品名称     ', "style": {
+        }, {    
+            'text': '     商品名称     ', "style": {
                 "font": {
                     "bold": true
                 },
                 "width": 500
             }
         }, {
-            'text': '包装     ', "style": {
+            'text': '      包装     ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '规格   ', "style": {
+            'text': '      规格   ', "style": {
                 "font": {
                     "bold": true
                 }
@@ -246,13 +246,13 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
                 }
             }
         }, {
-            'text': '库存数量    ', "style": {
+            'text': '库存数量   ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '库存重量     ', "style": {
+            'text': '库存重量    ', "style": {
                 "font": {
                     "bold": true
                 }

@@ -109,12 +109,12 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
             );
             }
         } 
-        console.log(sheetarr);
+        
         var tableDataarr=[];
         var jsonSheetData=[];
 
         for (var i = 0; i < sheetarr.length; i++) {
-            if (i==0){
+            
             var   oldobj = sheetarr[i];
              jsonSheetData=this.getexcelsheetdata (kcarray,oldobj.khid,oldobj.khmc,ny,yu) ;
              tableDataarr.push(
@@ -123,7 +123,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
                     "data": jsonSheetData
                 }
              );
-            }
+            
         } 
 
 
@@ -218,20 +218,20 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
                 }
             }
             , {"merge": { "r": 1},
-                'text': '商品名称       ', "style": {
+                'text': '    商品名称       ', "style": {
                     "font": {
                         "bold": true
                     },
                     "width":500
                 }
             }, {"merge": {"r": 1},
-                'text': '包装      ', "style": {
+                'text': '    包装      ', "style": {
                     "font": {
                         "bold": true
                     }
                 }
             }, {"merge": {"r": 1},
-                'text': '规格      ', "style": {
+                'text': '    规格      ', "style": {
                     "font": {
                         "bold": true
                     }
