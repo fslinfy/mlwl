@@ -2687,7 +2687,7 @@ function cpjxcloc() {
 
 
 
-	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,cd.P_name as cdmc,
+	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,kh.c_shortname as khjc,cd.P_name as cdmc,
 	cp.s_name as cpmc,bz.ps_name as bzmc, cpph,
 	cpgg,
 	jldw,
