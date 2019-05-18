@@ -287,8 +287,8 @@ console.log(sys_location_id,sys_customer_id);
         ywsh["jkid"] = jkid;
         ywsh["gsby"] = gsby;
         //ywsh["shr"] =userInfo.username;
-        console.log(ywsh)
-        //return;
+       // console.log(ywsh)
+       // return;
         var msg = "进库单号：" + p.get('jkdh') + "<br>客户名称：" + p.get('khmc');// + "<br>进库日期：" + p.get('jkrq');
         var title = "此单已业务审核，真的删除此进库单内容？";
 
@@ -303,7 +303,8 @@ console.log(sys_location_id,sys_customer_id);
                     var str = obj2str(ywsh);
                     var encodedString = base64encode(Ext.encode(str));
                 }
-                AjaxDataSave('cpjkdcwshsave', loc, encodedString, jkdcwshsaveCallBack, the);
+             
+                  AjaxDataSave('cpjkdcwshsave', loc, encodedString, jkdcwshsaveCallBack, the);
 
             }
         })

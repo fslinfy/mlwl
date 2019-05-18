@@ -110,7 +110,7 @@
             type: 'string'
         }
 	    },
-
+       /*
 		{
 			text: '证件号码',
 			dataIndex: 'sfjhm',
@@ -127,7 +127,9 @@
 				type: 'string'
 			}
 
-		}, {
+		}, 
+		
+		{
 			text: 'QQ号码',
 			dataIndex: 'qqnumber',
 			//flex: 1,
@@ -143,7 +145,8 @@
 				type: 'string'
 			}
 
-		}, {
+		}, 
+		{
 			text: '微信号',
 			dataIndex: 'wxnumber',
 			//flex: 1,
@@ -159,7 +162,8 @@
 				type: 'string'
 			}
 
-		}, {
+		},
+		 {
 			text: '微信名',
 			dataIndex: 'wxname',
 			//	flex: 1,
@@ -175,14 +179,22 @@
 				type: 'string'
 			}
 		},
-
+*/
 		{
 			xtype: 'checkcolumn',
 			width: 90,
 			ReadOnly: true,
-			hidden: true,
+		//	hidden: true,
 			text: '锁状态',
 			dataIndex: 'locked'
+		},
+		{
+			xtype: 'checkcolumn',
+			width: 90,
+			ReadOnly: true,
+		//	hidden: true,
+			text: '激活',
+			dataIndex: 'smsactive'
 		},
 		{
 			xtype: 'checkcolumn',

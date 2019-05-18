@@ -16,15 +16,24 @@ Ext.define('MyApp.view.main.cpkc.CpdzlocCtrl', {
         , 'MyApp.view.main.tree.QueryCkmc'
     ],
     locQuery: function () {
-        var ckid = that.viewname.getViewModel().get('ckid');
         var khid = that.viewname.getViewModel().get('khid');
+        console.log("khid=",khid);
+        if (khid<1){
+            Ext.MessageBox.alert('注意!', '请选择统计客户');
+            return ;
+        }
+        
+        var ckid = that.viewname.getViewModel().get('ckid');
+        
         var cdid = that.viewname.getViewModel().get('cdid');
         var cpid = that.viewname.getViewModel().get('cpid');
         var ny = that.viewname.getViewModel().get('ny');
         var yu = that.viewname.getViewModel().get('yu');
+
+
         sys_current_khid=khid;
 
-        console.log(ny,yu);
+        console.log(ny,yu,khid);
         var store = that.viewname.getStore();
         store.proxy.extraParams.p_l_id = ckid;
 
@@ -89,7 +98,7 @@ Ext.define('MyApp.view.main.cpkc.CpdzlocCtrl', {
         cpkcmxStore.on("load", function () {
             that.locQuery();
         });
-        that.onBtnQueryClick();
+      //  that.onBtnQueryClick();
         this.control({
             "#btnQuery": {
                 click: this.onBtnQueryClick

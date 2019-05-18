@@ -19,6 +19,7 @@ var CpjcttmxStore = Ext.create('MyApp.store.CpjcttmxStore',
                 khbz: 1,
                 cpbz: 0,
                 jclb: "",
+                area:"",
                 ny: 0,
                 yu: 0,
                 ri: 0
@@ -39,6 +40,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocView', {
         'MyApp.view.main.QueryToolbarView'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.tree.QueryCkmc'
+        , 'MyApp.view.main.tree.QueryArea'
     ],
     closeAction: 'destroy',
     itemId: 'CpjcttlocGrid',
@@ -47,7 +49,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocView', {
     controller: 'CpjcttlocCtrl',
     viewModel: {
         data: {
-            'ckid': 0, 'khsum': khsum, "cpsum": cpsum, 'ckmc': '', 'khmc': '', 'khid': 0, 'jclb': '', 'ny': (new Date).getFullYear(), 'yu': (new Date).getMonth() + 1, 'ri': ''
+            'ckid': 0, 'area':'','khsum': khsum, "cpsum": cpsum, 'ckmc': '', 'khmc': '', 'khid': 0, 'jclb': '', 'ny': (new Date).getFullYear(), 'yu': (new Date).getMonth() + 1, 'ri': ''
         }
     },
     // store: { type: 'CpjcttmxStore' },
@@ -147,7 +149,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocView', {
                     }
 
                 },
-
+                { xtype: "QueryArea" },
                 {
                     xtype: 'combo',
                     name: "jclb",

@@ -110,7 +110,8 @@
 				type: 'string'
 			}
 
-		}, {
+		}, 
+		/*{
 			text: '证件号码',
 			dataIndex: 'sfjhm',
 			//flex: 2,
@@ -174,6 +175,7 @@
 				type: 'string'
 			}
 		},
+		*/
 		{
 			xtype: 'numbercolumn',
 			text: '登录次数',
@@ -219,15 +221,6 @@
 			text: '财务审核权',
 			dataIndex: 'cwsh'
 		},
-
-		{
-			xtype: 'checkcolumn',
-			width: 90,
-			hidden:true,
-			ReadOnly: true,
-			text: '锁状态',
-			dataIndex: 'locked'
-		},
 		{
 			xtype: 'checkcolumn',
 			width: 110,
@@ -236,6 +229,20 @@
 			dataIndex: 'lastdel'
 		},
 
+	
+		{
+			xtype: 'checkcolumn',
+			width: 90,
+			text: '锁状态',
+			dataIndex: 'locked'
+		},
+		{
+			xtype: 'checkcolumn',
+			width: 90,
+			text: '激活',
+			dataIndex: 'smsactive'
+		},
+	
 		{
 			xtype: 'checkcolumn',
 			width: 90,

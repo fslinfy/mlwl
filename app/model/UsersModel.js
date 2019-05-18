@@ -21,6 +21,7 @@ Ext.define('MyApp.model.UsersModel', {
         { name: 'E_code' },
         { name: 'active', type: 'bool' },
         { name: 'locked', type: 'bool' },
+        { name: 'smsactive', type: 'bool' },
         { name: 'L_id', type: 'int' },
         { name: 'login', type: 'int' },
         { name: 'logincount', type: 'int' },

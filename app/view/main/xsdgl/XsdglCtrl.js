@@ -348,7 +348,7 @@ Ext.define('MyApp.view.main.xsdgl.XsdglCtrl', {
 
                     var cpxsd = form.getValues();
 
-                    // console.log(cpxsd,p);
+                    
                     cpxsd['xjbz'] = xjbz;
                     if (sys_customer_id > 0) {
                         cpxsd['khkd'] = 1;
@@ -356,6 +356,39 @@ Ext.define('MyApp.view.main.xsdgl.XsdglCtrl', {
                     else {
                         cpxsd['khkd'] = 0;
                     }
+
+                    var cnote =cpxsd['cnote'];
+                    cpxsd['sfr']=cpxsd['sfr'].replace("\n","");
+                    cpxsd['cphm']=cpxsd['cphm'].replace("\n","");
+                    cpxsd['sfr']=cpxsd['sfr'].replace('"'," ");
+                    cpxsd['cphm']=cpxsd['cphm'].replace('"'," ");
+                    
+                    
+                    //cnote=cnote.replace('"'," ");
+                    //cnote=cnote.replace('"'," ");
+                    
+                    while (cnote.indexOf('"')>0) 
+                    {
+                        cnote=cnote.replace('"'," ");
+
+                    }
+                  //  console.log("cnote=", cnote,cnote.indexOf("\n"));
+
+
+                    if (cnote.indexOf("\n")>0)
+                    {
+                        cnote='!'+bade64_encode(cnote)+"~";
+                        cpxsd['cnote']=cnote;
+                    }
+                  //  console.log("cnote=", cnote);
+                  //  return ;
+
+
+
+
+
+
+
                     cpxsd['xsrq'] = Ext.decode(Ext.encode(p.get('xsrq')));
                     cpxsd['endrq'] = Ext.decode(Ext.encode(p.get('endrq')));
                     cpxsd['czy'] = sys_userInfo.username;

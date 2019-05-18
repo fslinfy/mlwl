@@ -111,7 +111,7 @@
 				type: 'string'
 			}
 		},
-
+/*
 		{
 			text: '证件号码',
 			dataIndex: 'sfjhm',
@@ -175,7 +175,7 @@
 				allowBlank: false,
 				type: 'string'
 			}
-		},
+		},*/
 		{
 			xtype: 'numbercolumn',
 			text: '登录次数',
@@ -191,6 +191,14 @@
 			text: '锁状态',
 			dataIndex: 'locked'
 		},
+		{
+			xtype: 'checkcolumn',
+			width: 90,
+			ReadOnly: true,
+			text: '激活',
+			dataIndex: 'smsactive'
+		},
+
 		{
 			xtype: 'checkcolumn',
 			width: 90,

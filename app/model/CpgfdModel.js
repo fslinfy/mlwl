@@ -16,6 +16,7 @@ Ext.define('MyApp.model.CpgfdModel', {
                 { name: 'sfr' },
         { name: 'czy' },
         { name: 'shr' },
+        { name: 'area' },
         { name: 'cnote' },
         { name: 'sl', type: 'float' },
         { name: 'zl', type: 'float' },
