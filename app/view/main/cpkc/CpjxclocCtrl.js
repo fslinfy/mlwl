@@ -114,7 +114,8 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
         var jsonSheetData=[];
 
         for (var i = 0; i < sheetarr.length; i++) {
-           var   oldobj = sheetarr[i];
+            if (i==0){
+            var   oldobj = sheetarr[i];
              jsonSheetData=this.getexcelsheetdata (kcarray,oldobj.khid,oldobj.khmc,ny,yu) ;
              tableDataarr.push(
                 {
@@ -122,6 +123,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
                     "data": jsonSheetData
                 }
              );
+            }
         } 
 
 
@@ -143,7 +145,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
             "tableData":tableDataarr
         }
 
-//  console.log(prtData);     
+  //console.log(prtData);     
         Jhxlsx.export(prtData.tableData, prtData.options);
 
      

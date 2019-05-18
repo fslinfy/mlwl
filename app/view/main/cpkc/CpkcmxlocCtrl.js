@@ -275,6 +275,10 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
 
 
         jsonData.push(arr);
+        var sumsl=0;
+        var sumzl=0;
+        
+
         for (var i = 0; i < kcarray.length; i++) {
             //  var newobj={};          
             arr = [];
@@ -292,7 +296,26 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             arr.push({ 'text': oldobj.kczl });
             arr.push({ 'text': Ext.Date.format(oldobj.czrq, 'Y-m-d') });
             arr.push({ 'text': oldobj.sm });
+            sumsl+=oldobj.kcsl;
+            sumzl+=oldobj.kczl;
             jsonData.push(arr);
+        }
+        if ( kcarray.length>1) {
+            arr=[]; 
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({ 'text': '合计' });
+            arr.push({ 'text': sumsl });
+            arr.push({ 'text': sumzl });
+            arr.push({ 'text': '' });
+            arr.push({ 'text':''});
+            jsonData.push(arr);
+
         }
 
         var prtData = {

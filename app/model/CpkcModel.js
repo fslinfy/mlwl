@@ -15,6 +15,7 @@ Ext.define('MyApp.model.CpkcModel', {
         { name: 'cdmc' },
         { name: 'ckmc' },
         { name: 'khmc' },
+        { name: 'khjc' },
         { name: 'cpmc' },
         { name: 'bzmc' },
         { name: 'dh' },

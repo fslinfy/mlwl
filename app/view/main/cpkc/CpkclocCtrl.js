@@ -233,6 +233,8 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
                 }
             } 
         }];
+        var sumsl=0;
+        var sumzl=0;
         jsonData.push(arr);
         for (var i = 0; i < kcarray.length; i++) {
             //  var newobj={};          
@@ -246,9 +248,25 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
             arr.push({ 'text': oldobj.jldw });
             arr.push({ 'text': oldobj.kcsl });
             arr.push({ 'text': oldobj.kczl });
-         
+            sumsl+=oldobj.kcsl;
+            sumzl+=oldobj.kczl;
             jsonData.push(arr);
         }
+
+        if ( kcarray.length>1) {
+            arr = [];
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({'text': '合计' });
+            arr.push({'text': sumsl });
+            arr.push({'text': sumzl });
+            jsonData.push(arr);
+        
+        }
+
 
         var prtData = {
             "options": {

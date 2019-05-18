@@ -2597,9 +2597,7 @@ function cpjxcloc() {
     		$filter .= " and cpjxc.yu=".$yu;
     	}
 
-
-
-	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,cd.P_name as cdmc,
+	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,kh.c_shortname as khjc,cd.P_name as cdmc,
 	cp.s_name as cpmc,bz.ps_name as bzmc, cpph,cpgg,jldw,
 	SUM(kcsl0) AS kcsl0,SUM(kczl0) AS kczl0,
 	SUM(jcsl) AS jcsl,SUM(jczl) AS jczl,
