@@ -389,14 +389,16 @@ function change_password() {
             var psw1 = Ext.getCmp("newpassword1").getValue();
             var psw2 = Ext.getCmp("newpassword2").getValue();
             if (psw1 != psw2) {
-                Ext.toast({
+                
+                /*Ext.toast({
                     html: "两次新密码输入不一致！",
                     closable: true,
                     title: '注意！',
                     align: 't',
                     slideInDuration: 200,
                     minWidth: 400
-                });
+                });*/
+                Ext.Msg.alert('注意！', " 两次新密码输入不一致！   ");
                 var obj = apploginForm.form.findField("newpassword2");
                 if (obj) {
                     obj.focus();
@@ -425,14 +427,15 @@ function change_password() {
                         sys_userInfo = obj;
                     } else {
                         if (parseInt(result.userid) < 0) {
-                            Ext.toast({
+                         /*   Ext.toast({
                                 html: "验证码错误！",
                                 closable: true,
                                 title: '注意！',
                                 align: 't',
                                 slideInDuration: 200,
                                 minWidth: 400
-                            });
+                            });*/
+                            Ext.Msg.alert('注意！', " 验证码错误！   ");
                             var obj = apploginForm.form.findField("VerifyCode");
                             if (obj) {
                                 obj.focus();
@@ -673,14 +676,15 @@ function system_setting() {
 
                     } else {
                         if (parseInt(result.userid) < 0) {
-                            Ext.toast({
+                          /*  Ext.toast({
                                 html: "验证码错误！",
                                 closable: true,
                                 title: '注意！',
                                 align: 't',
                                 slideInDuration: 200,
                                 minWidth: 400
-                            });
+                            });*/
+                            Ext.Msg.alert('注意！', " 验证码错误！   ");
                             var obj = appsettingForm.form.findField("VerifyCode");
                             if (obj) {
                                 obj.focus();
@@ -901,15 +905,15 @@ function user_login() {
                     } else {
                         if (parseInt(result.userid) < 0) {
 
-                            Ext.toast({
+                           /* Ext.toast({
                                 html: "验证码错误！",
                                 closable: true,
                                 title: '注意！',
                                 align: 't',
                                 slideInDuration: 200,
                                 minWidth: 400
-                            });
-
+                            });*/
+                            Ext.Msg.alert('注意！', " 验证码错误！   ");
                             var obj = apploginForm.form.findField("VerifyCode");
                             if (obj) {
                                 obj.focus();
@@ -929,7 +933,7 @@ function user_login() {
             });
         }
     }
-    console.log("111111111 2");
+   // console.log("111111111 2");
     appchangeCode = function (obj) {
         if ((obj == 0) && (apploginWin.hasvcode)) return;
 

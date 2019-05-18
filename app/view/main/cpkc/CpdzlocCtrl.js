@@ -3,7 +3,7 @@ var LODOP;
 var that;
 var cpkcmxStore;
 sys_current_khid=0;
-
+/****************** */
 
 Ext.define('MyApp.view.main.cpkc.CpdzlocCtrl', {
     extend: 'Ext.app.ViewController',
