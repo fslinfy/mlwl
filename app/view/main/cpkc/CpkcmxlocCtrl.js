@@ -10,7 +10,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         , 'MyApp.view.main.tree.QueryCdmc'
         , 'MyApp.view.main.tree.QueryCpmc'
         , 'MyApp.view.main.tree.QueryCkmc'
-
+        , 'MyApp.view.main.report.DataToExcel'
     ],
     locQuery: function (that) {
         var ckid = that.viewname.getViewModel().get('ckid');
@@ -40,13 +40,13 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         return false;
     },
     onBtnHelpClick: function (button, e, options) {
-      /*  var grid = that.getView();
-        grid.saveDocumentAs({
-            type: 'excel',
-            title: 'My export',
-            fileName: 'myExport.xml'
-        });
-*/
+        /*  var grid = that.getView();
+          grid.saveDocumentAs({
+              type: 'excel',
+              title: 'My export',
+              fileName: 'myExport.xml'
+          });
+  */
         return false;
     },
     init: function () {
@@ -85,6 +85,9 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             "#btnFormSubmit": {
                 click: this.onFormSubmit
             },
+            "#btnExport": {
+                click: this.onBtnExportClick
+            },
 
             "#btnQueryCkmc": {
                 click: this.SelectCkbmView
@@ -94,6 +97,8 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         var tool = this.getView().down("#QueryToolbarView");
         tool.down('#btnEdit').setHidden(false);
         tool.down('#btnEdit').setText('调整堆位');
+        tool.down('#btnExport').setHidden(false);
+
     },
 
     onBtnEditClick: function (rs) {
@@ -103,7 +108,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         rec["rq"] = new Date();
         rec["newsl"] = 0;
         rec["newzl"] = 0;
-        rec["newcw"] =rec["cw"];
+        rec["newcw"] = rec["cw"];
         rec["newsm"] = rec["sm"];
         rec["oldArea"] = rec["area"];
         var view = this.getView();
@@ -130,9 +135,181 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         that.onBtnQueryClick();
         return false;
     },
+    onBtnExportClick: function (record) {
+
+        var khmc = this.viewname.getViewModel().get('khmc');
+        if (khmc.length == 0) {
+            Ext.MessageBox.alert('注意！', '请选择客户名称！');
+            return;
+        }
+
+        var store = this.getView().getStore();
 
 
 
+        var jsonData = [];
+        var kcarray = store.data.items;
+        var arr = [];
+        arr = [
+            {
+                "merge": {
+                    "c": 11
+                },
+                "style": {
+                    "font": {
+                        "bold": true
+                    }
+                },
+                "text": "商品仓位明细库存表"
+            }
+        ]
+
+        jsonData.push(arr);  //增加标题
+
+        arr = [
+            {
+                "merge": {
+                    "c": 5
+                },
+                "style": {
+                    "font": {
+                        "bold": true
+                    }
+                },
+                "text": "客户：" + khmc
+            }, {}, {}, {}, {}, {},  
+            {
+                "merge": {
+                    "c": 5
+                },
+
+                "style": {
+                    "font": {
+                        "bold": true
+                    }
+                },
+                "text": "仓库：" + this.viewname.getViewModel().get('ckmc')
+            }
+
+        ]
+
+        jsonData.push(arr);  //增加小标题
+        jsonData.push([]);
+
+        arr = [{
+            'text': '    产地       ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {  
+            'text': '   商品名称     ', "style": {
+                "font": {
+                    "bold": true
+                },
+                "width": 500
+            }
+        }, {
+            'text': '包装     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '规格   ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '批号     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '区域', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '仓位', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '单位', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '库存数量    ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '库存重量     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '进仓日期    ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '仓位说明     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }
+
+        ];
+
+
+        jsonData.push(arr);
+        for (var i = 0; i < kcarray.length; i++) {
+            //  var newobj={};          
+            arr = [];
+            var oldobj = kcarray[i].data;
+            arr.push({ 'text': oldobj.cdmc });
+            arr.push({ 'text': oldobj.cpmc });
+            arr.push({ 'text': oldobj.bzmc });
+            arr.push({ 'text': oldobj.cpgg });
+            arr.push({ 'text': oldobj.cpph });
+            arr.push({ 'text': oldobj.jldw });
+            arr.push({ 'text': oldobj.area });
+            arr.push({ 'text': oldobj.cw });
+
+            arr.push({ 'text': oldobj.kcsl });
+            arr.push({ 'text': oldobj.kczl });
+            arr.push({ 'text': Ext.Date.format(oldobj.czrq, 'Y-m-d') });
+            arr.push({ 'text': oldobj.sm });
+            jsonData.push(arr);
+        }
+
+        var prtData = {
+            "options": {
+                "fileName": Ext.Date.format(new Date(), 'Y-m-d') + khmc + "商品明细库存"
+            },
+            "tableData": [
+                {
+                    "sheetName": "Sheet1",
+                    "data": jsonData
+                }
+            ]
+        }
+
+        Jhxlsx.export(prtData.tableData, prtData.options);
+        return;
+    },
     SelectCkbmView: function (record) {
         treeSelect('ckmc', that, 'cpkc', that.viewname, true);
         return false;
@@ -151,8 +328,6 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         that.onBtnQueryClick();
         return false;
     },
-
-
     SelectCpbmView: function (record) {
         treeSelect('cpmc', that, 'cpkc', that.viewname, true);
         return false;

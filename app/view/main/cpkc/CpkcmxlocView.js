@@ -32,7 +32,6 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocView', {
     },
     //store: { type: 'CpkclocStore' },
     store: CpkclocStore,
-
     tbar: [{
         xtype: 'container',
         flex: 1,

@@ -11,16 +11,16 @@ $vcode = strtoupper($_SESSION['VerifyCode']);
 if ($_POST['act']==""){}else{
 	if ($_POST['password'] == "exit") {
 		$arr['success'] = true;
-		$arr['data'] = array('userid' => 0, 'username' => '用户登录失败！！');
-		echo json_encode($arr);
+		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户登录失败！！'));
+		echo urldecode(json_encode($arr));
 		return;
 	}
 }
 
 if (strtoupper($_SESSION['VerifyCode']) != strtoupper($_POST['VerifyCode'])) {
 	$arr['success'] = true;
-	$arr['data'] = array('userid' => -1, 'username' => '1 验证码错误！');
-	echo json_encode($arr);
+	$arr['data'] = array('userid' => -1, 'username' => urlencode('1 验证码错误！'));
+	echo urldecode(json_encode($arr));
 	return;
 }
 
@@ -130,7 +130,7 @@ function sysuserlogin() {
 	//	else
 	//	{
 			if ($p_khid == "0") {
-				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive from users u ,usertype t
+				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked from users u ,usertype t
 				where t.typeid=u.typeid and u.active=1 ";
 			} 
 			else 
@@ -149,7 +149,8 @@ function sysuserlogin() {
     		
 			$sqlstr .= " and  u.password='" . $userpsw . "'";
 	//}
-	$id = "0";
+	$id = 0;
+	$locked = 0;
 	$name = "";
 	$lidstring = "";
 	$sh = 0;
@@ -169,6 +170,7 @@ function sysuserlogin() {
 	if ($query) {
 		while ($row = mysql_fetch_array($query)) {
 			$id =(int)$row['userid'];
+			$locked =(int)$row['locked'];
 			$name = $row['username'];
 			$del = $row['del'];
 			$lastdel = $row['lastdel'];
@@ -188,6 +190,11 @@ function sysuserlogin() {
 		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户ID或用户名称或密码错误，登录失败！！！ '));
 		return urldecode(json_encode($arr));
 	} 
+	if ($locked>0) {
+		$arr['success'] = true;
+		$arr['data'] = array('userid' => 0, 'username' => urlencode('此用户已被锁，请系统管理员解锁后再登录！！！'));
+		return urldecode(json_encode($arr));
+	}
 
 	if ($smsactive==0)
 	{

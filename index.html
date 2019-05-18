@@ -1,11 +1,27 @@
 <!DOCTYPE HTML>
 <html manifest="cache.appcache">
-
+    
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!--
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+   
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.4/xlsx.core.min.js"></script>
+
+-->
+
+    <script src="js/xlsx.core.min.js"></script>
+    <script src="js/FileSaver.js"></script>
+    <script src="js/jhxlsx.js"></script>
     <script language="javascript" src="LodopFuncs.js"></script>
     <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
         <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
@@ -114,7 +130,7 @@ a.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){"checking"!==c.app
 <body>
 
     <script language="javascript">
-        var LODOP = ""; //å£°æ?ä¸º?…¨å±???˜é??  
+        var LODOP = ""; //å£°ï¿½?ï¿½ä¸º?ï¿½ï¿½ï¿½???ï¿½ï¿½??  
         function getSystemInfo() {
             console.log("getSystemInfo");
             LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
@@ -129,9 +145,9 @@ a.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){"checking"!==c.app
                // alert(LODOP);
                 if (LODOP.VERSION) {
                   //  if (LODOP.CVERSION)
-                    //    alert("å½“å?æ?‰C-Lodopäº‘æ?“å°?¯?”¨!\n C-Lodop??ˆæœ¬:" + LODOP.CVERSION + "(??…å«Lodop" + LODOP.VERSION + ")");
+                    //    alert("å½“ï¿½?ï¿½ï¿½?ï¿½C-Lodopäº‘ï¿½?ï¿½å°?ï¿½ï¿½?ï¿½ï¿½!\n C-Lodop??ï¿½æœ¬:" + LODOP.CVERSION + "(??ï¿½å«Lodop" + LODOP.VERSION + ")");
                  //   else
-                   //     alert("?œ¬?œºå·²æ?å?Ÿå?‰è?…ä?†Lodop?§ä»¶ï?\n ??ˆæœ¬?·:" + LODOP.VERSION);
+                   //     alert("?ï¿½ï¿½?ï¿½ï¿½å·²ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½Lodop?ï¿½ï¿½ä»¶ï¿½?ï¿½\n ??ï¿½æœ¬?ï¿½ï¿½:" + LODOP.VERSION);
 
                         return 1;
 

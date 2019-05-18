@@ -104,7 +104,7 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
             },
             "#btnCkmcTreeAdd": {
                 click: this.onCkmcSelectOkClick
-            },
+            }
 
 
 
@@ -112,9 +112,6 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
         var store = this.getView().down("#UsersGridView").getStore();
         store.on('beforeload', this.onBeforeReload, this);
     },
-    // onSelectckmcView: function () {
-    //      console.log("select ckmc")
-    //  },
     onFilterChange: function (v) {
         // return storeFilter(this.getView().down("#UsersGridView").getStore(),'CT_name',v.rawValue);
         var store = this.getView().down("#UsersGridView").getStore()
@@ -199,6 +196,7 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
         obj["del"] = 1;
         obj["sh"] = 0;
         obj["menustring"] = '';
+        obj["wxmenustring"] = '';
         obj["cwsh"] = 0;
         this.createDialog(obj);
     },
@@ -222,6 +220,7 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
                 obj["del"] = node.data.del;
                 obj["sh"] = node.data.sh;
                 obj["menustring"] = node.data.menustring;
+                obj["wxmenustring"] = node.data.wxmenustring;
                 obj["cwsh"] = node.data.cwsh;
                 //obj["system"] = node.data.system;
                 this.createDialog(obj);
@@ -267,6 +266,30 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
         p.set("menustring", str);
 
 
+        records = that.getView().down("#selectWorkerTreePanel1").getChecked();
+         names = [];
+         ids = [];
+        Ext.Array.each(records, function (rec) {
+            
+            names.push(rec.get('text'));
+            ids.push(rec.get('id'));
+            
+        });
+        
+        var str1 = "";
+        if (ids.length > 0) {
+             str1 = "|" + ids.join('|') + "|";
+        }
+        p.set("wxmenustring", str1);
+        console.log(str);
+
+        console.log(str1);
+
+
+
+
+
+
         var formPanel = this.lookupReference('windowForm'),
             form = formPanel.getForm();
         // console.log(form.getValues()) ;
@@ -274,7 +297,7 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
         if (form.isValid()) {
             Ext.Ajax.request({
                 method: 'POST',
-                url: sys_ActionPHP + '?act=usertypeupdate&menustr=' + str,
+                url: sys_ActionPHP + '?act=usertypeupdate&menustring=' + str+"&wxmenustring="+str1,
                 scope: this,
                 params: form.getValues(),
                 success: function (response) {
