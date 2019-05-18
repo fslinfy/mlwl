@@ -3699,6 +3699,7 @@ function cpjcttlist_pc() {
 	$ny=(int)$_GET["ny"];
 	$yu=(int)$_GET["yu"];
 	$ri=(int)$_GET["ri"];
+	$area=$_GET["area"];
 
 	$filter="";
 	$sqlstr1="";
@@ -3717,7 +3718,11 @@ function cpjcttlist_pc() {
     			$filter .=" and DAYOFMONTH(cpjkd.czrq)=".$ri;
 	    }
 
-
+        if ($area>"")
+		{
+			$filter .= " and cpjkd.area='".$area."'";
+			
+		}
     	
 		if ($ckid>0)
 		{
@@ -3761,6 +3766,12 @@ function cpjcttlist_pc() {
     			$filter .=" and DAYOFMONTH(cpckd.ckrq)=".$ri;
 	    }
    	
+        if ($area>"")
+		{
+			$filter .= " and cpckdcw.area='".$area."'";
+			
+		}
+
 		if ($ckid>0)
 		{
 			$filter .= " and cpxsd.L_id=".$ckid;
@@ -3775,11 +3786,10 @@ function cpjcttlist_pc() {
     , `cpxsd`.`khmc`
 	,cpxsdmx.cpmc,
 	0 as jcsl,0 as jczl
-    , `cpckdmx`.`ccsl` as jcsl
-    , `cpckdmx`.`cczl` as jczl
+    , `cpckdcw`.`sl` as ccsl
+    , `cpckdcw`.`zl` as cczl
 	, 0 as gfsl, 0 as gfzl
     , 0 as tzsl, 0 as tzzl
-	
 	
     FROM
     `wms`.`cpckdmx`
@@ -3787,6 +3797,8 @@ function cpjcttlist_pc() {
         ON (`cpckdmx`.`ckid` = `cpckd`.`ckid`)
 	INNER JOIN `wms`.`cpxsdmx` 
         ON (`cpckdmx`.`xsmxid` = `cpxsdmx`.`mxid`)	
+	INNER JOIN `wms`.`cpckdcw` 
+        ON (`cpckdcw`.`ckmxid` = `cpckdmx`.`ckmxid`)	
 	INNER JOIN `wms`.`cpxsd` 
         ON (`cpckd`.`xsid` = `cpxsd`.`xsid`)	
     where cpckd.delbz=0 ".$filter;
@@ -3820,6 +3832,12 @@ if (($jclb=="过货")|| ($jclb=="")) {
     			$filter .=" and DAYOFMONTH(cpgfd.gfrq)=".$ri;
 	    }
    	
+        if ($area>"")
+		{
+			$filter .= " and cpgfd.area='".$area."'";
+			
+		}
+
 
 		if ($ckid>0)
 		{
@@ -3885,7 +3903,11 @@ if (($jclb=="过货")|| ($jclb=="")) {
    	
 
 
-
+       if ($area>"")
+		{
+			$filter .= " and cptzdmx.area='".$area."'";
+			
+		}
 
     	
 		if ($ckid>0)
@@ -3939,7 +3961,11 @@ if (($jclb=="过货")|| ($jclb=="")) {
 	    }
    	
 
-
+       if ($area>"")
+		{
+			$filter .= " and cptzdmx.area='".$area."'";
+			
+		}
 
 
     	
@@ -4018,7 +4044,7 @@ else{
 
 
 
-	//	return $sql;
+		//return $sql;
 		$query = mysql_query($sql);
 		return getjsonstoredata($query, 0);
 }
@@ -4100,6 +4126,11 @@ function cpxsdmxlist_pc() {
 }
 
 function cpxsdlist_pc() {	
+
+
+
+
+
 	$Lid=$_GET["p_l_id"];
 	
 	$xsid=(int)$_GET["xsid"];
@@ -5798,7 +5829,22 @@ function getjsonstoredata($query, $total) {//返回STORE所需的数据
 		while ($row = mysql_fetch_array($query)) {
 			$my_array = array();
 			for ($i = 0; $i < mysql_num_fields($query); $i++) {
-				$newvar = $row[mysql_field_name($query, $i)];
+				$fieldname=mysql_field_name($query, $i);
+				$newvar = $row[$fieldname];
+
+				if (($fieldname=='cnote')  || ($fieldname=='cphm') || ($fieldname=='sfr') || ($fieldname=='thr') )
+				{
+				   if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newstr)-1,1)=="~"))
+				   {
+
+					$newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));
+					$newvar=str_replace("\n"," ",$newvar);
+				   }
+                       
+
+				}
+
+
 				$my_array[mysql_field_name($query, $i)] = urlencode($newvar);
 			};
 			$arr['rows'][] = $my_array;
@@ -7218,7 +7264,7 @@ function cpgfdmxsave() {
 	{
 		$dh =$o['gfdh'];
 		$gfid =$_GET['data'];
-		$cpgfdstr = " update  cpgfd  set  shr='" . $o['czy'] . "'";
+		$cpgfdstr = " update  cpgfd  set  shr='" . $o['czy'] . "' ";
 		$cpgfdstr .= ",shrq=now(),delbz=1  where gfid=".$gfid;
 		mysql_query($cpgfdstr);
 		if (mysql_errno() > 0) {
@@ -7247,12 +7293,13 @@ function cpgfdmxsave() {
 	$result = mysql_query($dhsql);
 	$arr=mysql_fetch_assoc($result);
 	$dh =$arr['dh'];
-	$cpgfdstr = " insert into cpgfd (gfdh,L_id,khid,khmc,cphm,sfr,czy,cnote,sl,zl,je,xjje,xjbz,gfrq)values('";
+	$cpgfdstr = " insert into cpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,sl,zl,je,xjje,xjbz,gfrq)values('";
 	$cpgfdstr .= $dh. "'";
 	$cpgfdstr .= "," . $L_id;
 	$cpgfdstr .= "," . $o['khid'];
 	$cpgfdstr .= ",'" . $o['khmc'] . "'";
 	$cpgfdstr .= ",'" . $o['cphm'] . "'";
+	$cpgfdstr .= ",'" . $o['area'] . "'";
 	$cpgfdstr .= ",'" . $o['sfr'] . "'";
 	$cpgfdstr .= ",'" . $czy . "'";
 	$cpgfdstr .= ",'" . $o['cnote'] . "'";
@@ -7296,9 +7343,10 @@ function cpgfdmxsave() {
 	$cpgfdstr .= ",cphm='" . $o['cphm'] . "'";
 	$cpgfdstr .= ",sfr='" . $o['sfr'] . "'";
 	$cpgfdstr .= ",shr='" . $o['czy'] . "'";
+	$cpgfdstr .= ",area='" . $o['area'] . "'";
 	$cpgfdstr .= ",shrq=now(),ztbz=1";
 	$cpgfdstr .= ",cnote='" . $o['cnote'] . "'";
-$cpgfdstr .= ",sl=" . $o['sl'] ;
+    $cpgfdstr .= ",sl=" . $o['sl'] ;
 	$cpgfdstr .= ",zl=" . $o['zl'] ;
 	$cpgfdstr .= ",je=" . $o['je'] ;
 	$cpgfdstr .= ",xjje=" . $o['xjje'] ;
@@ -9111,6 +9159,7 @@ function userssave($optype) {
 					$sql .= ",0";
 		 		}
 			}
+
 			//	$sql .= "," . $arr['edit'];
 			//	$sql .= "," . $arr['sh'];
 		} 
@@ -9207,6 +9256,14 @@ default:
 				$sql .= ",lastdel=0";
 			}
 		}
+		$str = $arr['smsactive'];
+		if (isset($str)) {
+			if ($str) {
+				$sql .= ",smsactive=1";
+			} else {
+				$sql .= ",smsactive=0";
+			}
+		}
 			
 		$str = $arr['active'];
 		if (isset($str)) {
@@ -9278,7 +9335,7 @@ default:
 		break;
 	 }
 	
-		//return $sql.$table; 
+		//return $sql; 
 		mysql_query($sql);
 		if (mysql_errno() > 0) {
 			$error = 'yes';

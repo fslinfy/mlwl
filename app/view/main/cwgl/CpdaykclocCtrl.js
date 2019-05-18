@@ -18,6 +18,7 @@ Ext.define('MyApp.view.main.cwgl.CpdaykclocCtrl', {
 
         CpdaykcmxStore.proxy.extraParams.ckid = sys_location_id;
         CpdaykcmxStore.proxy.extraParams.khid = khid;
+        CpdaykcmxStore.proxy.extraParams.enddate =Ext.Date.format(rq, 'Y-m-d');//;; Ext.decode(Ext.encode(v.get('start_date')));
         CpdaykcmxStore.proxy.extraParams.ny = ny;
         CpdaykcmxStore.proxy.extraParams.yu = yu;
         CpdaykcmxStore.proxy.extraParams.ri = ri;

@@ -163,8 +163,9 @@ function sysuserlogin() {
 	$E_name = "";
 	//return $sqlstr;
 	$sqlstr1 = "";
+	
 	$query = mysql_query($sqlstr);
-
+    
 	if ($query) {
 		while ($row = mysql_fetch_array($query)) {
 			$id =(int)$row['userid'];
@@ -181,17 +182,21 @@ function sysuserlogin() {
 			break;
 		}
 	}
-    if ($smsactive==0)
+
+	if ($id <1) {
+		$arr['success'] = true;
+		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户ID或用户名称或密码错误，登录失败！！！ '));
+		return urldecode(json_encode($arr));
+	} 
+
+	if ($smsactive==0)
 	{
 		$arr['success'] = true;
 		$arr['data'] = array('userid' => 0, 'username' => urlencode('请用户先激活再进行登录操作！！！ '));
 		return urldecode(json_encode($arr));
 	}
 
-	if ($id <1) {
-		$arr['success'] = true;
-		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户ID或用户名称或密码错误，登录失败！！！ '));
-	} else {
+	
 		$arr['success'] = true;
 		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'lidstring' => $lidstring,'sh' => $sh, 'cwsh' => $cwsh, 'edit' => $edit, 'del' => $del, 'lastdel' => $lastdel, 'new' => $new, 'khsystem' => $khsystem);
 		if ($username=="")
@@ -205,7 +210,7 @@ function sysuserlogin() {
 		
 			$query = mysql_query($sqlstr1);
 		}
-	}
+	
 	return urldecode(json_encode($arr));
 
 	//$arr['success'] = true;
@@ -234,7 +239,7 @@ function changepassword() {
 	}
 
 	$username = $_POST['username'];
-	$userid =(int)$_POST['username'];
+//	$userid =(int)$_POST['username'];
 	$userpsw =base64_encode($_POST['password']);
 
 if (($username == "system") && ($p_khid>0))
@@ -249,12 +254,13 @@ else
 {
 	if ($p_khid == 0) {
 		$sqlstr = "select u.userid,u.username ,t.edit,t.sh,t.del,t.system from users u ,usertype t
-		where t.typeid=u.typeid and u.active=1 and u.L_id=" . $p_l_id;
+		where t.typeid=u.typeid and u.active=1 " ;
 	} else {
 		$sqlstr = "select u.* from khusers u  
 		where u.active=1 and u.khid=" . $p_khid;
 	}
-	$sqlstr .= " and ( u.userid=" . $userid . " or  u.username='" . $username . "') ";
+	//$sqlstr .= " and ( u.userid=" . $userid . " or  u.username='" . $username . "') ";
+	$sqlstr .= " and  u.userid=" . $userid ;
 	$sqlstr .= " and u.smsactive=1 and  u.password='" . $userpsw . "'";
 }
 	$id = "0";

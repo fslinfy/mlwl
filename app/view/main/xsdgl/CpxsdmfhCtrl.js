@@ -143,9 +143,11 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdmfhCtrl', {
         var rec = button.getWidgetRecord();
         var xsid = rec.data.xsid;
         var record = rec.data;
+       // console.log(record);
         record['btnButtonHidden'] = true;
         record['op'] = 'loc';
         record['ckop'] = false;
+
         record['title'] = '商品销售单-未提货';
         var view = this.getView();
         this.isEdit = false;
@@ -202,7 +204,7 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdmfhCtrl', {
         if (xsid == 0) {
             return;
         }
-        console.log("khid",p.get('khid'),xsid);
+//        console.log("khid",p.get('khid'),xsid);
 
         var msg = "销售提货单：" + "<br>客户名称：" + p.get('khmc');
         var title = "真的作废此提货单内容？";

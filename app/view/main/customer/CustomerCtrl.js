@@ -136,7 +136,7 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
             return;
         }
 
-
+//console.log("khid=",khid);
         if (khid > 0) {
             var record = {};
             record['khid'] = khid;
@@ -152,6 +152,8 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
                 session: true
             });
             this.dialog.show();
+
+
             var packing_store = this.lookupReference('packingmxGrid').getStore();
             packing_store.proxy.extraParams.khid = khid;
             packing_store.proxy.extraParams.p_l_id = sys_location_id;
@@ -159,12 +161,13 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
 
             packing_store.on('load', function (store, records, options) {
                 store.each(function (rec) {
+                  //  console.log("rec",rec.data)
                     var Pid = parseInt(rec.data.id);
                     if (Pid > 0) {
-                        //  console.log(Pid,rec.data.id)
+                        //console.log(Pid,rec.data.id)
                     }
                     else {
-                        // console.log(rec.data, rec.data.PS_name)
+                        //console.log(rec.data, rec.data.PS_name)
                         rec.set('Pid', rec.data.PS_id);
                         rec.set('Czdj', rec.data.Czdj0);
                         rec.set('Phdj', rec.data.Phdj0);

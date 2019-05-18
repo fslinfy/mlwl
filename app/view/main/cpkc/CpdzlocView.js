@@ -64,7 +64,7 @@ Ext.define('MyApp.view.main.cpkc.CpdzlocView', {
                     fieldLabel: '月',
                     padding: '0 0 0 20',
                     labelWidth: 20,
-                    width: 100,
+                    width: 90,
                     store: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                     queryMode: 'local',
                     allowBlank: false,

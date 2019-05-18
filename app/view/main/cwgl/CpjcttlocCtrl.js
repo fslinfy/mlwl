@@ -9,7 +9,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocCtrl', {
     locQuery: function (the) {
 
         var v = the.getView().getViewModel();
-        //console.log(v.get('jclb'));
+        console.log('area',v.get('area'));
 
         //  var ckid = v.get('ckid');
         var khid = v.get('khid');
@@ -29,6 +29,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocCtrl', {
         CpjcttmxStore.proxy.extraParams.jclb = jclb;
         CpjcttmxStore.proxy.extraParams.khbz = khbz;
         CpjcttmxStore.proxy.extraParams.cpbz = cpbz;
+        CpjcttmxStore.proxy.extraParams.area = v.get('area');
         CpjcttmxStore.proxy.extraParams.ny = ny;
         CpjcttmxStore.proxy.extraParams.yu = yu;
         CpjcttmxStore.proxy.extraParams.ri = ri;
@@ -48,6 +49,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocCtrl', {
         return false;
     },
     init: function () {
+        console.log(sys_location_areas);
         that = this;
         that.viewname = that.getView();
         if (sys_customer_id > 0) {

@@ -9,6 +9,9 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdEdit', {
     bind: {
         title: '{title}'
     },
+    requires: [
+        'MyApp.view.main.tree.QueryArea'
+    ],
     top: 0,
     width: "95%",
     height: 600,
@@ -109,7 +112,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdEdit', {
                                     allowBlank: true
                                 },
 
-
+                                { xtype: "QueryArea" },
 
                                 {
                                     xtype: 'displayfield',
@@ -303,16 +306,16 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdEdit', {
                                 type: 'string'
                             }
                         },
-                       /*                         {
-                            xtype: 'numbercolumn',
-                            text: 'rate',
-                            format: '0.00',
-                            dataIndex: 'rate', sortable: false,
-                            flex: 1
-                            
-
-                        },
-*/
+                        /*                         {
+                             xtype: 'numbercolumn',
+                             text: 'rate',
+                             format: '0.00',
+                             dataIndex: 'rate', sortable: false,
+                             flex: 1
+                             
+ 
+                         },
+ */
                         {
                             xtype: 'numbercolumn',
                             text: '数量',
@@ -337,14 +340,14 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdEdit', {
                                         selection.set('sl', value);
                                         var dj = selection.get('dj');
                                         var rate = selection.get('rate');
-                                        selection.set('zl', value*rate);
+                                        selection.set('zl', value * rate);
 
                                         if (dj == undefined) dj = 0;
-                                        if ((value * dj*rate < 1) && (value * dj*rate > 0)) {
+                                        if ((value * dj * rate < 1) && (value * dj * rate > 0)) {
 
                                             selection.set('je', 1);
                                         } else {
-                                            selection.set('je', (value * dj*rate).toFixed(0));
+                                            selection.set('je', (value * dj * rate).toFixed(0));
                                         }
 
 

@@ -77,7 +77,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
 
          'MyApp.view.main.DataSave'
         , 'MyApp.view.main.report.PrintCpgfd'
-       // , 'MyApp.view.main.tree.NewCpgfSelectTree'
+     
 
 
     ],
@@ -503,8 +503,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             Ext.MessageBox.alert('注意！', '输入内容不完整！');
             return false
         }
-        // Ext.MessageBox.alert('注意！', '请输入商品入库明细数据！11111111111111111111');
-        // console.log('注意！', '请输入商品入库明细数据！11111111111111111111');
+        // Ext.MessageBox.alert('注意！', '请输入商品过货明细数据！11111111111111111111');
+        // console.log('注意！', '请输入商品过货明细数据！11111111111111111111');
         //     return false;
         // 、、if (form.isValid()) {
         var rec = form.getValues();
@@ -514,7 +514,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
 
         var p = this.lookupReference('popupcpgfWindow').getViewModel();
         if ((p.get('bzid') == 0) || (p.get('cpid') == 0) || (p.get('cdid') == 0)) {
-            Ext.MessageBox.alert('注意！', '请输入商品入库资料有误，请重进行商品选择！');
+            Ext.MessageBox.alert('注意！', '请输入商品过货资料有误，请重进行商品选择！');
             return false;
         }
 
@@ -552,7 +552,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
 
         var i = 0, sumsl = 0, sumzl = 0, recs = 0;
         if (cpgfdcw_store.getCount() == 0) {
-            Ext.MessageBox.alert('注意！', '输入仓位商品的入库数量及重量！');
+            Ext.MessageBox.alert('注意！', '输入仓位商品的过货数量及重量！');
 
             return false;
         }
@@ -573,7 +573,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             }
         })
         if (recs == 0) {
-            Ext.MessageBox.alert('注意！', '输入仓位商品的入库数量及重量！');
+            Ext.MessageBox.alert('注意！', '输入仓位商品的过货数量及重量！');
             return false;
         }
 
@@ -655,9 +655,9 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var win = this.getView().down("#cpgfdmxedit");
         var mxdh = p.get('mxdh');
         var gfdh = p.get('gfdh');
-        var msg = "商品名称：" + p.get('cpmc') + "<br>产地名称：" + p.get('cdmc') + "<br>包装规格：" + p.get('bzmc') + "<br>入库数量：" + p.get('jcsl');
+        var msg = "商品名称：" + p.get('cpmc') + "<br>产地名称：" + p.get('cdmc') + "<br>包装规格：" + p.get('bzmc') + "<br>过货数量：" + p.get('jcsl');
 
-        var abc = Ext.Msg.confirm('真的删除此货物入库内容？', msg, function (e) {
+        var abc = Ext.Msg.confirm('真的删除此货物过货内容？', msg, function (e) {
             if (e == 'yes') {
                 cpgfdje_store.filter(
                     { filterFn: function (item) { return item.get("mxdh") == mxdh; } }
@@ -727,17 +727,31 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         }
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         if (cpgfdmx_store.getCount() == 0) {
-            Ext.MessageBox.alert('注意！', '请输入商品入库明细数据！');
+            Ext.MessageBox.alert('注意！', '请输入商品过货明细数据！');
             return false;
         }
 
 
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         var khid = p.get('khid');
-        //console.log(p);
+        console.log(p);
         var index = cpgfd_store.find('khid', khid);
 
         var rec = cpgfd_store.getAt(index);
+
+
+        if (sys_location_areas>1) {
+            if ((p.get('area')=="")||(p.get('area')==null)) {
+                Ext.MessageBox.alert('注意！', '请选择分区！');
+                return false;
+            }
+            rec.set('area', p.get('area'));
+        }
+        else
+        {
+            rec.set('area', '');
+        }
+
 
         rec.set('czy', sys_userInfo.username);
         rec.set('cnote', p.get('cnote'));
@@ -746,7 +760,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         rec.set('cphm', p.get('cphm'));
         rec.set('sfr', p.get('sfr'));
 
-        rec.set('area', p.get('area'));
+        
         cpgfd_store.sync();
         //  console.log('rece', rec.data);
 
@@ -760,7 +774,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
 
         var cpgfdcw_store = this.lookupReference('cpgfdmxcw0').getStore();
         if (cpgfdcw_store.getCount() == 0) {
-            Ext.MessageBox.alert('注意！', '请输入商品入库仓位明细数量及重量！!');
+            Ext.MessageBox.alert('注意！', '请输入商品过货仓位明细数量及重量！!');
             return false;
 
         }
@@ -782,12 +796,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             mxdh = recmx.get('mxdh');
 
             if ((recmx.get('cdid') == 0) || (recmx.get('cpid') == 0) || (recmx.get('bzid') == 0)) {
-                Ext.MessageBox.alert('注意！', '请输入商品入库资料有误，请重进行商品选择！');
+                Ext.MessageBox.alert('注意！', '请输入商品过货资料有误，请重进行商品选择！');
                 return false;
             }
 
             if ((recmx.get('jcsl') == 0) && (recmx.get('jczl') == 0)) {
-                Ext.MessageBox.alert('注意！', '请输入商品入库数量及重量！');
+                Ext.MessageBox.alert('注意！', '请输入商品过货数量及重量！');
 
                 return false;
 
@@ -797,7 +811,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             cpgfdcw_store.each(function (reccw) {
                 if (reccw.get('mxdh') == mxdh) {
                     if ((reccw.get('sl') == 0) && (reccw.get('zl') == 0)) {
-                        //   Ext.MessageBox.alert('注意！', '请输入商品入库明细数量及重量！');
+                        //   Ext.MessageBox.alert('注意！', '请输入商品过货明细数量及重量！');
                         //  ret = 1;
                         //  return false;
 
@@ -828,17 +842,19 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             arraymx.push(recmx0);
         })
         // if (ret == 1) {
-        //    Ext.MessageBox.alert('注意！', '请输入商品入库明细数量及重量！!');
+        //    Ext.MessageBox.alert('注意！', '请输入商品过货明细数量及重量！!');
         //     return false;
         // }
         if (recs == 0) {
-            Ext.MessageBox.alert('注意！', '请输入商品入库仓位明细数量及重量！!');
+            Ext.MessageBox.alert('注意！', '请输入商品过货仓位明细数量及重量！!');
             return false;
 
         }
 
         cpgfd['cpgfdmx'] = arraymx;
-        // console.log('gfd', cpgfd);
+         console.log('gfd', cpgfd);
+         return;
+    return;
         var str = obj2str(cpgfd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;
@@ -858,7 +874,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                     // PrintCpgfdJkid(result.gfid);
                     //console.log('gfdh=', result.dh);
                     //Ext.toast.msg("提示",'进库单已保存，单号是：'+result.gfdh);
-                    Ext.MessageBox.alert('提示', '进库单已保存，单号是：' + result.dh);
+                    Ext.MessageBox.alert('提示', '过货单已保存，单号是：' + result.dh);
 
                     that.DeletecpgfdAll(cpgfdmx_store, cpgfdcw_store, cpgfdje_store, gfdh);
                     that.getView().down("#cpgfdedit").close();

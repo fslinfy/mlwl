@@ -924,11 +924,8 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             return false;
         }
         var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
-       // if (cpjkdmx_store.getCount() == 0) {
-       //     Ext.MessageBox.alert('注意！', '请输入商品入库明细数据！');
-       //     return false;
-       // }
-
+        
+        
 
         var p = this.lookupReference('jkdpopupWindow').getViewModel();
         var khid = p.get('khid');
@@ -937,6 +934,18 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         var rec = cpjkd_store.getAt(index);
 
+        if (sys_location_areas>1) {
+            if ((p.get('area')=="")||(p.get('area')==null)) {
+                Ext.MessageBox.alert('注意！', '请选择分区！');
+                return false;
+            }
+            rec.set('area', p.get('area'));
+        }
+        else
+        {
+            rec.set('area', '');
+        }
+
         rec.set('czy', sys_userInfo.username);
         rec.set('cnote', p.get('cnote'));
 
@@ -944,7 +953,10 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         rec.set('cphm', p.get('cphm'));
         rec.set('sfr', p.get('sfr'));
 
-        rec.set('area', p.get('area'));
+        
+
+
+
         cpjkd_store.sync();
         //  console.log('rece', rec.data);
 
@@ -1038,6 +1050,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         cpjkd['cpjkdmx'] = arraymx;
        // console.log('jkd', cpjkd);
+      //  return;
         var str = obj2str(cpjkd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;
