@@ -331,6 +331,14 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdshCtrl', {
             return false;
         }
 
+        var rq=Ext.decode(Ext.encode(p.get('gfrq')));
+        console.log(rq,sys_option_min_date);
+        if (rq<sys_option_min_date) {
+            Ext.MessageBox.alert('注意！', '输入日期不能小于：'+sys_option_min_date);
+            return false
+        }
+    
+       // return;
         //if (p.data.zl == 0) {
            // Ext.MessageBox.alert('注意！', '请输入重量！');
           // return false;
@@ -380,6 +388,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdshCtrl', {
         gfd["cnote"] = p.data.cnote;
         gfd["gfdh"] = p.data.gfdh;
         gfd['gfrq'] = Ext.decode(Ext.encode(p.get('gfrq')));
+        gfd['rq'] = Ext.decode(Ext.encode(p.get('gfrq')));
        // gfd["sl"] = 0;//p.data.sl;
        // gfd["zl"] = p.data.zl;
         //gfd["je"] = p.data.je;

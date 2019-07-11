@@ -1,11 +1,11 @@
 ﻿//日明细进出存
 sys_DisplayAll = "";
 var that;
-Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
+Ext.define('MyApp.view.main.cpkc.CpjxccheckCtrl', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.CpjxcmxlocCtrl',
+    alias: 'controller.CpjxccheckCtrl',
     requires: [
-        'MyApp.view.main.cpkc.CpjxcmxlocView'
+        'MyApp.view.main.cpkc.CpjxccheckView'
     ],
     locQuery: function (the) {
 
@@ -14,7 +14,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
         var khid = v.get('khid');
         var cpid = v.get('cpid');
         var cdid = v.get('cdid');
-
+        var bzid =0;  // v.get('bzid');
         var ny = v.get('ny');
         var yu = v.get('yu');
         console.log(khid,ckid,cdid,cpid);
@@ -27,13 +27,14 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
 
         */
 
-        CpjxcmxlocStore.proxy.extraParams.p_l_id = ckid;
-        CpjxcmxlocStore.proxy.extraParams.khid = khid;
-        CpjxcmxlocStore.proxy.extraParams.cpid = cpid;
-        CpjxcmxlocStore.proxy.extraParams.cdid = cdid;
-        CpjxcmxlocStore.proxy.extraParams.ny = ny;
-        CpjxcmxlocStore.proxy.extraParams.yu = yu;
-        CpjxcmxlocStore.reload();
+        CpjxccheckStore.proxy.extraParams.p_l_id = ckid;
+        CpjxccheckStore.proxy.extraParams.khid = khid;
+        CpjxccheckStore.proxy.extraParams.cpid = cpid;
+        CpjxccheckStore.proxy.extraParams.cdid = cdid;
+        CpjxccheckStore.proxy.extraParams.bzid = bzid;
+        CpjxccheckStore.proxy.extraParams.ny = ny;
+        CpjxccheckStore.proxy.extraParams.yu = yu;
+        CpjxccheckStore.reload();
     },
 
     onBtnQueryClick: function (button, e, options) {

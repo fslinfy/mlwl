@@ -107,11 +107,12 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         , 'MyApp.view.main.report.PrintCpckd'
     ],
     locQuery: function (that) {
-        //  console.log("locQuery cpckdctrl");
+         console.log("locQuery cpckdctrl");
         var v = that.getView().down("#CpxsdListGrid").getViewModel();
         khid = v.get('khid');
         var ckid = v.get('ckid');
-        cpxsdmxStore.proxy.extraParams.loc = "ck";
+        cpxsdmxStore.proxy.extraParams.loc = "cpxsdmxmfhck";
+      //  cpxsdmxStore.proxy.extraParams.loc = "ck";
         cpxsdmxStore.proxy.extraParams.khid = khid;
         cpxsdmxStore.proxy.extraParams.ckid = ckid;
         cpxsdmxStore.reload();
@@ -239,6 +240,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             }
         });
         cpxsdmxStore.on("load", function () {
+            console.log('cpxsdmxStoreonload');
             var v = that.getView().down("#CpxsdListGrid").getViewModel();
             khid = v.get('khid');
             var ckid = v.get('ckid');
@@ -721,6 +723,17 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         var rec = ckdrec;
         // console.log("rec", rec);
         var p = this.lookupReference('popupCpxsdWindow').getViewModel();
+
+
+        
+        var rq=rec.ckrq;//Ext.decode(Ext.encode(p.get('ckrq')));
+        console.log(rq,sys_option_min_date);
+        if (rq<sys_option_min_date) {
+            Ext.MessageBox.alert('注意！', '输入出仓日期不能小于：'+sys_option_min_date);
+            return false
+        }
+    
+       // return;
 
         xsid = rec.xsid;
         var cpckd = {};

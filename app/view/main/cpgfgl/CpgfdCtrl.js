@@ -734,10 +734,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
 
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         var khid = p.get('khid');
-        console.log(p);
+        //console.log(p);
         var index = cpgfd_store.find('khid', khid);
 
         var rec = cpgfd_store.getAt(index);
+
+  
 
 
         if (sys_location_areas>1) {
@@ -891,13 +893,13 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     },
 
     sumje: function () {
-        console.log(           "sumje"        );
+     //   console.log(           "sumje"        );
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         p.set('sl') = cpgfdmx_store.sum("sl");
         p.set('zl') = cpgfdmx_store.sum("zl");
         p.set('je') = cpgfdmx_store.sum("je");
-        console.log( p.get('sl'), p.get('zl'), p.get('je'))
+    //    console.log( p.get('sl'), p.get('zl'), p.get('je'))
         if (p.get('xjbz')) {
             p.set('xjje') = cpgfdmx_store.sum("je");
 

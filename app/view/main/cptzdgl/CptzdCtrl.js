@@ -386,6 +386,15 @@ Ext.define('MyApp.view.main.cptzdgl.CptzdCtrl', {
             Ext.MessageBox.alert('注意！', '请选择商品调入客户！');
             return false
         }
+        
+        var rq=Ext.decode(Ext.encode(p.get('tzrq')));
+        //console.log(czrq,sys_option_min_date);
+        if (rq<sys_option_min_date) {
+            Ext.MessageBox.alert('注意！', '输入日期不能小于：'+sys_option_min_date);
+            return false
+        }
+      // return ;
+
         var cptzd = {};
         cptzd['czy'] = sys_userInfo.username;
         cptzd['cnote'] = rec.cnote;//p.get('cnote');;

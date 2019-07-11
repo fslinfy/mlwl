@@ -1,23 +1,23 @@
-﻿var CpjxcmxlocStore = Ext.create('MyApp.store.CpkclocStore',
+﻿var CpjxcrilocStore = Ext.create('MyApp.store.CpkclocStore',
     {
         groupField: 'khmc',
         proxy: {
             type: 'ajax',
             api: {
-                read: sys_ActionPHP + '?act=cpjxcmxloc'
+                read: sys_ActionPHP + '?act=cpjxcriloc'
             },
             actionMethods: {
                 read: 'GET'
             },
             extraParams: {
-                loc: 'cpjxcmxloc',
+                loc: 'cpjxcriloc',
                 userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
                 p_l_id: sys_location_id,
                 khid:0,
                 cdid:0,
                 cpid:0,
-                ny:0,
-                yu:0
+                area:null,
+                rq:new Date()
 
             },
             reader: {
@@ -29,33 +29,35 @@
     }
 );
 var showSummary = true;
-Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
+Ext.define('MyApp.view.main.cpkc.CpjxcrilocView', {
     extend: 'Ext.grid.Panel',
-    xtype: 'CpjxcmxlocView',
+    xtype: 'CpjxcrilocView',
     requires: [
         'MyApp.view.main.QueryToolbarView'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.tree.QueryCpmc'
         , 'MyApp.view.main.tree.QueryCdmc'
         , 'MyApp.view.main.tree.QueryCkmc'
+        //, 'MyApp.view.main.tree.QueryBzmc'
     ],
 
     closeAction: 'destroy',
-    itemId: 'CpjxcmxlocGrid',
-    reference: 'CpjxcmxlocGrid',
+    itemId: 'CpjxcrilocGrid',
+    reference: 'CpjxcrilocGrid',
     plugins: ['gridfilters'],
-    controller: 'CpjxcmxlocCtrl',
+    controller: 'CpjxcrilocCtrl',
     viewModel: {
         data: {
             'khmc': '', 'khid': 0,
-            'ny': (new Date()).getFullYear(), 'yu': (new Date()).getMonth(),
+            'rq': new Date(),
             'ckmc': '', 'ckid': 0,
             'cpmc': '', 'cpid': 0,
-            'cdmc': '', 'cdid': 0
+            'cdmc': '', 'cdid': 0,
+            'bzmc': '', 'bzid': 0
         }
     },
-    // store: { type: 'CpjxcmxlocStore' },
-    store: CpjxcmxlocStore,
+    // store: { type: 'CpjxcrilocStore' },
+    store: CpjxcrilocStore,
 
     tbar: [{
         xtype: 'container',
@@ -67,35 +69,15 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
             layout: 'hbox',
             items: [
                 {
-                    xtype: "numberfield",
-                    name: 'ny',
+                    xtype: 'datefield',
+                    fieldLabel: '日期',
                     labelWidth: 30,
-                    fieldLabel: '年度',
-                    bind: "{ny}",
-                    hideTrigger: false,
-
-                    margin: '1 0 1 1',
-                    width: 120,
-                    minValue: 2018,
-                    maxValue: 9999,
-                    decimalPrecision: 0
-
-                },
-
-                {
-                    xtype: "numberfield",
-                    name: 'yu',
-                    labelWidth: 30,
-                    fieldLabel: '月度',
-                    bind: "{yu}",
-                    hideTrigger: false,
-
-                    margin: '1 0 1 10',
-                    width: 100,
-                    minValue: 1,
-                    maxValue: 12,
-                    decimalPrecision: 0
-
+                    itemId:'rq',
+                    margin: '0 0 0 5',
+                    width: 158,
+                    bind: '{rq}',
+                    allowBlank: false,
+                    format: 'Y-m-d'
                 },
                 {
                     xtype: 'QueryKhmc', flex: 1,
@@ -108,7 +90,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 {
                     xtype: 'QueryCdmc', flex: 1   //               hidden: (sys_location_id > 0)
                 },
-
                 { xtype: 'QueryCpmc', flex: 1 }
 
             ]
@@ -135,11 +116,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
         scroll: 'horizontal'
     },
     columns: [
-        {
-            text: '日期',
-            width: 100,
-            dataIndex: 'czrq'
-        },
         {
             text: '客户名称',
             width: 200,
@@ -190,7 +166,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
         },*/
          {
             text: '批号',
-            width: 100,
+            width: 130,
             dataIndex: 'cpph'
         },
         {
@@ -200,47 +176,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
             dataIndex: 'jldw'
         },
         {
-            text: '仓位',
-            width: 60,
-            dataIndex: 'cw'
-            
-        },
-        {
-            text: '',
-            width: 60,
-            dataIndex: 'lb',
-            renderer: function (value, cellmeta) {
-                
-              switch (value) 
-                {
-                 case '0':
-                    return "结转";
-                    break;
-                 case '1':
-                    return "进仓";
-                    break;
-
-                 case '2':
-                    return "出仓";
-                    break;
-
-                 case '3':
-                    return "调帐";
-                    break;
-
-                 default:
-                    return "结存";
-                    break;
-                }
-                    
-                
-
-            }
-            
-        },
-
-        {
-            text: '上月库存', columns: [
+            text: '上期商品库存', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',
@@ -271,7 +207,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 }]
         },
         {
-            text: '本月商品进出库', columns: [
+            text: '本期商品进出库', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',
@@ -303,7 +239,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 }]
         },
         {
-            text: '本月商品出库', columns: [
+            text: '本期商品出库', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',
@@ -332,7 +268,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 }]
         },
         {
-            text: '本月商品调账', columns: [
+            text: '本期商品调账', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',
@@ -360,7 +296,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 }]
         },
         {
-            text: '商品结存', columns: [
+            text: '本期商品结存', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',
@@ -387,14 +323,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                     renderer: slrenderer
                 }]
         }
-        /*,
-        {
-            text: '单号',
-            width: 100,
-            sortable: false,
-            dataIndex: 'dh'
-        }
-        */
     ]
 
 

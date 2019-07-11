@@ -44,6 +44,9 @@ Ext.define('MyApp.model.CpkcModel', {
 
         { name: 'ccsl', type: 'float' },
         { name: 'cczl', type: 'float' },
+        
+        { name: 'cksl', type: 'float' },
+        { name: 'ckzl', type: 'float' },
 
         { name: 'czdj', type: 'float' },
         { name: 'czrq', type: 'date', dateFormat: 'Y-m-d' }

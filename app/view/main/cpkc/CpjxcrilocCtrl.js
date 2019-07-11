@@ -1,11 +1,11 @@
-﻿//日明细进出存
+﻿// 某日库存查询
 sys_DisplayAll = "";
 var that;
-Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
+Ext.define('MyApp.view.main.cpkc.CpjxcrilocCtrl', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.CpjxcmxlocCtrl',
+    alias: 'controller.CpjxcrilocCtrl',
     requires: [
-        'MyApp.view.main.cpkc.CpjxcmxlocView'
+        'MyApp.view.main.cpkc.CpjxcrilocView'
     ],
     locQuery: function (the) {
 
@@ -15,9 +15,9 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
         var cpid = v.get('cpid');
         var cdid = v.get('cdid');
 
-        var ny = v.get('ny');
-        var yu = v.get('yu');
-        console.log(khid,ckid,cdid,cpid);
+        var rq = v.get('rq');
+        
+        console.log(v,khid,ckid,cdid,cpid,rq);
      /*  if (khid==0)
         {
             Ext.MessageBox.alert('注意！', '请选择客户名称！');
@@ -27,13 +27,13 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocCtrl', {
 
         */
 
-        CpjxcmxlocStore.proxy.extraParams.p_l_id = ckid;
-        CpjxcmxlocStore.proxy.extraParams.khid = khid;
-        CpjxcmxlocStore.proxy.extraParams.cpid = cpid;
-        CpjxcmxlocStore.proxy.extraParams.cdid = cdid;
-        CpjxcmxlocStore.proxy.extraParams.ny = ny;
-        CpjxcmxlocStore.proxy.extraParams.yu = yu;
-        CpjxcmxlocStore.reload();
+        CpjxcrilocStore.proxy.extraParams.p_l_id = ckid;
+        CpjxcrilocStore.proxy.extraParams.khid = khid;
+        CpjxcrilocStore.proxy.extraParams.cpid = cpid;
+        CpjxcrilocStore.proxy.extraParams.cdid = cdid;
+        CpjxcrilocStore.proxy.extraParams.rq = rq;
+        CpjxcrilocStore.proxy.extraParams.area = null;
+        CpjxcrilocStore.reload();
     },
 
     onBtnQueryClick: function (button, e, options) {

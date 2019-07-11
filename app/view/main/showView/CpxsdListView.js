@@ -4,7 +4,6 @@
     requires: [
         'MyApp.view.main.SubTable',
         'MyApp.model.CpxsdmxModel',
-
         'MyApp.store.CpxsdStore'
         , 'MyApp.store.CpxsdmxStore'
         , 'MyApp.view.main.QueryToolbarView'
@@ -76,7 +75,8 @@
         }, {
             text: '商品名称',
             dataIndex: 'cpmc'
-        }, {
+        }
+        , {
             text: '包装规格',
             dataIndex: 'bzmc'
         }, {

@@ -1,21 +1,25 @@
-﻿var CpjxcmxlocStore = Ext.create('MyApp.store.CpkclocStore',
+﻿var CpjxccheckStore = Ext.create('MyApp.store.CpkclocStore',
     {
         groupField: 'khmc',
         proxy: {
             type: 'ajax',
             api: {
-                read: sys_ActionPHP + '?act=cpjxcmxloc'
+                read: sys_ActionPHP + '?act=loccheckcpkc'
             },
             actionMethods: {
                 read: 'GET'
             },
             extraParams: {
-                loc: 'cpjxcmxloc',
+                loc: 'cpjxccheck',
                 userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
                 p_l_id: sys_location_id,
+                
                 khid:0,
+                
                 cdid:0,
                 cpid:0,
+                bzid:0,
+                area:'', 
                 ny:0,
                 yu:0
 
@@ -29,33 +33,35 @@
     }
 );
 var showSummary = true;
-Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
+Ext.define('MyApp.view.main.cpkc.CpjxccheckView', {
     extend: 'Ext.grid.Panel',
-    xtype: 'CpjxcmxlocView',
+    xtype: 'CpjxccheckView',
     requires: [
         'MyApp.view.main.QueryToolbarView'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.tree.QueryCpmc'
         , 'MyApp.view.main.tree.QueryCdmc'
+        
         , 'MyApp.view.main.tree.QueryCkmc'
     ],
 
     closeAction: 'destroy',
-    itemId: 'CpjxcmxlocGrid',
-    reference: 'CpjxcmxlocGrid',
+    itemId: 'CpjxccheckGrid',
+    reference: 'CpjxccheckGrid',
     plugins: ['gridfilters'],
-    controller: 'CpjxcmxlocCtrl',
+    controller: 'CpjxccheckCtrl',
     viewModel: {
         data: {
             'khmc': '', 'khid': 0,
-            'ny': (new Date()).getFullYear(), 'yu': (new Date()).getMonth(),
+            'ny':0, 'yu':0,
             'ckmc': '', 'ckid': 0,
             'cpmc': '', 'cpid': 0,
-            'cdmc': '', 'cdid': 0
+            'cdmc': '', 'cdid': 0,
+            'bzmc': '', 'bzid': 0
         }
     },
-    // store: { type: 'CpjxcmxlocStore' },
-    store: CpjxcmxlocStore,
+    // store: { type: 'CpjxccheckStore' },
+    store: CpjxccheckStore,
 
     tbar: [{
         xtype: 'container',
@@ -69,14 +75,12 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                 {
                     xtype: "numberfield",
                     name: 'ny',
-                    labelWidth: 30,
-                    fieldLabel: '年度',
+                    labelWidth: 60,
+                    fieldLabel: '基准年度',
                     bind: "{ny}",
                     hideTrigger: false,
-
                     margin: '1 0 1 1',
-                    width: 120,
-                    minValue: 2018,
+                    width: 200,
                     maxValue: 9999,
                     decimalPrecision: 0
 
@@ -92,7 +96,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
 
                     margin: '1 0 1 10',
                     width: 100,
-                    minValue: 1,
+                    minValue: 0,
                     maxValue: 12,
                     decimalPrecision: 0
 
@@ -198,45 +202,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
             width: 50,
             sortable: false,
             dataIndex: 'jldw'
-        },
-        {
-            text: '仓位',
-            width: 60,
-            dataIndex: 'cw'
-            
-        },
-        {
-            text: '',
-            width: 60,
-            dataIndex: 'lb',
-            renderer: function (value, cellmeta) {
-                
-              switch (value) 
-                {
-                 case '0':
-                    return "结转";
-                    break;
-                 case '1':
-                    return "进仓";
-                    break;
-
-                 case '2':
-                    return "出仓";
-                    break;
-
-                 case '3':
-                    return "调帐";
-                    break;
-
-                 default:
-                    return "结存";
-                    break;
-                }
-                    
-                
-
-            }
-            
         },
 
         {
@@ -378,6 +343,34 @@ Ext.define('MyApp.view.main.cpkc.CpjxcmxlocView', {
                     text: '重量(吨)', sortable: false,
                     width: 85, align: 'right',
                     dataIndex: 'kczl',
+                    summaryType: 'sum',
+                    summaryRenderer: slrenderer,
+                    field: {
+                        xtype: 'numberfield'
+
+                    },
+                    renderer: slrenderer
+                }]
+        },
+        {
+            text: '仓库实际库存', columns: [
+                {
+                    xtype: 'numbercolumn',
+                    text: '数量',
+                    sortable: false,
+                    width: 70, align: 'right',
+                    dataIndex: 'cksl',
+                    summaryType: 'sum',
+                    summaryRenderer: slrenderer, field: {
+                        xtype: 'numberfield'
+                    },
+                    renderer: slrenderer
+                },
+                {
+                    xtype: 'numbercolumn',
+                    text: '重量(吨)', sortable: false,
+                    width: 85, align: 'right',
+                    dataIndex: 'ckzl',
                     summaryType: 'sum',
                     summaryRenderer: slrenderer,
                     field: {

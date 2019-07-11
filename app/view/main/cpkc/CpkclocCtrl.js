@@ -48,6 +48,9 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
         return;
     },
     init: function () {
+
+        console.log('start_date');
+        console.log(sys_option_min_date);
         that = this;
         that.viewname = that.getView();
         if (sys_customer_id > 0) {
@@ -117,42 +120,70 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
         var tool = this.getView().down("#QueryToolbarView");
         tool.down('#btnExport').setHidden(false);
     },
-
     onBtnExportClick: function (record) {
-        var khmc = this.viewname.getViewModel().get('khmc');
-        if (khmc.length == 0) {
-            Ext.MessageBox.alert('注意！', '请选择客户名称！');
-            return;
-        }
+        var that = this;
         var store = this.getView().getStore();
-        var jsonData = [];
         var kcarray = store.data.items;
-        var arr = [];
-        arr = [
+        var sheetarr = [];
+        var khid = 0;
+        for (var i = 0; i < kcarray.length; i++) {
+            var oldobj = kcarray[i].data;
+            if (oldobj.khid != khid) {
+                khid = oldobj.khid;
+                sheetarr.push(
+                    {
+                        "khid": khid,
+                        "khjc": oldobj.khjc,
+                        "khmc": oldobj.khmc
+                    }
+                );
+            }
+        }
+        var tableDataarr = [];
+        var jsonSheetData = [];
+        for (var i = 0; i < sheetarr.length; i++) {
+            var oldobj = sheetarr[i];
+            jsonSheetData = this.getexcelsheetdata(kcarray, oldobj.khid, oldobj.khmc);
+            tableDataarr.push(
+                {
+                    "sheetName": oldobj.khjc,
+                    "data": jsonSheetData
+                }
+            );
+        }
+        var prtData = {
+            "options": {
+                "fileName": "商品仓位明细库存表"
+            },
+            "tableData": tableDataarr
+        }
+        Jhxlsx.export(prtData.tableData, prtData.options);
+        return;
+    },
+    getexcelsheetdata: function (kcarray, khid, khmc) {
+        var that = this;
+        var jsonData = [];
+        var arr = [
             {
                 "merge": {
-                    "c": 7
+                    "c": 11
                 },
-                
-                
-                    "style": {
-                      "font": {
+                "style": {
+                    "font": {
+                        "sz": 24,
+                        "bold": true,
                         "color": {
-                          "rgb": "FFFFFF"
+                            "rgb": 'FF4F81BD'
                         }
-                      },
-                      "fill": {
-                        "fgColor": {
-                          "rgb": "5084A5"
-                        }
-                      }
                     },
-                "text": "商品库存表"
+                    "alignment": {
+                        "horizontal": 'center'
+                    }
+                },
+                "text": "商品仓位明细库存表"
             }
         ]
-
         jsonData.push(arr);  //增加标题
-
         arr = [
             {
                 "merge": {
@@ -164,7 +195,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
                     }
                 },
                 "text": "客户：" + khmc
-            }, {}, {},{},    
+            }, {}, {}, {},
             {
                 "merge": {
                     "c": 3
@@ -179,166 +210,99 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
             }
 
         ]
-
         jsonData.push(arr);  //增加小标题
         jsonData.push([]);
-
         arr = [{
-            'text': '产地       ', "style": {
+            'text': '    产地       ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '     商品名称       ', "style": {
+            'text': '     商品名称     ', "style": {
                 "font": {
                     "bold": true
                 },
-                "width":500
+                "width": 500
             }
         }, {
-            'text': '   包装      ', "style": {
+            'text': '      包装     ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '     规格      ', "style": {
+            'text': '      规格   ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '     批号    ', "style": {
+            'text': '   批号     ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '单位  ', "style": {
+            'text': '  单位  ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '    数量    ', "style": {
+            'text': '库存数量   ', "style": {
                 "font": {
                     "bold": true
                 }
             }
         }, {
-            'text': '    重量    ', "style": {
+            'text': '库存重量    ', "style": {
                 "font": {
                     "bold": true
                 }
-            } 
-        }];
-        var sumsl=0;
-        var sumzl=0;
+            }
+        } 
+        ];
         jsonData.push(arr);
+        var sumsl = 0;
+        var sumzl = 0;
         for (var i = 0; i < kcarray.length; i++) {
-            //  var newobj={};          
             arr = [];
             var oldobj = kcarray[i].data;
-            arr.push({ 'text': oldobj.cdmc });
-            arr.push({ 'text': oldobj.cpmc });
-            arr.push({ 'text': oldobj.bzmc });
-            arr.push({ 'text': oldobj.cpgg });
-            arr.push({ 'text': oldobj.cpph });
-            arr.push({ 'text': oldobj.jldw });
-            arr.push({ 'text': oldobj.kcsl });
-            arr.push({ 'text': oldobj.kczl });
-            sumsl+=oldobj.kcsl;
-            sumzl+=oldobj.kczl;
-            jsonData.push(arr);
+            if (oldobj.khid == khid) {
+                var oldobj = kcarray[i].data;
+                arr.push({ 'text': oldobj.cdmc });
+                arr.push({ 'text': oldobj.cpmc });
+                arr.push({ 'text': oldobj.bzmc });
+                arr.push({ 'text': oldobj.cpgg });
+                arr.push({ 'text': oldobj.cpph });
+                arr.push({ 'text': oldobj.jldw });
+                arr.push({ 'text': slrenderer(oldobj.kcsl) });
+                arr.push({ 'text': slrenderer(oldobj.kczl) });
+                sumsl += oldobj.kcsl;
+                sumzl += oldobj.kczl;
+                jsonData.push(arr);
+            }
         }
-
-        if ( kcarray.length>1) {
+        if (kcarray.length > 1) {
             arr = [];
             arr.push({});
             arr.push({});
             arr.push({});
             arr.push({});
             arr.push({});
-            arr.push({'text': '合计' });
-            arr.push({'text': sumsl });
-            arr.push({'text': sumzl });
+            arr.push({ 'text': '合计' });
+            arr.push({ 'text': slrenderer(sumsl) });
+            arr.push({ 'text': slrenderer(sumzl) });
             jsonData.push(arr);
-        
+
         }
-
-
-        var prtData = {
-            "options": {
-                "fileName": Ext.Date.format(new Date(), 'Y-m-d') + khmc + "商品库存"
-            },
-            "tableData": [
-                {
-                    "sheetName": "Sheet1",
-                    "data": jsonData
-                }
-            ]
-        }
-
-       
-        Jhxlsx.export(prtData.tableData, prtData.options);
-
-        return;
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        
-
-        for (var i = 0; i < kcarray.length; i++) {
-            var newobj = {};
-            var oldobj = kcarray[i].data;
-
-            newobj.cdmc = oldobj.cdmc;
-            newobj.cpmc = oldobj.cpmc;
-            newobj.bzmc = oldobj.bzmc;
-            newobj.cpgg = oldobj.cpgg;
-            newobj.cpph = oldobj.cpph;
-            newobj.dw = oldobj.jldw;
-            newobj.sl = oldobj.kcsl;
-            newobj.zl = oldobj.kczl;
-            jsonData.push(newobj);
-        }
-        //先转化json
-
-        var fileName = Ext.Date.format(new Date(), 'Y-m-d') + khmc + "商品库存";
-        var shell = "report";
-        var title = "标题";
-        var showLabel = ['产地', '商品名称', '包装', '规格', '批号', '单位', '数量', '重量'];
-
-        var op = {
-            data: jsonData,
-            fileName: fileName,
-            title: '商品库存',
-            title1: '客户：' + khmc,
-            title2: '仓库：' + this.viewname.getViewModel().get('ckmc'),
-            showLabel: showLabel
-        }
-
-        //DataToExcel(jsonData,fileName,'商品明细库存',khmc) ;
-        DataToExcel(op);
-        return;
-
-
-
-
-
+        return jsonData;
     },
+
+
+
+
 
 
     cdmcTriggerClick: function (record) {

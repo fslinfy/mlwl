@@ -130,12 +130,12 @@ function sysuserlogin() {
 	//	else
 	//	{
 			if ($p_khid == "0") {
-				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked from users u ,usertype t
+				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked,option_min_date(".$p_l_id.") AS minrq  from users u ,usertype t
 				where t.typeid=u.typeid and u.active=1 ";
 			} 
 			else 
 			{
-				$sqlstr = "select u.*,0 as khsystem from khusers u where u.active=1  and u.khid=" . $p_khid;
+				$sqlstr = "select u.*,0 as khsystem ,option_min_date(".$p_l_id.") AS minrq from khusers u where u.active=1  and u.khid=" . $p_khid;
 
 			}	
 			//if ($userid>0){
@@ -152,8 +152,10 @@ function sysuserlogin() {
 	$id = 0;
 	$locked = 0;
 	$name = "";
+	$minrq = "";
 	$lidstring = "";
 	$sh = 0;
+
 	$cwsh = 0;
 	$edit = 0;
 		$smsactive = 0;
@@ -173,6 +175,7 @@ function sysuserlogin() {
 			$locked =(int)$row['locked'];
 			$name = $row['username'];
 			$del = $row['del'];
+			$minrq = $row['minrq'];
 			$lastdel = $row['lastdel'];
 			$sh = $row['sh'];
 			$cwsh = $row['cwsh'];
@@ -205,7 +208,7 @@ function sysuserlogin() {
 
 	
 		$arr['success'] = true;
-		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'lidstring' => $lidstring,'sh' => $sh, 'cwsh' => $cwsh, 'edit' => $edit, 'del' => $del, 'lastdel' => $lastdel, 'new' => $new, 'khsystem' => $khsystem);
+		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'lidstring' => $lidstring,'sh' => $sh, 'cwsh' => $cwsh, 'edit' => $edit, 'del' => $del, 'lastdel' => $lastdel, 'new' => $new, 'khsystem' => $khsystem,'mindate' => $minrq);
 		if ($username=="")
 		{}else{
 			if ($p_khid == "0") {

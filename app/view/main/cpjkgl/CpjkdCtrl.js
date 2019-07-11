@@ -701,6 +701,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             Ext.MessageBox.alert('注意！', '输入内容不完整！');
             return false
         }
+
         // Ext.MessageBox.alert('注意！', '请输入商品入库明细数据！11111111111111111111');
         // console.log('注意！', '请输入商品入库明细数据！11111111111111111111');
         //     return false;
@@ -923,11 +924,27 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             Ext.MessageBox.alert('注意！', '输入内容不完整！');
             return false;
         }
+
+
+        
+ 
         var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
         
         
 
         var p = this.lookupReference('jkdpopupWindow').getViewModel();
+          
+       var rq=Ext.decode(Ext.encode(p.get('czrq')));
+        //console.log(czrq,sys_option_min_date);
+        if (rq<sys_option_min_date) {
+            Ext.MessageBox.alert('注意！', '输入入库日期不能小于：'+sys_option_min_date);
+            return false
+        }
+    
+    
+        //return ;
+
+
         var khid = p.get('khid');
         //console.log(p);
         var index = cpjkd_store.find('khid', khid);

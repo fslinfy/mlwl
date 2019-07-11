@@ -251,6 +251,11 @@ case 'cpkccwedit' :
 		$retval = packinglist(1);
 		break;
 
+	case 'executesql' :
+		$retval = executesql();
+		break;
+
+
 	case 'packingsave' :
 		$retval = packingsave(0);
 		break;
@@ -344,6 +349,13 @@ case 'cpkccwedit' :
 	case 'cpjxcmxloc' :
 		$retval = cpjxcmxloc();
 		break;
+		case 'cpjxcriloc' :
+		$retval = cpjxcriloc();
+		break;
+		case 'loccheckcpkc' :
+		$retval = loccheckcpkc();
+		break;
+
 
 	case 'cpjkdlist_pc' :
 		$retval = cpjkdlist_pc();
@@ -2542,7 +2554,7 @@ function cpjkdlist_pc() {
 	
 	    case "cpjksploc":
 			$ckid=(int)$_GET["p_l_id"];
-			$filter .=" and (cpjkd.ztbz>2 and cpjkd.delbz=0) ";
+			$filter .=" and (cpjkd.ztbz>0 and cpjkd.delbz=0) ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and cpjkd.czrq>='".$_GET["startdate"]."'";
@@ -2579,9 +2591,10 @@ function cpjkdlist_pc() {
 		//$sqlstr = " SELECT cpjkd.*,cpjkd.jkid as id,location.L_name as ckmc,location.Address FROM cpjkd,location  where location.L_id=cpjkd.L_id ".$filter;
 	if ($loc=="cpjksploc")
 	{
-	    $sqlstr = "SELECT cpjkd.khmc,cpjkd.czrq,w.cdmc,w.cpmc,w.bzmc,w.cpgg,w.cpph,w.jldw,cpjkd.jkdh  as dh,w.jcsl aS sl,w.jczl AS zl,location.l_name AS ckmc
-    FROM   CPJKDMX W,   cpjkd,location  
-    WHERE cpjkd.jkid = w.jkid AND cpjkd.L_id=location.`L_id` ". $filter ;
+	    $sqlstr = "SELECT cpjkd.khmc,cpjkd.czrq,w.cdmc,w.cpmc,w.bzmc,w.cpgg,cw.cpph,w.jldw,cpjkd.jkdh  as dh,cw.sl aS sl,cw.zl AS zl,location.l_name AS ckmc
+    FROM   CPJKDMX W,   cpjkd,location  ,cpjkdcw cw
+    WHERE cpjkd.jkid = w.jkid and w.mxid=cw.mxid
+	AND cpjkd.L_id=location.`L_id` ". $filter ;
 	}
 	else
 	{
@@ -2716,10 +2729,18 @@ function cpjxcmxloc() {
 	$ny=(int)$_GET["ny"];
 	$yu=(int)$_GET["yu"];
 	
-
-	$filter = " and kh.c_id=".$khid;
-	$filter .= " and cp.s_id=".$cpid;
-			
+	if ($khid>0)
+	{
+	$filter = " and cpjxc.khid=".$khid;
+	}
+	if ($cpid>0)
+    	{
+	$filter .= " and cpjxc.cpid=".$cpid;
+		}
+		if ($bzid>0)
+    	{
+	$filter .= " and cpjxc.bzid=".$cpid;
+		}	
 	
 		if ($cdid>0)
     	{
@@ -2735,7 +2756,7 @@ function cpjxcmxloc() {
     	{
     		$filter1 .= " and cpjxc.yu=".$yu;
     	}
-	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,cd.P_name as cdmc,
+	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,kh.c_shortname as khjc,cd.P_name as cdmc,
 	cp.s_name as cpmc,bz.ps_name as bzmc, cpph,cpgg,jldw,
 	SUM(kcsl0) AS kcsl0,SUM(kczl0) AS kczl0,
 	0 AS jcsl,0 AS jczl,
@@ -2752,6 +2773,34 @@ function cpjxcmxloc() {
     $query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
 }
+
+function cpjxcriloc() {
+	$Lid=(int)$_GET["p_l_id"];
+	$khid=(int)$_GET["khid"];
+	$cpid=(int)$_GET["cpid"];
+	$cdid=(int)$_GET["cdid"];
+	$bzid=(int)$_GET["bzid"];
+	$rq=$_GET["rq"];
+	$area=$_GET["area"];
+	$sqlstr="CALL loccprikc(".$Lid.",".$khid.",'".$rq."',".$cpid.",".$cdid.",".$bzid.",NULL)";
+    $query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
+function loccheckcpkc() {
+	$Lid=(int)$_GET["p_l_id"];
+	$khid=(int)$_GET["khid"];
+	$cpid=(int)$_GET["cpid"];
+	$cdid=(int)$_GET["cdid"];
+	$bzid=(int)$_GET["bzid"];
+	$ny=$_GET["ny"];
+	$yu=$_GET["yu"];
+	$area=$_GET["area"];
+	$sqlstr="CALL loccheckcpkc(".$Lid.",".$khid.",'".$ny."','".$yu."',".$cpid.",".$cdid.",".$bzid.",NULL)";
+    $query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
+
+
 
 function cptzdlist_pc() {
 	$Lid=$_GET["p_l_id"];
@@ -2819,7 +2868,7 @@ function cptzdlist_pc() {
 			$ckid=(int)$_GET["p_l_id"];
  			$cpid=(int)$_GET["cpid"];
 			
-			$filter =" and (cptzd.ztbz>1 and  cptzd.delbz=0) ";
+			$filter =" and (cptzd.ztbz>0 and  cptzd.delbz=0) ";
 			
 			if ($_GET["startdate"])
     		{
@@ -2852,7 +2901,7 @@ function cptzdlist_pc() {
     FROM   CPtzdMX W,   cptzd,location  
     WHERE cptzd.tzid = w.tzid AND cptzd.L_id=location.`L_id` ". $filter ;
 
-			$filter =" and (cptzd.ztbz>1 and  cptzd.delbz=0) ";
+			$filter =" and (cptzd.ztbz>0 and  cptzd.delbz=0) ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and w.newczrq>='".$_GET["startdate"]."'";
@@ -2921,7 +2970,7 @@ function cpckdlist_pc() {
 		}
 		break;
       case "cpcksploc" :
-  		$filter .="  and (cpckd.ztbz>2 and cpckd.delbz=0) ";
+  		$filter .="  and (cpckd.ztbz>0 and cpckd.delbz=0) ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and cpckd.ckrq>='".$_GET["startdate"]."'";
@@ -4069,13 +4118,13 @@ function cpxsdmxlist_pc() {
 		{
       	case 'cpxsdmxsh' :
 		  $khkd=$_GET["khkd"];
-		$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and cpxsd.khkd=".$khkd;
+	   	$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and cpxsd.khkd=".$khkd;
 		break;
 	  	case 'cpxsdmxmfh' :
-		$filter .=" and cpxsd.ztbz=1 and cpxsd.fhbz<1 ";  
+		$filter .=" and cpxsd.ztbz=1 and cpxsd.fhbz<1 and cpxsd.delbz=0 ";  
 	  	break;
 	  	case 'cpxsdmxmfhck' :
-		$filter .=" and cpxsd.ztbz=1 and cpxsd.fhbz<1 and cpxsd.cdbz=0 ";  
+		$filter .=" and cpxsd.ztbz=1 and cpxsd.fhbz<1 and cpxsd.cdbz=0 and cpxsd.delbz=0 ";  
 	  	break;
 
 	  	case 'cpxsdmxloc' :
@@ -4111,6 +4160,7 @@ function cpxsdmxlist_pc() {
     		$filter .=" and cpxsd.L_id=".$ckid;
     	}
 
+		//$filter .=" and cpxsd.rq<'2019-06-17 18:03:13'";
 		//if ($lid>0)
     //	{
     	//	$filter .=" and cpxsd.L_id=".$lid;
@@ -4120,7 +4170,7 @@ function cpxsdmxlist_pc() {
      	m.xssl,m.xszl,m.xsdj,m.xsje,m.xssl-m.ccsl as mccsl,m.xszl-m.cczl as mcczl,m.ccsl,m.cczl,
      	bz.Quantity_Unit AS sldw,  bz.Weight_Unit AS zldw,m.sm,m.cpph,m.bzid   
      	FROM cpxsdmx m,cpxsd,packing bz where cpxsd.xsid=m.xsid and bz.PS_id=m.bzid ".$filter ;	
-        //return $sqlstr;
+     //   return $sqlstr;
     	$query = mysql_query($sqlstr);
     	return getjsonstoredata($query, 0);
 }
@@ -4171,10 +4221,10 @@ function cpxsdlist_pc() {
 			{
 	    		$filter .=" and cpxsd.xsrq<='".$_GET["enddate"]."'";
 		    }	
-					if ($_GET["deletebz"]=="0")
-		{
+			if ($_GET["deletebz"]=="0")
+		    {
 				$filter .= " and cpxsd.delbz=0";
-		}
+		    }
 
 		  	break;
     	}
@@ -4191,7 +4241,7 @@ function cpxsdlist_pc() {
     	{
     		$filter .=" and cpxsd.L_id=".$ckid;
     	}
-
+	//	$filter .=" and cpxsd.rq<'2019-06-17 18:03:13'";
 //		if ($lid>0)
   //  	{
     //		$filter .=" and cpxsd.L_id=".$lid;
@@ -4218,7 +4268,7 @@ function cpkclist_pc() {
 	if ($loc=='cpkckhloc')
 	{
 	$sqlstr=" SELECT  c.*,
- 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_shortname AS khmc,
+ 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
 		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
@@ -4226,7 +4276,7 @@ function cpkclist_pc() {
 	else
 	{
 	$sqlstr=" SELECT  c.*,
- 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,CONCAT(kh.C_code,kh.c_shortname) AS khmc,
+ 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
 		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
@@ -4247,8 +4297,8 @@ function cpkclist_pc() {
 	}
 	else
 	{
-      $sqlstr = " SELECT c.*,ck.L_name as ckmc,
-      CONCAT(kh.C_code,kh.c_shortname) as khmc,cd.p_name as cdmc,cp.S_name as cpmc ,bz.PS_name as bzmc ";
+      $sqlstr = " SELECT c.*,ck.L_name as ckmc,kh.c_name as khmc,
+      kh.c_shortname as khjc,cd.p_name as cdmc,cp.S_name as cpmc ,bz.PS_name as bzmc ";
       $sqlstr .= " ,mx.id as kcmxid,mx.area,mx.cw,mx.czdj,mx.sl,mx.zl,mx.sm,mx.mints,mx.czrq 
       FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx mx ,location ck";
       $sqlstr .=" where c.L_id=ck.L_id and c.kcid=mx.kcid and c.khid=kh.c_id and c.cpid=cp.s_id 
@@ -4453,6 +4503,13 @@ FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid wher
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
 }
+
+function executesql() {
+	$sqlstr =$_GET['sql'];
+	$query = mysql_query($sqlstr);
+	return getjsondata($query);
+}
+
 
 function khworklist($optype) {
 	

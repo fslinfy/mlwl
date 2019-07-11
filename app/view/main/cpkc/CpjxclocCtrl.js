@@ -77,22 +77,13 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
         var v = that.getView().getViewModel();
         var ny = v.get('ny');
         var yu = v.get('yu');
-
         var khmc = v.get('khmc');
       //  if (khmc.length == 0) {
       //      Ext.MessageBox.alert('注意！', '请选择客户名称！');
       //      return;
       //  }
 
-
-
-
-
-        var store = this.getView().getStore();
-
-
-
-        
+      var store = this.getView().getStore();
         var kcarray = store.data.items;
         var sheetarr = [];
         var khid=0;
@@ -109,12 +100,9 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
             );
             }
         } 
-        
         var tableDataarr=[];
         var jsonSheetData=[];
-
         for (var i = 0; i < sheetarr.length; i++) {
-            
             var   oldobj = sheetarr[i];
              jsonSheetData=this.getexcelsheetdata (kcarray,oldobj.khid,oldobj.khmc,ny,yu) ;
              tableDataarr.push(
@@ -123,32 +111,14 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocCtrl', {
                     "data": jsonSheetData
                 }
              );
-            
         } 
-
-
-
-
-
-
-        //
-        //return ;
-
-
-
-
-
         var prtData = {
             "options": {
                 "fileName": "("+ ny+'年'+yu+"月)商品进出存月报表"
             },
             "tableData":tableDataarr
         }
-
-  //console.log(prtData);     
         Jhxlsx.export(prtData.tableData, prtData.options);
-
-     
 
     },
     
