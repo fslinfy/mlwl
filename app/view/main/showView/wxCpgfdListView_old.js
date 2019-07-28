@@ -1,24 +1,25 @@
-﻿Ext.define('MyApp.view.main.showView.CpgfdListView', {
+﻿Ext.define('MyApp.view.main.showView.wxCpgfdListView', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.CpgfdListView',
+    alias: 'widget.wxCpgfdListView',
     requires: [
         'MyApp.view.main.SubTable'
-        , 'MyApp.store.CpgfdListStore'
-        , 'MyApp.store.CpgfdmxStore'
+        , 'MyApp.store.wxCpgfdListStore'
+     //   , 'MyApp.store.wxCpgfdmxStore'
+     , 'MyApp.model.wxCpgfdmxModel'
         , 'MyApp.view.main.QueryToolbarView'
-        , 'MyApp.view.main.tree.QueryDate'
+        //, 'MyApp.view.main.tree.QueryDate'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.DataSave'
     ],
-    itemId: 'CpgfdListGrid',
-    reference: 'CpgfdListGrid',
+    itemId: 'wxCpgfdListGrid',
+    reference: 'wxCpgfdListGrid',
     plugins: ['gridfilters'],
     closeAction: 'destroy',
   
     viewModel: {
-        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0, 'deletebz': 0 ,wxbz:true}
+        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0, 'deletebz': 0 }
     },
-    store: { type: 'CpgfdListStore' },
+    store: { type: 'wxCpgfdListStore' },
     enableHdMenu: false,
     tbar: [{
         xtype: 'container',
@@ -31,8 +32,8 @@
             items: [
                 { xtype: 'QueryKhmc', flex: 1 },
                 //  { xtype: 'QueryCkmc' },
-                { xtype: 'QueryDate', itemId: 'QueryDate', hidden: true },
-                {
+              //  { xtype: 'QueryDate', itemId: 'QueryDate', hidden: true },
+               /* {
                     xtype: 'checkbox',
                     labelWidth: 60,
                     fieldLabel: '含作废单',
@@ -41,7 +42,7 @@
                     bind: '{deletebz}',
                     itemId: 'deletebz',
                     hidden: true
-                },
+                },*/
                 {
                     labelWidth: 30,
                     flex: 1,
@@ -62,11 +63,13 @@
     }
     ]
     ,
-    plugins: [{
+    
+    plugins: [
+        {
         ptype: "subtable",
         columnLines: true,
         headerWidth: 24,
-        columns: [{
+        columns: [/*{
             text: '产地名称',
             dataIndex: 'cdmc'
         },
@@ -81,30 +84,7 @@
         },
         {
             xtype: 'numbercolumn',
-            text: '通知数量',
-            width: 100, align: 'right',
-            dataIndex: 'khsl',
-            bind: {
-                hidden: "{!wxbz}"
-            },
-            renderer: slrenderer
-
-        },
-        
-        {
-            xtype: 'numbercolumn',
-            text: '通知重量',
-            width: 100, align: 'right',
-            dataIndex: 'khzl',
-            bind: {
-                hidden: "{!wxbz}"
-            },
-            renderer: slrenderer
-
-        },
-        {
-            xtype: 'numbercolumn',
-            text: '过车数量',
+            text: '数量',
             width: 100, align: 'right',
             dataIndex: 'sl',
             renderer: slrenderer
@@ -113,7 +93,7 @@
 
         {
             xtype: 'numbercolumn',
-            text: '过车重量',
+            text: '重量',
             width: 100, align: 'right',
             dataIndex: 'zl',
             renderer: slrenderer
@@ -137,38 +117,30 @@
 
         {
             text: '机械',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'gs'
         }
             ,
         {
             text: '搬运',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'byg'
         }
             ,
         {
             text: '仓管',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'cg'
-        }
+        }*/
         ]
         ,
         getAssociatedRecords: function (record) {
             var result = Ext.Array.filter(
-                cpgfdmxStore0.data.items,
+                wxCpgfdmxStore0.data.items,
                 function (r) {
                     return r.get('gfid') == record.get('id');
                 });
             return result;
         }
-    }]
+    }
+]
     ,
     enableHdMenu: false,
     enableColumnHide: false,
@@ -185,13 +157,19 @@
         dataIndex: 'id'
     },
     {
+        text: 'gfID',
+        hidden: true,
+        hideable: false,
+        dataIndex: 'gfid'
+    },
+    {
         xtype: 'widgetcolumn',
         width: 90,
         sortable: false,
         widget: {
             xtype: 'button',
             text: '浏览',
-            handler: 'onCpgfdmxShowView'
+            handler: 'onwxCpgfdmxShowView'
         }
     },
     {
@@ -226,38 +204,14 @@
     },
     {
         xtype: 'numbercolumn',
-        text: '通知数量',
-        width: 100, align: 'right',
-        dataIndex: 'khsl',
-        bind: {
-            hidden: "{!wxbz}"
-        },
-        renderer: slrenderer
-
-    },
-    
-    {
-        xtype: 'numbercolumn',
-        text: '通知重量',
-        width: 100, align: 'right',
-        dataIndex: 'khzl',
-        bind: {
-            hidden: "{!wxbz}"
-        },
-        renderer: slrenderer
-
-    },
-
-    {
-        xtype: 'numbercolumn',
-        text: '过车数量', align: 'right',
+        text: '数量', align: 'right',
         dataIndex: 'sl',
         sortable: false,
         renderer: slrenderer
     },
     {
         xtype: 'numbercolumn',
-        text: '过车重量', align: 'right',
+        text: '重量', align: 'right',
         dataIndex: 'zl',
         sortable: false,
         renderer: slrenderer
@@ -278,20 +232,20 @@
     },
     {
         text: '车牌号码',  sortable: false,
-                dataIndex: 'cphm'
+        dataIndex: 'cphm'
     }
         ,
     {
         text: '司机',  sortable: false,
-                dataIndex: 'sfr'
+        dataIndex: 'sfr'
     }
         ,
     {
         text: '经办人',
-        
         sortable: false,
         dataIndex: 'czy'
-    },
+    }
+    /*,
     {
         text: '',
         width: 60,
@@ -303,7 +257,7 @@
             }
             return "";
         }
-    }
+    }*/
     ]
 
 });

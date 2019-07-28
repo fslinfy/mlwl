@@ -1,4 +1,4 @@
-﻿Ext.define('MyApp.view.main.showView.CpgfdListView', {
+﻿Ext.define('MyApp.view.main.showView.wxCpgfdListView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.CpgfdListView',
     requires: [
@@ -16,7 +16,7 @@
     closeAction: 'destroy',
   
     viewModel: {
-        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0, 'deletebz': 0 ,wxbz:true}
+        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0, 'deletebz': 0 }
     },
     store: { type: 'CpgfdListStore' },
     enableHdMenu: false,
@@ -81,30 +81,7 @@
         },
         {
             xtype: 'numbercolumn',
-            text: '通知数量',
-            width: 100, align: 'right',
-            dataIndex: 'khsl',
-            bind: {
-                hidden: "{!wxbz}"
-            },
-            renderer: slrenderer
-
-        },
-        
-        {
-            xtype: 'numbercolumn',
-            text: '通知重量',
-            width: 100, align: 'right',
-            dataIndex: 'khzl',
-            bind: {
-                hidden: "{!wxbz}"
-            },
-            renderer: slrenderer
-
-        },
-        {
-            xtype: 'numbercolumn',
-            text: '过车数量',
+            text: '数量',
             width: 100, align: 'right',
             dataIndex: 'sl',
             renderer: slrenderer
@@ -113,7 +90,7 @@
 
         {
             xtype: 'numbercolumn',
-            text: '过车重量',
+            text: '重量',
             width: 100, align: 'right',
             dataIndex: 'zl',
             renderer: slrenderer
@@ -137,32 +114,23 @@
 
         {
             text: '机械',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'gs'
         }
             ,
         {
             text: '搬运',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'byg'
         }
             ,
         {
             text: '仓管',
-            bind: {
-                hidden: "{wxbz}"
-            },
             dataIndex: 'cg'
         }
         ]
         ,
         getAssociatedRecords: function (record) {
             var result = Ext.Array.filter(
-                cpgfdmxStore0.data.items,
+                CpgfdmxStore0.data.items,
                 function (r) {
                     return r.get('gfid') == record.get('id');
                 });
@@ -226,38 +194,14 @@
     },
     {
         xtype: 'numbercolumn',
-        text: '通知数量',
-        width: 100, align: 'right',
-        dataIndex: 'khsl',
-        bind: {
-            hidden: "{!wxbz}"
-        },
-        renderer: slrenderer
-
-    },
-    
-    {
-        xtype: 'numbercolumn',
-        text: '通知重量',
-        width: 100, align: 'right',
-        dataIndex: 'khzl',
-        bind: {
-            hidden: "{!wxbz}"
-        },
-        renderer: slrenderer
-
-    },
-
-    {
-        xtype: 'numbercolumn',
-        text: '过车数量', align: 'right',
+        text: '数量', align: 'right',
         dataIndex: 'sl',
         sortable: false,
         renderer: slrenderer
     },
     {
         xtype: 'numbercolumn',
-        text: '过车重量', align: 'right',
+        text: '重量', align: 'right',
         dataIndex: 'zl',
         sortable: false,
         renderer: slrenderer
@@ -278,17 +222,16 @@
     },
     {
         text: '车牌号码',  sortable: false,
-                dataIndex: 'cphm'
+        dataIndex: 'cphm'
     }
         ,
     {
         text: '司机',  sortable: false,
-                dataIndex: 'sfr'
+        dataIndex: 'sfr'
     }
         ,
     {
         text: '经办人',
-        
         sortable: false,
         dataIndex: 'czy'
     },

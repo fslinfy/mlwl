@@ -4,39 +4,19 @@ Ext.define('MyApp.model.CpgfdmxModel', {
     extend: 'Ext.data.Model',
     alias: 'viewmodel.CpgfdmxModel',
     fields: [{name: 'id'    },
-     {
-        name: 'xmmc'
-    },
-     {
-        name: 'cdmc'
-    },
-     {
-        name: 'bzmc'
+     {name: 'xmmc' },
+     {name: 'cdmc' },
+     {name: 'bzmc'
     },
 
-    {
-        name: 'mxid', type: 'int'
-    },
-    
-    {
-        name: 'sl',
-        type: 'float'
-    },
-    {
-        name: 'zl',
-        type: 'float'
-    },
-    {
-        name: 'dj',
-        type: 'float'
-    },
-    {
-        name: 'rate',
-        type: 'float'
-    },
-    
-    {
-        name: 'je',
+    { name: 'mxid', type: 'int'    },
+    {name: 'sl',        type: 'float'    },
+    {name: 'zl',        type: 'float'    },
+    {name: 'khsl',        type: 'float'    },
+    {name: 'khzl',        type: 'float'    },
+    {name: 'dj',        type: 'float'    },
+    {name: 'rate',        type: 'float'    },
+    { name: 'je',
         type: 'float'
     },
     {

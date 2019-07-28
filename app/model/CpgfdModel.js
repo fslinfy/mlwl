@@ -12,8 +12,8 @@ Ext.define('MyApp.model.CpgfdModel', {
         { name: 'L_id', type: 'int' },
         { name: 'cwsh' },
         { name: 'cwr' },
-                { name: 'cphm' },
-                { name: 'sfr' },
+        { name: 'cphm' },
+        { name: 'sfr' },
         { name: 'czy' },
         { name: 'shr' },
         { name: 'area' },
@@ -24,10 +24,23 @@ Ext.define('MyApp.model.CpgfdModel', {
         { name: 'xjje', type: 'float' },
         { name: 'gfrq', type: 'date', dateFormat: 'Y-m-d' },
         { name: 'shrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
-        { name: 'ztbz', type: 'bool' },
+        { name: 'ztbz', type: 'int' },
         { name: 'xjbz', type: 'bool' },
         { name: 'delbz', type: 'bool' },
-        { name: 'shbz', type: 'bool' }
+        { name: 'shbz', type: 'bool' },
+
+        {name: 'khsl',  type: 'float'        },
+        {name: 'khzl',  type: 'float'        },
+
+        {name: 'gfsl',  type: 'float'        },
+        {name: 'gfzl',  type: 'float'        },
+
+        { name: 'fhbz', type: 'int' },
+        
+        { name: 'khshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
+        { name: 'khshr' },
+        { name: 'ckshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
+        { name: 'ckshr' },
     ]
 });
 
