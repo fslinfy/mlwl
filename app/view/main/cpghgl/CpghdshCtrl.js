@@ -234,7 +234,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         
         var rec = button.getWidgetRecord();
         issave=false;
-        var ghid = rec.data.ghid;
+        ghid = rec.data.ghid;
         mghid=ghid;
         var record = rec.data;
         console.log('CpghshShowView',record);
@@ -260,7 +260,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         p.down("#btnCpghdSave").setHidden(!sys_system_sh);
        // p.down("#btnCpghdDelete").setHidden(!sys_system_del);
 
-        //p.down("#btnPrintCpghd").setHidden(true);
+        p.down("#btnPrintCpghd").setHidden(true);
        
         var cpghdcw_store = that.lookupReference('cpghdmxcw0').getStore();
         cpghdcw_store.proxy.extraParams.ghid = ghid;

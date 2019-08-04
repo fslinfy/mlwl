@@ -22,6 +22,8 @@ Ext.define('MyApp.model.CpgfdModel', {
         { name: 'zl', type: 'float' },
         { name: 'je', type: 'float' },
         { name: 'xjje', type: 'float' },
+        { name: 'kdrq', type: 'date', dateFormat: 'Y-m-d' },
+
         { name: 'gfrq', type: 'date', dateFormat: 'Y-m-d' },
         { name: 'shrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
         { name: 'ztbz', type: 'int' },
@@ -41,6 +43,8 @@ Ext.define('MyApp.model.CpgfdModel', {
         { name: 'khshr' },
         { name: 'ckshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
         { name: 'ckshr' },
+        { name: 'cwshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
+        { name: 'cwshr' }
     ]
 });
 

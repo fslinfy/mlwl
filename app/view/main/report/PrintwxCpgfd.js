@@ -55,7 +55,7 @@ function printcpgfd(p) {
 
   })
 
-  str = str + '  <tr><strong><td  style="text-align:center;">汇总 </td><td  style="text-align:left;"  colspan="2"><strong>' + lowMoneyToUp(p.je) + '</strong></td><td  style="text-align:right;"><strong>' + slrenderer(p.sl) + '</strong></td><td style="text-align:right;"><strong>' + slrenderer(p.zl) + '</strong></td><td></td><td  style="text-align:right;">' + slrenderer(p.je) + '</td></strong></tr>'
+  str = str + '  <tr><strong><td  style="text-align:center;">汇总 </td><td  style="text-align:left;"  colspan="2"><strong>' + lowMoneyToUp(p.je) + '</strong></td><td  style="text-align:right;"><strong>' + slrenderer(p.khsl) + '</strong></td><td style="text-align:right;"><strong>' + slrenderer(p.khzl) + '</strong></td><td  style="text-align:right;"><strong>' + slrenderer(p.sl) + '</strong></td><td style="text-align:right;"><strong>' + slrenderer(p.zl) + '</strong></td><td></td><td  style="text-align:right;">' + slrenderer(p.je) + '</td></strong></tr>'
   
   str = str + '<tr height="50" ><td  style="text-align:left;"  colspan="9">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
@@ -90,6 +90,14 @@ function printcpgfd(p) {
   }
 
   LODOP.PREVIEW();
+
+};
+
+function onPrintwxCpgfd() {
+  //console.log(ghid);
+  //var p = this.lookupReference('popupWindow').getViewModel();
+  //var p= that.getView().down("#CpghdListGrid").getViewModel();
+  PrintCpgfdgfid(gfid);
 
 };
 

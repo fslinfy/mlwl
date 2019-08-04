@@ -13,8 +13,9 @@ var saveCallBack = function (th) {
 }
 var ckdworkCallBack = function (node) {
     var rec = node.data;
-    //console.log(rec.data);
+    
     var p = that.popupmx;
+    console.log('rec',rec,p);
     var xjbz = p.getViewModel().get('xjbz');
     var mxid = p.getViewModel().get('mxid');
     var dw = '吨';
@@ -68,14 +69,16 @@ var ckdworkCallBack = function (node) {
 
     newarray.forEach(function (item, index) {
 
-
+         
         if (rec.zljs == '1') {
-            sl = item.zl;
+           var      sl = item.zl;
+          //dw = p.getViewModel().get('zldw');
         }
         else {
-            sl = item.sl;
+           var  sl = item.sl;
+            //dw = p.getViewModel().get('zldw');
         }
-
+        if (sl>0){
         cpghdmxje.add({
             dw: dw,
             mxid: mxid,
@@ -93,6 +96,8 @@ var ckdworkCallBack = function (node) {
             inbz: rec.inbz,
             indj: rec.indj
         })
+    }
+
     });
 
     that.sumjs(null, cpghdmxje, p.getViewModel());
@@ -491,7 +496,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
 
         //  console.log("onCpghdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
         this.dialog_mx = view.add({
-            xtype: 'formmxwindow',
+            xtype: 'cpghdformmxwindow',
 
             viewModel: {
                 data: record
@@ -542,7 +547,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         khid = rec.data.khid;
         // that.ghmxid=rec.data.mxid;
         console.log("onCpghdmxShowView", record);
-        var endrq = Ext.Date.format(rec.data.endrq, 'Y-m-d');
+        var endrq =rec.data.endrq;// Ext.Date.format(rec.data.endrq, 'Y-m-d');
         var today = Ext.Date.format(new Date(), 'Y-m-d');
         //console.log("date", today, endrq);
         record['btnButtonHidden'] = true;

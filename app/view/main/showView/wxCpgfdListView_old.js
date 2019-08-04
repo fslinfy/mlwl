@@ -181,12 +181,12 @@
     },
     {
         xtype: 'datecolumn',
-        text: '日期',
+        text: '开单日期',
         width: 120,
         formatter: 'date("Y-m-d")',
         sortable: false,
         hideable: false,
-        dataIndex: 'gfrq'
+        dataIndex: 'kdrq'
     },
     {
         text: '客户名称',

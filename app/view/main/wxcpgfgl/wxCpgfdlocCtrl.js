@@ -23,7 +23,7 @@ var gfdshsaveCallBack = function (th) {
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-                  //  PrintwxCpgfdgfid(gfid);
+                    PrintwxCpgfdgfid(gfid);
                 }
                 p.close();
                 that.locQuery();
@@ -130,9 +130,11 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
             "#btnQueryKhmc": {
                 click: this.onSelectKhbmView
             },
-            "#btnPrintCpgfd": {
-                click: this.onPrintwxCpgfd
-            } ,
+            "#btnPrintCpgfd":  {
+                click: function () {
+                    onPrintwxCpgfd();
+                }
+            },
             "#btnwxCpgfdDelete": {
                 click: that.onwxCpgfdshDeleteSubmit
             },
@@ -377,11 +379,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
 
         
     },
-    //onPrintwxCpgfd: function () {
-    //    var p = that.lookupReference('gfdpopupWindow').getViewModel();
-    //    PrintwxCpgfdgfid(p.get('gfid'));
-    //    return;
-    //},
+    /*
+    onPrintwxCpgfd: function () {
+        var p = that.lookupReference('popupCpgfdWindow').getViewModel();
+        PrintwxCpgfdgfid(p.get('gfid'));
+        return;
+    },
+    */
     /*
     sumje: function () {
         

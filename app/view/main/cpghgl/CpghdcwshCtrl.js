@@ -234,7 +234,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdcwshCtrl', {
         
         var rec = button.getWidgetRecord();
         issave=false;
-        var ghid = rec.data.ghid;
+        ghid = rec.data.ghid;
         mghid=ghid;
         var record = rec.data;
         console.log('CpghshShowView',record);

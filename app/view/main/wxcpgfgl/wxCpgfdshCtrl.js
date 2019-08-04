@@ -24,6 +24,7 @@ var gfdshsaveCallBack = function (th) {
             fn: function (btn, text) {
                 if (btn == "yes") {
                   //  PrintwxCpgfdgfid(gfid);
+                  PrintCpgfdgfid(gfid);
                 }
                 p.close();
                 that.locQuery();
@@ -109,7 +110,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshCtrl', {
                 click: this.onSelectKhbmView
             },
             "#btnPrintCpgfd": {
-                click: this.onPrintwxCpgfd
+                click: function () {
+                    onPrintwxCpgfd();
+                }
             } ,
             "#btnwxCpgfdDelete": {
                 click: that.onwxCpgfdshDeleteSubmit
@@ -166,7 +169,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshCtrl', {
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('popupCpgfdWindow');
         p.down("#btnCpgfdSave").setHidden(!sys_system_sh);
-        
+        p.down("#btnPrintCpgfd").setHidden(true);
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
         cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';

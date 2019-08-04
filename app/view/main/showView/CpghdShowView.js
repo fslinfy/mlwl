@@ -127,14 +127,14 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
                             name: 'ckmc',
                             fieldLabel: '过户仓库',
                             bind: "{ckmc}",
-                            flex: 1,
+                            flex: 3,
                             readOnly: true,
                             margin: '0 10 0 0',
                             allowBlank: true
                         }, {
                             name: 'newkhmc',
                             fieldLabel: '新客户',
-                            flex: 1,
+                            flex: 3,
                             bind: {
                                 readOnly: "{!ckop}"
                             },
@@ -146,9 +146,26 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
                         }, 
                         {
                             xtype: 'checkbox',
+                            fieldLabel: '新客户付费用',
+                            labelWidth: 100,
+                            //width: 90, 
+                            flex: 1,
+                            align: 'right',
+                            name: 'jebz',
+                            //hidden:'{!jebz}',
+                            readOnly: true,
+                            bind: '{jebz}'
+
+                        },
+
+                        {
+                            xtype: 'checkbox',
                             fieldLabel: '费用付现',
-                            width: 90, align: 'right',
+                            //width: 90,
+                            flex: 1,
+                            align: 'right',
                             name: 'xjbz',
+                            //hidden:'{jebz}',
                             readOnly: true,
                             bind: '{xjbz}'
 

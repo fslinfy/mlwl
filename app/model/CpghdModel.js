@@ -16,6 +16,11 @@ Ext.define('MyApp.model.CpghdModel', {
         { name: 'sfr' },
         { name: 'cgy' },
         { name: 'cwr' },
+
+        { name: 'cwshr' },
+        { name: 'ckshr' },
+        { name: 'khshr' },
+        
         { name: 'czy' },
         { name: 'shr' },
         { name: 'cnote' },

@@ -119,19 +119,31 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
                             name: 'sfdh',
                             fieldLabel: '仓库名称',
                             bind: "{ckmc}",
-                            flex: 1,
+                            flex: 3,
                             readOnly: true,
                             margin: '0 10 0 0',
                             allowBlank: true
                         }, {
                             name: 'newkhmc',
                             fieldLabel: '新客户',
-                            flex: 1,
+                            flex: 3,
                             bind: "{newkhmc}",
                             readOnly: true,
                             margin: '0 10 0 0',
                             allowBlank: true
                         },
+                        {
+                            xtype: 'checkbox',
+                            fieldLabel: '新客户付费用',
+                            labelWidth: 100,
+                            flex: 1,
+                            align: 'right',
+                            name: 'jebz',
+                            readOnly: true,
+                            bind: '{jebz}'
+
+                        },
+
                         {
                             xtype: 'datefield',
                             name: 'ghrq',
@@ -440,13 +452,13 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
                             fieldLabel: '业务审核',
                             bind: "{shr}"
                         }, {
-                            name: 'cwsh',
+                            name: 'cwshr',
                             fieldLabel: '财务审核',
-                            bind: "{cwsh}"
+                            bind: "{cwshr}"
                         }, {
-                            name: 'cgy',
+                            name: 'ckshr',
                             fieldLabel: '仓库复核',
-                            bind: "{cgy}"
+                            bind: "{ckshr}"
                         }, {
                             name: 'ckid',
                             fieldLabel: 'ckid',

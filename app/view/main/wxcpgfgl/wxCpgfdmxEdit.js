@@ -151,7 +151,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdmxEdit', {
                                         var panel = this.up('#cpgfdmxedit').getViewModel();
                                         var sl = panel.get('khsl');
                                         var zl = panel.get('khzl');
-                                        // console.log(sl,zl);
+                                        // //console.log(sl,zl);
                                         if (value < sl) {
                                             panel.set('zl',Math.round(1000* value * zl / sl)/1000);
 

@@ -54,9 +54,9 @@ function printcpjkd(p) {
   str = str + '<tfoot>'
   str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >制单:' + p.czy + '</td>';
   str = str + '<td  style="border:0;width:20%;">审核:' + p.shr + '</td>';
-  str = str + '<td  style="border:0;width:20%;">仓管:' + p.cgy + '</td>';
-  str = str + '<td  style="border:0;width:20%;">叉车:</td>';
-  str = str + '<td  style="border:0;width:20%;">搬运:</td></tr></table></th></tr>'
+  str = str + '<td  style="border:0;width:20%;">仓管:' + p.cg + '</td>';
+  str = str + '<td  style="border:0;width:20%;">叉车:' + p.gs + '</td>';
+  str = str + '<td  style="border:0;width:20%;">搬运:' + p.byg + '</td></tr></table></th></tr>'
   str = str + '<tr><th ></th></tr>'
   str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >第一联：存概</td>';
   str = str + '<td  style="border:0;width:20%;">第二联：叉车</td>';
@@ -154,6 +154,7 @@ function prtjcd(prtStore, prtmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
+  var byg='',gs='',cg='';
   prtStore.each(function (p) {
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     prtmxStore.each(function (rec) {
@@ -163,7 +164,20 @@ function prtjcd(prtStore, prtmxStore) {
       if (rec.data.jeid == 0) {
         sumsl = sumsl + rec.data.jcsl;
         sumzl = sumzl + rec.data.jczl;
+      }else
+      {
+         
+        if ((byg== '') && (rec.data.byg!='')) {
+              byg=rec.data.byg; 
+        } 
+        if ((gs== '') && (rec.data.gs!='')) {
+          gs=rec.data.gs; 
+        } 
+        if ((cg== '') && (rec.data.cg!='')) {
+           cg=rec.data.cg; 
+        } 
       }
+
       mxrec.push(rec.data);
       i = i + 1
       // }
@@ -192,6 +206,9 @@ function prtjcd(prtStore, prtmxStore) {
     jkd["mxrec"] = mxrec;
     jkd["jcje"] = sumje;
     jkd["xjje"] = sumxjje;
+    jkd['byg'] =byg;
+    jkd['gs'] =gs;
+    jkd['cg'] =cg;
     jkd["jcsl"] = sumsl.toFixed(3);
     jkd["jczl"] = sumzl.toFixed(3);
     printcpjkd(jkd);

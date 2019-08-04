@@ -3,7 +3,7 @@ var mmcczl = 0;
 
 Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
     extend: 'Ext.window.Window',
-    xtype: 'formmxwindow',
+    xtype: 'cpghdformmxwindow',
     reference: 'popupmxWindow',
     bind: {
         title: '{title}'
@@ -197,6 +197,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
                                         return true;
                                     }
                                 },
+                     
                                 {
                                     xtype: "numberfield",
                                     name: 'ccje',
@@ -208,7 +209,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
                                     enabled: false,
                                     decimalPrecision: 2,
                                     margin: '0 5 0 0'
-                                }, {
+                                }, 
+                                /*{
                                     xtype: "numberfield",
                                     name: 'xjje',
                                     fieldLabel: '其中现付',
@@ -218,7 +220,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
                                     readOnly: true,
                                     decimalPrecision: 2,
                                     margin: '0 5 0 0'
-                                },
+                                },*/
                                 {
                                     xtype: "textfield",
                                     name: 'mxid',
@@ -634,7 +636,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
                                 },
                                 {
                                     xtype: 'checkcolumn',
-
+                                    hidden:true,     
                                     width: 60,
                                     text: '现付',
                                     sortable: false,

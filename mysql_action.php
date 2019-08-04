@@ -1727,13 +1727,10 @@ function khworkselecttreelist() {
         $lid =(int)$_GET['p_l_id'];
 		$E_code =(int)$_GET['p_e_code'];
 		$khid=(int)$_GET['khid'];
-
-if ($_GET['bzid']='undefine'){
+//return  (int)$_GET['bzid'];
+if ($_GET['bzid']=='undefined'){
      $gfbz=1;
 
-
-
-	
 	if ($khid>0)
 	{
 		$lid =(int)$_GET['p_l_id'];
@@ -1758,7 +1755,7 @@ where active=1 and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
 
 
 
- // return $sqlstr;
+  //return $sqlstr;
 	$query = mysql_query($sqlstr);
 	if ($query) {
 		$tree = array();
@@ -1820,7 +1817,7 @@ jobs AS id,Quantity_in AS inbz,Price_in AS indj
 FROM WORK 
 WHERE editbz=1 AND l_id=".$lid." AND E_code='".$E_code."') packing";
 
-
+//return  $sqlstr;
 	$query = mysql_query($sqlstr);
 	if ($query) {
 		$tree = array();
@@ -5883,7 +5880,7 @@ function menusystemlist() {
 
    if ($khsystem=="1")
    {
-	$sqlstr = " SELECT menu,sort,name,iconurl,viewpath ,menu_id,widgetName FROM menusystem where   menu_id<>19 and menu_id<>22 and (alluser=1 or ( enabled=1 and khbz=2  and instr(termtype,'" . $termtype . "')>0  ) )";
+	$sqlstr = " SELECT Psort,menu,sort,name,iconurl,viewpath ,menu_id,widgetName FROM menusystem where   menu_id<>19 and menu_id<>22 and (alluser=1 or ( enabled=1 and khbz=2  and instr(termtype,'" . $termtype . "')>0  ) )";
 	$sqlstr .= "  order by Psort,Sort ";
    }
    else
@@ -5897,7 +5894,7 @@ function menusystemlist() {
      	break;
     }
 	if ($termtype == 'classic') {
-		$sqlstr = " SELECT menu,sort,name,iconurl,viewpath ,menu_id,widgetName FROM menusystem where alluser=1 or ( enabled=1  and instr(termtype,'" . $termtype . "')>0   ";
+		$sqlstr = " SELECT Psort,menu,sort,name,iconurl,viewpath ,menu_id,widgetName FROM menusystem where alluser=1 or ( enabled=1  and instr(termtype,'" . $termtype . "')>0   ";
 		if ($appid == "2"){
 			$sqlstr .=" and khbz=1"; 
 		}else
@@ -5913,7 +5910,7 @@ function menusystemlist() {
 		if ($type == "all") {
 			$sqlstr = " SELECT * FROM menusystem where Enabled=1 ";
 		} else {
-			$sqlstr = " SELECT menu,sort,name,iconurl,page,menu_id FROM menusystem where alluser=1 or( enabled=1 and type='" . $type . "' ";
+			$sqlstr = " SELECT Psort,menu,sort,name,iconurl,page,menu_id FROM menusystem where alluser=1 or( enabled=1 and type='" . $type . "' ";
 		}
 		if ($menustring>"")
 		{
@@ -5926,7 +5923,68 @@ function menusystemlist() {
 
 	//return $sqlstr;
 	$query = mysql_query($sqlstr);
-	return getjsonstoredata($query, 0);
+	//return getjsonstoredata($query, 0);
+	$main_array =",,";
+	if ($query) {
+
+		while ($row = mysql_fetch_array($query)) {
+			if ($row["name"]!="-")
+			{
+				$main_array= $main_array.$row["Psort"].",";
+			}
+		}
+		//return ",".$row[$Psort].",";
+		/*if (strpos($main_array,",1,")){
+		return $main_array;
+		}
+		else
+		{
+        return '0';
+		}
+*/
+
+		mysql_data_seek($query, 0);
+
+
+
+		while ($row = mysql_fetch_array($query)) {
+			$my_array = array();
+			if (strpos($main_array,",".$row["Psort"].","))			{
+				for ($i = 0; $i < mysql_num_fields($query); $i++) 
+				{
+				$fieldname=mysql_field_name($query, $i);
+				$newvar = $row[$fieldname];
+
+					if (($fieldname=='cnote')  || ($fieldname=='cphm') || ($fieldname=='sfr') || ($fieldname=='thr') )
+					{
+				   	if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newstr)-1,1)=="~"))
+				  	 {
+
+						$newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));
+						$newvar=str_replace("\n"," ",$newvar);
+				   	}
+					}
+				$my_array[mysql_field_name($query, $i)] = urlencode($newvar);
+				}	;
+				$arr['rows'][] = $my_array;
+		    }
+		}
+
+		if ($total == 0) {
+			$arr['results'] = mysql_numrows($query);
+			$arr['total'] = mysql_numrows($query);
+		} else {
+			$arr['results'] = $total;
+			$arr['total'] = $total;
+		}
+		$arr['success'] = true;
+	} else {
+		$arr['success'] = false;
+		$arr['data'] = array('id' => 1, 'msg' => urlencode('数据查询操作失败！'));
+	}
+	return urldecode(json_encode($arr));
+
+
 }
 
 function imagesload() {
@@ -9378,7 +9436,7 @@ function wxcpgfdshsave()
 				}
 			
 				break;
-				case 'cpgfdcwsh' :
+			case 'cpgfdcwsh' :
 				$sqlstr = " update wxcpgfd set ztbz=4";
 				$sqlstr .= ",cwsh='" . $shr . "',cwshrq=now() where delbz=0 and fhbz=2 and gfid=" . $gfid;
 				mysql_query($sqlstr);
@@ -11385,7 +11443,7 @@ $raw = '';
 $sql = '';
 $id = (int)$_POST['id'];
 $update = $_POST['update'];
-
+//return $id ;
 	if ($update == "delete") {
 		$sql = "delete from usertype where typeid=" . $id;
 	} else {
@@ -11398,12 +11456,12 @@ $update = $_POST['update'];
 		$del = $_POST['del'];
 		$sh = $_POST['sh'];
 		$cwsh = $_POST['cwsh'];
-		$menustring = $_GET['menustr'];
-
+		$menustring = $_GET['menustring'];
+        $wxmenustring=$_get['wxmenustring'];
 	
 		if ($id < 1) 
 		{
-			$sql = "insert into usertype (E_code,code,menustring,typename,new,del,edit,sh,cwsh) values ('" . $E_code . "','" . $code . "','". $menustring . "','" . $name . "'";
+			$sql = "insert into usertype (E_code,code,menustring,wxmenustring,typename,new,del,edit,sh,cwsh) values ('" . $E_code . "','" . $code . "','". $menustring. "','". $WXmenustring . "','" . $name . "'";
 			if ($new == "on") {
 				$sql = $sql . ",1";
 			} else {
@@ -11439,7 +11497,7 @@ $update = $_POST['update'];
 		{
 			$sql = "update usertype  set code='" . $code . "',typename='" . $name . "'";
 			$sql = $sql . ",menustring='".$menustring."'";
-			
+			$sql = $sql . ",wxmenustring='".$wxmenustring."'";
 			if ($new == "on") {
 				$sql = $sql . ",new=1";
 			} else {

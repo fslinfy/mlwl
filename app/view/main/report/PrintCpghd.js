@@ -99,7 +99,7 @@ function printCpghd(p) {
 
 };
 function onPrintCpghd() {
-  //console.log(ghid);
+  console.log("ghid=",ghid);
   //var p = this.lookupReference('popupWindow').getViewModel();
   //var p= that.getView().down("#CpghdListGrid").getViewModel();
   PrintCpghdghid(ghid);

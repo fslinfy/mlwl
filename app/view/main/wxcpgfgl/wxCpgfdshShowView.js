@@ -12,8 +12,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
     height: 500,
     minWidth: 600,
     requires: [
-       // 'MyApp.view.main.report.PrintCpgfd'
-       'MyApp.view.main.wxcpgfgl.wxCpgfdCtrlFunction'
+       'MyApp.view.main.report.PrintwxCpgfd'
+       ,'MyApp.view.main.wxcpgfgl.wxCpgfdCtrlFunction'
        , 'MyApp.view.main.wxcpgfgl.wxCpgfdshStore'
     ],
     minHeight: 400,
@@ -223,7 +223,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
                             xtype: 'numbercolumn',
                             text: '数量',
                             sortable: false,
-                            dataIndex: 'xssl',
+                            dataIndex: 'khsl',
                             width: 80,
                             renderer: zlrenderer
                         },
@@ -231,7 +231,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
                             xtype: 'numbercolumn',
                             text: '重量',
                             sortable: false,
-                            dataIndex: 'xszl',
+                            dataIndex: 'khzl',
                             width: 80,
                             renderer: zlrenderer
 
@@ -384,13 +384,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
                             fieldLabel: '业务审核',
                             bind: "{shr}"
                         }, {
-                            name: 'cwsh',
+                            name: 'cwshr',
                             fieldLabel: '财务审核',
-                            bind: "{cwsh}"
+                            bind: "{cwshr}"
                         }, {
-                            name: 'cgy',
+                            name: 'ckshr',
                             fieldLabel: '仓库复核',
-                            bind: "{cgy}"
+                            bind: "{ckshr}"
                         }, {
                             name: 'ckid',
                             fieldLabel: 'ckid',

@@ -6,8 +6,8 @@ var khmcCallBack = function (node) {
     that.popupmx.getViewModel().set('khmc', node.data.text);
 }
 /*var cdmcCallBack = function (node) {
-   //console.log('node');
-   //console.log(node.data.text);
+   ////console.log('node');
+   ////console.log(node.data.text);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     
@@ -17,7 +17,7 @@ var khmcCallBack = function (node) {
 */
 var ckdworkCallBack = function (node) {
     var rec = node.data;
-    console.log('ckdworkCallBack',rec);
+    //console.log('ckdworkCallBack',rec);
     var p = that.popupmx;
     var xjbz = p.getViewModel().get('xjbz');
     var mxid = p.getViewModel().get('mxid');
@@ -72,8 +72,8 @@ var ckdworkCallBack = function (node) {
 
 /*
 var bzmcCallBack = function (node) {
-   console.log('node',node);
-   //console.log(node.data.bydj);
+   //console.log('node',node);
+   ////console.log(node.data.bydj);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     
@@ -82,7 +82,7 @@ var bzmcCallBack = function (node) {
     selection.set('rate', node.data.rate);
 }
 var cpmcCallBack = function (node) {
-  //  console.log(node.data);
+  //  //console.log(node.data);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     selection.set('xmmc', node.data.text);
@@ -271,10 +271,10 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             var record = rec.data;
             khid = rec.data.khid;
             // that.ghmxid=rec.data.mxid;
-            console.log("onCpgfdmxShowView", record);
-            var endrq = Ext.Date.format(rec.data.endrq, 'Y-m-d');
+            //console.log("onCpgfdmxShowView", record);
+            var endrq =rec.data.endrq;// Ext.Date.format(rec.data.endrq, 'Y-m-d');
             var today = Ext.Date.format(new Date(), 'Y-m-d');
-            //console.log("date", today, endrq);
+            //console.log("date", today,'  end:', endrq);
             record['btnButtonHidden'] = true;
             record['gfrq'] = new Date();
             record['cwr'] = '';
@@ -316,13 +316,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
     
             var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
             cpgfdmxStore0.each(function (rec) {
-                console.log(rec.data);
+                //console.log(rec.data);
                 if (rec.data.gfid == record.gfid) {
                     rec.data.sl = 0;
                     rec.data.zl = 0;
                     rec.data.je = 0;
                     rec.data.xjje = 0;
-                 
+             
                     cpgfdmx_store.add(rec);
                 }
             })
@@ -332,7 +332,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             p.down("#field_gfrq").setValue(new Date());
             p.down("#btnCpgfdSave").setHidden(false);
     
-            console.log('cpgfdmx_store',cpgfdmx_store,record);
+            //console.log('cpgfdmx_store',cpgfdmx_store,record);
             
             var cpgfdje_store = this.lookupReference('cpgfdmxje0').getStore();
             cpgfdje_store.removeAll();
@@ -344,7 +344,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         onCpgfdmxgheditView: function (button) {
 
             var rec = button.getWidgetRecord();
-            console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
+            //console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
             if ((rec.data.mccsl == 0) && (rec.data.mcczl == 0)) {
                 return;
     
@@ -363,7 +363,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             var view = this.getView();
             this.isEdit_mx = !!record;
             that.ghmxid = mxid;
-            console.log("endrq", record);
+            //console.log("endrq", record);
     
             that.recordID = record['id'];
             record['newrecord'] = false;
@@ -376,7 +376,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             }
     
     
-            //  console.log("onCpgfdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
+            //  //console.log("onCpgfdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
             this.dialog_mx = view.add({
                 xtype: 'formmxwindow',
     
@@ -394,7 +394,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 { filterFn: function (item) { return item.get("mxid") == mxid && (item.get("gfid") == gfid); } }
             );
     
-          //  console.log("cpgfdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
+          //  //console.log("cpgfdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
         },
     
         onCpgfdjeAddClick: function (record) {
@@ -406,7 +406,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             obj['gfbz'] = 1;
         //    obj['bzid'] = rec.data.bzid;
     
-            //console.log('bzid', rec, obj);
+            ////console.log('bzid', rec, obj);
             treeSelect('work', that, obj, that.popupmx, false, ckdworkCallBack);
             return false;
         },
@@ -474,7 +474,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         }
 
         var rq=Ext.decode(Ext.encode(p.get('gfrq')));
-        console.log(rq,sys_option_min_date);
+        //console.log(rq,sys_option_min_date);
         if (rq<sys_option_min_date) {
             Ext.MessageBox.alert('注意！', '输入日期不能小于：'+sys_option_min_date);
             return false
@@ -565,7 +565,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             scope: this,
             success: function (response) {
                 var result = Ext.decode(response.responseText);
-                //  console.log("result", result);
+                //  //console.log("result", result);
                 if (result.result == 'success') {
 
 
@@ -698,7 +698,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         v.set('zl', store.sum('zl'));
         v.set('je', store.sum('je'));
 
-        console.log(v.get('sl'),v.get('zl'),v.get('je'));
+        //console.log(v.get('sl'),v.get('zl'),v.get('je'));
         if (v.get('xjbz')) {
             v.set('xjje', v.get('je'));
         }
@@ -716,10 +716,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             return false
         }
         var rec = form.getValues();
-        //   console.log('onCpgfdmxFormSubmit', rec);
+ 
+
+        //   //console.log('onCpgfdmxFormSubmit', rec);
         var p = this.lookupReference('popupmxWindow').getViewModel();
-       var cpgfdje_store = this.lookupReference('cpgfdmxje').getStore();
-        i = 0;
+        
+        var cpgfdje_store = this.lookupReference('cpgfdmxje').getStore();
+        var i = 0;
         var sumje = 0;
         var sumxjje = 0;
         cpgfdje_store.each(function (recje) {
@@ -728,6 +731,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 if (recje.data.xjbz) {
                     sumxjje = sumxjje + recje.data.je;
                 }
+                i=i+1;
             }
         })
         sumje = sumje + 1 - 1;
@@ -736,12 +740,46 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         var r = that.recordID;
         var recmx = cpgfdmx_store.getById(r);
-        recmx.set("sl", Math.round(1000 * p.get('sl')) / 1000);
-        recmx.set("zl", Math.round(1000 * p.get('zl')) / 1000);
-        recmx.set("je", p.get('je'));
-        recmx.set("xjje", p.get('xjje'));
+        
+        var sl=parseFloat(p.get('sl'));
+        var zl=parseFloat(p.get('zl'));
+        var je=parseFloat(p.get('je'));
+        var xjje=parseFloat(p.get('xjje'));
+        recmx.set("sl", 0);
+        recmx.set("zl", 0);
+        
+        recmx.set("sl", Math.round(1000 *sl ) / 1000);
+        recmx.set("zl", Math.round(1000 * zl) / 1000);
+        recmx.set("je", Math.round(100 * je) / 100);
+        recmx.set("xjje",Math.round(100 *xjje) / 100);
+        
+        
+        //cpgfdje_store.sync();
+        //console.log("recmx",recmx," sl=",sl,'  zl=',zl);
+        if (i==0)
+        {
+            Ext.MessageBox.show({
+                title: "继续吗？",
+                msg:  "你还没有输入机械作业记录！",
+                buttons: Ext.MessageBox.YESNO,
+                buttonText: {
+                    yes: "继 续",
+                    no: "放  弃"
+                },
+                icon: Ext.MessageBox["WARNING"],
+                scope: this,
+                fn: function (btn, text) {
 
-        that.getView().down("#cpgfdmxedit").close();
+                    if (btn == "yes") {
+                        that.getView().down("#cpgfdmxedit").close();                        
+                    }
+                }
+            });
+
+        }else{
+            that.getView().down("#cpgfdmxedit").close();                          
+        }
+
     },
 
     sumjs: function (store1, store2, panel) {
@@ -767,21 +805,21 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             var zl = store1.sum('zl');
     
             if ((sl > panel.get('khsl')) || (zl > panel.get('khzl'))) {
-                // console.log(sl,zl);
+                // //console.log(sl,zl);
                 return false;
             };
             panel.set('sl', sl);
             panel.set('zl', zl);
         }
     
-        //console.log('sumje');
+        ////console.log('sumje');
         return true;
     
     },
     
 
     onCpgfdSaveSubmit: function () {
-        // console.log('onCpgfdFormSubmit');
+        // //console.log('onCpgfdFormSubmit');
         var dialog = this.dialog,
             form = this.lookupReference('windowForm'),
             isEdit = this.isEdit,
@@ -792,11 +830,11 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         }
         var ckdrec = form.getValues();
         var rec = ckdrec;
-        // console.log("rec", rec);
+        // //console.log("rec", rec);
         var p = this.lookupReference('popupCpgfdWindow').getViewModel();
        
         var rq=rec.gfrq;//Ext.decode(Ext.encode(p.get('gfrq')));
-        console.log(rq,sys_option_min_date);
+        //console.log(rq,sys_option_min_date);
         if (rq<sys_option_min_date) {
             Ext.MessageBox.alert('注意！', '输入过车日期不能小于：'+sys_option_min_date);
             return false
@@ -828,7 +866,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         var summcczl = Math.round(cpgfdmx_store.sum('khzl') * 1000) / 1000;
 
         var sumjesl = Math.round(cpgfdje_store.sum('sl') * 1000) / 1000;
-        console.log('sumjesl=',sumjesl);
+        //console.log('sumjesl=',sumjesl);
 
         if ((summccsl == sumccsl) && (summcczl == sumcczl) && ((sumccsl != 0) || (sumcczl != 0))) {
             cpgfd['fhbz'] = 2;
@@ -850,7 +888,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 }
             }
             if (reccw.get('sl') < reccw.get('khsl')) {
-                msg = msg + '<br><br>商品：' + reccw.get('xmm') + '过车数量小于过车通知单数量';
+                msg = msg + '<br><br>商品：' + reccw.get('xmmc') + '过车数量小于过车通知单数量';
             }
         })
         if (cwrec == 0) {
@@ -873,14 +911,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 }
             }
         })
-//        console.log("recje len",arrayje);
+//        //console.log("recje len",arrayje);
         cpgfd['cpgfdmx'] = arraymx;
         cpgfd['cpgfdje'] = arrayje;
-        //console.log('cpgfd', cpgfd,msg);
-      //  console.log('msg',msg);
+        ////console.log('cpgfd', cpgfd,msg);
+      //  //console.log('msg',msg);
        //return;
         var str = obj2str(cpgfd);
-        //console.log('cpgfd str', str);
+        ////console.log('cpgfd str', str);
 
         var encodedString = base64encode(Ext.encode(str));
         //var that = this;
@@ -900,7 +938,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 icon: Ext.MessageBox["WARNING"],
                 scope: this,
                 fn: function (btn, text) {
-                    //console.log(btn, text);
+                    ////console.log(btn, text);
                     if (btn == "yes") {
                         that.data_save(gfid, encodedString);
                     }
@@ -915,7 +953,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
 
     data_save: function (loc, dataStr) {
 
-         //console.log("id",loc);
+         ////console.log("id",loc);
         // return ;
         Ext.Ajax.request({
             method: 'GET',

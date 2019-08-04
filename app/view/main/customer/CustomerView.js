@@ -149,12 +149,10 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
         width: 50,
         text: '活跃',
         dataIndex: 'Active'
-    }
-        ,
-
+    },
     {
         xtype: 'widgetcolumn',
-        width: 70, sortable: false,
+        width: 100, sortable: false,
         widget: {
             xtype: 'button',
             text: '单价定义',

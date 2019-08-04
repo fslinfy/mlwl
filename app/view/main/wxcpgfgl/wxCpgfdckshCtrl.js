@@ -24,6 +24,7 @@ var gfdshsaveCallBack = function (th) {
             fn: function (btn, text) {
                 if (btn == "yes") {
                   //  PrintwxCpgfdgfid(gfid);
+                  PrintCpgfdgfid(gfid);
                 }
                 p.close();
                 that.locQuery();
@@ -109,7 +110,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
                 click: this.onSelectKhbmView
             },
             "#btnPrintCpgfd": {
-                click: this.onPrintwxCpgfd
+                click: function () {
+                    onPrintwxCpgfd();
+                }
             } ,
             "#btnwxCpgfdDelete": {
                 click: that.onwxCpgfdshDeleteSubmit
