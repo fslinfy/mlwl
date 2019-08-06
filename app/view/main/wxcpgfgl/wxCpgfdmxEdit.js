@@ -4,7 +4,7 @@ var mkhzl = 0;
 Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdmxEdit', {
     extend: 'Ext.window.Window',
     xtype: 'formmxwindow',
-    reference: 'popupmxWindow',
+    reference: 'popupgfdmxWindow',
     bind: {
         title: '{title}'
     },

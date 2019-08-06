@@ -930,9 +930,13 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         
  
+        
         var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
-        
-        
+        if (cpjkdmx_store.getCount() == 0) {
+            Ext.MessageBox.alert('注意！', '请输入商品入库明细数据！');
+            return false;
+        }
+
 
         var p = this.lookupReference('jkdpopupWindow').getViewModel();
         var mxdh = p.get('mxdh');
@@ -1008,7 +1012,8 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         var arrayje = [];
         var recmx0;
         cpjkdcw_store.clearFilter();
-        //cpjkdje_store.clearFilter();
+        cpjkdmx_store.clearFilter();
+        cpjkdmx_store.load();
         cpjkdcw_store.load();
         cpjkdje_store.load();
 
@@ -1029,9 +1034,10 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         var ret = 0;
         var sumsl = 0, sumzl = 0, sumje = 0;
         var recs = 0;
+      //  console.log("jkmx",cpjkdmx_store)  ; 
         cpjkdmx_store.each(function (recmx) {
             mxdh = recmx.get('mxdh');
-            //console.log("jkmx",recmx.data)  ; 
+            console.log("jkmx",recmx.data)  ; 
             if ((recmx.get('cdid') == 0) || (recmx.get('cpid') == 0) || (recmx.get('bzid') == 0)) {
                 Ext.MessageBox.alert('注意！', '请输入商品入库资料有误，请重进行商品选择！');
                 return false;
@@ -1064,7 +1070,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             })
             recmx0 = recmx.data;
             if ((recmx0['mints'] == '') || (recmx0['mints'] == undefined)) recmx0['mints'] = 0;
-            //console.log(recmx0);
+          // console.log('cpjkdcw',arraycw);
             recmx0['cpjkdcw'] = arraycw;
             arrayje = [];
             cpjkdje_store.each(function (recje) {
@@ -1094,9 +1100,9 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         }
 
-       // cpjkd['cpjkdmx'] = arraymx;
-       // console.log('jkd', cpjkd);
-       // return;
+        cpjkd['cpjkdmx'] = arraymx;
+      //  console.log('jkd', cpjkd);
+      //  return;
         var str = obj2str(cpjkd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;

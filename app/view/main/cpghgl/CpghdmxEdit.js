@@ -4,7 +4,7 @@ var mmcczl = 0;
 Ext.define('MyApp.view.main.cpghgl.CpghdmxEdit', {
     extend: 'Ext.window.Window',
     xtype: 'cpghdformmxwindow',
-    reference: 'popupmxWindow',
+    reference: 'popupghdmxWindow',
     bind: {
         title: '{title}'
     },

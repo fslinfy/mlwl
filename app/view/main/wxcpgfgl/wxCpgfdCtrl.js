@@ -398,8 +398,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         },
     
         onCpgfdjeAddClick: function (record) {
-            that.popupmx = that.getView().down('#cpgfdmxedit');// this.lookupReference('popupmxWindow');
-            var rec = that.lookupReference('popupmxWindow').getViewModel();
+            that.popupmx = that.getView().down('#cpgfdmxedit');// this.lookupReference('popupgfdmxWindow');
+            var rec = that.lookupReference('popupgfdmxWindow').getViewModel();
             var obj = [];
             obj['xjbz'] = rec.data.xjbx;
             obj['khid'] = khid;
@@ -419,7 +419,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             var abc = Ext.Msg.confirm('真的删除费用内容？', msg, function (e) {
                 if (e == 'yes') {
                     selection.drop();
-                    var panel = that.lookupReference('popupmxWindow').getViewModel();
+                    var panel = that.lookupReference('popupgfdmxWindow').getViewModel();
                     var store = customerGrid.getStore();
                     that.sumjs(null, store, panel);
                 }
@@ -719,7 +719,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
  
 
         //   //console.log('onCpgfdmxFormSubmit', rec);
-        var p = this.lookupReference('popupmxWindow').getViewModel();
+        var p = this.lookupReference('popupgfdmxWindow').getViewModel();
         
         var cpgfdje_store = this.lookupReference('cpgfdmxje').getStore();
         var i = 0;
