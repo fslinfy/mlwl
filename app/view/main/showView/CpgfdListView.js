@@ -203,12 +203,12 @@
     },
     {
         xtype: 'datecolumn',
-        text: '开单日期',
+        text: '过货日期',
         width: 120,
         formatter: 'date("Y-m-d")',
         sortable: false,
         hideable: false,
-        dataIndex: 'kdrq'
+        dataIndex: 'gfrq'
     },
     {
         text: '客户名称',
@@ -224,7 +224,7 @@
         hidden: (sys_location_id > 0),
         dataIndex: 'ckmc'
     },
-    {
+    /*{
         xtype: 'numbercolumn',
         text: '通知数量',
         width: 100, align: 'right',
@@ -246,7 +246,7 @@
         },
         renderer: slrenderer
 
-    },
+    },*/
 
     {
         xtype: 'numbercolumn',

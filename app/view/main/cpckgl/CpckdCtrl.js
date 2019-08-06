@@ -26,14 +26,15 @@ var ckdworkCallBack = function (node) {
         dw = p.getViewModel().get('sldw');
         var sl = p.getViewModel().get('ccsl');
     }
-    if ((sl < 1) && (sl > 0)) {
-        sl = 1;
-    }
+    //if ((sl < 1) && (sl > 0)) {
+      //  sl = 1;
+    //}
     var i = 0;
     var sumzl = 0;
     var newarray = [];
     var cpckdcw_store = that.lookupReference('cpckdmxcw').getStore();
     cpckdcw_store.each(function (reccw) {
+
         i = 0;
         sumzl = sumzl + reccw.data.cczl;
         newarray.forEach(function (item, index) {
@@ -74,7 +75,7 @@ var ckdworkCallBack = function (node) {
         else {
             sl = item.sl;
         }
-
+        if (sl>0){
         cpckdmxje.add({
             dw: dw,
             mxid: mxid,
@@ -91,6 +92,7 @@ var ckdworkCallBack = function (node) {
             inbz: rec.inbz,
             indj: rec.indj
         })
+        }
     });
 
     that.sumjs(null, cpckdmxje, p.getViewModel());
@@ -107,7 +109,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         , 'MyApp.view.main.report.PrintCpckd'
     ],
     locQuery: function (that) {
-         console.log("locQuery cpckdctrl");
+         //console.log("locQuery cpckdctrl");
         var v = that.getView().down("#CpxsdListGrid").getViewModel();
         khid = v.get('khid');
         var ckid = v.get('ckid');
@@ -240,7 +242,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             }
         });
         cpxsdmxStore.on("load", function () {
-            console.log('cpxsdmxStoreonload');
+            //console.log('cpxsdmxStoreonload');
             var v = that.getView().down("#CpxsdListGrid").getViewModel();
             khid = v.get('khid');
             var ckid = v.get('ckid');
@@ -727,7 +729,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
 
         
         var rq=rec.ckrq;//Ext.decode(Ext.encode(p.get('ckrq')));
-        console.log(rq,sys_option_min_date);
+        //console.log(rq,sys_option_min_date);
         if (rq<sys_option_min_date) {
             Ext.MessageBox.alert('注意！', '输入出仓日期不能小于：'+sys_option_min_date);
             return false
@@ -815,10 +817,28 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         {
             msg = msg + '<br><br>没有仓位出仓内容！';
         }
-
+       var sumjesl=0;
         cpckdje_store.each(function (recje) {
             if (recje.get('dh') == dh) {
                 if (recje.get('sl')!=0){
+                   sumjesl=sumjesl+recje.get('sl');
+                   //arrayje.push(recje.data);
+                }
+            }
+
+        })
+
+
+
+        var s=0;
+        cpckdje_store.each(function (recje) {
+            if (recje.get('dh') == dh) {
+                if (recje.get('sl')!=0 ){
+                    if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
+                        recje.data.sl=recje.data.sl+(1-sumjesl);
+                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        s=1;
+                    }
                    arrayje.push(recje.data);
                 }
             }
@@ -827,9 +847,9 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         cpckd['cpckdmx'] = arraymx;
         cpckd['cpckdje'] = arrayje;
         cpckd['cpckdcw'] = arraycw;
-      //  console.log('cpckd', cpckd,msg);
+        //console.log('cpckd', cpckd);
       //  console.log('msg',msg);
-       // return;
+        //return;
         var str = obj2str(cpckd);
 
 

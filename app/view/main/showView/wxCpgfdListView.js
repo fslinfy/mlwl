@@ -171,11 +171,24 @@
     },
     {
         xtype: 'datecolumn',
-        text: '日期',
+        text: '通知日期',
         width: 120,
         formatter: 'date("Y-m-d")',
         sortable: false,
         hideable: false,
+        dataIndex: 'kdrq'
+    },
+     {
+        xtype: 'datecolumn',
+        text: '过车日期',
+        width: 120,
+        formatter: 'date("Y-m-d")',
+        sortable: false,
+        hideable: false,
+        //hidden:'{fhbz<2}',      
+      //  bind: {
+        //    hidden: "{fhbz<2}"
+        //    },
         dataIndex: 'gfrq'
     },
     {

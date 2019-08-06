@@ -897,7 +897,11 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         var p = this.lookupReference('jkdpopupWindow').getViewModel();
         var khid = p.get('khid');
-        //console.log(p);
+
+     //   var p = that.popupmx;
+    var mxdh = p.getViewModel().get('mxdh');
+
+        console.log(p);
         var index = cpjkd_store.find('khid', khid);
 
         var rec = cpjkd_store.getAt(index);
@@ -929,7 +933,41 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         }
         var cpjkdje_store = this.lookupReference('cpjkdmxje0').getStore();
 
-        var i = 0, mxdh = '';
+
+        var sumjesl=0;
+        cpjkdje_store.each(function (recje) {
+            if (recje.get('mxdh') == mxdh) {
+                if (recje.get('sl')!=0){
+                   sumjesl=sumjesl+recje.get('sl');
+                   //arrayje.push(recje.data);
+                }
+            }
+
+        })
+
+
+
+        var s=0;
+        /*cpckdje_store.each(function (recje) {
+            if (recje.get('dh') == dh) {
+                if ((recje.get('sl')!=0) && (recje.get('zljs')) ){
+                    if ((sumjesl<1) && (s==0)) {  //重不够吨按一吨计
+                        recje.data.sl=recje.data.sl+(1-sumjesl);
+                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        s=1;
+                    }
+                   arrayje.push(recje.data);
+                }
+            }
+
+        })
+        */
+
+        var i = 0,;
+
+
+
+
         var arraymx = [];
         var arraycw = [];
         var arrayje = [];
@@ -975,6 +1013,12 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             arrayje = [];
             cpjkdje_store.each(function (recje) {
                 if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
+                    
+                    if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
+                        recje.data.sl=recje.data.sl+(1-sumjesl);
+                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        s=1;
+                    }
                     arrayje.push(recje.data);
                     sumje = sumje + recje.get('je');
                 }
@@ -996,7 +1040,8 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         }
 
         cpjkd['cpjkdmx'] = arraymx;
-       // console.log('jkd', cpjkd);
+        console.log('jkd', cpjkd);
+       return ;
         var str = obj2str(cpjkd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;

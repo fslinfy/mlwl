@@ -15,7 +15,7 @@ var ckdworkCallBack = function (node) {
     var rec = node.data;
     
     var p = that.popupmx;
-    console.log('rec',rec,p);
+    //console.log('rec',rec,p);
     var xjbz = p.getViewModel().get('xjbz');
     var mxid = p.getViewModel().get('mxid');
     var dw = '吨';
@@ -114,7 +114,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         , 'MyApp.view.main.report.PrintCpghd'
     ],
     locQuery: function (that) {
-         console.log("locQuery cpghdctrl");
+         //console.log("locQuery cpghdctrl");
         var v = that.getView().down("#CpghdListGrid").getViewModel();
         khid = v.get('khid');
         var ckid = v.get('ckid');
@@ -171,7 +171,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
     },
 
     init: function () {
-         console.log("init 111111111111");
+         //console.log("init 111111111111");
       
         that = this;
   
@@ -250,7 +250,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             }
         });
         cpghdmxStore.on("load", function () {
-            console.log('cpghdmxStoreonload');
+            //console.log('cpghdmxStoreonload');
             var v = that.getView().down("#CpghdListGrid").getViewModel();
             khid = v.get('khid');
             var ckid = v.get('ckid');
@@ -287,7 +287,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
                 id: 'CurCpghdcwModel'
             }
         });
-        console.log("init 2222222");
+        //console.log("init 2222222");
         
 
         curcpghdjeStore = Ext.create('Ext.data.Store', {
@@ -301,7 +301,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         });
 
 
-        console.log("init 333333333");
+        //console.log("init 333333333");
         
 
 
@@ -332,7 +332,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
 
 
         cpghdcwStore.on("load", function () {
-             console.log('cpghdcwStore load');
+             //console.log('cpghdcwStore load');
             curcpghdjeStore.clearFilter();
             curcpghdjeStore.removeAll();
 
@@ -349,7 +349,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             curcpghdjeStore.reload();
             var i = 0;
             var rec = {};
-            console.log('cpghdcwStore load',cpghdcwStore);
+            //console.log('cpghdcwStore load',cpghdcwStore);
             cpghdcwStore.each(function (reccw) {
                 i++;
                 rec = {
@@ -376,7 +376,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             curcpghdcwStore.sync();
         });
 
-        console.log("init 333333333  end");
+        //console.log("init 333333333  end");
 
 
 
@@ -462,7 +462,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
     onCpghdmxgheditView: function (button) {
 
         var rec = button.getWidgetRecord();
-        console.log("onCpghdmxgheditView 商品过户处理",rec.data);
+        //console.log("onCpghdmxgheditView 商品过户处理",rec.data);
         if ((rec.data.mccsl == 0) && (rec.data.mcczl == 0)) {
             return;
 
@@ -481,7 +481,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         var view = this.getView();
         this.isEdit_mx = !!record;
         that.ghmxid = mxid;
-        console.log("endrq", record);
+        //console.log("endrq", record);
 
         that.recordID = record['id'];
         record['newrecord'] = false;
@@ -525,7 +525,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             { filterFn: function (item) { return item.get("mxid") == mxid && (item.get("ghid") == ghid); } }
         );
 
-        console.log("cpghdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
+        //console.log("cpghdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
     },
     queryfromrow: function (thisp, row, col) {
         //仔细观察参数和api里面的参数
@@ -546,7 +546,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         var record = rec.data;
         khid = rec.data.khid;
         // that.ghmxid=rec.data.mxid;
-        console.log("onCpghdmxShowView", record);
+        //console.log("onCpghdmxShowView", record);
         var endrq =rec.data.endrq;// Ext.Date.format(rec.data.endrq, 'Y-m-d');
         var today = Ext.Date.format(new Date(), 'Y-m-d');
         //console.log("date", today, endrq);
@@ -606,7 +606,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         p.down("#field_ckrq").setValue(new Date());
         p.down("#btnCpghdSave").setHidden(false);
 
-        console.log('cpghdmx_store',cpghdmx_store,record);
+        //console.log('cpghdmx_store',cpghdmx_store,record);
         
         var cpghdje_store = this.lookupReference('cpghdmxje0').getStore();
         cpghdje_store.removeAll();
@@ -743,7 +743,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
 
         
         var rq=rec.ckrq;//Ext.decode(Ext.encode(p.get('ckrq')));
-        console.log(rq,sys_option_min_date);
+        //console.log(rq,sys_option_min_date);
         if (rq<sys_option_min_date) {
             Ext.MessageBox.alert('注意！', '输入过户日期不能小于：'+sys_option_min_date);
             return false
@@ -791,7 +791,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         var summcczl = Math.round(cpghdmx_store.sum('mcczl') * 1000) / 1000;
 
         var sumjesl = Math.round(cpghdje_store.sum('sl') * 1000) / 1000;
-        console.log('sumjesl=',sumjesl);
+        //console.log('sumjesl=',sumjesl);
 
         if ((summccsl == sumccsl) && (summcczl == sumcczl) && ((sumccsl != 0) || (sumcczl != 0))) {
             cpghd['fhbz'] = 2;
@@ -823,7 +823,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         }
         cwrec == 0;
          
-//console.log(cpghd,arraymx);
+////console.log(cpghd,arraymx);
   //      return ;
 
         cpghdcw_store.each(function (reccw) {
@@ -837,7 +837,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
                 }
             }
         })
-         console.log("reccw len",arraycw);
+         //console.log("reccw len",arraycw);
        if (arraycw.length==0)
         {
             msg = msg + '<br><br>没有仓位过户内容！';
@@ -858,15 +858,15 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             }
 
         })
-        console.log("recje len",arrayje);
+        //console.log("recje len",arrayje);
         cpghd['cpghdmx'] = arraymx;
         cpghd['cpghdje'] = arrayje;
         cpghd['cpghdcw'] = arraycw;
-        console.log('cpghd', cpghd,msg);
-      //  console.log('msg',msg);
+        //console.log('cpghd', cpghd,msg);
+      //  //console.log('msg',msg);
       // return;
         var str = obj2str(cpghd);
-        console.log('cpghd str', str);
+        //console.log('cpghd str', str);
 
         var encodedString = base64encode(Ext.encode(str));
         //var that = this;
@@ -901,7 +901,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
 
     data_save: function (loc, dataStr) {
 
-         console.log("id",loc);
+         //console.log("id",loc);
         // return ;
         Ext.Ajax.request({
             method: 'GET',

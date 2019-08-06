@@ -150,13 +150,22 @@
         dataIndex: 'ghdh'
     }, {
         xtype: 'datecolumn',
+        text: '通知日期',
+        sortable: false,
+        width: 100,
+        format: 'y-m-d',
+        hideable: false,
+        dataIndex: 'xsrq'
+    }, {
+        xtype: 'datecolumn',
         text: '过户日期',
         sortable: false,
         width: 100,
         format: 'y-m-d',
-        //formatter: 'date("Y-m-d")',
-        // sortable: true,
         hideable: false,
+       // bind: {
+         //   hidden:( "{fhbz}"<2 )
+         //   },
         dataIndex: 'ghrq'
     }, {
         text: '客户名称',

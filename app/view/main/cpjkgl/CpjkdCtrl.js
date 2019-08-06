@@ -1,4 +1,5 @@
-﻿var that;
+﻿var jkdh;
+var that;
 var khid = 0;
 var cpjkd_store;
 var CurCpjkdcwStore;
@@ -18,14 +19,15 @@ var jkdworkCallBack = function (node) {
         var sl = p.getViewModel().get('jcsl');
     }
       
-    if ((sl<1) && (sl>0))
-        {
-            sl=1;
-        }
+    //if ((sl<1) && (sl>0))
+      //  {
+        //    sl=1;
+       // }
     var cpjkdmxje = that.lookupReference('cpjkdmxje').getStore();
     cpjkdmxje.add({
         dw: dw,
         mxdh: mxdh,
+        jkdh:jkdh,
         workid: rec.id,
         work: rec.text,
         sl: sl,
@@ -277,7 +279,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         record['sfdh'] = '';
         record['cphm'] = '';
         record['czy'] = sys_userInfo.username;
-        var jkdh = record['jkdh'];
+        jkdh = record['jkdh'];
         var view = that.getView();
         that.isEdit = false;// !!record;
         that.dialog = view.add({
@@ -933,7 +935,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         
 
         var p = this.lookupReference('jkdpopupWindow').getViewModel();
-          
+        var mxdh = p.get('mxdh');
        var rq=Ext.decode(Ext.encode(p.get('czrq')));
         //console.log(czrq,sys_option_min_date);
         if (rq<sys_option_min_date) {
@@ -978,7 +980,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         //  console.log('rece', rec.data);
 
         var cpjkd = rec.data;
-        var jkdh = rec.get("jkdh");
+         jkdh = rec.get("jkdh");
         cpjkd['czrq'] = Ext.decode(Ext.encode(p.get('czrq')));
         cpjkd['jkrq'] = Ext.decode(Ext.encode(p.get('jkrq')));
 
@@ -992,16 +994,38 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         //}
         var cpjkdje_store = this.lookupReference('cpjkdmxje0').getStore();
+        //cpjkdje_store.sync();
+        cpjkdje_store.clearFilter();
+        var sumjesl=0;
 
-        var i = 0, mxdh = '';
+
+        var s=0;
+
+
+        var i = 0;
         var arraymx = [];
         var arraycw = [];
         var arrayje = [];
         var recmx0;
         cpjkdcw_store.clearFilter();
-        cpjkdje_store.clearFilter();
+        //cpjkdje_store.clearFilter();
         cpjkdcw_store.load();
         cpjkdje_store.load();
+
+        cpjkdje_store.each(function (recje) {
+        
+        if (recje.get('jkdh') == jkdh) {
+            if (recje.get('sl')!=0){
+               sumjesl=sumjesl+recje.get('sl');
+            }
+        }
+
+        })
+
+//console.log(sumjesl);
+
+
+
         var ret = 0;
         var sumsl = 0, sumzl = 0, sumje = 0;
         var recs = 0;
@@ -1045,6 +1069,11 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             arrayje = [];
             cpjkdje_store.each(function (recje) {
                 if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
+                    if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
+                        recje.data.sl=recje.data.sl+(1-sumjesl);
+                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        s=1;
+                    }
                     arrayje.push(recje.data);
                     sumje = sumje + recje.get('je');
                 }
@@ -1065,9 +1094,9 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         }
 
-        cpjkd['cpjkdmx'] = arraymx;
+       // cpjkd['cpjkdmx'] = arraymx;
        // console.log('jkd', cpjkd);
-      //  return;
+       // return;
         var str = obj2str(cpjkd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;
