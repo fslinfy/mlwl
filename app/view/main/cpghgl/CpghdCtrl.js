@@ -11,7 +11,7 @@ var saveCallBack = function (th) {
     that.getView().down("#cpghdshowview").close();
     that.locQuery(th);//onBtnQueryClick();
 }
-var ckdworkCallBack = function (node) {
+var ghckdworkCallBack = function (node) {
     var rec = node.data;
     
     var p = that.popupmx;
@@ -624,7 +624,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         obj['bzid'] = rec.data.bzid;
 
         //console.log('bzid', rec, obj);
-        treeSelect('work', that, obj, that.popupmx, false, ckdworkCallBack);
+        treeSelect('work', that, obj, that.popupmx, false, ghckdworkCallBack);
         return false;
     },
 
