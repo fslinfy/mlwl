@@ -4985,7 +4985,7 @@ function cpxsdlist_pc() {
 //             $filter=$filter." and cpxsd.xsid in (select cpxsd.xsid from cpxsd ,cpxsdmx where cpxsd.xsid=cpxsdmx.xsid and cpxsdmx.xssl>cpxsdmx.ccsl  " .$filter. ")";
 //		}
 		$sqlstr ="SELECT *,xsid as id FROM cpxsd where xsid>0 ".$filter ;
-     	//return $sqlstr . $loc; 
+     //	return $sqlstr ; 
 		$query = mysql_query($sqlstr);
 		return getjsonstoredata($query, 0);
 }
@@ -5957,7 +5957,7 @@ function menusystemlist() {
 
 					if (($fieldname=='cnote')  || ($fieldname=='cphm') || ($fieldname=='sfr') || ($fieldname=='thr') )
 					{
-				   	if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newstr)-1,1)=="~"))
+				   	if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newvar)-1,1)=="~"))
 				  	 {
 
 						$newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));
@@ -6924,7 +6924,7 @@ function getjsonstoredata($query, $total) {//返回STORE所需的数据
 
 				if (($fieldname=='cnote')  || ($fieldname=='cphm') || ($fieldname=='sfr') || ($fieldname=='thr') )
 				{
-				   if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newstr)-1,1)=="~"))
+				   if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newvar)-1,1)=="~"))
 				   {
 
 					$newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));

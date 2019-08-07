@@ -45,11 +45,25 @@ if ($act=="cpckd"){
         $ckmc=$row['ckmc'];
         $cphm=$row['cphm'];
         $phone=$row['smsphone'];  
-      			}
-        $ckstr=$dh.$ckstr."".$cphm."已办理提货！"." (".$ckmc.")";	
-  }
+        }
+        $newvar=$cphm;
+        if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newvar)-1,1)=="~"))
+         {
+          $newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));
+          $newvar=str_replace("\n"," ",$newvar);
+         }
+         $cphm=$newvar ;        
+        
 
-  $phone_array=explode(',',$phone);
+
+        $ckstr=$dh.$ckstr." ".$cphm."已办理提货！"." (".$ckmc.")";	
+  }
+    
+     //echo $cphm;
+
+
+
+    $phone_array=explode(',',$phone);
 
    if (count($phone_array)>0){
 
@@ -85,11 +99,12 @@ if ($act=="cpckd"){
     } catch(\Exception $e) {
 		echo "信息发送失败！";
     }
+
   }else
   {
 		echo "客户未定义接收信息手机号码！";
   }
-
+   
 
 }
 
@@ -122,8 +137,16 @@ if ($act=="cpjkd"){
         $cphm=$row['cphm'];
         $ckmc=$row['ckmc'];
         $phone=$row['smsphone'];  
-      			}
-        //$ckstr=$dh.$ckstr."".$cphm."已办理进仓！";	
+                  }
+                  /*
+                  $newvar=$cphm;
+                  if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newvar)-1,1)=="~"))
+                   {
+                    $newvar =base64_decode(substr($newvar ,1,strlen(	$newvar )-2));
+                    $newvar=str_replace("\n"," ",$newvar);
+                   }
+                   $cphm=$newvar ;    
+        $ckstr=$dh.$ckstr." ".$cphm."已办理进仓！";	*/
    }
 
 

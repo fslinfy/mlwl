@@ -836,7 +836,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 if (recje.get('sl')!=0 ){
                     if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
                         recje.data.sl=recje.data.sl+(1-sumjesl);
-                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        recje.data.je= Math.ceil(recje.data.dj*recje.data.sl);
                         s=1;
                     }
                    arrayje.push(recje.data);

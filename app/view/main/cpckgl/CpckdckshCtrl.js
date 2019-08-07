@@ -148,6 +148,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdckshCtrl', {
 
         var ckid = rec.data.ckid;
         var record = rec.data;
+        console.log('record',record);
         record['op'] = 'cksh';
         record['gsop'] = false;
         record["w"] = 40;

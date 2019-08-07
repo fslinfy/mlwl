@@ -199,6 +199,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdshCtrl', {
         issave=false;
         var ckid = rec.data.ckid;
         var record = rec.data;
+    
         record['op'] = 'sh';
         record['gsop'] = false;
         record["w"] = 0;

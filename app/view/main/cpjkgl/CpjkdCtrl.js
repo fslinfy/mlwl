@@ -250,9 +250,10 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         var index = cpjkd_store.find('khid', khid);
         var record = cpjkd_store.getAt(index);
         if (!record) {
+            jkdh=generateGUID();
             cpjkd_store.add(
                 {
-                    jkdh: generateGUID(),
+                    jkdh:jkdh,
                     czrq: new Date(),
                     jkrq: new Date(),
                     khid: khid,
@@ -270,6 +271,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
 
         }
         record = record.data;
+        
         if ((record['jkdh'] == '') || (!record['jkdh'])) {
             record['jkdh'] = generateGUID();
         }
@@ -280,6 +282,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         record['cphm'] = '';
         record['czy'] = sys_userInfo.username;
         jkdh = record['jkdh'];
+        console.log('jkdh=',jkdh);
         var view = that.getView();
         that.isEdit = false;// !!record;
         that.dialog = view.add({
@@ -292,10 +295,13 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         that.dialog.show();
         //console.log("this=",this,that);
         var cpjkdmx = that.lookupReference('CpjkdmxGrid').getStore();
+        cpjkdmx.clearFilter();
+        cpjkdmx.removeAll();
+        cpjkdmx.sync();
         cpjkdmx.filter(
             { filterFn: function (item) { return item.get("jkdh") == jkdh; } }
         );
-
+       // this.DeletecpjkdAll0();      
         var cpjkdcw_store = that.lookupReference('cpjkdmxcw0').getStore();
     },
 
@@ -842,12 +848,6 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         return;
     },
     onCpjkdmxDeleteClick: function () {
-
-
-
-
-
-
         var cpjkdcw_store = this.lookupReference('cpjkdmxcw').getStore();
         var cpjkdje_store = this.lookupReference('cpjkdmxje').getStore();
         var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
@@ -887,6 +887,17 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         );
     },
     DeletecpjkdAll: function (cpjkdmx_store, cpjkdcw_store, cpjkdje_store, jkdh) {
+
+        cpjkdje_store.clearFilter();
+        cpjkdcw_store.clearFilter();
+        cpjkdmx_store.clearFilter();
+        cpjkdje_store.removeAll();
+        cpjkdje_store.sync();
+        cpjkdcw_store.removeAll();
+        cpjkdcw_store.sync();
+        cpjkdmx_store.removeAll();
+        cpjkdmx_store.sync();
+        /*
         cpjkdmx_store.filter(
             { filterFn: function (item) { return item.get("jkdh") == jkdh; } }
         );
@@ -913,9 +924,23 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         );
         cpjkd_store.removeAll();
 
-        cpjkd_store.sync();
+        cpjkd_store.sync();*/
     },
-
+    DeletecpjkdAll0: function () {
+       // console.log('DeletecpjkdAll0');
+      //  var cpjkdcw_store = this.lookupReference('cpjkdmxcw').getStore();
+     //   var cpjkdje_store = this.lookupReference('cpjkdmxje').getStore();
+      //  var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
+      //  cpjkdje_store.clearFilter();
+     //   cpjkdcw_store.clearFilter();
+     //   cpjkdmx_store.clearFilter();
+      //   cpjkdje_store.removeAll();
+     //    cpjkdje_store.sync();
+      //   cpjkdcw_store.removeAll();
+      //   cpjkdcw_store.sync();
+      //   cpjkdmx_store.removeAll();
+      //   cpjkdmx_store.sync();
+    },
     onCpjkdFormSubmit: function () {
 
         var dialog = this.dialog,
@@ -1012,7 +1037,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         var arrayje = [];
         var recmx0;
         cpjkdcw_store.clearFilter();
-        cpjkdmx_store.clearFilter();
+     //   cpjkdmx_store.clearFilter();
         cpjkdmx_store.load();
         cpjkdcw_store.load();
         cpjkdje_store.load();
@@ -1035,7 +1060,10 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         var sumsl = 0, sumzl = 0, sumje = 0;
         var recs = 0;
       //  console.log("jkmx",cpjkdmx_store)  ; 
-        cpjkdmx_store.each(function (recmx) {
+      cpjkdmx_store.each(function (recmx) {
+      //  console.log("jkmx",recmx)  ; 
+      if (recmx.get('jcsl')>0)
+      {
             mxdh = recmx.get('mxdh');
             console.log("jkmx",recmx.data)  ; 
             if ((recmx.get('cdid') == 0) || (recmx.get('cpid') == 0) || (recmx.get('bzid') == 0)) {
@@ -1077,18 +1105,16 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
                 if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
                     if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
                         recje.data.sl=recje.data.sl+(1-sumjesl);
-                        recje.data.je= Math.round(100*recje.data.dj*recje.data.sl)/100;
+                        recje.data.je=Math.ceil(recje.data.dj*recje.data.sl);
                         s=1;
                     }
                     arrayje.push(recje.data);
                     sumje = sumje + recje.get('je');
                 }
             })
-
-
-
             recmx0['cpjkdje'] = arrayje;
             arraymx.push(recmx0);
+        }
         })
        // if (ret == 1) {
         //    Ext.MessageBox.alert('注意！', '请输入商品入库明细数量及重量！!');
@@ -1135,7 +1161,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
                 Ext.MessageBox.alert('错误!', '发生错误！');
             }
         });
-
+    
     }
 
 });
