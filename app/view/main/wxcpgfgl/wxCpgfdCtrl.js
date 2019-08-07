@@ -34,9 +34,9 @@ var ckdworkCallBack = function (node) {
         dw=rec.sldw;
         var sl = p.getViewModel().get('sl');
     }
-    if ((sl < 1) && (sl > 0)) {
-        sl = 1;
-    }
+    //if ((sl < 1) && (sl > 0)) {
+    //    sl = 1;
+    //}
     var i = 0;
     var sumzl = 0;
     var newarray = [];
