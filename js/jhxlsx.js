@@ -3,6 +3,7 @@
  * https://www.npmjs.com/package/xlsx-style
  * ####################################################################################################
  */
+
 var Jhxlsx = {
     config: {
         fileName: "report",

@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <script language="javascript" src="LodopFuncs.js"></script>
+    
+
+   
+    <script src="js/xlsx.core.min.js"></script>
+    <script src="js/FileSaver.js"></script>
+    <script src="js/jhxlsx.js"></script>
     <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
         <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
     </object>
@@ -114,7 +120,7 @@ a.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){"checking"!==c.app
 <body>
 
     <script language="javascript">
-        var LODOP = ""; //声明为全�?变量  
+        var LODOP = ""; //声明为全�?变量  
         function getSystemInfo() {
             console.log("getSystemInfo");
             LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
@@ -129,9 +135,9 @@ a.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){"checking"!==c.app
                // alert(LODOP);
                 if (LODOP.VERSION) {
                   //  if (LODOP.CVERSION)
-                    //    alert("当前有C-Lodop云打印可�?!\n C-Lodop版本:" + LODOP.CVERSION + "(内含Lodop" + LODOP.VERSION + ")");
+                    //    alert("当前有C-Lodop云打印可�?!\n C-Lodop版本:" + LODOP.CVERSION + "(内含Lodop" + LODOP.VERSION + ")");
                  //   else
-                   //     alert("本机已成功安装了Lodop控件！\n 版本�?:" + LODOP.VERSION);
+                   //     alert("本机已成功安装了Lodop控件！\n 版本�?:" + LODOP.VERSION);
 
                         return 1;
 
