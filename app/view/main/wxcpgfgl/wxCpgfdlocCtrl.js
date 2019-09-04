@@ -53,14 +53,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
         end_date = v.get('end_date');
         var d1 = Ext.Date.format(start_date, 'Y-m-d');
         var d2 = Ext.Date.format(end_date, 'Y-m-d');
-
-        
+           
+        console.log(d1,d2,start_date,end_date) ;         
        // var store = that.viewname.getStore();
        cpgfdmxStore0.proxy.extraParams.loc = 'wxcpgfdmxgfloc';
        cpgfdmxStore0.proxy.extraParams.khid = khid;
        cpgfdmxStore0.proxy.extraParams.l_id = ckid;
-       cpgfdmxStore0.proxy.extraParams.startdate=start_date;
-       cpgfdmxStore0.proxy.extraParams.enddate=end_date;
+       cpgfdmxStore0.proxy.extraParams.startdate=d1;
+       cpgfdmxStore0.proxy.extraParams.enddate=d2;
        cpgfdmxStore0.reload();
     },
     onBtnQueryClick: function (button, e, options) {
@@ -114,8 +114,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
            store.proxy.extraParams.loc = 'wxcpgfdgfloc';
            store.proxy.extraParams.khid = khid;
            store.proxy.extraParams.l_id = ckid;
-           store.proxy.extraParams.startdate=start_date;
-           store.proxy.extraParams.enddate=end_date;
+           store.proxy.extraParams.startdate=d1;
+           store.proxy.extraParams.enddate=d2;
             store.reload();
         });
         that.listmxstore = cpgfdmxStore0;

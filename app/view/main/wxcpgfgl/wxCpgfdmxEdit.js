@@ -8,6 +8,10 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdmxEdit', {
     bind: {
         title: '{title}'
     },
+    requires: [
+        'MyApp.view.main.tree.QueryArea'
+    ],
+
     itemId: "cpgfdmxedit",
     width: "90%",
     height: 500,
@@ -224,8 +228,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdmxEdit', {
                                     name: 'mxid',
                                     bind: "{mxid}",
                                     hidden: true
-                                }
-
+                                },
+                                { xtype: "QueryArea" }
                             ]
                         }
                     ]
@@ -272,13 +276,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdmxEdit', {
                                 }
                             ],
                             columns: [
-                                {
+                              /*  {
                                     text: '区',
                                     dataIndex: 'area',
                                     sortable: false,
                                     
                                     width: 80
-                                },
+                                },*/
                                 {
                                     text: '收费项目',
                                     dataIndex: 'work',

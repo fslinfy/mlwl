@@ -246,7 +246,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         else {
             that.getView().down('#QueryKhmc').setHidden(true);
         }
-
+        console.log('sys_location_areas',sys_location_areas,sys_location_id);
         that.locQuery(that);
 
     },
@@ -715,27 +715,47 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             Ext.MessageBox.alert('注意！', '输入内容不完整！');
             return false
         }
+
         var rec = form.getValues();
  
 
         //   //console.log('onCpgfdmxFormSubmit', rec);
         var p = this.lookupReference('popupgfdmxWindow').getViewModel();
+
+
+
+        
         
         var cpgfdje_store = this.lookupReference('cpgfdmxje').getStore();
         var i = 0;
         var sumje = 0;
         var sumxjje = 0;
+        var area="";
+        if (sys_location_areas>1) {
+            if ((p.get('area')=="")||(p.get('area')==null)) {
+                Ext.MessageBox.alert('注意！', '请选择分区！');
+                return false;
+            }
+           area= p.get('area');
+        }
+
+
+
         cpgfdje_store.each(function (recje) {
             if (recje.data.je != 0) {
                 sumje = sumje + recje.data.je;
                 if (recje.data.xjbz) {
                     sumxjje = sumxjje + recje.data.je;
                 }
+                recje.data.area=area;
                 i=i+1;
             }
         })
         sumje = sumje + 1 - 1;
         sumxjje = sumxjje + 1 - 1;
+
+
+
         cpgfdje_store.sync();
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         var r = that.recordID;
@@ -752,10 +772,12 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         recmx.set("zl", Math.round(1000 * zl) / 1000);
         recmx.set("je", Math.round(100 * je) / 100);
         recmx.set("xjje",Math.round(100 *xjje) / 100);
-        
+        recmx.set("area", area);
+
+       
         
         //cpgfdje_store.sync();
-        //console.log("recmx",recmx," sl=",sl,'  zl=',zl);
+        //console.log("recmx",recmx);
         if (i==0)
         {
             Ext.MessageBox.show({
@@ -883,6 +905,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                     obj['zl'] = reccw.data.zl;
                     obj['je'] = reccw.data.je;
                     obj['xjje'] = reccw.data.xjje;
+                    obj['area'] = reccw.data.area;
                     arraymx.push(obj);
                     cwrec++;
                 }
@@ -901,6 +924,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
        var s=0;
         cpgfdje_store.each(function (recje) {
             if (recje.get('gfid') == gfid) {
+                console.log("recje ",recje.data);
                 if (recje.get('sl')!=0){
                     if ((sumjesl<1) && (s==0)) {  //重不够吨按一吨计
                         recje.data.sl=recje.data.sl+(1-sumjesl);
@@ -914,9 +938,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
 //        //console.log("recje len",arrayje);
         cpgfd['cpgfdmx'] = arraymx;
         cpgfd['cpgfdje'] = arrayje;
-        ////console.log('cpgfd', cpgfd,msg);
+       // console.log('cpgfd', cpgfd,msg);
       //  //console.log('msg',msg);
-       //return;
+      // return;
         var str = obj2str(cpgfd);
         ////console.log('cpgfd str', str);
 

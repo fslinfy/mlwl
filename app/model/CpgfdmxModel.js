@@ -6,9 +6,8 @@ Ext.define('MyApp.model.CpgfdmxModel', {
     fields: [{name: 'id'    },
      {name: 'xmmc' },
      {name: 'cdmc' },
-     {name: 'bzmc'
-    },
-
+     {name: 'bzmc'    },
+     {name: 'area'    },
     { name: 'mxid', type: 'int'    },
     {name: 'sl',        type: 'float'    },
     {name: 'zl',        type: 'float'    },

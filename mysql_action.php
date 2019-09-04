@@ -8837,9 +8837,9 @@ function wxcpgfdmxcksave() {
 		
 		$cpgfdmxstr .= ",zl=" . $mxrow['zl'] ;
 
-//		$cpgfdmxstr .= ",xjje=" . $mxrow['xjje'] ;
+		$cpgfdmxstr .= ",area='" . $mxrow['area'] ;
 //		$cpgfdmxstr .= ",je=" . $mxrow['je'];
-       $cpgfdmxstr .=" where mxid=".$mxrow['mxid'] ;
+       $cpgfdmxstr .="' where mxid=".$mxrow['mxid'] ;
 
 		mysql_query($cpgfdmxstr);
 		if (mysql_errno() > 0) {

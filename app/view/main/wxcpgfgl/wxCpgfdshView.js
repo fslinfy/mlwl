@@ -2,7 +2,7 @@
     extend: 'Ext.container.Container',
     xtype: 'wxCpgfdshView',
     requires: [
-        'MyApp.view.main.showView.CpgfdListView'
+        'MyApp.view.main.showView.wxCpgfdListView'
         ,"MyApp.view.main.wxcpgfgl.wxCpgfdshShowView"
         // ,"MyApp.view.main.showView.CpgfdShowView"
        //, 'MyApp.store.CurCpgfdjeStore'

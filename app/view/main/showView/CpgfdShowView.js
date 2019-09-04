@@ -264,8 +264,8 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
                     ]
                 },
                 {
-                    text: '说明', sortable: false,
-                    dataIndex: 'sm',
+                    text: '分区', sortable: false,
+                    dataIndex: 'area',
                     flex: 1
                 },
                 {
