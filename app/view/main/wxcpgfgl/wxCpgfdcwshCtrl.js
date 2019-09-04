@@ -303,8 +303,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
         
         if (recs==0)
            {
-                Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
-                return false;
+        //        Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
+          //      return false;
            }
 
         var gfd = {}

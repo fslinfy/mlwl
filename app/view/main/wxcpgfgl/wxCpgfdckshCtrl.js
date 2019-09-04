@@ -200,7 +200,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
             var view = this.getView();
             this.isEdit_mx = !!record;
             that.ghmxid = mxid;
-            console.log("endrq", record);
+         //   console.log("endrq", record);
     
             that.recordID = record['id'];
             record['newrecord'] = false;
@@ -303,8 +303,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
         
         if (recs==0)
            {
-                Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
-                return false;
+       //         Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
+        //        return false;
            }
 
         var gfd = {}
