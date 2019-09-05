@@ -427,20 +427,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
     }
 ],
     buttons: [
-        /*{
-            text: '取消此出仓内容',
+       /* {
+            text: '取消此过车内容',
             icon: "images/delete.gif",
             hidden: true,
             bind: {
                  hidden: "{btnButtonHidden}"
             },
             itemId: 'btnCpgfdDelete'
-        },
-        {
-            text: '此出仓单已取消!!',
-            bind: {
-                hidden: "{!delbz}"
-            }
         },*/
         "->",
         {

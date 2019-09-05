@@ -78,7 +78,7 @@ function printCpghd(p) {
   str = str + '</tbody>'
   str = str + '<tfoot>'
 
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:20%;" >制单:' + p.czy + '</td><td  style="text-align:left;border:0;width:20%;">业务:' + p.shr + '</td><td  style="text-align:left;border:0;width:20%;">财务:</td><td  style="text-align:left;border:0;width:20%;">销售:</td><td  style="text-align:left;border:0;width:20%;">打印:' +sys_userInfo.username + '</td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:20%;" >制单:' + p.ghr + '</td><td  style="text-align:left;border:0;width:20%;">业务:' + p.shr + '</td><td  style="text-align:left;border:0;width:20%;">财务:</td><td  style="text-align:left;border:0;width:20%;">销售:</td><td  style="text-align:left;border:0;width:20%;">打印:' +sys_userInfo.username + '</td></tr></table></th></tr>'
 
   str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:42;" >备注:</td><td  style="text-align:left;border:1;">'
   if (p.xjbz == 1) {

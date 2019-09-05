@@ -88,7 +88,7 @@ function printcpghd(p) {
   
   
 
-  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.czy + '</td>';
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.ghr + '</td>';
 
   str = str + '<td  style="border:0;width:16%;">仓管:</td>';
   str = str + '<td  style="border:0;width:16%;">叉车:</td>';

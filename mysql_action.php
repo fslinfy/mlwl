@@ -4762,11 +4762,11 @@ function cpghdmxlist_pc() {
 		  $filter .=" and (cpghd.ztbz>3 and  cpghd.delbz=0) ";
 		  if ($_GET["startdate"])
 		  {
-			  $filter .=" and cpghd.xsrq>='".$_GET["startdate"]."'";
+			  $filter .=" and cpghd.ghrq>='".$_GET["startdate"]."'";
 		  }
 		  if ($_GET["enddate"])
 		  {
-			  $filter .=" and cpghd.xsrq<='".$_GET["enddate"]."'";
+			  $filter .=" and cpghd.ghrq<='".$_GET["enddate"]."'";
 		  }	
 //		  if ($_GET["deletebz"]=="0")
 //		  {
@@ -9459,7 +9459,7 @@ function wxcpgfdshsave()
 			
 				break;
 
-		case 'delete':
+		case 'delete':  //删除过车内容
 			$sqlstr = " update wxcpgfd set delbz=1";
 			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz=1 and delbz=0 and gfid=" . $gfid;
 			mysql_query($sqlstr);

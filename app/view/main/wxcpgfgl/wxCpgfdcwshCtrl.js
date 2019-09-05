@@ -114,7 +114,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
                     onPrintwxCpgfd();
                 }
             } ,
-            "#btnwxCpgfdDelete": {
+            "#btnCpgfdDelete": {
                 click: that.onwxCpgfdshDeleteSubmit
             },
             "#FilterField": {
@@ -149,7 +149,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
         gfid = rec.data.gfid;
         mgfid=gfid;
         var record = rec.data;
-        console.log('CpgfshShowView',record);
+     //   console.log('CpgfshShowView',record);
         record['op'] = 'cwsh';
         record['gsop'] = false;
         record["w"] = 50;
@@ -181,26 +181,21 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
     onCpgfdmxgheditView:function (button) {
 
             var rec = button.getWidgetRecord();
-            console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
+          //  console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
             if ((rec.data.mccsl == 0) && (rec.data.mcczl == 0)) {
                 return;
-    
             }
             mmccsl = 0;
             mmcczl = 0;
             var rec0 = that.lookupReference('popupCpgfdWindow').getViewModel();
-    
-            
-    
             var mxid = rec.data.mxid;
             var kcid = rec.data.kcid;
             var record = rec.data;
-    
             record['btnButtonHidden'] = true;
             var view = this.getView();
             this.isEdit_mx = !!record;
             that.ghmxid = mxid;
-            console.log("endrq", record);
+           // console.log("endrq", record);
     
             that.recordID = record['id'];
             record['newrecord'] = false;

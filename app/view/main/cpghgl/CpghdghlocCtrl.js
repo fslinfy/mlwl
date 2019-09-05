@@ -76,13 +76,22 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
         ,'MyApp.view.main.report.PrintCpghdgh'
     ],
     locQuery: function (that) {
-        console.log("sh locQuery");
+
         var v = that.viewname.getViewModel();
         var khid = v.get('khid');
         var ckid = v.get('ckid');
+        start_date = v.get('start_date');
+        end_date = v.get('end_date');
+        var d1 = Ext.Date.format(start_date, 'Y-m-d');
+        var d2 = Ext.Date.format(end_date, 'Y-m-d');
+
+        
         cpghdmxStore.proxy.extraParams.loc = "cpghdmxghloc";
         cpghdmxStore.proxy.extraParams.khid = khid;
         cpghdmxStore.proxy.extraParams.l_id = ckid;
+        cpghdmxStore.proxy.extraParams.startdate=d1;
+        cpghdmxStore.proxy.extraParams.enddate=d2;
+
         cpghdmxStore.reload();
     },
 
@@ -164,8 +173,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
             store.proxy.extraParams.loc = 'cpghdghloc';
             store.proxy.extraParams.khid = khid;
             store.proxy.extraParams.l_id = ckid;
-            store.proxy.extraParams.startdate=start_date;
-            store.proxy.extraParams.enddate=end_date;
+            store.proxy.extraParams.startdate=d1;
+            store.proxy.extraParams.enddate=d2;
             store.reload();
 
 

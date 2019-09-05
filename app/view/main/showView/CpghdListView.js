@@ -211,10 +211,15 @@
         dataIndex: 'sfr'
     },
     */ {
-        text: '经办人',
+        text: '申请人',
         sortable: false,
         dataIndex: 'czy'
-    }, {
+    },
+    {
+        text: '经办人',
+        sortable: false,
+        dataIndex: 'ghr'
+    },  {
         text: '新客户名称',
         width: 200,
         sortable: false,

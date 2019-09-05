@@ -445,7 +445,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
                         items: [{
                             name: 'czy',
                             fieldLabel: '操作员',
-                            bind: "{czy}"
+                            bind: "{ghr}"
 
                         }, {
                             name: 'shr',
