@@ -325,12 +325,12 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             arr.push({ 'text': oldobj.jldw });
             arr.push({ 'text': oldobj.area });
             arr.push({ 'text': oldobj.cw });
-            arr.push({ 'text': slrenderer(oldobj.kcsl) });
-            arr.push({ 'text': slrenderer(oldobj.kczl) });
+            arr.push({ 'text': slrenderer(oldobj.sl) });
+            arr.push({ 'text': slrenderer(oldobj.zl) });
             arr.push({ 'text': Ext.Date.format(oldobj.czrq, 'Y-m-d') });
             arr.push({ 'text': oldobj.sm });
-            sumsl+=oldobj.kcsl;
-            sumzl+=oldobj.kczl;
+            sumsl+=oldobj.sl;
+            sumzl+=oldobj.zl;
             jsonData.push(arr);
           }
         }
