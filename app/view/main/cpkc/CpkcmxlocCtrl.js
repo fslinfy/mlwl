@@ -322,9 +322,10 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             arr.push({ 'text': oldobj.bzmc });
             arr.push({ 'text': oldobj.cpgg });
             arr.push({ 'text': oldobj.cpph });
-            arr.push({ 'text': oldobj.jldw });
+            
             arr.push({ 'text': oldobj.area });
             arr.push({ 'text': oldobj.cw });
+            arr.push({ 'text': oldobj.jldw });
             arr.push({ 'text': slrenderer(oldobj.sl) });
             arr.push({ 'text': slrenderer(oldobj.zl) });
             arr.push({ 'text': Ext.Date.format(oldobj.czrq, 'Y-m-d') });
