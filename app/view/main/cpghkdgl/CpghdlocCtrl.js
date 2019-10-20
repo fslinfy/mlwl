@@ -75,7 +75,7 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdlocCtrl', {
           //  },
             "#btnPrintCpghkd": {
                 click: function () {
-                    PrintCpghdghid();
+                    PrintCpghdghid(ghid);
                 }
 
             },
