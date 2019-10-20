@@ -287,6 +287,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
                 id: 'CurCpghdcwModel'
             }
         });
+        //curcpghdcwStore.
         //console.log("init 2222222");
         
 
@@ -349,7 +350,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             curcpghdjeStore.reload();
             var i = 0;
             var rec = {};
-            //console.log('cpghdcwStore load',cpghdcwStore);
+            console.log('cpghdcwStore load',cpghdcwStore);
             cpghdcwStore.each(function (reccw) {
                 i++;
                 rec = {
@@ -376,7 +377,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             curcpghdcwStore.sync();
         });
 
-        //console.log("init 333333333  end");
+        console.log("init 333333333  end");
 
 
 
@@ -608,7 +609,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
 
         //console.log('cpghdmx_store',cpghdmx_store,record);
         
-        var cpghdje_store = this.lookupReference('cpghdmxje0').getStore();
+        var cpghdje_store = that.lookupReference('cpghdmxje0').getStore();
         cpghdje_store.removeAll();
         
         cpghdcwStore.proxy.extraParams.ghid = record.ghid;

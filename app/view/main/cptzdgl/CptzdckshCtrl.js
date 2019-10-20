@@ -371,7 +371,16 @@ Ext.define('MyApp.view.main.cptzdgl.CptzdckshCtrl', {
         if (loc == 'ok') {
             title = "真的复核确认此调账单内容？";
         }
+        else
+        {
+            var  rq= Ext.decode(Ext.encode(p.get('tzrq'))).substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((rq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月调帐单，不能作删除处理！');
+                return false
+            }
 
+        }
         Ext.Msg.confirm(title, msg, function (e) {
             if (e == 'yes') {
 

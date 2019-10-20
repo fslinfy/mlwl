@@ -9,6 +9,7 @@ Ext.define('MyApp.view.main.tree.QueryCkmc', {
     cls: 'x-btn-text-icon details',
     disabled: false
   },
+  flex: 1,
   items: [
     {
       labelWidth: 60,

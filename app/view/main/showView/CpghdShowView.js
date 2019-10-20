@@ -446,7 +446,7 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
     listeners: {
         beforedestroy: function (obj) {
           
-
+/*
              curcpghdcwStore.clearFilter();
              curcpghdjeStore.clearFilter();
              curcpghdcwStore.removeAll();
@@ -457,7 +457,7 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
              //that.getView().down("#cpghdshowview").close();
              that.locQuery(that);
              console.log("beforedestroy");
-
+*/
    
         }
     }

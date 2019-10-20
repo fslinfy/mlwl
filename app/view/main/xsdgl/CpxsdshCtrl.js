@@ -38,6 +38,8 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdshCtrl', {
     requires: [
         'MyApp.view.main.xsdgl.CpxsdshView'
         , 'MyApp.view.main.report.PrintCpxsd'
+  
+        
     ],
     locQuery: function (th) {
       //  console.log("locQuery cpxsdshctrl");

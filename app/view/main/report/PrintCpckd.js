@@ -126,7 +126,7 @@ function PrintCpckdckid(ckid) {
 
   var prtcwStore = "";
 
-  var prtmxStore = Ext.create('Ext.data.Store', {
+  var prtckmxStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpckdmxStore',
     model: 'MyApp.model.CpckdmxModel',
     proxy: {
@@ -147,7 +147,7 @@ function PrintCpckdckid(ckid) {
       }
     }
   });
-  var prtStore = Ext.create('Ext.data.Store', {
+  var prtckStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpckdStore',
     model: 'MyApp.model.CpckdModel',
     proxy: {
@@ -172,33 +172,34 @@ function PrintCpckdckid(ckid) {
     }
   });
 
-  prtmxStore.on("load", function () {
+  prtckmxStore.on("load", function () {
     // prtcwStore.load();
-    prtStore.load();
+    prtckStore.load();
   });
 
-  prtStore.on("load", function () {
-    prtckd(prtStore, prtmxStore, prtcwStore);
+  prtckStore.on("load", function () {
+    prtckd(prtckStore, prtckmxStore, prtcwStore);
   });
 
 
-  prtmxStore.load();
+  prtckmxStore.load();
 
 }
 
-function prtckd(prtStore, prtmxStore, prtcwStore) {
+function prtckd(prtckStore, prtckmxStore, prtcwStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
-  prtStore.each(function (p) {
+  prtckStore.each(function (p) {
       p.data.ckrq = Ext.Date.format(p.data.ckrq, 'Y-m-d');
       p.data.xsrq = Ext.Date.format(p.data.xsrq, 'Y-m-d');
+  console.log("p", p.data);    
       ckmc = p.data.ckmc;
   })
   //console.log("ckmc", ckmc);
   areaArray = [];
 
-  prtmxStore.each(function (rec) {
+  prtckmxStore.each(function (rec) {
     i = 0;
     areaArray.forEach(function (item, index) {
       if (item == rec.data.area) {
@@ -242,7 +243,7 @@ function prtckd(prtStore, prtmxStore, prtcwStore) {
         icon: "images/print.gif",
         scope: this,
         handler: function () {
-          prtckd0(prtStore, prtmxStore, areaArray[cur]);
+          prtckd0(prtckStore, prtckmxStore, areaArray[cur]);
           cur = cur + 1;
           if (cur > areaArray.length - 1) {
             apploginWin.destroy();
@@ -284,17 +285,17 @@ function prtckd(prtStore, prtmxStore, prtcwStore) {
 
     //************************************************************* */
   } else {
-    prtckd0(prtStore, prtmxStore, areaArray[0]);
+    prtckd0(prtckStore, prtckmxStore, areaArray[0]);
   }
 }
 
-function prtckd0(prtStore, prtmxStore, area) {
+function prtckd0(prtckStore, prtckmxStore, area) {
   //console.log("area=" + area);
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
 
-  prtStore.each(function (pp) {
+  prtckStore.each(function (pp) {
 
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     var ckd = pp.data;
@@ -306,7 +307,7 @@ function prtckd0(prtStore, prtmxStore, area) {
     var ckcwstr0 = "";
     var ckmxid = 0;
     var ckcount = 0;
-    prtmxStore.each(function (rec) {
+    prtckmxStore.each(function (rec) {
       if (rec.data.area == area) {
         sumxjje = sumxjje + rec.data.xjje;
         sumje = sumje + rec.data.ccje;
@@ -348,7 +349,7 @@ function prtckd0(prtStore, prtmxStore, area) {
       ckd["ckmc"] = ckmc + "(" + area + ")";
     }
     ckd["cnote"] = trim(ckd["cnote"]) + " " + ckcwstr;;
-    ckd["xjje"] = sumxjje;
+   // ckd["xjje"] = sumxjje;
     ckd["ccsl"] = sumsl.toFixed(3);
     ckd["cczl"] = sumzl.toFixed(3);
     console.log("ckd",pp.data,ckd);

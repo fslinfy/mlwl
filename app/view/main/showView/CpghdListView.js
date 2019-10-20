@@ -3,8 +3,7 @@
     alias: 'widget.CpghdListView',
     requires: [
         'MyApp.view.main.SubTable',
-      
-        'MyApp.store.CpghdStore'
+         'MyApp.store.CpghdStore'
         , 'MyApp.view.main.QueryToolbarView'
         , 'MyApp.view.main.DataSave'
         , 'MyApp.store.CpghdmxStore'
@@ -29,8 +28,8 @@
             flex: 1,
             layout: 'hbox',
             items: [
-                { xtype: 'QueryKhmc' },
-                { xtype: 'QueryCkmc' },
+                { xtype: 'QueryKhmc'  },
+                { xtype: 'QueryCkmc'  },
                 { xtype: 'QueryDate', itemId: 'QueryDate', hidden: true },
                 {
                     xtype: 'checkbox',

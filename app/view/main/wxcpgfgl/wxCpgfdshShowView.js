@@ -148,7 +148,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
                             bind: "{gfrq}",
                             format: 'Y-m-d',
                             readOnly: true,
-                            fieldLabel: '过户日期',
+                            fieldLabel: '过车日期',
                             allowBlank: false
                         }]
                     }
@@ -427,15 +427,15 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
     }
 ],
     buttons: [
-       /* {
+        {
             text: '取消此过车内容',
             icon: "images/delete.gif",
             hidden: true,
-            bind: {
-                 hidden: "{btnButtonHidden}"
-            },
-            itemId: 'btnCpgfdDelete'
-        },*/
+          //@ts-check  bind: {
+           //      hidden: "{btnButtonHidden}"
+            //},
+            itemId: 'btnwxCpgfdDelete'
+        },
         "->",
         {
             text: '审核通过此单',

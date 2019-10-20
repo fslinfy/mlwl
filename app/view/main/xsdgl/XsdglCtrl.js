@@ -81,7 +81,7 @@ Ext.define('MyApp.view.main.xsdgl.XsdglCtrl', {
             return false
         }
 
-      var todaysDate = new Date();
+        var todaysDate = new Date();
 
         todaysDate.setDate(todaysDate.getDate() + 2);
         

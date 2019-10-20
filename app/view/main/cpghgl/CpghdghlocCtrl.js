@@ -292,15 +292,19 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
         cpghdmx_store.on("load", function () {
 
             //cpghdmx_store.each(function (rec) {
-            //    console.log('rec',rec); 
+                console.log('rec',cpghdmx_store.getAt(0)); 
             //})
 
-            
+           if ( cpghdmx_store.getCount()>0){
             mxid = cpghdmx_store.getAt(0).get('mxid');
+           }else{
+               mxid=0;
+           }
             cpghdcw_store.clearFilter();
             cpghdcw_store.filterBy(function (record, id) {
                 return record.get('mxid') == mxid;
             });
+           
         }
         )
         cpghdmx_store.proxy.extraParams.ghid = ghid;

@@ -3,6 +3,7 @@ Ext.define('MyApp.view.main.tree.QueryKhmc', {
   alias: 'widget.QueryKhmc',
   itemId: 'QueryKhmc',
   layout: 'hbox',
+  flex: 1,
   defaults:
   {
     border: 0,

@@ -129,7 +129,7 @@ function PrintCpghdghid(ghid) {
 
   var prtcwStore = "";
   console.log(ghid);
-  var prtmxStore = Ext.create('Ext.data.Store', {
+  var prtghmxStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpghdmxStore',
     model: 'MyApp.model.CpghdmxModel',
     proxy: {
@@ -153,7 +153,7 @@ function PrintCpghdghid(ghid) {
   console.log('ghid',sys_userInfo);
   //return;
   
-  var prtStore = Ext.create('Ext.data.Store', {
+  var prtghStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpghdStore',
     model: 'MyApp.model.CpghdModel',
     proxy: {
@@ -178,26 +178,26 @@ function PrintCpghdghid(ghid) {
     }
   });
 
-  prtmxStore.on("load", function () {
-    console.log('prtmxStore.onload');
-    prtStore.load();
+  prtghmxStore.on("load", function () {
+    console.log('prtghmxStore.onload');
+    prtghStore.load();
   });
 
-  prtStore.on("load", function () {
-    console.log('prtmxStore.onload');
-    prtghd(prtStore, prtmxStore, prtcwStore);
+  prtghStore.on("load", function () {
+    console.log('prtghmxStore.onload');
+    prtghd(prtghStore, prtghmxStore, prtcwStore);
   });
 
 
-  prtmxStore.load();
+  prtghmxStore.load();
 
 }
 
-function prtghd(prtStore, prtmxStore, prtcwStore) {
+function prtghd(prtghStore, prtghmxStore, prtcwStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
-  prtStore.each(function (p) {
+  prtghStore.each(function (p) {
       console.log("ckmc",p);
       p.data.ghrq = Ext.Date.format(p.data.ghrq, 'Y-m-d');
       p.data.xsrq = Ext.Date.format(p.data.xsrq, 'Y-m-d');
@@ -207,7 +207,7 @@ function prtghd(prtStore, prtmxStore, prtcwStore) {
   //onsole.log("ckmc", ckmc,p);
   areaArray = [];
 
-  prtmxStore.each(function (rec) {
+  prtghmxStore.each(function (rec) {
     i = 0;
     areaArray.forEach(function (item, index) {
       if (item == rec.data.area) {
@@ -250,7 +250,7 @@ function prtghd(prtStore, prtmxStore, prtcwStore) {
         icon: "images/print.gif",
         scope: this,
         handler: function () {
-          prtghd0(prtStore, prtmxStore, areaArray[cur]);
+          prtghd0(prtghStore, prtghmxStore, areaArray[cur]);
           cur = cur + 1;
           if (cur > areaArray.length - 1) {
             apploginWin.destroy();
@@ -292,17 +292,17 @@ function prtghd(prtStore, prtmxStore, prtcwStore) {
 
     //************************************************************* */
   } else {
-    prtghd0(prtStore, prtmxStore, areaArray[0]);
+    prtghd0(prtghStore, prtghmxStore, areaArray[0]);
   }
 }
 
-function prtghd0(prtStore, prtmxStore, area) {
+function prtghd0(prtghStore, prtghmxStore, area) {
   //console.log("area=" + area);
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
 
-  prtStore.each(function (pp) {
+  prtghStore.each(function (pp) {
 
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     var ghd = pp.data;
@@ -314,7 +314,7 @@ function prtghd0(prtStore, prtmxStore, area) {
     var ckcwstr0 = "";
     var ckmxid = 0;
     var ckcount = 0;
-    prtmxStore.each(function (rec) {
+    prtghmxStore.each(function (rec) {
       if (rec.data.area == area) {
         sumxjje = sumxjje + rec.data.xjje;
         sumje = sumje + rec.data.ccje;

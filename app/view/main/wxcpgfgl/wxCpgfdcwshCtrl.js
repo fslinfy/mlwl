@@ -114,7 +114,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
                     onPrintwxCpgfd();
                 }
             } ,
-            "#btnCpgfdDelete": {
+            "#btnwxCpgfdDelete": {
                 click: that.onwxCpgfdshDeleteSubmit
             },
             "#FilterField": {
@@ -169,6 +169,10 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('popupCpgfdWindow');
         p.down("#btnCpgfdSave").setHidden(!sys_system_sh);
+        if (sys_system_sh)
+        {
+            p.down("#btnwxCpgfdDelete").setHidden(!sys_system_sh);
+        }
         
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
@@ -321,6 +325,16 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
         var title = "真的取消此过车单的过车内容？";
         if (loc != 'delete') {
             title = "真的财务审核通过此过车单过车内容？";
+            var btnname="过车财务审核";
+        }else{
+            var btnname="确  认";
+            var cgfrq=gfd['gfrq'].substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((cgfrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过车单，不能作删除处理！');
+                return false
+            }
+
         }
         that.loc = loc;
         that.gfid = gfid;
@@ -333,7 +347,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过车财务审核",
+                yes: btnname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
@@ -341,9 +355,10 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
             fn: function (btn, text) {
                 if (btn == "yes") {
                     that.lookupReference('popupCpgfdWindow').down("#btnCpgfdSave").setHidden(true);
+                    that.lookupReference('popupCpgfdWindow').down("#btnwxCpgfdDelete").setHidden(true);    
                     var str = obj2str(gfd);
                     var encodedString = base64encode(Ext.encode(str));
-                   // console.log('save....');
+                   
                     AjaxDataSave('wxcpgfdshsave', loc, encodedString, gfdshsaveCallBack, the);
                 }
             }

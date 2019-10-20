@@ -389,12 +389,23 @@ Ext.define('MyApp.view.main.cpckgl.CpckdckshCtrl', {
         if (loc == 'ok') {
             title = "真的复核确认此出库单内容？";
         }
+        else
+        {
+            var  rq= Ext.decode(Ext.encode(p.get('ckrq'))).substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((rq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月出库单，不能作删除处理！');
+                return false
+            }
+
+        }
+
         Ext.MessageBox.show({
             title: title,
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "仓管复核确认",
+                yes:"确 认",
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],

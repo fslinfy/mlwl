@@ -5,14 +5,13 @@ var cpghdmxStore;
 var issave=false;
 var ghshsaveCallBack = function (th) {
 
-      var p = th.lookupReference('popupCpghdWindow');
-    //  var mckid = p.getViewModel().get('ckid');
+    var p = th.lookupReference('popupCpghdWindow');
     var mghid = that.ghid;
    // console.log("qcloudsmssend",mghid);
     if (that.loc == "ok") {
     // 发信息
         
-       /*Ext.Ajax.request({
+       Ext.Ajax.request({
             method: 'GET',
             url: "qcloudsmssend.php",
             params: {
@@ -30,7 +29,7 @@ var ghshsaveCallBack = function (th) {
                 }
             }
         });
-        */
+        
         
 
 
@@ -80,7 +79,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         var v = that.viewname.getViewModel();
         var khid = v.get('khid');
         var ckid = v.get('ckid');
-        cpghdmxStore.proxy.extraParams.loc = "cpghdmxsh";
+        cpghdmxStore.proxy.extraParams.loc = "cpghdmxywsh";
         cpghdmxStore.proxy.extraParams.khid = khid;
         cpghdmxStore.proxy.extraParams.l_id = ckid;
         cpghdmxStore.reload();
@@ -137,7 +136,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
                     read: 'GET'
                 },
                 extraParams: {
-                    loc: "cpghdmxsh",
+                    loc: "cpghdmxywsh",
                     userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
                     p_e_code: sys_enterprise_code,
                     p_l_id: sys_location_id
@@ -155,6 +154,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
             var khid = v.get('khid');
             var ckid = v.get('ckid');
             var store = that.viewname.getStore();
+            store.proxy.extraParams.act = 'cpghdlist_pc';
             store.proxy.extraParams.loc = 'cpghdywsh';
             store.proxy.extraParams.khid = khid;
             store.proxy.extraParams.l_id = ckid;
@@ -241,7 +241,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         record['op'] = 'sh';
         record['gsop'] = false;
         record["w"] = 50;
-        record['btnButtonHidden'] = true;
+        record['btnButtonHidden'] = false;
         record['title'] = '商品过户单-业务审核';
         var view = this.getView();
         this.isEdit = false;// !!record;
@@ -258,8 +258,10 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         var cpghdmx_store = this.lookupReference('CpghdmxGrid').getStore();
         var p = this.lookupReference('popupCpghdWindow');
         p.down("#btnCpghdSave").setHidden(!sys_system_sh);
-       // p.down("#btnCpghdDelete").setHidden(!sys_system_del);
-
+        if (sys_system_sh)
+        {
+           p.down("#btnCpghdDelete").setHidden(!sys_system_del);
+        }
         p.down("#btnPrintCpghd").setHidden(true);
        
         var cpghdcw_store = that.lookupReference('cpghdmxcw0').getStore();
@@ -373,9 +375,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
 
 
       if (issave) return ;
-      issave=true;
-        
-    the.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+        issave=true;
+        //the.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
         var gsby = [];
         
         var cpghdmx_store = that.lookupReference('CpghdmxGrid').getStore();
@@ -393,17 +394,30 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
         })
         var ghsh = {};
         ghsh["ghid"] = ghid;
+        //ghsh["ghrq"] =  p.get('ghrq');
+        ghsh['ghrq'] = Ext.decode(Ext.encode(p.get('ghrq')));
         ghsh["gsby"] = gsby;
+        console.log(ghsh);
         //ghsh["fhbz"] = 1;
         var msg = "过户单号：" + p.get('ghdh') + "<br>客户名称：" + p.get('khmc');
         var title = "真的取消此过户单内容？";
         if (loc == 'ok') {
+            var ntbname="过车业务审核";
             title = "真的业务审核通过此过户单内容？";
+        }else{
+            var ntbname="确  认";
+            var cghrq=ghsh['ghrq'].substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((cghrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过户单，不能作删除处理！');
+                return false
+            }
+
         }
         that.loc = loc;
         that.ghid = ghid;
-      //  console.log(ghsh);
-      //  return ;
+        
+       // return ;
         
 
         Ext.MessageBox.show({
@@ -411,7 +425,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过户单业务审核",
+                yes: ntbname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
@@ -419,6 +433,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshCtrl', {
             fn: function (btn, text) {
                 if (btn == "yes") {
                     that.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+                    that.lookupReference('popupCpghdWindow').down("#btnCpghdDelete").setHidden(true);    
                     var str = obj2str(ghsh);
                     var encodedString = base64encode(Ext.encode(str));
                     AjaxDataSave('cpghdghshsave', loc, encodedString, ghshsaveCallBack, the);

@@ -32,6 +32,9 @@ switch($act) {
 	case 'cpgfdmxsave' :
 		$retval = cpgfdmxsave();
 		break;
+		case 'cpgfkdmxsave' :
+		$retval = cpgfkdmxsave();
+		break;
 		
 	case 'cptzdmxsave' :
 		$retval = cptzdmxsave();
@@ -54,6 +57,9 @@ switch($act) {
 		
 	case 'cpxsdmxsave' :
 		$retval = cpxsdmxsave();
+		break;
+	case 'wxcpghdmxsave' :
+		$retval = wxcpghdmxsave();
 		break;
 
 	case 'cptzdywshsave' :
@@ -117,6 +123,9 @@ case 'cpckdcwshsave' :
 		
 	case 'cpxsdshsave' :
 		$retval = cpxsdshsave();
+		break;
+		case 'cpghdshsave' :
+		$retval = cpghdshsave();
 		break;
 
 	case 'save_type_test' :
@@ -2618,10 +2627,13 @@ function cpghdghmxlist_pc() {
 	$loc=$_GET["loc"];
 	}
 
-     $filter="";  	   
+	 $filter="";  	   
+	 
+	 
+
       switch($loc) 
 	    {
-      case "wxcpghdmxloc" :
+        case "wxcpghdmxloc" :
   		$filter .="  and (wxcpghd.ztbz>3 and  wxcpghd.delbz=0 and wxcpghd.fhbz>0) ";
 		if ($_GET["startdate"])
     	{
@@ -2638,14 +2650,14 @@ function cpghdghmxlist_pc() {
 		//}
 
 		break;
-	case "wxcpghdmxcksh" :
+	  case "wxcpghdmxcksh" :
   		$filter .="  and (wxcpghd.ztbz=2 and wxcpghd.fhbz>0 and wxcpghd.delbz=0) ";	
 		break;
-	case "wxcpghdmxywsh" :
-		$filter .="  and (wxcpghd.ztbz=1 and wxcpghd.fhbz>0 and wxcpghd.delbz=0) ";	
+	  case "wxcpghdmxywsh" :
+		$filter .="  and (wxcpghd.ztbz>3 and wxcpghd.fhbz>0 and wxcpghd.delbz=0) ";	
 	  break;
 
-	case "wxcpghdmxcwsh" :
+	  case "wxcpghdmxcwsh" :
   		$filter .="  and wxcpghd.ztbz=3 and wxcpghd.fhbz>0 and wxcpghd.delbz=0  ";	
 		break;
 	//case "wxcpghdmxsh" :
@@ -2653,25 +2665,25 @@ function cpghdghmxlist_pc() {
 	//	break;
 	
 	}
-
-		if ($ghid>0)
-		{
-			$filter = " and wxcpghd.ghid=".$ghid;
-		}
-		if ($khid>0)
-		{
-			$filter .= " and wxcpghd.khid=".$khid;
-		}
-
-
-
-   $sqlfilter=$filter;
-   
-   
-   	if($Lid>0)
+	if ($ghid>0)
 	{
-			$filter .= " and wxcpghd.L_id=".$Lid;
-	}	
+		$filter = " and   wxcpghd.ghid=".$ghid;
+	}
+		
+	$sqlfilter=$filter;
+   
+	if ($khid>0)
+	{
+			$filter .= " and wxcpghd.khid=".$khid;
+	}
+	if($Lid>0)
+	 {
+			 $filter .= " and wxcpghd.L_id=".$Lid;
+	 }
+	
+  
+
+   	
 	
    
    /*
@@ -4718,18 +4730,24 @@ function cpghdmxlist_pc() {
 	$filter="";
 	   switch($loc) 
 		{
-      	case 'cpghdmxsh' :
+		case 'cpghdmxkdsh' :
 		
-	   	$filter .=" and cpghd.ztbz=1 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
-		break;
+  		$filter .=" and cpghd.ztbz=0 and cpghd.fhbz<2  and cpghd.delbz=0 ";
+			
+		 break;
+ 
+		case 'cpghdmxsh' :
+		   $filter .=" and cpghd.ztbz=0 and cpghd.fhbz=0  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
+			break;
+	
 		case 'cpghdmxywsh' :
 		
-		$filter .=" and cpghd.ztbz=1 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
-	     break;
+			$filter .=" and cpghd.ztbz=1 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
+	    	 break;
 		case 'cpghdmxcksh' :
 		
-		 $filter .=" and cpghd.ztbz=2 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
-		break;	
+		 	$filter .=" and cpghd.ztbz=2 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
+			break;	
 		case 'cpghdmxcwsh' :
 		
 		$filter .=" and cpghd.ztbz=3 and cpghd.fhbz=2  and cpghd.delbz=0 ";//  and cpghd.khkd=".$khkd;
@@ -4742,7 +4760,7 @@ function cpghdmxlist_pc() {
 	  	break;
 
 	  	case 'cpghdmxloc' :
-		$filter .=" and (cpghd.ztbz=1 and  cpghd.delbz=0) ";
+		$filter .=" and cpghd.ztbz=1 ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and cpghd.xsrq>='".$_GET["startdate"]."'";
@@ -4751,15 +4769,15 @@ function cpghdmxlist_pc() {
 		{
     		$filter .=" and cpghd.xsrq<='".$_GET["enddate"]."'";
 	    }	
-//		if ($_GET["deletebz"]=="0")
-//		{
-//				$filter .= " and cpghd.delbz=0";
-//		}
+		if ($_GET["deletebz"]=="0")
+		{
+				$filter .= " and cpghd.delbz=0";
+		}
 
 		  break;
 		  
 		  case 'cpghdmxghloc' :
-		  $filter .=" and (cpghd.ztbz>3 and  cpghd.delbz=0) ";
+		  $filter .=" and cpghd.ztbz>3 ";
 		  if ($_GET["startdate"])
 		  {
 			  $filter .=" and cpghd.ghrq>='".$_GET["startdate"]."'";
@@ -4768,10 +4786,10 @@ function cpghdmxlist_pc() {
 		  {
 			  $filter .=" and cpghd.ghrq<='".$_GET["enddate"]."'";
 		  }	
-//		  if ($_GET["deletebz"]=="0")
-//		  {
-//				  $filter .= " and cpghd.delbz=0";
-//		  }
+		  if ($_GET["deletebz"]=="0")
+		  {
+				  $filter .= " and cpghd.delbz=0";
+		  }
   
 			break;
   
@@ -4787,9 +4805,9 @@ function cpghdmxlist_pc() {
     	{
     		$filter .=" and cpghd.khid=".$khid;
     	}
-    	if ($ckid>0)
+    	if ($Lid>0)
     	{
-    		$filter .=" and cpghd.L_id=".$ckid;
+    		$filter .=" and cpghd.L_id=".$Lid;
     	}
 
 		//$filter .=" and cpghd.rq<'2019-06-17 18:03:13'";
@@ -4802,7 +4820,7 @@ function cpghdmxlist_pc() {
      	m.xssl,m.xszl,m.xsdj,m.xsje,m.xssl-m.ghsl as mccsl,m.xszl-m.ghzl as mcczl,m.ghsl,m.ghzl,
      	bz.Quantity_Unit AS sldw,  bz.Weight_Unit AS zldw,m.sm,m.cpph,m.bzid   
      	FROM wxcpghdmx m,wxcpghd cpghd,packing bz where cpghd.ghid=m.ghid and bz.PS_id=m.bzid ".$filter ;	
-      //  return $sqlstr;
+     //return $sqlstr;
     	$query = mysql_query($sqlstr);
     	return getjsonstoredata($query, 0);
 }
@@ -4814,7 +4832,13 @@ function wxcpgfdmxlist_pc() {
 	$khid=(int)$_GET["khid"];
 	$ckid=(int)$_GET["ckid"];
 	$lid=(int)$_GET["L_id"];
-    
+	$deletebz=0;
+
+	if (isset($_GET["deletebz"])){
+		$deletebz=(int)$_GET["deletebz"];
+	}
+	
+		
     $loc=$_GET["loc"];
 	if ($gfid>0)
 	{
@@ -4830,31 +4854,34 @@ function wxcpgfdmxlist_pc() {
 
 	   switch($loc) 
 		{
-      	case 'wxcpgfdmxsh' :
-		
-	   	$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2  and wxcpgfd.delbz=0 ";//  and wxcpgfd.khkd=".$khkd;
+      	case 'wxcpgfdmxkdsh' :
+	   	$filter .=" and wxcpgfd.ztbz=0 and wxcpgfd.fhbz<1  ";//  and wxcpgfd.khkd=".$khkd;
 		break;
+		case 'wxcpgfdmxsh' :
+		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2   ";//  and wxcpgfd.khkd=".$khkd;
+    	 break;
+
 		case 'wxcpgfdmxywsh' :
 		
-		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2  and wxcpgfd.delbz=0 ";//  and wxcpgfd.khkd=".$khkd;
+		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2   ";//  and wxcpgfd.khkd=".$khkd;
 	     break;
 		case 'wxcpgfdmxcksh' :
 		
-		 $filter .=" and wxcpgfd.ztbz=2 and wxcpgfd.fhbz=2  and wxcpgfd.delbz=0 ";//  and wxcpgfd.khkd=".$khkd;
+		 $filter .=" and wxcpgfd.ztbz=2 and wxcpgfd.fhbz=2   ";//  and wxcpgfd.khkd=".$khkd;
 		break;	
 		case 'wxcpgfdmxcwsh' :
 		
-		$filter .=" and wxcpgfd.ztbz=3 and wxcpgfd.fhbz=2  and wxcpgfd.delbz=0 ";//  and wxcpgfd.khkd=".$khkd;
+		$filter .=" and wxcpgfd.ztbz=3 and wxcpgfd.fhbz=2   ";//  and wxcpgfd.khkd=".$khkd;
 	   break;	
 	  	case 'wxcpgfdmxmfh' :
-		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz<2 and wxcpgfd.delbz=0 ";  
+		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz<2  ";  
 	  	break;
 	  	case 'wxcpgfdmxmfhck' :
-		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz<2  and wxcpgfd.delbz=0 ";  
+		$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz<2   ";  
 	  	break;
 
 	  	case 'wxcpgfdmxloc' :
-		$filter .=" and (wxcpgfd.ztbz=1 and  wxcpgfd.delbz=0) ";
+		$filter .=" and (wxcpgfd.ztbz=1 ) ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and wxcpgfd.kdrq>='".$_GET["startdate"]."'";
@@ -4867,7 +4894,7 @@ function wxcpgfdmxlist_pc() {
 		  break;
 		  
 	  case 'wxcpgfdmxgfloc' :
-		  $filter .=" and (wxcpgfd.ztbz>3 and  wxcpgfd.delbz=0) ";
+		  $filter .=" and (wxcpgfd.ztbz>3 ) ";
 		  if ($_GET["startdate"])
 		  {
 			  $filter .=" and wxcpgfd.gfrq>='".$_GET["startdate"]."'";
@@ -4879,7 +4906,12 @@ function wxcpgfdmxlist_pc() {
  
 			break;
   
-    	}
+		}
+		
+		if ($deletebz==0){
+			$filter .=" and wxcpgfd.delbz=0";
+		}
+	
 	 }
     
 		if ($khid>0)
@@ -5006,10 +5038,15 @@ function cpghdlist_pc() {
 	$filter="";
 	   switch($loc) 
 		{
-      	case 'cpghdsh' :
+      	case 'cpghdkdsh' :
 		   $khkd=$_GET["khkd"];
+		   $filter .=" and cpghd.ztbz=0 and cpghd.fhbz<2 and cpghd.delbz=0  "; //and khkd=0
+		  
+		   break;
+		case 'cpghdsh' :
+		       $khkd=$_GET["khkd"];
 		  // if ($khkd==0 ){
-				$filter .=" and cpghd.ztbz=1 and cpghd.fhbz=2 and cpghd.delbz=0 ";// and khkd=0";
+				$filter .=" and cpghd.ztbz=0 and cpghd.fhbz<2 and cpghd.delbz=0  ";// and khkd=0";
 		  // }else{
 		  //		 $filter .=" and cpghd.ztbz=0 and cpghd.delbz=0 and khkd>0";
 		  // }
@@ -5031,7 +5068,7 @@ function cpghdlist_pc() {
 		  break;
 			   
 	  	case 'cpghdloc' :
-			$filter .=" and (cpghd.ztbz=1 and  cpghd.delbz=0) ";
+			$filter .=" and cpghd.ztbz=1  ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and cpghd.xsrq>='".$_GET["startdate"]."'";
@@ -5040,14 +5077,14 @@ function cpghdlist_pc() {
 			{
 	    		$filter .=" and cpghd.xsrq<='".$_GET["enddate"]."'";
 		    }	
-//			if ($_GET["deletebz"]=="0")
-//		    {
-//				$filter .= " and cpghd.delbz=0";
-//		    }
+			if ($_GET["deletebz"]=="0")
+		    {
+				$filter .= " and cpghd.delbz=0";
+		    }
 
 			  break;
-			  case 'cpghdghloc' :
-			  $filter .=" and (cpghd.ztbz>3 and  cpghd.delbz=0) ";
+	   case 'cpghdghloc' :
+			  $filter .=" and cpghd.ztbz>3  ";
 			  if ($_GET["startdate"])
 			  {
 				  $filter .=" and cpghd.ghrq>='".$_GET["startdate"]."'";
@@ -5056,10 +5093,10 @@ function cpghdlist_pc() {
 			  {
 				  $filter .=" and cpghd.ghrq<='".$_GET["enddate"]."'";
 			  }	
-  //			if ($_GET["deletebz"]=="0")
-  //		    {
-  //				$filter .= " and cpghd.delbz=0";
-  //		    }
+  			if ($_GET["deletebz"]=="0")
+  		    {
+  				$filter .= " and cpghd.delbz=0";
+  		    }
   
 				break;
 	
@@ -5073,9 +5110,9 @@ function cpghdlist_pc() {
     	{
     		$filter .=" and cpghd.khid=".$khid;
     	}
-    	if ($ckid>0)
+    	if ($Lid>0)
     	{
-    		$filter .=" and cpghd.L_id=".$ckid;
+    		$filter .=" and cpghd.L_id=".$Lid;
     	}
 		$sqlstr ="SELECT *,ghid as id FROM wxcpghd cpghd where ghid>0 ".$filter ;
      	//return $sqlstr . $loc; 
@@ -5088,7 +5125,13 @@ function wxcpgfdlist_pc() {
 	$khid=(int)$_GET["khid"];
 	$ckid=(int)$_GET["ckid"];
 	$lid=(int)$_GET["L_id"];
-    
+
+	$deletebz=0;
+	if (isset($_GET["deletebz"])){
+		$deletebz=(int)$_GET["deletebz"];
+	}
+	
+
     $loc=$_GET["loc"];
 	$filter="";
 	if ($gfid>0)
@@ -5103,29 +5146,32 @@ function wxcpgfdlist_pc() {
       	case 'wxcpgfdsh' :
 		   $khkd=$_GET["khkd"];
 		  // if ($khkd==0 ){
-				$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2 and wxcpgfd.delbz=0 ";// and khkd=0";
+				$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.fhbz=2 ";// and khkd=0";
 		  // }else{
-		  //		 $filter .=" and wxcpgfd.ztbz=0 and wxcpgfd.delbz=0 and khkd>0";
+		  //		 $filter .=" and wxcpgfd.ztbz=0  and khkd>0";
 		  // }
 		   break;
 	  	case 'wxcpgfdmfh' :
-			$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.delbz=0 and wxcpgfd.fhbz<2 ";  
+			$filter .=" and wxcpgfd.ztbz=1 and  wxcpgfd.fhbz<2 ";  
 	  		break;
 	  	case 'wxcpgfdfhck' :
-			$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.delbz=0 and wxcpgfd.fhbz<1  ";  
-	  		break;
+			$filter .=" and wxcpgfd.ztbz=1 and  wxcpgfd.fhbz<1  ";  
+			  break;
+	  case 'wxcpgfdkdsh' :
+			  $filter .=" and wxcpgfd.ztbz=0  and wxcpgfd.fhbz<1  ";  
+				break;			  
 	   case 'wxcpgfdywsh' :
-			$filter .=" and wxcpgfd.ztbz=1 and wxcpgfd.delbz=0 and wxcpgfd.fhbz>1  ";  
+			$filter .=" and wxcpgfd.ztbz=1  and wxcpgfd.fhbz>1  ";  
 			break;
 		case 'wxcpgfdcksh' :
-			$filter .=" and wxcpgfd.ztbz=2 and wxcpgfd.delbz=0 and wxcpgfd.fhbz>1  ";  
+			$filter .=" and wxcpgfd.ztbz=2  and wxcpgfd.fhbz>1  ";  
 		   break;
 		case 'wxcpgfdcwsh' :
-		   $filter .=" and wxcpgfd.ztbz=3 and wxcpgfd.delbz=0 and wxcpgfd.fhbz>1  ";  
+		   $filter .=" and wxcpgfd.ztbz=3  and wxcpgfd.fhbz>1  ";  
 		  break;
 			   
 	  	case 'wxcpgfdloc' :
-			$filter .=" and (wxcpgfd.ztbz=1 and  wxcpgfd.delbz=0) ";
+			$filter .=" and (wxcpgfd.ztbz=1 ) ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and wxcpgfd.kdrq>='".$_GET["startdate"]."'";
@@ -5137,7 +5183,7 @@ function wxcpgfdlist_pc() {
 
 			  break;
   	   case 'wxcpgfdgfloc' :
-			  $filter .=" and (wxcpgfd.ztbz>3 and  wxcpgfd.delbz=0) ";
+			  $filter .=" and (wxcpgfd.ztbz>3 ) ";
 			  if ($_GET["startdate"])
 			  {
 				  $filter .=" and wxcpgfd.gfrq>='".$_GET["startdate"]."'";
@@ -5149,8 +5195,18 @@ function wxcpgfdlist_pc() {
 				break;
 	
 		}
+
+
+
+
+		if ($deletebz==0){
+			$filter .=" and wxcpgfd.delbz=0";
+		}
 	}
 	
+
+
+
 		if ($khid>0)
     	{
     		$filter .=" and wxcpgfd.khid=".$khid;
@@ -5159,6 +5215,7 @@ function wxcpgfdlist_pc() {
     	{
     		$filter .=" and wxcpgfd.L_id=".$Lid;
     	}
+
 
 		$sqlstr = " SELECT wxCPgfD.*,l.ckmc,wxcpgfd.gfid as id  FROM  wxcpgfd  " ;
         $sqlstr .= " LEFT OUTER JOIN  ( SELECT L_id,L_name AS ckmc  FROM location ) l ON wxcpgfd.l_id=l.l_id  where wxcpgfd.gfid>0 ". $filter ;
@@ -8477,6 +8534,121 @@ function cpgfdmxsave() {
 	}
 }
 
+function cpgfkdmxsave() {
+	$str = $_GET['data'];
+    $L_id = $_GET['p_l_id'];  
+    $loc = $_GET['loc'];  
+	$s = base64_decode($_GET['userInfo']);
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+    $czy =$o['username'] ;
+    $s = base64_decode($str);
+
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+	$i = 0;
+	$sumsl = 0;
+	$sumzl = 0;
+	$sumje = 0;
+	$sumxjje = 0;
+    if($loc=='delete')
+	{
+
+		$gfid =$_GET['data'];
+		$cpgfdstr = " update  wxcpgfd  set  khshr='" .  $czy . "' ";
+		$cpgfdstr .= ",khshrq=now(),delbz=1  where gfid=".$gfid;
+		mysql_query($cpgfdstr);
+		if (mysql_errno() > 0) {
+			return '{result:"fail",msg:"数据保存失败!" }';
+		//	return '数据删除失败!!!'.$cpgfdstr;
+		} 
+		else 
+		{
+			return '{result:"success",gfid:'.$gfid.' }';
+		}
+	}  
+	if($loc=='ok')
+	{
+
+		$gfid =$_GET['data'];
+		$cpgfdstr = " update  wxcpgfd  set  khshr='" .  $czy . "' ";
+		$cpgfdstr .= ",khshrq=now(),ztbz=1  where gfid=".$gfid;
+		mysql_query($cpgfdstr);
+		if (mysql_errno() > 0) {
+		//	return '{result:"fail",msg:"数据保存失败!" }';
+			return '数据删除失败!!!'.$cpgfdstr;
+		} 
+		else 
+		{
+			return '{result:"success",gfid:'.$gfid.' }';
+		}
+	}  
+      
+
+
+	$cpgfdmx = $o['gfdmx'];
+     
+	$my_date =new DateTime( $o['kdfrq']);
+    $my_year = $my_date ->format("Y");  
+
+
+     $gfid=$o['gfid'] ;
+
+		//新单
+	$dhsql="select setdh(".$L_id.",".$my_year .",'G') as dh ";
+	$result = mysql_query($dhsql);
+	$arr=mysql_fetch_assoc($result);
+	$dh =$arr['dh'];
+	$cpgfdstr = " insert into wxcpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,sl,zl,kdrq,endrq)values('";
+	$cpgfdstr .= $dh. "'";
+	$cpgfdstr .= "," . $L_id;
+	$cpgfdstr .= "," . $o['khid'];
+	$cpgfdstr .= ",'" . $o['khmc'] . "'";
+	$cpgfdstr .= ",'" . $o['cphm'] . "'";
+	$cpgfdstr .= ",'" . $o['area'] . "'";
+	$cpgfdstr .= ",'" . $o['sfr'] . "'";
+	$cpgfdstr .= ",'" . $czy . "'";
+	$cpgfdstr .= ",'" . $o['cnote'] . "'";
+	$cpgfdstr .= "," . $o['sl'] ;
+	$cpgfdstr .= "," . $o['zl'] ;
+	$cpgfdstr .= ",'" . $o['kdrq'] . "'";
+	$cpgfdstr .= ",'" . $o['endrq'] . "')";
+	//return $cpgfdstr;
+	mysql_query('start transaction');
+	mysql_query($cpgfdstr);
+	$gfid=mysql_insert_id();
+	if ((mysql_errno() > 0 ) ||($gfid==0)) {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败!" }';
+		//return '数据保存失败!' . $cpgfdstr;
+	}
+	foreach ($cpgfdmx as $row) {
+		$cpjkdmxstr = " insert into wxcpgfdmx (xmmc,cdmc,bzmc,gfid,jldw,khsl,khzl)";
+		$cpjkdmxstr = $cpjkdmxstr . " values ('". $row['xmmc'] . "','". $row['cdmc'] . "','". $row['bzmc'] . "'," . $gfid . ",'" . $row['jldw'] . "'," . $row['khsl'];
+		$cpjkdmxstr = $cpjkdmxstr . "," . $row['khzl'] . ")";
+		mysql_query($cpjkdmxstr);
+		$mxid=mysql_insert_id();
+		if ((mysql_errno() > 0)||($mxid==0)) {
+			mysql_query('rollback');
+			return '{result:"fail",msg:"明细数据保存失败!" }';
+		//	return '明细数据保存失败!!' . $cpjkdmxstr;
+			break;
+		}
+	}
+
+
+
+	mysql_query('commit');
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败!" }';
+		//return '数据保存失败!!!';
+	} 
+	else 
+	{
+		return '{result:"success",dh:"'.$dh.'",gfid:'.$gfid.' }';
+	}
+}
 
 function cptzdmxsave() {
 	$str = $_GET['data'];
@@ -8746,10 +8918,6 @@ function cpghdmxcksave() {
 		return '{result:"fail",msg:"数据保存失败!"'.$cpghdstr.'}';
 		//		return '数据保存失败!' ;
 	}
-     
-		 
-		
-	 
 	foreach ($cpghdcw as $cwrow) {
 	 			
 					$cpghdcwstr = " insert into wxcpghdcw (cw,czrq,area,cpph,dw,sm,sl,czdj,mxid,kcmxid,mints,zl)";
@@ -9093,6 +9261,80 @@ function cpxsdmxsave() {
 	}
 }
 
+function wxcpghdmxsave() {
+	$str = $_GET['data'];
+    $s = base64_decode($str);
+	$o = json_decode($s);
+	$o = json_decode($o,true);
+	$cpghdmx = $o['cpghdmx'];
+    $L_id =$o['ckid'];
+   	$my_date =new DateTime($o['xsrq']);
+    $my_year = $my_date ->format("Y");
+	$dhsql="select setdh(".$L_id.",".$my_year .",'H') as dh ";
+	$result = mysql_query($dhsql);
+	$arr=mysql_fetch_assoc($result);
+	$dh =$arr['dh'];
+	$cpghdstr = "insert into wxcpghd (ghdh,L_id,khkd,jebz,xjbz,khid,khmc,newkhid,newkhmc,ckmc,sfr,cphm,czy,cnote,xsrq,endrq)values('";
+	$cpghdstr .= $dh. "'";
+	$cpghdstr .= ",". $L_id;
+	$cpghdstr .= ",". $o['khkd'];
+//	$cpghdstr .= ",". $o['jebz'];
+    if ($o['jebz']=="on") {
+		$cpghdstr .= ",1";
+	}
+	else
+	{
+		$cpghdstr .= ",0";
+	}
+	$cpghdstr .= ",". $o['xjbz'];
+	
+	$cpghdstr .= ",". $o['khid'];
+	$cpghdstr .= ",'". $o['khmc'] . "'";
+	$cpghdstr .= ",". $o['newkhid'];
+	$cpghdstr .= ",'". $o['newkhmc'] . "'";
+	$cpghdstr .= ",'". $o['ckmc'] . "'";
+	$cpghdstr .= ",'". $o['sfr']  . "'";
+	$cpghdstr .= ",'". $o['cphm'] . "'";
+	$cpghdstr .= ",'". $o['czy']  . "'";
+	$cpghdstr .= ",'". $o['cnote']. "'";
+	$cpghdstr .= ",'". $o['xsrq'] . "'";
+	$cpghdstr .= ",'". $o['endrq'] . "')";
+	mysql_query('start transaction');
+	mysql_query($cpghdstr);
+	$xdid=mysql_insert_id();
+	if ((mysql_errno() > 0 ) ||($xdid==0)) {
+		mysql_query('rollback');
+			return '{result:"fail",msg:"数据保存失败!"'.$cpghdstr.'}';
+		//return '数据保存失败!' . $cpghdstr;
+	}
+	foreach ($cpghdmx as $row) {
+		$cpghdmxstr  = " insert into wxcpghdmx (ghid,kcid,xssl,xszl,sm,cpgg,cpph,jldw,cdid,cpid,bzid,cdmc,cpmc,bzmc)";
+		$cpghdmxstr .= " values (".$xdid."," .$row['kcid'].",".$row['xssl'];
+		$cpghdmxstr .= "," . $row['xszl'].",'" . $row['sm'] . "'";
+		$cpghdmxstr .= ",'" . $row['cpgg']."','".$row['cpph']."','".$row['jldw'] . "'";
+		$cpghdmxstr .= "," . $row['cdid'].",".$row['cpid'].",".$row['bzid'];
+		$cpghdmxstr .= ",'" . $row['cdmc']."','".$row['cpmc']."','".$row['bzmc']."')";
+		mysql_query($cpghdmxstr);
+		if (mysql_errno() > 0)
+		{
+			mysql_query('rollback');
+				return '{result:"fail",msg:"商品数据保存失败!"}';
+			//return '商品数据保存失败!!' . $cpxsdmxstr;
+			break;
+		}
+	}
+	mysql_query('commit');
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+			return '{result:"fail",msg:"数据保存失败!!"}';
+		//return '数据保存失败!!!';
+	} 
+	else 
+	{
+		return '{result:"success",dh:"'.$dh.'",ghid:'.$xdid.'}';
+	}
+}
+
 function cpckdckshsave()
 {
 	$s = base64_decode($_GET['userInfo']);
@@ -9353,14 +9595,54 @@ function cpghdghshsave()
 			  }
 			}
 		}else{
-			$sqlstr = " update wxcpghd set delbz=1";
+			// 删除处理
+			/*
+		  	$sqlstr = " update wxcpghd set delbz=1";
 			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz=1 and delbz=0 and ghid=" . $ghid;
 			mysql_query($sqlstr);
 			if (mysql_errno() > 0) {
 				mysql_query('rollback');
 				return '{result:"fail",msg:"数据保存失败!"}';
 				//return '数据保存失败!' . $sqlstr;
+			}*/
+
+			$sqlstr = "select mxid from  wxcpghdmx where  ghid=" . $ghid;
+			$query=mysql_query($sqlstr);
+			  if ($query){
+			   while ($row = mysql_fetch_array($query)) {
+				   $sqlstr = " delete from  wxcpghdcw where mxid=".$row['mxid'] ;
+				   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"仓位数据删除保存失败!"}'.$sqlstr;
+					   //return '商品数据保存失败!!' . $cpckdjestr;
+					   break;
+				   }
+				   $sqlstr = " delete from  wxcpghdje where mxid=".$row['mxid'] ;
+				   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"费用数据保存失败!"}'.$sqlstr;
+					   //return '商品数据保存失败!!' . $cpckdjestr;
+					   break;
+				   }
+
+			   }
+			   $sqlstr = " update wxcpghd set ztbz=1,fhbz=0";
+			   $sqlstr .= ",shr='" . $shr . "',shrq=now()  where  ztbz>0 and delbz=0 and ghid=" . $ghid;
+			   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"数据保存失败!!"}'.$sqlstr;
+					   //return '数据保存失败!' . $sqlstr;
+				   }
+			   
+			}else{
+			   mysql_query('rollback');
+			   return '{result:"fail",msg:"数据保存失败!!!"}'.$sqlstr;
 			}
+
+
 			
 		}
 		mysql_query('commit');
@@ -9460,17 +9742,37 @@ function wxcpgfdshsave()
 				break;
 
 		case 'delete':  //删除过车内容
-			$sqlstr = " update wxcpgfd set delbz=1";
-			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz=1 and delbz=0 and gfid=" . $gfid;
-			mysql_query($sqlstr);
-			if (mysql_errno() > 0) {
-				mysql_query('rollback');
-				return '{result:"fail",msg:"数据保存失败!"}';
-				//return '数据保存失败!' . $sqlstr;
+		
+		// $sqlstr = "select jeid from  wxcpgfdje where mxid in (select mxid from wxcpgfdmx where  gfid=" . $gfid.")";
+		 $sqlstr = "select mxid from  wxcpgfdmx where  gfid=" . $gfid;
+		 $query=mysql_query($sqlstr);
+  		 if ($query){
+			while ($row = mysql_fetch_array($query)) {
+						//$sqlstr = " delete from  wxcpgfdje where jeid=".$row['jeid'] ;
+				$sqlstr = " delete from  wxcpgfdje where mxid=".$row['mxid'] ;
+				mysql_query($sqlstr);
+				if (mysql_errno() > 0) {
+					mysql_query('rollback');
+					return '{result:"fail",msg:"数据保存失败!"}'.$sqlstr;
+					//return '商品数据保存失败!!' . $cpckdjestr;
+					break;
+				}
 			}
-
-
-			break;
+			$sqlstr = " update wxcpgfd set ztbz=1,fhbz=0";
+			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz>0 and delbz=0 and gfid=" . $gfid;
+			mysql_query($sqlstr);
+				if (mysql_errno() > 0) {
+					mysql_query('rollback');
+					return '{result:"fail",msg:"数据保存失败!!"}'.$sqlstr;
+					//return '数据保存失败!' . $sqlstr;
+				}
+			
+		 }else{
+			mysql_query('rollback');
+			return '{result:"fail",msg:"数据保存失败!!!"}'.$sqlstr;
+		 }
+		
+		 break;
 		}
 		mysql_query('commit');
 		if (mysql_errno() > 0) {
@@ -9551,15 +9853,43 @@ function cpghdckshsave()
 			  }
 			}
 		}else{
-			$sqlstr = " update wxcpghd set delbz=1";
-			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz=2 and delbz=0 and ghid=" . $ghid;
-			mysql_query($sqlstr);
-			if (mysql_errno() > 0) {
-				mysql_query('rollback');
-				return '{result:"fail",msg:"数据保存失败!"}';
-				//return '数据保存失败!' . $sqlstr;
+			// 删除处理
+			$sqlstr = "select mxid from  wxcpghdmx where  ghid=" . $ghid;
+			$query=mysql_query($sqlstr);
+			  if ($query){
+			   while ($row = mysql_fetch_array($query)) {
+				   $sqlstr = " delete from  wxcpghdcw where mxid=".$row['mxid'] ;
+				   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"仓位数据删除保存失败!"}'.$sqlstr;
+					   //return '商品数据保存失败!!' . $cpckdjestr;
+					   break;
+				   }
+				   $sqlstr = " delete from  wxcpghdje where mxid=".$row['mxid'] ;
+				   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"费用数据保存失败!"}'.$sqlstr;
+					   //return '商品数据保存失败!!' . $cpckdjestr;
+					   break;
+				   }
+
+			   }
+			   $sqlstr = " update wxcpghd set ztbz=1,fhbz=0";
+			   $sqlstr .= ",shr='" . $shr . "',shrq=now()  where  ztbz>0 and delbz=0 and ghid=" . $ghid;
+			   mysql_query($sqlstr);
+				   if (mysql_errno() > 0) {
+					   mysql_query('rollback');
+					   return '{result:"fail",msg:"数据保存失败!!"}'.$sqlstr;
+					   //return '数据保存失败!' . $sqlstr;
+				   }
+			   
+			}else{
+			   mysql_query('rollback');
+			   return '{result:"fail",msg:"数据保存失败!!!"}'.$sqlstr;
 			}
-			
+
 		}
 		mysql_query('commit');
 		if (mysql_errno() > 0) {
@@ -9615,15 +9945,43 @@ function cpghdcwshsave()
 			  }
 			}
 		}else{
-			$sqlstr = " update wxcpghd set delbz=1";
-			$sqlstr .= ",cgy='" . $shr . "',shrq=now()  where  ztbz=3 and delbz=0 and ghid=" . $ghid;
-			mysql_query($sqlstr);
-			if (mysql_errno() > 0) {
-				mysql_query('rollback');
-				return '{result:"fail",msg:"数据保存失败!"}';
-				//return '数据保存失败!' . $sqlstr;
-			}
-			
+// 删除处理
+$sqlstr = "select mxid from  wxcpghdmx where  ghid=" . $ghid;
+$query=mysql_query($sqlstr);
+  if ($query){
+   while ($row = mysql_fetch_array($query)) {
+	   $sqlstr = " delete from  wxcpghdcw where mxid=".$row['mxid'] ;
+	   mysql_query($sqlstr);
+	   if (mysql_errno() > 0) {
+		   mysql_query('rollback');
+		   return '{result:"fail",msg:"仓位数据删除保存失败!"}'.$sqlstr;
+		   //return '商品数据保存失败!!' . $cpckdjestr;
+		   break;
+	   }
+	   $sqlstr = " delete from  wxcpghdje where mxid=".$row['mxid'] ;
+	   mysql_query($sqlstr);
+	   if (mysql_errno() > 0) {
+		   mysql_query('rollback');
+		   return '{result:"fail",msg:"费用数据保存失败!"}'.$sqlstr;
+		   //return '商品数据保存失败!!' . $cpckdjestr;
+		   break;
+	   }
+
+   }
+   $sqlstr = " update wxcpghd set ztbz=1,fhbz=0";
+   $sqlstr .= ",shr='" . $shr . "',shrq=now()  where  ztbz>0 and delbz=0 and ghid=" . $ghid;
+   mysql_query($sqlstr);
+	   if (mysql_errno() > 0) {
+		   mysql_query('rollback');
+		   return '{result:"fail",msg:"数据保存失败!!"}'.$sqlstr;
+		   //return '数据保存失败!' . $sqlstr;
+	   }
+   
+}else{
+   mysql_query('rollback');
+   return '{result:"fail",msg:"数据保存失败!!!"}'.$sqlstr;
+}
+
 		}
 		mysql_query('commit');
 		if (mysql_errno() > 0) {
@@ -10212,6 +10570,42 @@ function cpxsdshsave()
 		{
 			$sqlstr = " update cpxsd set delbz=1";
 			$sqlstr .= ",shrq=NOW(), shr='".$shr."' where  ztbz=0 and delbz=0 and xsid=".$xsid;
+		}
+	}
+		
+	mysql_query($sqlstr);
+	if (mysql_errno() > 0) {
+		return '{result:"fail",msg:"数据保存失败!"}';
+	//	return '数据保存失败!!!'.$sqlstr;
+	} 
+	else 
+	{
+		return '{result:"success"}';
+	}
+}
+function cpghdshsave()
+{
+	$xsid = $_GET['data'];
+	
+	$loc = $_GET['loc'];
+	$s = base64_decode($_GET['userInfo']);
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+    $shr =$o['username'] ;
+	if ($loc=="ok"){	
+		$sqlstr = " update wxcpghd set ztbz=1";
+		$sqlstr .= ",khshrq=NOW(), khshr='".$shr."' where  ztbz=0 and delbz=0 and ghid=".$xsid;
+	}else
+	{
+		if ($loc=="lastdel")
+		{	 
+			$sqlstr = " update wxcpghd set delbz=1";
+			$sqlstr .= ",khshrq=NOW(), khshr='".$shr."' where  ztbz>0 and delbz=0 and ghid=".$xsid;
+		}
+		else
+		{
+			$sqlstr = " update wxcpghd set delbz=1";
+			$sqlstr .= ",khshrq=NOW(), khshr='".$shr."' where  ztbz=0 and delbz=0 and ghid=".$xsid;
 		}
 	}
 		

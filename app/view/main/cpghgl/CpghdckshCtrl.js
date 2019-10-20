@@ -261,7 +261,10 @@ Ext.define('MyApp.view.main.cpghgl.CpghdckshCtrl', {
        // p.down("#btnCpghdDelete").setHidden(!sys_system_del);
 
         //p.down("#btnPrintCpghd").setHidden(true);
-       
+        if (sys_system_sh)
+        {
+           p.down("#btnCpghdDelete").setHidden(!sys_system_del);
+        }
         var cpghdcw_store = that.lookupReference('cpghdmxcw0').getStore();
         cpghdcw_store.proxy.extraParams.ghid = ghid;
         cpghdcw_store.proxy.extraParams.loc = '';
@@ -375,7 +378,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdckshCtrl', {
       if (issave) return ;
       issave=true;
         
-    the.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+    //the.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
         var gsby = [];
         
         var cpghdmx_store = that.lookupReference('CpghdmxGrid').getStore();
@@ -394,15 +397,28 @@ Ext.define('MyApp.view.main.cpghgl.CpghdckshCtrl', {
         var ghsh = {};
         ghsh["ghid"] = ghid;
         ghsh["gsby"] = gsby;
+        ghsh['ghrq'] = Ext.decode(Ext.encode(p.get('ghrq')));
         //ghsh["fhbz"] = 1;
         var msg = "过户单号：" + p.get('ghdh') + "<br>客户名称：" + p.get('khmc');
+       
         var title = "真的取消此过户单内容？";
+       
         if (loc == 'ok') {
+            var ntbname="过车仓库审核";
             title = "真的仓库审核通过此过户单内容？";
+        }else{
+            var ntbname="确  认";
+            var cghrq=ghsh['ghrq'].substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((cghrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过户单，不能作删除处理！');
+                return false
+            }
+
         }
         that.loc = loc;
         that.ghid = ghid;
-//        console.log(ghsh);
+        console.log(ghsh);
 //        return ;
         
 
@@ -411,7 +427,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdckshCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过户单仓库审核",
+                yes: ntbname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
@@ -419,6 +435,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdckshCtrl', {
             fn: function (btn, text) {
                 if (btn == "yes") {
                     that.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+                    that.lookupReference('popupCpghdWindow').down("#btnCpghdDelete").setHidden(true);   
                     var str = obj2str(ghsh);
                     var encodedString = base64encode(Ext.encode(str));
                     AjaxDataSave('cpghdckshsave', loc, encodedString, ghshsaveCallBack, the);

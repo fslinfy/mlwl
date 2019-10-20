@@ -149,11 +149,11 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
         gfid = rec.data.gfid;
         mgfid=gfid;
         var record = rec.data;
-        console.log('CpgfshShowView',record);
+        //console.log('CpgfshShowView',record);
         record['op'] = 'cksh';
         record['gsop'] = false;
         record["w"] = 50;
-        record['btnButtonHidden'] = true;
+        record['btnButtonHidden'] = false;
         record['title'] = '商品过车单-仓库审核';
         var view = this.getView();
         this.isEdit = false;// !!record;
@@ -169,6 +169,10 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('popupCpgfdWindow');
         p.down("#btnCpgfdSave").setHidden(!sys_system_sh);
+        if (sys_system_sh)
+        {
+            p.down("#btnwxCpgfdDelete").setHidden(!sys_system_sh);
+        }
         
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
@@ -324,13 +328,23 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
         gfd["gfdje"] = mx;
         var msg = "过车单号：" + p.get('gfdh') + "<br>客户名称：" + p.get('khmc');
         var title = "真的取消此过车单的过车内容？";
+       
         if (loc != 'delete') {
             title = "真的仓库审核通过此过车单过车内容？";
+            var btnname="过车仓库审核";
+        }else{
+            var btnname="确  认";
+            var cgfrq=gfd['gfrq'].substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((cgfrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过车单，不能作删除处理！');
+               return false
+            }
         }
         that.loc = loc;
         that.gfid = gfid;
         console.log(gfd);
-        //return ;
+  //      return ;
         
 
         Ext.MessageBox.show({
@@ -338,7 +352,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过车仓库审核",
+                yes: btnname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
@@ -346,10 +360,11 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
             fn: function (btn, text) {
                 if (btn == "yes") {
                     that.lookupReference('popupCpgfdWindow').down("#btnCpgfdSave").setHidden(true);
+                    that.lookupReference('popupCpgfdWindow').down("#btnwxCpgfdDelete").setHidden(true);    
                     var str = obj2str(gfd);
                     var encodedString = base64encode(Ext.encode(str));
                    // console.log('save....');
-                    AjaxDataSave('wxcpgfdshsave', loc, encodedString, gfdshsaveCallBack, the);
+                   AjaxDataSave('wxcpgfdshsave', loc, encodedString, gfdshsaveCallBack, the);
                 }
             }
         });

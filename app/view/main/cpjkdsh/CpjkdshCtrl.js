@@ -347,6 +347,18 @@ console.log(sys_location_id,sys_customer_id);
         if (loc == 'ok') {
             title = "真的审核通过此进库单内容？";
         }
+        else
+        {
+            var  rq= Ext.decode(Ext.encode(p.get('czrq'))).substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((rq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月入库单，不能作删除处理！');
+                return false
+            }
+
+        }
+
+
         that.loc = loc;
         var abc = Ext.Msg.confirm(title, msg, function (e) {
             if (e == 'yes') {

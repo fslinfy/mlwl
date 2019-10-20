@@ -115,7 +115,7 @@ function PrintCpgfdgfid(gfid) {
   }
 
 
-  var prtmxStore = Ext.create('Ext.data.Store', {
+  var prtwxgfmxStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpgfdmxStore',
     model: 'MyApp.model.CpgfdmxModel',
     proxy: {
@@ -139,7 +139,7 @@ function PrintCpgfdgfid(gfid) {
       }
     }
   });
-  var prtStore = Ext.create('Ext.data.Store', {
+  var prtwxgfStore = Ext.create('Ext.data.Store', {
     alias: 'store.cpgfdStore',
     model: 'MyApp.model.CpgfdModel',
     proxy: {
@@ -164,23 +164,23 @@ function PrintCpgfdgfid(gfid) {
     }
   });
 
-  prtmxStore.on("load", function () {
-    prtStore.load();
+  prtwxgfmxStore.on("load", function () {
+    prtwxgfStore.load();
   });
-  prtStore.on("load", function () {
-    prtgfd(prtStore, prtmxStore);
+  prtwxgfStore.on("load", function () {
+    prtgfd(prtwxgfStore, prtwxgfmxStore);
   });
-  prtmxStore.load();
+  prtwxgfmxStore.load();
 
 }
 
-function prtgfd(prtStore, prtmxStore) {
+function prtgfd(prtwxgfStore, prtwxgfmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
-  prtStore.each(function (p) {
+  prtwxgfStore.each(function (p) {
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
-    prtmxStore.each(function (rec) {
+    prtwxgfmxStore.each(function (rec) {
       sumje = sumje + rec.data.je;
       // sumxjje = sumxjje + rec.data.xjje;
 

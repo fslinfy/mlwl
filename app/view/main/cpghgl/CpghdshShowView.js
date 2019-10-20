@@ -495,13 +495,13 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
     }
 ],
     buttons: [
-        /*{
+        {
             text: '取消此出仓内容',
             icon: "images/delete.gif",
             hidden: true,
-            bind: {
-                 hidden: "{btnButtonHidden}"
-            },
+          //  bind: {
+           //      hidden: "{btnButtonHidden}"
+           // },
             itemId: 'btnCpghdDelete'
         },
         {
@@ -509,7 +509,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
             bind: {
                 hidden: "{!delbz}"
             }
-        },*/
+        },
         "->",
         {
             text: '审核通过此单',

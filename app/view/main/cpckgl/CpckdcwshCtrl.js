@@ -117,6 +117,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdcwshCtrl', {
                     onPrintCpckd();
                 }
             },
+            "#btnCpckdDelete": {
+                click: this.onCpckdshDeleteSubmit
+            },
+
             "#FilterField": {
                 change: this.onFilterChange
             }
@@ -209,7 +213,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdcwshCtrl', {
         var p = this.lookupReference('popupCpckdWindow');
         p.down("#btnCpckdSave").setHidden(!sys_system_cwsh);
         //if (sys_system_lastdel>0) {
-            p.down("#btnCpckdCancel").setHidden(!sys_system_cwsh);
+        p.down("#btnCpckdCancel").setHidden(!sys_system_cwsh);
 
 
         //}
@@ -217,6 +221,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdcwshCtrl', {
 
         //   p.down("#btnCpckdDelete").setHidden(false);
 
+        p.down("#btnCpckdDelete").setHidden(!sys_system_del);
 
         var cpckdcw_store = that.lookupReference('cpckdmxcw0').getStore();
         cpckdcw_store.proxy.extraParams.ckid = ckid;
@@ -311,19 +316,30 @@ Ext.define('MyApp.view.main.cpckgl.CpckdcwshCtrl', {
         if (loc == 'ok') {
             title = "真的财务审核确认此出库单内容？";
         }
+        else
+        {
+            var  rq= Ext.decode(Ext.encode(p.get('ckrq'))).substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((rq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月出库单，不能作删除处理！');
+                return false
+            }
+
+        }
+
         Ext.MessageBox.show({
             title: title,
             msg:msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "财务审核确认",
+                yes:"确 认",
                 no: "关 闭"
             },
             icon: Ext.MessageBox["WARNING"],
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-           that.lookupReference('popupCpckdWindow').down("#btnCpckdSave").setHidden(true);
+                    that.lookupReference('popupCpckdWindow').down("#btnCpckdSave").setHidden(true);
                     var str = obj2str(cksh);
                     var encodedString = base64encode(Ext.encode(str));
                     AjaxDataSave('cpckdcwshsave', loc, encodedString, ckcwshsaveCallBack, the);

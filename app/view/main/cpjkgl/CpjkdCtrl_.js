@@ -901,7 +901,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
      //   var p = that.popupmx;
     var mxdh = p.getViewModel().get('mxdh');
 
-        console.log(p);
+     //   console.log(p);
         var index = cpjkd_store.find('khid', khid);
 
         var rec = cpjkd_store.getAt(index);
@@ -1040,8 +1040,8 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         }
 
         cpjkd['cpjkdmx'] = arraymx;
-        console.log('jkd', cpjkd);
-       return ;
+     //   console.log('jkd', cpjkd);
+      // return ;
         var str = obj2str(cpjkd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;
