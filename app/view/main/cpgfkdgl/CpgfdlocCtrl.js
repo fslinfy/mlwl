@@ -102,7 +102,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
             else {
                 bz = 0;
             }
-       //     store.proxy.extraParams.act = "wxCpgfdlist_pc";
+            store.proxy.extraParams.act = "wxCpgfdlist_pc";
 
             store.proxy.extraParams.loc = "wxcpgfdloc";
             store.proxy.extraParams.deletebz = bz;
@@ -195,7 +195,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
         this.dialog.show();
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
-    //    cpgfdmx_store.proxy.extraParams.act = 'wxCpgfdmxlist_pc';
+        cpgfdmx_store.proxy.extraParams.act = 'wxCpgfdmxlist_pc';
         cpgfdmx_store.proxy.extraParams.loc = 'wxcpgfdmxloc';
         cpgfdmx_store.reload();
         var p = that.lookupReference('gfdpopupWindow');
