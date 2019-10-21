@@ -143,7 +143,16 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
                             bind: '{jebz}'
 
                         },
+                        {
+                            xtype: 'checkbox',
+                            fieldLabel: '费用付现',
+                            flex: 1,
+                            align: 'right',
+                            name: 'xjbz',
+                            readOnly: true,
+                            bind: '{xjbz}'
 
+                        },
                         {
                             xtype: 'datefield',
                             name: 'ghrq',

@@ -57,7 +57,8 @@ var ghshsaveCallBack = function (th) {
         //th.locQuery(th)
     } else {
         p.close();
-        th.locQuery(th)
+        th.locQuery(th);
+        Ext.MessageBox.alert('提示！', '此过户单过户内容已作废！');
     }
 
 
@@ -184,13 +185,13 @@ Ext.define('MyApp.view.main.cpghgl.CpghdcwshCtrl', {
         "#btnQueryCKmc": {
             click: this.onSelectCKbmView
         },
-            "#btnPrintCpghd": {
+        "#btnPrintCpghd": {
                 click: function () {
                     onPrintCpghd();
                    // Printcpghdghid(mghid);
                    //console.log('printcpghd');
                 }
-            },
+         },
         //    "#btnQueryCkmc": {
           //      click: function () { SelectCkbmView(); }
          //   },

@@ -146,6 +146,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         var v = that.viewname.getViewModel();
         var khid = v.get('khid');
         cpgfdmxStore0.proxy.extraParams.loc = "wxcpgfdfhck";
+        
         cpgfdmxStore0.proxy.extraParams.khid = khid;
         cpgfdmxStore0.reload();
     },
@@ -202,7 +203,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             // var ckid = v.get('ckid');
             var store = that.viewname.getStore();
             store.proxy.extraParams.khid = khid;
-            store.proxy.extraParams.act ="wxCpgfdlist_pc";
+           store.proxy.extraParams.act ="wxCpgfdlist_pc";
             // store.proxy.extraParams.ckid = ckid;
             store.proxy.extraParams.loc = 'wxcpgfdfhck';
             store.reload();

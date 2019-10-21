@@ -17,9 +17,12 @@ function printcpgfkd(p) {
   str = str + '<caption><br><b><font face="黑体" size="5">商品过货单</font></b></caption>'
   str = str + '<thead>'
   upje='';
-  str = str + '<tr><th width="100%" colspan="6"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="text-align:left;border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
-  if (p.xjje > 0) {
+  
+  if (p.xjbz==1) {
       str = str + '<tr><th width="100%" colspan="6"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
+  }else{
+    str = str + '<tr><th width="100%" colspan="6"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="text-align:left;border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
+
   }
   
 
@@ -158,13 +161,13 @@ function PrintCpgfkdgfid(gfid) {
     prtgfkdStore.load();
   });
   prtgfkdStore.on("load", function () {
-    prtgfd(prtgfkdStore, prtgfkdmxStore);
+    prtgfkd(prtgfkdStore, prtgfkdmxStore);
   });
   prtgfkdmxStore.load();
 
 }
 
-function prtgfd(prtgfkdStore, prtgfkdmxStore) {
+function prtgfkd(prtgfkdStore, prtgfkdmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
@@ -185,6 +188,7 @@ function prtgfd(prtgfkdStore, prtgfkdmxStore) {
     gsbyrec = {};
     gsbyrec["cdmc"] = "";
     gsbyrec["xmmc"] = "";
+    gsbyrec["bzmc"] = "";
     gsbyrec["jldw"] = "";
     gsbyrec["khsl"] = 0;
     gsbyrec["khzl"] = 0;

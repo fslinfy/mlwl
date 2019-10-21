@@ -283,7 +283,7 @@ Ext.define('MyApp.view.main.showView.CpghkdShowView',
                                 xtype: 'numbercolumn',
                                 text: '数量', align: 'right',
                                 sortable: false,
-                                dataIndex: 'ccsl',
+                                dataIndex: 'ghsl',
                                 width: 80,
                                 renderer: slrenderer
                             },
@@ -291,7 +291,7 @@ Ext.define('MyApp.view.main.showView.CpghkdShowView',
                                 xtype: 'numbercolumn',
                                 text: '重量', align: 'right',
                                 sortable: false,
-                                dataIndex: 'cczl',
+                                dataIndex: 'ghzl',
                                 width: 80,
                                 renderer: slrenderer
 

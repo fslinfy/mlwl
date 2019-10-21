@@ -33,6 +33,7 @@ var gfdshsaveCallBack = function (th) {
     } else {
         p.close();
         that.locQuery();
+        Ext.MessageBox.alert('提示！', '此过车单过车内容已作废！');
     }
 };
 var cpgfdmxStore0;
@@ -111,7 +112,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl', {
             },
             "#btnPrintCpgfd": {
                 click: function () {
-                    onPrintwxCpgfd();
+                    PrintCpgfdgfid(gfid);
                 }
             } ,
             "#btnwxCpgfdDelete": {

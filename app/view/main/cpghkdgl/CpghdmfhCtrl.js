@@ -6,7 +6,7 @@ var mfhsaveCallBack = function (th) {
     var win = th.lookupReference('popupCpghdWindow');
     win.close()
     that.locQuery(th);
-
+    Ext.MessageBox.alert('提示！', '此过户单内容已作废！');
 }
 Ext.define('MyApp.view.main.cpghkdgl.CpghdmfhCtrl', {
     extend: 'Ext.app.ViewController',
@@ -62,7 +62,7 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdmfhCtrl', {
             "#btnPrintCpghkd": {
                 click: function () {
                     
-                    PrintCpghdghid(ghid);
+                    PrintCpghkdghid(ghid);
                 }
 
             },

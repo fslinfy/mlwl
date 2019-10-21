@@ -82,8 +82,9 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
 
     ],
     onBtnQueryClick: function (button, e, options) {
-
-        this.getView().getStore().load();
+        var store=this.getView().getStore()
+        store.proxy.extraParams.act='wxCpgfdlist_pc';
+        store.load();
         return false;
     },
     onItemSelected: function (sender, record) {
@@ -578,6 +579,16 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
         }
 
 
+
+
+
+
+
+
+
+
+
+
         gfdmx['jcsl'] = sumsl;
         gfdmx['jczl'] = sumzl;
 
@@ -850,13 +861,46 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
         if (recs == 0) {
             Ext.MessageBox.alert('注意！', '请输入商品过车仓位明细数量及重量！!');
             return false;
-
         }
 
+
+        Ext.MessageBox.show({
+            title: "注意！",
+            msg: "请选择装卸作业费用付款方式",
+            buttons: Ext.MessageBox.YESNO,
+            buttonText: {
+                yes: "司机付现金",
+                no: "月度结账"
+            },
+            icon: Ext.MessageBox["WARNING"],
+            scope: this,
+            fn: function (btn, text) {
+
+                
+                if ((btn == "yes") || (btn == "no")) {
+
+
+                
+
+                    var xjbz = 0;
+                    if (btn == "yes") xjbz = 1;
+
+
+
+                 
+
+
+                    cpgfd['xjbz'] = xjbz;
+                    if (sys_customer_id > 0) {
+                        cpgfd['khkd'] = 1;
+                    }
+                    else {
+                        cpgfd['khkd'] = 0;
+                    }
+
+
+
         cpgfd['cpgfdmx'] = arraymx;
-        // console.log('gfd', cpgfd);
-       //  return;
-    //return;
         var str = obj2str(cpgfd);
         var encodedString = base64encode(Ext.encode(str));
         var that = this;
@@ -889,7 +933,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
                 Ext.MessageBox.alert('错误!', '发生错误！');
             }
         });
-
+    }}})
     },
 
     sumje: function () {

@@ -1,7 +1,7 @@
 ﻿Ext.define('MyApp.view.main.report.PrintwxCpgfd', {
   extend: 'Ext.Mixin'
 });
-function printcpgfd(p) {
+function printwxcpgfd(p) {
   if (!LODOP) {
     console.log("lodop not readly!");
     return;
@@ -168,13 +168,13 @@ function PrintCpgfdgfid(gfid) {
     prtwxgfStore.load();
   });
   prtwxgfStore.on("load", function () {
-    prtgfd(prtwxgfStore, prtwxgfmxStore);
+    prtwxgfd(prtwxgfStore, prtwxgfmxStore);
   });
   prtwxgfmxStore.load();
 
 }
 
-function prtgfd(prtwxgfStore, prtwxgfmxStore) {
+function prtwxgfd(prtwxgfStore, prtwxgfmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
@@ -215,12 +215,10 @@ function prtgfd(prtwxgfStore, prtwxgfmxStore) {
     } else {
       gfd["xjje"] = 0;
     }
-
-
     gfd["sl"] = sumsl.toFixed(3);
     gfd["zl"] = sumzl.toFixed(3);
-    console.log(gfd);
-    printcpgfd(gfd);
+   // console.log(gfd);
+    printwxcpgfd(gfd);
   })
 }
 

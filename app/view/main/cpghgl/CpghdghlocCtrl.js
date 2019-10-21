@@ -1,70 +1,13 @@
-﻿var ghid=0;
+﻿var  ghid=0;
 var mxid=0;
 var that;
 var cpghdmxStore;
 var issave=false;
 var ghshsaveCallBack = function (th) {
-
-      var p = th.lookupReference('popupCpghdWindow');
-    //  var mckid = p.getViewModel().get('ckid');
-    var mghid = that.ghid;
-   // console.log("qcloudsmssend",mghid);
-    if (that.loc == "ok") {
-    // 发信息
-        
-       /*Ext.Ajax.request({
-            method: 'GET',
-            url: "qcloudsmssend.php",
-            params: {
-                act: 'cpghd',
-                userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
-                id:mghid
-            },
-            scope: this,
-            success: function (response) {
-                var result = Ext.decode(response.responseText);
-                if (result.result == 'success') {
-                }
-                else {
-                    Ext.MessageBox.alert('提示!',result.msg);
-                }
-            }
-        });
-        */
-        
-
-
-        Ext.MessageBox.show({
-            title: "提示",
-            msg: "打印商品过户过货单",
-            buttons: Ext.MessageBox.YESNO,
-            buttonText: {
-                yes: "确认打印",
-                no: "放  弃"
-            },
-            icon: Ext.MessageBox["WARNING"],
-            scope: this,
-            fn: function (btn, text) {
-                if (btn == "yes") {
-                    PrintCpghdghid(mghid);
-                }
-               // th.getView().down("#cpghdsowview").close();
-               p.close();
-               th.locQuery(th)
-            }
-        });
-        //p.close();
-        //th.locQuery(th)
-    } else {
-        p.close();
-        th.locQuery(th)
-    }
-
-
-    
-    //that.getView().down("#cpghdsowview").close();
-    //that.locQuery(th);
-
+     var p = th.lookupReference('popupCpghdWindow');
+      p.close();
+      th.locQuery(th);
+      Ext.MessageBox.alert('提示！', '此过户单过户内容已作废！');
 }
 Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
     extend: 'Ext.app.ViewController',
@@ -111,6 +54,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
             v.set('khmc', sys_customer_name);
             v.set('khid', sys_customer_id);
         }
+        v.set('start_date', start_date);
+        v.set('end_date', end_date);
 /*
         var prtmxStore = Ext.create('Ext.data.Store', {
             alias: 'store.cpghdmxStore',
@@ -214,6 +159,9 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
             "#btnCpghdDelete": {
                 click: this.onCpghdshDeleteSubmit
             },
+            "#btnCpghdDelete": {
+                click: this.onCpghdshDeleteSubmit
+            },
             "#FilterField": {
                 change: this.onFilterChange //function () { FilterChange(); }
             }
@@ -278,7 +226,10 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
         var cpghdmx_store = this.lookupReference('CpghdmxGrid').getStore();
         var p = this.lookupReference('popupCpghdWindow');
         p.down("#btnCpghdSave").setHidden(true);
-
+        if (sys_system_sh)
+        {
+           p.down("#btnCpghdDelete").setHidden(!sys_system_del);
+        }
        // p.down("#btnCpghdDelete").setHidden(!sys_system_del);
 
         //p.down("#btnPrintCpghd").setHidden(true);
@@ -390,7 +341,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
         that.CpghdshSave('delete', this);
     },
     CpghdshSave: function (loc, the) {
-        return ;
+        loc="delete";
         var p = the.lookupReference('popupCpghdWindow').getViewModel();
         var ghid = p.get('ghid');
         if (ghid == 0) {
@@ -401,7 +352,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
       if (issave) return ;
       issave=true;
         
-    the.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+    
         var gsby = [];
         
         var cpghdmx_store = that.lookupReference('CpghdmxGrid').getStore();
@@ -420,16 +371,28 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
         var ghsh = {};
         ghsh["ghid"] = ghid;
         ghsh["gsby"] = gsby;
+        ghsh['ghrq'] = Ext.decode(Ext.encode(p.get('ghrq')));
         //ghsh["fhbz"] = 1;
         var msg = "过户单号：" + p.get('ghdh') + "<br>客户名称：" + p.get('khmc');
         var title = "真的取消此过户单内容？";
         if (loc == 'ok') {
+            var ntbname="过户单财务审核";
             title = "真的财务审核通过此过户单内容？";
+        }
+        else{
+            var ntbname="确  认";
+            var cghrq=ghsh['ghrq'].substr(0,10);
+            var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+             if ((cghrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过户单，不能作删除处理！');
+                return false
+            }
+
         }
         that.loc = loc;
         that.ghid = ghid;
-//        console.log(ghsh);
-//        return ;
+        console.log(ghsh);
+       // return ;
         
 
         Ext.MessageBox.show({
@@ -437,17 +400,17 @@ Ext.define('MyApp.view.main.cpghgl.CpghdghlocCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过户单财务审核",
+                yes:ntbname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-                    that.lookupReference('popupCpghdWindow').down("#btnCpghdSave").setHidden(true);
+                    that.lookupReference('popupCpghdWindow').down("#btnCpghdDelete").setHidden(true);
                     var str = obj2str(ghsh);
                     var encodedString = base64encode(Ext.encode(str));
-                    AjaxDataSave('cpghdghlocsave', loc, encodedString, ghshsaveCallBack, the);
+                    AjaxDataSave('cpghdcwshsave', loc, encodedString, ghshsaveCallBack, the);
 
 
                 }

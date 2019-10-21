@@ -225,15 +225,17 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdEdit', {
                                     bind: "{xjje}",
                                     margin: '0 10 0 0',
                                     allowBlank: true
-                                },
-                                {
+                                },*/
+
+                                ,{
                                     xtype: 'checkbox',
                                     fieldLabel: '费用付现',
                                     width: 90, align: 'right',
                                     name: 'xjbz',
                                     margin: '0 10 0 10',
-                                    // readOnly: true,
-                                    bind: '{xjbz}',
+                                    readOnly: true,
+                                    bind: '{xjbz}'
+                                    /*,
                                     handler: function (e) {
 
                                         // console.log(e.value);
@@ -247,9 +249,9 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdEdit', {
 
 
 
-                                    }
+                                    }*/
 
-                                }*/
+                                }
                                 ,
                                 {
                                     xtype: 'datefield',

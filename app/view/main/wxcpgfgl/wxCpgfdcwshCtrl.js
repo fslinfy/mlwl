@@ -33,6 +33,7 @@ var gfdshsaveCallBack = function (th) {
     } else {
         p.close();
         that.locQuery();
+        Ext.MessageBox.alert('提示！', '此过车单过车内容已作废！');
     }
 };
 var cpgfdmxStore0;
@@ -111,7 +112,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
             },
             "#btnPrintCpgfd": {
                 click: function () {
-                    onPrintwxCpgfd();
+                    PrintCpgfdgfid(gfid);
                 }
             } ,
             "#btnwxCpgfdDelete": {
@@ -176,7 +177,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
         
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
-        cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
+       cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
         cpgfdmx_store.load();
     },
 
@@ -367,62 +368,6 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl', {
 
         
     },
-    //onPrintwxCpgfd: function () {
-    //    var p = that.lookupReference('gfdpopupWindow').getViewModel();
-    //    PrintwxCpgfdgfid(p.get('gfid'));
-    //    return;
-    //},
-    /*
-    sumje: function () {
-        
-        var customerGrid = that.lookupReference('wxCpgfdmxGrid');
-        var store = customerGrid.getStore();
-        var v = that.lookupReference('gfdpopupWindow').getViewModel();
-        v.set('sl', store.sum('sl'));
-        v.set('zl', store.sum('zl'));
-        v.set('je', store.sum('je'));
-
-        console.log(v.get('sl'),v.get('zl'),v.get('je'));
-        if (v.get('xjbz')) {
-            v.set('xjje', v.get('je'));
-        }
-        else {
-            v.set('xjje', 0);
-        }
-    },
-
-
-    sumjs: function (store1, store2, panel) {
-        if (store2) {
-            var ccje = 0;
-            var xjje = 0;
-            store2.each(function (rec) {
-                ccje = ccje + rec.data.je;
-                if (rec.data.xjbz) {
-                    xjje = xjje + rec.data.je;
-                }
-            })
-            panel.set('je', ccje);
-            panel.set('xjje', xjje);
-        }
-    
-    
-        if (store1) {
-            var sl = store1.sum('sl');
-            var zl = store1.sum('zl');
-    
-            if ((sl > panel.get('khsl')) || (zl > panel.get('khzl'))) {
-                // console.log(sl,zl);
-                return false;
-            };
-            panel.set('sl', sl);
-            panel.set('zl', zl);
-        }
-    
-        return true;
-    
-    },
-    */
 
 
 });

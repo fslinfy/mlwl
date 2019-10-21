@@ -102,7 +102,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
             else {
                 bz = 0;
             }
-            store.proxy.extraParams.act = "wxCpgfdlist_pc";
+       //     store.proxy.extraParams.act = "wxCpgfdlist_pc";
 
             store.proxy.extraParams.loc = "wxcpgfdloc";
             store.proxy.extraParams.deletebz = bz;
@@ -124,7 +124,11 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
                 click: that.onBtnQueryClick
             },
             "#btnPrintCpgfd": {
-                click: this.onPrintCpgfd
+              //  click: this.onPrintCpgfd
+              click: function () {
+                PrintCpgfkdgfid(gfid);
+            }
+
             },
             "#btnQueryKhmc": {
                 click: this.onSelectKhbmView
@@ -142,9 +146,14 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
         that.getView().down('#QueryDate').setHidden(false);
         that.getView().down('#QueryKhmc').setHidden(false);
         that.getView().down('#deletebz').setHidden(false);
-        that.locQuery(that);
+        
         var tool = that.viewname.down("#QueryToolbarView");
         tool.down('#btnNew').setHidden(true);
+
+        var v =that.viewname.getViewModel();
+        v.set('start_date', start_date);
+        v.set('end_date', end_date);
+        that.locQuery(that);
     },
 
     onFilterChange: function (v) {
@@ -186,7 +195,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
         this.dialog.show();
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
-        cpgfdmx_store.proxy.extraParams.act = 'wxCpgfdmxlist_pc';
+    //    cpgfdmx_store.proxy.extraParams.act = 'wxCpgfdmxlist_pc';
         cpgfdmx_store.proxy.extraParams.loc = 'wxcpgfdmxloc';
         cpgfdmx_store.reload();
         var p = that.lookupReference('gfdpopupWindow');
@@ -244,10 +253,10 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
     },
 
 
-    onPrintCpgfd: function () {
-        var p = that.lookupReference('gfdpopupWindow').getViewModel();
-        PrintCpgfkdgfid(gfid);
-        return;
-    }
+    //onPrintCpgfd: function () {
+    //    var p = that.lookupReference('gfdpopupWindow').getViewModel();
+    //    PrintCpgfkdgfid(gfid);
+    //    return;
+   // }
 });
 

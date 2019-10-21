@@ -166,7 +166,11 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl', {
                 click: this.onSelectKhbmView
             },
             "#btnPrintCpgfd": {
-                click: this.onPrintCpgfd
+                //click: this.onPrintCpgfd
+                click: function () {
+                    PrintCpgfkdgfid(gfid);
+                }
+    
             }
             ,
 
@@ -504,11 +508,11 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl', {
         }
         );
     },
-    onPrintCpgfd: function () {
-        var p = that.lookupReference('gfdpopupWindow').getViewModel();
-        PrintCpgfkdgfid(p.get('gfid'));
-        return;
-    },
+  //  onPrintCpgfd: function () {
+    //    var p = that.lookupReference('gfdpopupWindow').getViewModel();
+    //    PrintCpgfkdgfid(p.get('gfid'));
+     //   return;
+   // },
     sumje: function () {
         var customerGrid = that.lookupReference('CpgfdmxGrid');
         var store = customerGrid.getStore();

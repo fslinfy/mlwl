@@ -2812,7 +2812,7 @@ function wxCpgfdgfmxlist_pc() {
       switch($loc) 
 	    {
       case "wxcpgfdmxloc" :
-  		$filter .="  and (wxcpgfd.ztbz>3 and  wxcpgfd.delbz=0 and wxcpgfd.fhbz>0) ";
+  		$filter .="  and (wxcpgfd.ztbz>0 and  wxcpgfd.delbz=0 and wxcpgfd.fhbz>0) ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and wxcpgfd.gfrq>='".$_GET["startdate"]."'";
@@ -4760,7 +4760,7 @@ function cpghdmxlist_pc() {
 	  	break;
 
 	  	case 'cpghdmxloc' :
-		$filter .=" and cpghd.ztbz=1 ";
+		$filter .=" and cpghd.ztbz>0 ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and cpghd.xsrq>='".$_GET["startdate"]."'";
@@ -5068,7 +5068,7 @@ function cpghdlist_pc() {
 		  break;
 			   
 	  	case 'cpghdloc' :
-			$filter .=" and cpghd.ztbz=1  ";
+			$filter .=" and cpghd.ztbz>0  ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and cpghd.xsrq>='".$_GET["startdate"]."'";
@@ -5171,7 +5171,7 @@ function wxcpgfdlist_pc() {
 		  break;
 			   
 	  	case 'wxcpgfdloc' :
-			$filter .=" and (wxcpgfd.ztbz=1 ) ";
+			$filter .=" and (wxcpgfd.ztbz>0 ) ";
 			if ($_GET["startdate"])
     		{
     			$filter .=" and wxcpgfd.kdrq>='".$_GET["startdate"]."'";
@@ -8440,7 +8440,7 @@ function cpgfdmxsave() {
 	$result = mysql_query($dhsql);
 	$arr=mysql_fetch_assoc($result);
 	$dh =$arr['dh'];
-	$cpgfdstr = " insert into cpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,sl,zl,je,xjje,xjbz,gfrq)values('";
+	$cpgfdstr = " insert into cpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,sl,zl,je,xjje,khkd,xjbz,gfrq)values('";
 	$cpgfdstr .= $dh. "'";
 	$cpgfdstr .= "," . $L_id;
 	$cpgfdstr .= "," . $o['khid'];
@@ -8455,6 +8455,7 @@ function cpgfdmxsave() {
 	$cpgfdstr .= "," . $o['je'] ;
 	$cpgfdstr .= "," . $o['xjje'] ;
 	$cpgfdstr .= "," . $o['xjbz'] ;
+	$cpgfdstr .= "," . $o['khkd'] ;
 	$cpgfdstr .= ",'" . $o['gfrq'] . "')";
 	//return $cpgfdstr;
 	mysql_query('start transaction');

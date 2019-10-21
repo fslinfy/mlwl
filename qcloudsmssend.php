@@ -400,7 +400,7 @@ if ($act=="cpghd"){
           foreach ( $phone_array as $smsphone ){ 
             if (strlen($smsphone)>0){
               $result=0;
-              $result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
+                  $result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
   
                   $str= $smsphone." ck msg:".$ckstr1;
                   $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
@@ -454,7 +454,7 @@ if (count($phone_array)>0){
      foreach ( $phone_array as $smsphone ){ 
        if (strlen($smsphone)>0){
         $result=0;
-         $result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
+        $result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
 
              $str= $smsphone." ck msg:".$ckstr2;
              $str=mysql_query('insert into logs (msg) values ("'.$str.'")');

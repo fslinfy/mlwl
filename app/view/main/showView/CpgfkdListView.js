@@ -3,8 +3,8 @@
     alias: 'widget.CpgfkdListView',
     requires: [
         'MyApp.view.main.SubTable'
-        , 'MyApp.store.CpgfdListStore'
-        , 'MyApp.store.CpgfdmxStore'
+        , 'MyApp.store.WxCpgfdListStore'
+        , 'MyApp.store.WxCpgfdmxStore'
         , 'MyApp.view.main.QueryToolbarView'
         , 'MyApp.view.main.tree.QueryDate'
         , 'MyApp.view.main.tree.QueryKhmc'

@@ -4,7 +4,7 @@ var cur = 0;
 Ext.define('MyApp.view.main.report.PrintCpghdgh', {
   extend: 'Ext.Mixin'
 });
-function printcpghd(p) {
+function printcpghghd(p) {
   if (!LODOP) {
     return;
   }
@@ -17,7 +17,7 @@ function printcpghd(p) {
   str = str + '<thead>'
     var upje="";
 
-  if (p.xjje > 0) {
+  if (p.xjbz > 0) {
     upje=lowMoneyToUp(p.ccje + p.xjje) + '(' + slrenderer(p.ccje + p.xjje) + '元)'
     str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
   }
@@ -135,7 +135,7 @@ function PrintCpghdghid(ghid) {
     proxy: {
       type: 'ajax',
       api: {
-        read: sys_ActionPHP + '?act=cpghdghmxlist_prt'
+        read: sys_ActionPHP + '?act=wxcpghdghmxlist_prt'
       },
       actionMethods: {
         read: 'GET'
@@ -159,7 +159,7 @@ function PrintCpghdghid(ghid) {
     proxy: {
       type: 'ajax',
       api: {
-        read: sys_ActionPHP + '?act=cpghdlist_pc'
+        read: sys_ActionPHP + '?act=wxcpghdlist_pc'
       },
       actionMethods: {
         read: 'GET'
@@ -185,7 +185,7 @@ function PrintCpghdghid(ghid) {
 
   prtghStore.on("load", function () {
     console.log('prtghmxStore.onload');
-    prtghd(prtghStore, prtghmxStore, prtcwStore);
+    prtghghd(prtghStore, prtghmxStore, prtcwStore);
   });
 
 
@@ -193,7 +193,7 @@ function PrintCpghdghid(ghid) {
 
 }
 
-function prtghd(prtghStore, prtghmxStore, prtcwStore) {
+function prtghghd(prtghStore, prtghmxStore, prtcwStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
@@ -250,7 +250,7 @@ function prtghd(prtghStore, prtghmxStore, prtcwStore) {
         icon: "images/print.gif",
         scope: this,
         handler: function () {
-          prtghd0(prtghStore, prtghmxStore, areaArray[cur]);
+          prtghghd0(prtghStore, prtghmxStore, areaArray[cur]);
           cur = cur + 1;
           if (cur > areaArray.length - 1) {
             apploginWin.destroy();
@@ -292,11 +292,11 @@ function prtghd(prtghStore, prtghmxStore, prtcwStore) {
 
     //************************************************************* */
   } else {
-    prtghd0(prtghStore, prtghmxStore, areaArray[0]);
+    prtghghd0(prtghStore, prtghmxStore, areaArray[0]);
   }
 }
 
-function prtghd0(prtghStore, prtghmxStore, area) {
+function prtghghd0(prtghStore, prtghmxStore, area) {
   //console.log("area=" + area);
   var mxrec = [];
   var gsbyrec = {};
@@ -363,7 +363,7 @@ function prtghd0(prtghStore, prtghmxStore, area) {
     ghd["ccsl"] = sumsl.toFixed(3);
     ghd["cczl"] = sumzl.toFixed(3);
    // console.log("prt ghd",pp.data,ghd,sumsl);
-    printcpghd(ghd);
+    printcpghghd(ghd);
 
   })
 }

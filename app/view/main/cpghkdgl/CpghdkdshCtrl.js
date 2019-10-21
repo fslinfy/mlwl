@@ -21,7 +21,7 @@ var ghdshsaveCallBack = function (th) {
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-                    PrintCpghdghid(mghid);
+                    PrintCpghkdghid(mghid);
                 }
                 p.close();
                 that.locQuery(th);
@@ -30,6 +30,7 @@ var ghdshsaveCallBack = function (th) {
     } else {
         p.close();
         that.locQuery(th);
+        Ext.MessageBox.alert('提示！', '此过户单内容已作废！');
     }
 }
 Ext.define('MyApp.view.main.cpghkdgl.CpghdkdshCtrl', {
@@ -90,7 +91,8 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdkdshCtrl', {
             },
             "#btnPrintCpghkd": {
                 click: function () {
-                    onPrintCpghkd();
+                   // onPrintCpghkd();
+                   PrintCpghkdghid(ghid);
                 }
 
             },

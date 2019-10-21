@@ -23,7 +23,7 @@ var gfdshsaveCallBack = function (th) {
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-                    PrintwxCpgfdgfid(gfid);
+                    PrintCpgfdgfid(gfid);
                 }
                 p.close();
                 that.locQuery();
@@ -32,6 +32,7 @@ var gfdshsaveCallBack = function (th) {
     } else {
         p.close();
         that.locQuery();
+        Ext.MessageBox.alert('提示！', '此过车单过车内容已作废！');
     }
 };
 var cpgfdmxStore0;
@@ -110,7 +111,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
     
             
            var store = that.viewname.getStore();
-           store.proxy.extraParams.act ="wxCpgfdlist_pc";
+         store.proxy.extraParams.act ="wxCpgfdlist_pc";
            store.proxy.extraParams.loc = 'wxcpgfdgfloc';
            store.proxy.extraParams.khid = khid;
            store.proxy.extraParams.l_id = ckid;
@@ -132,7 +133,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
             },
             "#btnPrintCpgfd":  {
                 click: function () {
-                    onPrintwxCpgfd();
+                    PrintCpgfdgfid(gfid);
                 }
             },
             "#btnwxCpgfdDelete": {
@@ -152,6 +153,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
             that.getView().down('#QueryKhmc').setHidden(true);
         }
         that.viewname.down('#QueryDate').setHidden(false);
+        var v = that.viewname.getViewModel();
+        v.set('start_date', start_date);
+        v.set('end_date', end_date);
         that.locQuery(that);
     },
 
@@ -175,7 +179,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
         record['op'] = 'loc';
         record['gsop'] = true;
         record["w"] = 0;
-        record['btnButtonHidden'] = true;
+        record['btnButtonHidden'] = false;
         record['title'] = '商品过车单-查询';
         var view = this.getView();
         this.isEdit = false;// !!record;
@@ -191,10 +195,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('popupCpgfdWindow');
         p.down("#btnCpgfdSave").setHidden(true);
+        if (sys_system_sh)
+        {
+            p.down("#btnwxCpgfdDelete").setHidden(!sys_system_sh);
+        }
         
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
-        cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
+       cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
         cpgfdmx_store.load();
     },
 
@@ -295,12 +303,13 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
     },
 
     onwxCpgfdFormSubmit: function () {
-        this.wxCpgfdshSave('cpgfdloc', that);
+      //  this.wxCpgfdshSave('cpgfdloc', that);
     },
     onwxCpgfdshDeleteSubmit: function () {
         this.wxCpgfdshSave('delete', that);
     },
     wxCpgfdshSave: function (loc, the) {
+        loc="delete";
         var p = the.lookupReference('popupCpgfdWindow').getViewModel();
         var form = this.lookupReference('windowForm');
         if (!form.isValid()) {
@@ -323,13 +332,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
                 }
             })
         
-        if (recs==0)
-           {
-                Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
-                return false;
-           }
+       // if (recs==0)
+         //  {
+           //     Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
+             //   return false;
+          // }
 
         var gfd = {}
+        gfd['gfrq'] = Ext.decode(Ext.encode(p.get('gfrq')));
         gfd["gfid"] = gfid;
         gfd["cphm"] = p.data.cphm;
         gfd["sfr"] = p.data.sfr;
@@ -346,12 +356,19 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
         gfd["gfdje"] = mx;
         var msg = "过车单号：" + p.get('gfdh') + "<br>客户名称：" + p.get('khmc');
         var title = "真的取消此过车单的过车内容？";
-        if (loc != 'delete') {
-            title = "真的财务审核通过此过车单过车内容？";
-        }
+        
+        var btnname="确  认";
+        var cgfrq=gfd['gfrq'].substr(0,10);
+        var ctoday=Ext.Date.format(new Date(), 'Y-m-d' );
+         if ((cgfrq<sys_option_min_date) && (ctoday>=sys_option_min_date)) {
+                Ext.MessageBox.alert('注意！', '此单是上月过车单，不能作删除处理！');
+                return false
+         }
+
+    
         that.loc = loc;
         that.gfid = gfid;
-        console.log(gfd);
+        console.log("gfd",gfd);
         //return ;
         
 
@@ -360,14 +377,14 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
             msg: msg,
             buttons: Ext.MessageBox.YESNO,
             buttonText: {
-                yes: "过车财务审核",
+                yes: btnname,
                 no: "放 弃"
             },
             icon: Ext.MessageBox["WARNING"],
             scope: this,
             fn: function (btn, text) {
                 if (btn == "yes") {
-                    that.lookupReference('popupCpgfdWindow').down("#btnCpgfdSave").setHidden(true);
+                    that.lookupReference('popupCpgfdWindow').down("#btnwxCpgfdDelete").setHidden(true);
                     var str = obj2str(gfd);
                     var encodedString = base64encode(Ext.encode(str));
                    // console.log('save....');
@@ -379,64 +396,6 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
 
         
     },
-    /*
-    onPrintwxCpgfd: function () {
-        var p = that.lookupReference('popupCpgfdWindow').getViewModel();
-        PrintwxCpgfdgfid(p.get('gfid'));
-        return;
-    },
-    */
-    /*
-    sumje: function () {
-        
-        var customerGrid = that.lookupReference('wxCpgfdmxGrid');
-        var store = customerGrid.getStore();
-        var v = that.lookupReference('gfdpopupWindow').getViewModel();
-        v.set('sl', store.sum('sl'));
-        v.set('zl', store.sum('zl'));
-        v.set('je', store.sum('je'));
-
-        console.log(v.get('sl'),v.get('zl'),v.get('je'));
-        if (v.get('xjbz')) {
-            v.set('xjje', v.get('je'));
-        }
-        else {
-            v.set('xjje', 0);
-        }
-    },
-
-
-    sumjs: function (store1, store2, panel) {
-        if (store2) {
-            var ccje = 0;
-            var xjje = 0;
-            store2.each(function (rec) {
-                ccje = ccje + rec.data.je;
-                if (rec.data.xjbz) {
-                    xjje = xjje + rec.data.je;
-                }
-            })
-            panel.set('je', ccje);
-            panel.set('xjje', xjje);
-        }
-    
-    
-        if (store1) {
-            var sl = store1.sum('sl');
-            var zl = store1.sum('zl');
-    
-            if ((sl > panel.get('khsl')) || (zl > panel.get('khzl'))) {
-                // console.log(sl,zl);
-                return false;
-            };
-            panel.set('sl', sl);
-            panel.set('zl', zl);
-        }
-    
-        return true;
-    
-    },
-    */
 
 
 });

@@ -55,6 +55,7 @@ var gfdshsaveCallBack = function (th) {
     } else {
         p.close();
         that.locQuery();
+        Ext.MessageBox.alert('提示！', '此过车单过车内容已作废！');
     }
 };
 var cpgfdmxStore0;
@@ -115,7 +116,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshCtrl', {
             var khid = v.get('khid');
             var store = that.viewname.getStore();
             store.proxy.extraParams.khid = khid;
-            store.proxy.extraParams.act ="wxCpgfdlist_pc";
+           store.proxy.extraParams.act ="wxCpgfdlist_pc";
             store.proxy.extraParams.loc = 'wxcpgfdywsh';
             store.reload();
         });
@@ -199,7 +200,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshCtrl', {
         
         var cpgfdmx_store = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx_store.proxy.extraParams.gfid = gfid;
-        cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
+       cpgfdmx_store.proxy.extraParams.act='wxCpgfdgfmxlist_pc';
         cpgfdmx_store.load();
     },
 

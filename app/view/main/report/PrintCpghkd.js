@@ -2,7 +2,7 @@
   extend: 'Ext.Mixin'
 });
 
-function printCpghd(p) {
+function printCpghkd(p) {
   var mx = p.mxrec;
 
   if (!LODOP) {
@@ -21,6 +21,7 @@ function printCpghd(p) {
   str = str + '<caption><br><b><font face="黑体" size="4">' + p.khmc + '</font></b></caption>';
   str = str + '<caption><br><b><font face="黑体" size="5">商品过户单</font></b></caption>';
   str = str + '<thead>';
+  
   str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;">No:</td><td style="text-align:left;border:0;width:130;" ><strong>' + p.ghdh + '</strong></td></tr></table></th></tr>';
   str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr>';
 
@@ -106,11 +107,11 @@ function printCpghd(p) {
   LODOP.PREVIEW();
 
 };
-function onPrintCpghd() {
-  PrintCpghdghid(ghid);
+function onPrintCpghkd() {
+  PrintCpghkdghid(ghid);
 };
 
-function PrintCpghdghid(ghid) {
+function PrintCpghkdghid(ghid) {
   // console.log('PrintCpghdghid',ghid);
   if (ghid == 0) {
     return;
@@ -174,13 +175,13 @@ function PrintCpghdghid(ghid) {
   });
   prtghkdStore.on("load", function () {
     // console.log("load");
-    prtghd(prtghkdStore, prtghkdmxStore);
+    prtghkd(prtghkdStore, prtghkdmxStore);
   });
   prtghkdmxStore.load();
 
 }
 
-function prtghd(prtghkdStore, prtghkdmxStore) {
+function prtghkd(prtghkdStore, prtghkdmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
@@ -229,8 +230,8 @@ function prtghd(prtghkdStore, prtghkdmxStore) {
     ghd["xsje"] = 0;
     ghd["xssl"] = sumsl.toFixed(3);
     ghd["xszl"] = sumzl.toFixed(3);
-    // console.log(ghd);
-    printCpghd(ghd);
+    console.log(ghd);
+    printCpghkd(ghd);
   })
 }
 
