@@ -91,7 +91,7 @@ var gfdDeleteCallBack = function (th) {
     var p = th.lookupReference('gfdpopupWindow');
     p.close();
     th.locQuery();
-    Ext.MessageBox.alert('提示！', '此过货单内容已作废！');
+    Ext.MessageBox.alert('提示！', '此过车单内容已作废！');
 
 };
 /*
@@ -465,7 +465,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         var wxcpgfdmx_store = that.lookupReference('wxCpgfdmxGrid').getStore();
 
         if (wxcpgfdmx_store.getCount() == 0) {
-            Ext.MessageBox.alert('注意！', '请输入过货商品明细数据！');
+            Ext.MessageBox.alert('注意！', '请输入过车商品明细数据！');
             return false;
         }
 
@@ -570,9 +570,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
                 if (result.result == 'success') {
 
 
-                    //Ext.MessageBox.alert('提示', '过货单已保存，单号是：' + result.dh);
+                    //Ext.MessageBox.alert('提示', '过车单已保存，单号是：' + result.dh);
                     //that.DeletecpjkdAll(cpjkdmx_store, cpjkdcw_store, cpjkdje_store, jkdh);
-                    var msg = "过货单已保存，单号是：" + result.dh + "</br>是否打印此商品过货单"
+                    var msg = "过车单已保存，单号是：" + result.dh + "</br>是否打印此商品过车单"
                     Ext.MessageBox.show({
                         title: "提示",
                         msg: msg,

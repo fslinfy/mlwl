@@ -4406,6 +4406,16 @@ function cpjcttlist_pc() {
 
 
 
+
+
+
+
+
+
+
+
+
+
 if (($jclb=="过货")|| ($jclb=="")) {
 
 	    $filter =" and cpgfd.ztbz>0 and YEAR(cpgfd.gfrq)=".$ny;
@@ -4464,13 +4474,61 @@ if (($jclb=="过货")|| ($jclb=="")) {
 	}    
 
 
+  //wxcpgf
+
+	$filter =" and cpgfd.ztbz>0 and YEAR(cpgfd.gfrq)=".$ny;
+
+	if ($yu>0)
+	{
+			$filter .=" and MONTH(cpgfd.gfrq)=".$yu;
+	}
+	if ($ri>0)
+	{
+			$filter .=" and DAYOFMONTH(cpgfd.gfrq)=".$ri;
+	}
+   
+	if ($area>"")
+	{
+		$filter .= " and cpgfd.area='".$area."'";
+		
+	}
+
+
+	if ($ckid>0)
+	{
+		$filter .= " and cpgfd.L_id=".$ckid;
+		
+	}
+	if ($khid>0)
+	{
+		$filter .= " and cpgfd.khid=".$khid;
+	}
+
+$sqlstr0 = "SELECT '过车' as jclb
+, `cpgfd`.`khmc`
+, cpgfdmx.xmmc as cpmc
+,0 as jcsl,0 as jczl
+,0 as ccsl,0 as cczl
+, `cpgfdmx`.`sl` as gfsl
+, `cpgfdmx`.`zl` as gfzl
+, 0 as tzsl, 0 as tzzl
+FROM wxcpgfdmx cpgfdmx
+INNER JOIN wxcpgfd cpgfd 
+	ON (`cpgfdmx`.`gfid` = `cpgfd`.`gfid`)
+where cpgfd.delbz=0 and cpgfd.fhbz>0  ".$filter;
 
 
 
-
-
-
-
+if (($sqlstr1!="")&&($sqlstr0!=""))
+{
+  $sqlstr1.=" union all ".$sqlstr0;
+}
+else{
+	if ($sqlstr0!="")
+	{
+		$sqlstr1=$sqlstr0;
+	}
+}    
 
 
 
@@ -4591,6 +4649,138 @@ if (($jclb=="过货")|| ($jclb=="")) {
 			$sqlstr1=$sqlstr3;
 		}
 	}    
+
+
+// 过户出仓
+
+$filter =" and wxcpghd.ztbz>2 and wxcpghd.fhbz>0 and YEAR(wxcpghd.ghrq)=".$ny;
+
+if ($yu>0)
+{
+		$filter .=" and MONTH(wxcpghd.ghrq)=".$yu;
+}
+if ($ri>0)
+{
+		$filter .=" and DAYOFMONTH(wxcpghd.ghrq)=".$ri;
+}
+
+if ($area>"")
+{
+	$filter .= " and wxcpghdcw.area='".$area."'";
+	
+}
+
+if ($ckid>0)
+{
+	$filter .= " and wxcpghd.L_id=".$ckid;
+	
+}
+if ($khid>0)
+{
+	$filter .= " and wxcpghd.khid=".$khid;
+}
+
+$sqlstr2 = "SELECT '过户出仓' as jclb
+, `wxcpghd`.`khmc`
+,wxcpghdmx.cpmc,
+0 as jcsl,0 as jczl
+, `wxcpghdcw`.`sl` as ccsl
+, `wxcpghdcw`.`zl` as cczl
+, 0 as gfsl, 0 as gfzl
+, 0 as tzsl, 0 as tzzl
+
+FROM
+`wms`.`wxcpghdmx`
+INNER JOIN `wms`.`wxcpghd` 
+ON (`wxcpghdmx`.`ghid` = `wxcpghd`.`ghid`)
+INNER JOIN `wms`.`wxcpghdcw` 
+ON (`wxcpghdcw`.`mxid` = `wxcpghdmx`.`mxid`)	
+where wxcpghd.delbz=0 ".$filter;
+
+
+if (($sqlstr1!="")&&($sqlstr2!=""))
+{
+$sqlstr1.=" union all ".$sqlstr2;
+}
+else{
+
+if ($sqlstr2!="")
+{
+	$sqlstr1=$sqlstr2;
+}
+}    
+
+
+
+
+
+// 过户入仓
+
+$filter =" and wxcpghd.ztbz>2 and wxcpghd.fhbz>0 and YEAR(wxcpghd.ghrq)=".$ny;
+
+if ($yu>0)
+{
+		$filter .=" and MONTH(wxcpghd.ghrq)=".$yu;
+}
+if ($ri>0)
+{
+		$filter .=" and DAYOFMONTH(wxcpghd.ghrq)=".$ri;
+}
+
+if ($area>"")
+{
+	$filter .= " and wxcpghdcw.area='".$area."'";
+	
+}
+
+if ($ckid>0)
+{
+	$filter .= " and wxcpghd.L_id=".$ckid;
+	
+}
+if ($khid>0)
+{
+	$filter .= " and wxcpghd.newkhid=".$khid;
+}
+
+$sqlstr2 = "SELECT '过户入仓' as jclb
+, `wxcpghd`.`newkhmc` as khmc
+,wxcpghdmx.cpmc
+, `wxcpghdcw`.`sl` as jcsl
+, `wxcpghdcw`.`zl` as jczl
+, 0 as ccsl,0 as cczl
+, 0 as gfsl, 0 as gfzl
+, 0 as tzsl, 0 as tzzl
+
+FROM
+`wms`.`wxcpghdmx`
+INNER JOIN `wms`.`wxcpghd` 
+ON (`wxcpghdmx`.`ghid` = `wxcpghd`.`ghid`)
+INNER JOIN `wms`.`wxcpghdcw` 
+ON (`wxcpghdcw`.`mxid` = `wxcpghdmx`.`mxid`)	
+where wxcpghd.delbz=0 ".$filter;
+
+
+if (($sqlstr1!="")&&($sqlstr2!=""))
+{
+$sqlstr1.=" union all ".$sqlstr2;
+}
+else{
+
+if ($sqlstr2!="")
+{
+	$sqlstr1=$sqlstr2;
+}
+}    
+
+
+
+
+
+
+
+
+
 
 
 $khbz=(int)$_GET["khbz"];

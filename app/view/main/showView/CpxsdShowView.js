@@ -459,13 +459,13 @@ Ext.define('MyApp.view.main.showView.CpxsdShowView', {
         beforedestroy: function (obj) {
           
 
-             curcpckdcwStore.clearFilter();
+        /*     curcpckdcwStore.clearFilter();
              curcpckdjeStore.clearFilter();
              curcpckdcwStore.removeAll();
              curcpckdjeStore.removeAll();
              curcpckdcwStore.sync();
              curcpckdjeStore.sync();
-
+*/
              //that.getView().down("#cpxsdshowview").close();
              that.locQuery(that);
              console.log("beforedestroy");

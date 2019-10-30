@@ -296,7 +296,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocView', {
                     renderer: slrenderer
                 }]
         }, {
-            text: '过户',
+            text: '调帐',
             //width: 200,
             columns: [
                 {
