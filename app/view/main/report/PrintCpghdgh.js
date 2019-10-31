@@ -135,7 +135,7 @@ function PrintCpghdghid(ghid) {
     proxy: {
       type: 'ajax',
       api: {
-        read: sys_ActionPHP + '?act=wxcpghdghmxlist_prt'
+        read: sys_ActionPHP + '?act=cpghdghmxlist_prt'
       },
       actionMethods: {
         read: 'GET'
@@ -159,7 +159,7 @@ function PrintCpghdghid(ghid) {
     proxy: {
       type: 'ajax',
       api: {
-        read: sys_ActionPHP + '?act=wxcpghdlist_pc'
+        read: sys_ActionPHP + '?act=cpghdlist_pc'
       },
       actionMethods: {
         read: 'GET'
