@@ -5303,9 +5303,90 @@ function cpghdlist_pc() {
     	if ($Lid>0)
     	{
     		$filter .=" and cpghd.L_id=".$Lid;
-    	}
-		$sqlstr ="SELECT *,ghid as id FROM wxcpghd cpghd where ghid>0 ".$filter ;
-     	//return $sqlstr . $loc; 
+		}
+		
+
+  if ($loc=="cpghsploc"){
+
+
+			$ckid=(int)$_GET["p_l_id"];
+ 			$cpid=(int)$_GET["cpid"];
+			
+			$filter =" and cpghd.ztbz>0 and  cpghd.delbz=0 and cpghd.fhbz>0   ";
+			
+			if ($_GET["startdate"])
+    		{
+    			$filter .=" and cpghd.ghrq>='".$_GET["startdate"]."'";
+    		}
+    		if ($_GET["enddate"])
+    		{
+    			$filter .=" and cpghd.ghrq<='".$_GET["enddate"]."'";
+	    	}
+			if ($cpid>0)
+			{
+				$filter .= " and cpghdmx.cpid=".$cpid;
+			}
+
+			if ($ckid>0)
+			{
+				$filter .= " and cpghd.L_id=".$ckid;
+			
+			}
+			if ($khid>0)
+    		{
+    			$filter .= " and cpghd.khid=".$khid;
+    		}
+
+    $sqlstr1 = "SELECT cpghd.khmc,w.czrq,cpghdmx.cdmc,cpghdmx.cpmc,cpghdmx.bzmc,cpghdmx.cpgg,cpghdmx.cpph,cpghdmx.jldw,cpghd.ghdh  as dh,w.sl ,w.zl ,0 as jcsl,0 as jczl,
+	location.l_name AS ckmc
+    FROM  wxcpghdmx cpghdmx,wxcpghdcw W, wxcpghd cpghd,location  
+    WHERE cpghd.ghid = cpghdmx.ghid and cpghdmx.mxid=w.mxid 
+	AND cpghd.L_id=location.`L_id` ". $filter ;
+
+
+
+
+			$filter =" and cpghd.ztbz>0 and  cpghd.delbz=0 and cpghd.fhbz>0  ";
+			if ($_GET["startdate"])
+    		{
+    			$filter .=" and cpghd.ghrq>='".$_GET["startdate"]."'";
+    		}
+    		if ($_GET["enddate"])
+    		{
+    			$filter .=" and cpghd.ghrq<='".$_GET["enddate"]."'";
+	    	}
+			if ($cpid>0)
+			{
+				$filter .= " and cpghdmx.cpid=".$cpid;
+			}
+
+			if ($ckid>0)
+			{
+				$filter .= " and cpghd.L_id=".$ckid;
+			
+			}
+			if ($khid>0)
+    		{
+    			$filter .= " and cpghd.newkhid=".$khid;
+    		}
+	$sqlstr2 = "SELECT cpghd.newkhmc as khmc,cpghd.ghrq as czrq,cpghdmx.cdmc,cpghdmx.cpmc,cpghdmx.bzmc,cpghdmx.cpgg,cpghdmx.cpph,cpghdmx.jldw,
+	cpghd.ghdh  as dh,0 as sl,0 as zl,w.sl as jcsl  ,w.zl as jczl ,location.l_name AS ckmc
+    FROM  wxcpghdmx cpghdmx ,wxcpghdcw W, wxcpghd  cpghd,location  
+    WHERE cpghd.ghid = cpghdmx.ghid and cpghdmx.mxid=w.mxid AND cpghd.L_id=location.`L_id` ". $filter ;
+     $sqlstr=	$sqlstr1." union all ".	$sqlstr2;
+
+
+
+        }
+        else
+	    {
+//		 $sqlstr = " SELECT cptzd.*,cptzd.tzid as id,Location.L_name as ckmc FROM cptzd,Location where location.L_id=cptzd.L_id ".$filter;
+		 $sqlstr ="SELECT *,ghid as id FROM wxcpghd cpghd where ghid>0 ".$filter ;
+
+		}
+
+
+     //	return $sqlstr . $loc; 
 		$query = mysql_query($sqlstr);
 		return getjsonstoredata($query, 0);
 }
