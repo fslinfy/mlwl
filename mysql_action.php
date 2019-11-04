@@ -5512,7 +5512,7 @@ function cpkclist_pc() {
 	}
 	else
 	{
-	$sqlstr=" SELECT  c.*,
+	     $sqlstr=" SELECT  c.*,
  		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
@@ -5527,9 +5527,9 @@ function cpkclist_pc() {
 			}
 		 }
 	
-	$sqlstr.="GROUP BY kcid HAVING SUM(sl)<>0 OR SUM(zl)<>0) mx 
+	       $sqlstr.="GROUP BY kcid HAVING SUM(sl)<>0 OR SUM(zl)<>0) mx 
 			WHERE  mx.kcid=c.kcid AND c.L_id=ck.L_id AND c.khid=kh.c_id AND c.cpid=cp.s_id 
-			AND c.cdid=cd.p_id AND c.bzid=bz.ps_id   " ;
+			AND c.cdid=cd.p_id AND c.bzid=bz.ps_id  and kh.active=1 and cd.active=1 and cp.active=1  " ;
 	
 	}
 	else
@@ -5539,7 +5539,7 @@ function cpkclist_pc() {
       $sqlstr .= " ,mx.id as kcmxid,mx.area,mx.cw,mx.czdj,mx.sl,mx.zl,mx.sm,mx.mints,mx.czrq 
       FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx mx ,location ck";
       $sqlstr .=" where c.L_id=ck.L_id and c.kcid=mx.kcid and c.khid=kh.c_id and c.cpid=cp.s_id 
-      and c.cdid=cd.p_id and c.bzid=bz.ps_id and (mx.sl<>0 or mx.zl<>0 )  ";		
+      and c.cdid=cd.p_id and c.bzid=bz.ps_id and (mx.sl<>0 or mx.zl<>0 )   and kh.active=1 and cd.active=1 and cp.active=1 ";		
 		if ($_GET["area"])
     	{
     		if ($_GET["area"]!=""){
@@ -5592,7 +5592,7 @@ function cpkcmxlist_pc() {
 	$Lid=$_GET["p_l_id"];
 	$sqlstr = " SELECT cpkcmx.*,cpkcmx.id as kcmxid FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx ";
 	$sqlstr =$sqlstr." where c.khid=kh.c_id and c.cpid=cp.s_id and c.cdid=cd.p_id and c.bzid=bz.ps_id and (cpkcmx.sl<>0 or cpkcmx.zl<>0 )  ";
-	$sqlstr =$sqlstr."and cpkcmx.kcid=c.kcid ";
+	$sqlstr =$sqlstr."and cpkcmx.kcid=c.kcid and kh.active=1 and cd.active=1 and cp.active=1  ";
 	if ($_GET["p_l_id"])
     {
     	if ($Lid!="0"){
