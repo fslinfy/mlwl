@@ -83,7 +83,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocView', {
                     hideTrigger: false,
 
                     margin: '1 0 1 10',
-                    width: 100,
+                    width: 120,
                     minValue: 1,
                     maxValue: 12,
                     decimalPrecision: 0
