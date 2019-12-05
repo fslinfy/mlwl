@@ -71,7 +71,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocView', {
                     minValue: 2018,
                     maxValue: 9999,
                     decimalPrecision: 0
-
                 },
 
                 {
@@ -81,7 +80,6 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocView', {
                     fieldLabel: '月度',
                     bind: "{yu}",
                     hideTrigger: false,
-
                     margin: '1 0 1 10',
                     width: 120,
                     minValue: 1,
