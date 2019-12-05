@@ -4744,7 +4744,7 @@ if ($khid>0)
 }
 
 $sqlstr2 = "SELECT '过户入仓' as jclb
-, `wxcpghd`.`newkhmc` as khmc
+, `customer`.c_name AS khmc
 ,wxcpghdmx.cpmc
 , `wxcpghdcw`.`sl` as jcsl
 , `wxcpghdcw`.`zl` as jczl
@@ -4758,6 +4758,8 @@ INNER JOIN `wms`.`wxcpghd`
 ON (`wxcpghdmx`.`ghid` = `wxcpghd`.`ghid`)
 INNER JOIN `wms`.`wxcpghdcw` 
 ON (`wxcpghdcw`.`mxid` = `wxcpghdmx`.`mxid`)	
+INNER JOIN `wms`.`customer` 
+ON (`wxcpghd`.`newkhid` = `customer`.`c_id`)	
 where wxcpghd.delbz=0 ".$filter;
 
 

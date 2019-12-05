@@ -77,6 +77,14 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
                             bind: "{khmc}",
                             margin: '0 10 0 0'
                         },
+                        {
+                            name: 'gfdh',
+                            fieldLabel: '通知单号',
+                            flex: 1,
+                            readOnly: true,
+                            bind: "{gfdh}",
+                            margin: '0 10 0 0'
+                        },
                          {
                             xtype: 'datefield',
                             name: 'gfrq',
@@ -124,13 +132,22 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
                             allowBlank: true
                         }, 
                         {
-                            name: 'gfdh',
-                            fieldLabel: '通知单号',
+                            name: 'cpgm',
+                            fieldLabel: '车牌号码',
                             flex: 1,
                             readOnly: true,
-                            bind: "{gfdh}",
+                            bind: "{cphm}",
                             margin: '0 10 0 0'
                         },
+                        {
+                            name: 'sfr',
+                            fieldLabel: '司机',
+                            flex: 1,
+                            readOnly: true,
+                            bind: "{sfr}",
+                            margin: '0 10 0 0'
+                        },
+
                         {
                             xtype: 'checkbox',
                             fieldLabel: '费用付现',
