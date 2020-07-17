@@ -3,7 +3,7 @@ Ext.define('MyApp.store.CurCpghdmxStore', {
     alias: 'store.CurCpghdmxStore',
     model: 'MyApp.model.CpghdmxModel',
     proxy: {
-        type: 'localstorage',
+        type: 'sessionstorage',
         id  : 'CurCpghdmxModel'
     }//,
     //autoLoad: true

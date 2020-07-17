@@ -34,6 +34,9 @@ Ext.define('MyApp.model.PackingModel', {
     {
         name: 'mints', type: 'int'
     },
+    {
+        name: 'czts', type: 'int'
+    },
 
     {
         name: 'Rate', type: 'number'

@@ -135,7 +135,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
             model: 'MyApp.model.CpgfdModel',
             autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CpgfdModel'
             }
         });
@@ -150,7 +150,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdCtrl', {
               //itemId: "CpgfdStore",
              // autoLoad: true,
               proxy: {
-                  type: 'localstorage',
+                  type: 'sessionstorage',
                   id: 'CpgfdModel'
               }
           });

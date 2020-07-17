@@ -178,6 +178,7 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
                         rec.set('Ghdj', rec.data.Ghdj0);
                         rec.set('Pfdj', rec.data.Pfdj0);
                         rec.set('mints', rec.data.mints0);
+                        rec.set('czts', rec.data.czts0);
                     }
                 })
             }, this);

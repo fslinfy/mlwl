@@ -184,15 +184,25 @@
 								maxValue: 9999.99
 							}
 						}]
-				}/*,
+				},
 				{
-					text: '180天内',
-					columns: []}*/
-
+					text: "最小", columns: [{
+						xtype: "numbercolumn", align: "center", format: "00",
+						 text: "天数",
+						dataIndex: "mints", width: 50, align: "center", sortable: false,
+						editor: { type: "numberfield", decimalPrecision: 0, align: "right", allowBlank: true, minValue: 0, maxValue: 31 }
+					}]
+				},
+				{
+					text: "周期", columns: [{
+						xtype: "numbercolumn", align: "center", format: "00",
+						 text: "天数",
+						dataIndex: "czts", width: 50, align: "center", sortable: false,
+						editor: { type: "numberfield", decimalPrecision: 0, align: "right", 
+						allowBlank: true, minValue: 0, maxValue: 31 }
+					}]
+				}
 			]
-
-
-
 		},
 		{
 			text: '固定仓',

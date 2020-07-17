@@ -135,7 +135,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             model: 'MyApp.model.CpjkdcwModel',
            // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpjkdcwModel'
             }
         });
@@ -145,7 +145,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             model: 'MyApp.model.CpjkdjeModel',
            // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpjkdjeModel'
             }
         });
@@ -159,7 +159,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             model: 'MyApp.model.CpjkdModel',
             autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CpjkdModel'
             }
         });
@@ -174,7 +174,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
               //itemId: "CpjkdStore",
              // autoLoad: true,
               proxy: {
-                  type: 'localstorage',
+                  type: 'sessionstorage',
                   id: 'CpjkdModel'
               }
           });

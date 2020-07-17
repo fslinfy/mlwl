@@ -192,7 +192,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             model: 'MyApp.model.CpgfdjeModel',
            
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpgfdjeModel'
             }
         });
@@ -231,9 +231,9 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             }
             ,
 
-          //  "#btnwxCpgfdDelete": {
-          //      click: that.onwxCpgfdshDeleteSubmit
-          //  },
+            "#btnCpgfdDelete": {
+                click: this.onwxCpgfdshDeleteSubmit
+            },
             "#FilterField": {
                 change: this.onFilterChange
             }
@@ -329,7 +329,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             })
     
             var p = this.lookupReference('popupCpgfdWindow');
-            p.down("#btnCpgfdDelete").setHidden(true);
+            p.down("#btnCpgfdDelete").setHidden(!sys_system_del);
             p.down("#field_gfrq").setValue(new Date());
             p.down("#btnCpgfdSave").setHidden(false);
     
@@ -451,147 +451,43 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
 
         this.wxCpgfdshSave('ok', that);
     },
+    */
     onwxCpgfdshDeleteSubmit: function () {
-        this.wxCpgfdshSave('delete', that);
-    },
-    wxCpgfdshSave: function (loc, the) {
-        var p = the.lookupReference('gfdpopupWindow').getViewModel();
-        var form = this.lookupReference('windowForm');
-        if (!form.isValid()) {
-            Ext.MessageBox.alert('注意！', '输入内容不完整！');
-            return false
-        }
-
-        var wxcpgfdmx_store = that.lookupReference('wxCpgfdmxGrid').getStore();
-
-        if (wxcpgfdmx_store.getCount() == 0) {
-            Ext.MessageBox.alert('注意！', '请输入过车商品明细数据！');
-            return false;
-        }
-
-        if (p.data.khmc == "") {
-            Ext.MessageBox.alert('注意！', '请选择客户名称！');
-            return false;
-        }
-
-        var rq=Ext.decode(Ext.encode(p.get('gfrq')));
-        //console.log(rq,sys_option_min_date);
-        if (rq<sys_option_min_date) {
-            Ext.MessageBox.alert('注意！', '输入日期不能小于：'+sys_option_min_date);
-            return false
-        }
-    
-       // return;
-        //if (p.data.zl == 0) {
-           // Ext.MessageBox.alert('注意！', '请输入重量！');
-          // return false;
-       // }
-
-
-        var sumsl=0,sumzl=0,sumje=0; 
-        var mx = [];
-        if (gfid > 0) {
-            wxcpgfdmx_store.each(function (rec) {
-                rec.data.id = rec.data.mxid;
-                sumsl=sumsl+rec.data.sl;
-                sumzl=sumzl+rec.data.zl;
-                sumje=sumje+rec.data.je;
-                mx.push(rec.data);
-
-            })
-
-        } else {
-            wxcpgfdmx_store.each(function (rec) {
-            //    if (rec.data.zl > 0) {
-                    sumsl=sumsl+rec.data.sl;
-                    sumzl=sumzl+rec.data.zl;
-                    sumje=sumje+rec.data.je;
-
-                    mx.push(rec.data);
-              //  }
-            })
-        }
-        if ((sumzl==0)&&(sumje==0))
-            {
-                Ext.MessageBox.alert('注意！', '请输入明细数据内容！');
-                return false;
+        
+        var abc = Ext.Msg.confirm('注意！','真的删除此货物过车内容？', function (e) {
+            if (e == 'yes') {
+                that.wxCpgfddelSave('delete', that);
+              
+                //alert("btnCpgfdDelete")
             }
-
-        var gfd = {}
-                gfd["sl"] =sumsl;
-                gfd["zl"] =sumzl;
-                gfd["je"] =sumje;
-        gfd["khid"] = p.data.khid;
-        gfd["gfid"] = gfid;
-
-        gfd["khmc"] = p.data.khmc;
-
-        gfd["cphm"] = p.data.cphm;
-        gfd["sfr"] = p.data.sfr;
-        gfd["cnote"] = p.data.cnote;
-        gfd["gfdh"] = p.data.gfdh;
-        gfd['gfrq'] = Ext.decode(Ext.encode(p.get('gfrq')));
-        gfd['rq'] = Ext.decode(Ext.encode(p.get('gfrq')));
-       // gfd["sl"] = 0;//p.data.sl;
-       // gfd["zl"] = p.data.zl;
-        //gfd["je"] = p.data.je;
-        gfd["xjje"] = p.data.xjje;
-        if (p.data.xjbz) {
-            gfd["xjbz"] = 1;
-            gfd["xjje"] = sumje;
-        }
-        else {
-            gfd["xjbz"] = 0;
-            gfd["xjje"] = 0;
-        }
+        });
 
 
-
-
-        gfd["gfdmx"] = mx;
-
-
-        var str = obj2str(gfd);
+       
+    },
+    wxCpgfddelSave: function (loc, the) {
+       
+       /* var gfd={};
+        gfd.gfid=gfid;
+       var str = obj2str(gfd);
         var encodedString = base64encode(Ext.encode(str));
-
+        */
         Ext.Ajax.request({
             method: 'GET',
             url: sys_ActionPHP,
             params: {
-                act: 'wxcpgfdmxsave',
+                act: 'wxcpgfddeletesave',
                 userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
                 p_l_id: sys_location_id,
-                data: encodedString
+                data: gfid
             },
             scope: this,
             success: function (response) {
                 var result = Ext.decode(response.responseText);
                 //  //console.log("result", result);
                 if (result.result == 'success') {
-
-
-                    //Ext.MessageBox.alert('提示', '过车单已保存，单号是：' + result.dh);
-                    //that.DeletecpjkdAll(cpjkdmx_store, cpjkdcw_store, cpjkdje_store, jkdh);
-                    var msg = "过车单已保存，单号是：" + result.dh + "</br>是否打印此商品过车单"
-                    Ext.MessageBox.show({
-                        title: "提示",
-                        msg: msg,
-                        buttons: Ext.MessageBox.YESNO,
-                        buttonText: {
-                            yes: "确认打印",
-                            no: "放  弃"
-                        },
-                        icon: Ext.MessageBox["WARNING"],
-                        scope: this,
-                        fn: function (btn, text) {
-                            if (btn == "yes") {
-                                PrintwxCpgfdgfid(result.gfid);
-                            }
-                            that.getView().down("#wxcpgfdedit").close();
+                           that.getView().down("#cpgfdshowview").close();
                             that.locQuery(that);
-
-                        }
-                    });
                 }
                 else {
                     Ext.MessageBox.alert('错误!', result.msg);
@@ -603,7 +499,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         });
         return;
     },
-*/
+
 
 
 

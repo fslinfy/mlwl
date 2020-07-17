@@ -88,6 +88,9 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             "#btnExport": {
                 click: this.onBtnExportClick
             },
+            "#btnPrint": {
+                click: this.onBtnPrintClick
+            },
 
             "#btnQueryCkmc": {
                 click: this.SelectCkbmView
@@ -98,6 +101,9 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         tool.down('#btnEdit').setHidden(false);
         tool.down('#btnEdit').setText('调整堆位');
         tool.down('#btnExport').setHidden(false);
+
+        tool.down('#btnPrint').setHidden(false);
+        tool.down('#btnPrint').setText('盘点表');
 
     },
 
@@ -182,6 +188,284 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         Jhxlsx.export(prtData.tableData, prtData.options);
         return ;
     },
+    onBtnPrintClick: function (record) {
+        var that=this;
+        var area = that.viewname.getViewModel().get('area');
+        if (area.length>0){
+            var title='商品仓位明细盘点表('+area+')';
+        }else{
+            var title='商品仓位明细盘点表';
+        }
+        var store = that.getView().getStore();
+            var kcarray = store.data.items;
+            var sheetarr = [];
+            var khid=0;
+            for (var i = 0; i < kcarray.length; i++) {
+                var oldobj = kcarray[i].data;
+                if (oldobj.khid!=khid){
+                    khid=oldobj.khid;
+                    sheetarr.push(
+                   {
+                    "khid":khid,
+                    "khjc":oldobj.khjc  ,
+                    "khmc":oldobj.khmc  
+                   }
+                );
+                }
+            } 
+            var tableDataarr=[];
+            var jsonSheetData=[];
+            
+           // for (var i = 0; i < sheetarr.length; i++) {
+             //   var   oldobj = sheetarr[i];
+                 jsonSheetData=this.getexcelsheetdata1(kcarray,title) ;
+                 //console.log(jsonSheetData);
+                 //jsonSheetData0.push(jsonSheetData);
+
+             //    for (var j = 0; j < jsonSheetData.length; j++) {
+              //      var arr = kcarray[j].data;
+               //     jsonSheetData0.push(arr);
+               // }
+
+                 
+           // } 
+        //console.log(jsonSheetData);
+           //  return ;
+            
+           tableDataarr.push(
+                {
+                    "sheetName":title,
+                    "data": jsonSheetData
+                }
+             );
+
+            var prtData = {
+                "options": {
+                    "fileName": title
+                },
+                "tableData":tableDataarr
+            }
+            Jhxlsx.export(prtData.tableData, prtData.options);
+            return ;
+        },
+
+        //盘点表
+    getexcelsheetdata1: function (kcarray,title) {
+        var that=this;
+            khid=0;
+        var jsonData=[];
+        
+
+        
+        var arr ;
+        
+        for (var i = 0; i < kcarray.length; i++) {
+            var oldobj = kcarray[i].data;
+            if (oldobj.khid!=khid){
+             var sumsl=0;
+             var sumzl=0;
+             if (khid>0){
+             jsonData.push([]);
+             jsonData.push([]);
+             jsonData.push([]);
+             }
+          /*
+           arr= [
+            {
+                "merge": {
+                    "c": 15
+                },
+                "style": {
+                    "font": {
+                        "sz":24,
+                        "bold": true,
+                         "color": {
+                            "rgb": 'FF4F81BD' 
+                          }
+                    },
+                    "alignment": {
+                        "horizontal": 'center' 
+                      }
+                },
+                "text":title
+            }
+            ]
+
+
+        jsonData.push(arr);  //增加标题
+          */
+
+        arr = [
+            {
+                "merge": {
+                    "c": 10
+                },
+                "style": {
+                    "fill":{
+                        "bgcolor":"red"
+                    },
+                    "font": {
+                        "size":36,
+                        "bold": true
+                    }
+                },
+                "text": "客户：" + oldobj.khmc
+            }/*, {}, {}, {}, {}, {},  
+            {
+                "merge": {
+                    "c": 5
+                },
+
+                "style": {
+                    "font": {
+                        
+                        "bold": true
+                    },
+                    "color": {
+                        "rgb": 'FF4F81BD' 
+                      }
+    
+                }
+                ,
+                "text": "仓库：" + this.viewname.getViewModel().get('ckmc')
+            }
+            */
+
+        ]
+        jsonData.push(arr);  //增加小标题
+        
+        arr = [{
+            'text': '    产地       ', "style": {
+                
+                "font": {
+                    "bold": true
+                },
+                "color": {
+                    "rgb": 'FF4F81BD' 
+                  }
+            }
+        }, {    
+            'text': '     商品名称     ', 
+               "style": {
+                "font": {
+                    "bold": true
+                },
+                "width": 500,
+                "backgcolor":"blue"
+            }
+        }, {
+            'text': '      包装     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '      规格   ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '批号     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '  区域  ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '  仓位  ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '  单位  ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '库存数量   ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '库存重量    ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '进仓日期    ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }, {
+            'text': '仓位说明     ', "style": {
+                "font": {
+                    "bold": true
+                }
+            }
+        }
+        ];
+        jsonData.push(arr);
+        
+
+        }
+        
+            arr = [];
+            
+          
+          //  var oldobj = kcarray[i].data;
+            arr.push({ 'text': oldobj.cdmc });
+            arr.push({ 'text': oldobj.cpmc });
+            arr.push({ 'text': oldobj.bzmc });
+            arr.push({ 'text': oldobj.cpgg });
+            arr.push({ 'text': oldobj.cpph });
+            
+            arr.push({ 'text': oldobj.area });
+            arr.push({ 'text': oldobj.cw });
+            arr.push({ 'text': oldobj.jldw });
+            arr.push({ 'text': slrenderer(oldobj.sl) });
+            arr.push({ 'text': slrenderer(oldobj.zl) });
+            arr.push({ 'text': Ext.Date.format(oldobj.czrq, 'Y-m-d') });
+            arr.push({ 'text': oldobj.sm });
+            sumsl+=oldobj.sl;
+            sumzl+=oldobj.zl;
+            jsonData.push(arr);
+          //}
+       // }
+        /*if ( kcarray.length>1)  {
+            arr=[]; 
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({});
+            arr.push({ 'text': '小计' });
+            arr.push({ 'text': slrenderer(sumsl) });
+            arr.push({ 'text': slrenderer(sumzl) });
+            arr.push({ 'text': '' });
+            arr.push({ 'text':''});
+            jsonData.push(arr);
+
+        }*/
+       khid=oldobj.khid;
+
+    }
+        return   jsonData;
+    },
+
+    
     getexcelsheetdata: function (kcarray,khid,khmc,title) {
         var that=this;
         var jsonData=[];
@@ -354,7 +638,6 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         }
         return   jsonData;
     },
-
     SelectCkbmView: function (record) {
         treeSelect('ckmc', that, 'cpkc', that.viewname, true);
         return false;

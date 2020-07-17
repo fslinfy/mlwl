@@ -398,8 +398,8 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
             text: '删除此单',
             itemId: 'btnCpgfdDelete',
             icon: "images/delete.gif",
-            hidden: true//,
-            //handler: 'onCpgfdDeleteSubmit'
+            hidden: true
+          //  handler: 'onCpgfdDeleteSubmit'
         },
         {
             text: '此单已删除!!',

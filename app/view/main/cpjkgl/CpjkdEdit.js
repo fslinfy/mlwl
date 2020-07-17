@@ -452,11 +452,11 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdEdit', {
             cpjkd_store.removeAll();
             cpjkd_store.sync();
 
-            CurCpjkdcwStore.reload();
+          //  CurCpjkdcwStore.reload();
             CurCpjkdcwStore.clearFilter();
             CurCpjkdcwStore.removeAll();
             CurCpjkdcwStore.sync();
-            CurCpjkdjeStore.reload();
+           // CurCpjkdjeStore.reload();
             CurCpjkdjeStore.clearFilter();
             CurCpjkdjeStore.removeAll();
             CurCpjkdjeStore.sync();

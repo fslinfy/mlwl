@@ -283,7 +283,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             model: 'MyApp.model.CpghdcwModel',
            // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpghdcwModel'
             }
         });
@@ -296,7 +296,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             model: 'MyApp.model.CpghdjeModel',
            // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpghdjeModel'
             }
         });
@@ -345,9 +345,9 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
             
             curcpghdcwStore.sync();
 
-            curcpghdcwStore.reload();
+       //     curcpghdcwStore.reload();
 
-            curcpghdjeStore.reload();
+        //    curcpghdjeStore.reload();
             var i = 0;
             var rec = {};
             console.log('cpghdcwStore load',cpghdcwStore);
@@ -700,8 +700,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         sumxjje = sumxjje + 1 - 1;
 
         cpghdje_store.sync();
-        curcpghdcwStore.reload();
-        curcpghdjeStore.reload();
+     //   curcpghdcwStore.reload();
+      //  curcpghdjeStore.reload();
         var cpghdmx_store = that.lookupReference('CpghdmxGrid').getStore();
 
         var r = that.recordID;

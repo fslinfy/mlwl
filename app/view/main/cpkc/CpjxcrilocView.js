@@ -207,7 +207,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxcrilocView', {
                 }]
         },
         {
-            text: '本期商品进出库', columns: [
+            text: '本期商品进库', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',

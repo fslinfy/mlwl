@@ -236,7 +236,7 @@ Ext.define('MyApp.view.main.cpkc.CpjxccheckView', {
                 }]
         },
         {
-            text: '本月商品进出库', columns: [
+            text: '本月商品进库', columns: [
                 {
                     xtype: 'numbercolumn',
                     text: '数量',

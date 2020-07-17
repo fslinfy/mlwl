@@ -8,11 +8,10 @@ var cpxsdmxStore;
 var xsid=0;
 var saveCallBack = function (th) {
     that.getView().down("#cpxsdshowview").close();
-    that.locQuery(th);//onBtnQueryClick();
+    that.locQuery(th);
 }
 var ckdworkCallBack = function (node) {
     var rec = node.data;
-    //console.log(rec.data);
     var p = that.popupmx;
     var xjbz = p.getViewModel().get('xjbz');
     var mxid = p.getViewModel().get('mxid');
@@ -26,24 +25,18 @@ var ckdworkCallBack = function (node) {
         dw = p.getViewModel().get('sldw');
         var sl = p.getViewModel().get('ccsl');
     }
-    //if ((sl < 1) && (sl > 0)) {
-      //  sl = 1;
-    //}
     var i = 0;
     var sumzl = 0;
     var newarray = [];
     var cpckdcw_store = that.lookupReference('cpckdmxcw').getStore();
     cpckdcw_store.each(function (reccw) {
-
         i = 0;
         sumzl = sumzl + reccw.data.cczl;
         newarray.forEach(function (item, index) {
             if (item.area == reccw.data.area) {
                 item.sl = item.sl + reccw.data.ccsl;
                 item.zl = item.zl + reccw.data.cczl;
-
                 i = 1;
-
             }
         });
         if (i == 0) {
@@ -56,19 +49,8 @@ var ckdworkCallBack = function (node) {
             newarray.push(rec1)
         }
     })
-
-    //console.log("newarray", newarray);
-
-
-
-    //var cpckdmxje = p.getStore();
-    var cpckdmxje = that.lookupReference('cpckdmxje').getStore();// that.down('#cpckdmxje').getStore();
-    // console.log('work------CallBack', node.data);
-
-
+    var cpckdmxje = that.lookupReference('cpckdmxje').getStore();
     newarray.forEach(function (item, index) {
-
-
         if (rec.zljs == '1') {
             sl = item.zl;
         }
@@ -94,12 +76,8 @@ var ckdworkCallBack = function (node) {
         })
         }
     });
-
     that.sumjs(null, cpckdmxje, p.getViewModel());
-
 }
-
-
 Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CpckdCtrl',
@@ -109,17 +87,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         , 'MyApp.view.main.report.PrintCpckd'
     ],
     locQuery: function (that) {
-         //console.log("locQuery cpckdctrl");
         var v = that.getView().down("#CpxsdListGrid").getViewModel();
         khid = v.get('khid');
         var ckid = v.get('ckid');
         cpxsdmxStore.proxy.extraParams.loc = "cpxsdmxmfhck";
-      //  cpxsdmxStore.proxy.extraParams.loc = "ck";
         cpxsdmxStore.proxy.extraParams.khid = khid;
         cpxsdmxStore.proxy.extraParams.ckid = ckid;
         cpxsdmxStore.reload();
-
-
     },
     onBtnQueryClick: function (button, e, options) {
         this.locQuery(this);
@@ -132,15 +106,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             params: {
                 act: 'cpckd',
                 userInfo: base64encode(Ext.encode(obj2str(sys_userInfo)))//,
-                //p_l_id: sys_location_id,
-                //loc: loc,
-                //data: dataStr
             },
             scope: this,
             success: function (response) {
                 var result = Ext.decode(response.responseText);
-                // console.log(result);
-
                 if (result.result == 'success') {
                     // Ext.MessageBox.alert('错误!', '数据保存失败！');
                     //  that.getView().down("#cpxsdshowview").close();
@@ -151,12 +120,9 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 }
             },
             failure: function () {
-                Ext.MessageBox.alert('错误!', '发生错误！');
+                Ext.MessageBox.alert('错误!', '帮助发生错误！');
             }
         });
-
-
-
         return false;
     },
     onBtnCancelClick: function (button, e, options) {
@@ -166,12 +132,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
     },
 
     init: function () {
-        // console.log("init");
-        // return ;
         that = this;
-  
-      //  console.log(" init dh", dh);
-        this.control({            "#btnQuery": {
+        this.control({"#btnQuery": {
                 click: this.onBtnQueryClick
             },
             "#btnHelp": {
@@ -216,8 +178,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 that.getView().down('#QueryCkmc').setHidden(false);
             }
         }
-
-
         cpxsdmxStore = Ext.create('Ext.data.Store', {
             alias: 'store.cpxsdmxStore',
             model: 'MyApp.model.CpxsdmxModel',
@@ -242,7 +202,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             }
         });
         cpxsdmxStore.on("load", function () {
-            //console.log('cpxsdmxStoreonload');
             var v = that.getView().down("#CpxsdListGrid").getViewModel();
             khid = v.get('khid');
             var ckid = v.get('ckid');
@@ -251,43 +210,32 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             store.proxy.extraParams.khid = khid;
             store.proxy.extraParams.ckid = ckid;
             store.reload();
-
             cpxsdmxStore.each(function (reccw) {
                 reccw['ccsl'] = reccw['mccsl'];
                 reccw['cczl'] = reccw['mcczl'];
-                //reccw['ccje'] = 0;
-                //reccw['ccxjje'] =0;
-                //console.log(reccw);
             })
         });
         this.locQuery(this);
         var v = that.getView().down("#CpxsdListGrid");
         v.down('#QueryDate').setHidden(true);
         //*************************************** *
-
         curcpckdcwStore = Ext.create('Ext.data.Store', {
             extend: 'Ext.data.Store',
             model: 'MyApp.model.CpckdcwModel',
-           // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpckdcwModel'
             }
         });
-
         curcpckdjeStore = Ext.create('Ext.data.Store', {
             extend: 'Ext.data.Store',
             model: 'MyApp.model.CpckdjeModel',
-           // autoLoad: true,
             proxy: {
-                type: 'localstorage',
+                type: 'sessionstorage',
                 id: 'CurCpckdjeModel'
             }
         });
-
-
-
-        cpckdcwStore = Ext.create('Ext.data.Store', {
+       cpckdcwStore = Ext.create('Ext.data.Store', {
             alias: 'store.cpckdcwStore',
             model: 'MyApp.model.CpckdcwModel',
             proxy: {
@@ -309,39 +257,39 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 }
             }
         });
-
-
-
         cpckdcwStore.on("load", function () {
-            // console.log('cpckdcwStore load');
+        //   console.log("cpckdcwStore load");
+            curcpckdjeStore.sync();    
             curcpckdjeStore.clearFilter();
             curcpckdjeStore.removeAll();
-
-            /*curcpckdjeStore.each(function (rec) {
-                if (rec.data.dh == dh) {
-                    curcpckdjeStore.remove(rec);
-                }
-
-            })*/
-
+         
             curcpckdjeStore.sync();
+            curcpckdcwStore.reload();
             curcpckdcwStore.clearFilter();
             curcpckdcwStore.removeAll();
-            /*curcpckdcwStore.each(function (rec) {
-                if (rec.data.dh == dh) {
-                    curcpckdcwStore.remove(rec);
-                }
-
-            })*/
-
+         
             
-            curcpckdcwStore.sync();
-            curcpckdcwStore.reload();
-            curcpckdjeStore.reload();
+            
+            
             var i = 0;
             var rec = {};
+
+
             cpckdcwStore.each(function (reccw) {
+                
                 i++;
+                
+                var ss=curcpckdcwStore.queryBy(function(record,id){
+                    return (record.get('mxid') == reccw.data.mxid && 
+                            record.get('kcmxid') ==reccw.data.id
+                        );
+                }).items.length;
+               // console.log("find:",ss);
+                if (ss<1){
+                //console.log("cw kc reccw:  ",reccw);
+                
+                
+
                 rec = {
                     kcmxid: reccw.data.id,
                     area: reccw.data.area,
@@ -353,31 +301,24 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     zl: reccw.data.zl,
                     mints: reccw.data.mints,
                     czrq: Ext.Date.format(reccw.data.czrq, 'Y-m-d'),
-                    //czrq: reccw.data.czrq,
                     czdj: reccw.data.czdj,
                     cpph: reccw.data.cpph,
                     kcid: reccw.data.kcid,
                     mxid: reccw.data.mxid
                 };
 
-                ////  console.log(reccw.data.czrq,rec.czrq,Ext.Date.format(rec.czrq, 'Y-m-d'),rec);
-                //curcpckdcwStore.add(reccw.data);
-              //  console.log("dh", dh);
                 curcpckdcwStore.add(rec);
+            }
             })
-            curcpckdcwStore.sync();
+         curcpckdcwStore.sync();
+         
+         curcpckdcwStore.reload();
+         curcpckdcwStore.clearFilter();
+
+
         });
-
-
-
-
-
-
-
-
     },
     onSelectKhbmView: function (record) {
-        //showSelectKhbmView(record,this,that.getView().down("#CpxsdListGrid"),true)
         treeSelect('khmc', that, '', that.getView().down("#CpxsdListGrid"), true);
         return false;
     },
@@ -397,22 +338,18 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
     onGridReload: function () {
         var store = this.lookupReference('CpxsdmxGrid').getStore();
         var mxid = store.getAt(0).get('ckmxid');
-
         var cpxsdcw_store = this.lookupReference('cpxsdmxcw0').getStore();
         cpxsdcw_store.clearFilter();
         cpxsdcw_store.filterBy(function (record, id) {
-            //// return true;
-          //  return record.get('ckmxid') == mxid;
+            return true;
         });
     },
     onCpxsdmxItemSelected: function (sender, record) {
         var cpxsdcw_store = this.lookupReference('cpxsdmxcw0').getStore();
         var mxid = record.data.ckmxid
-        // console.log("ckmxid",mxid);
         cpxsdcw_store.clearFilter();
         cpxsdcw_store.filterBy(function (record, id) {
-            // return true;
-           // return record.get('ckmxid') == mxid;
+            return true;
         });
 
     },
@@ -431,52 +368,35 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             panel.set('ccje', ccje);
             panel.set('xjje', xjje);
         }
-
         that.lookupReference('ckccsl').setReadOnly(panel.get('ccje') > 0);
         that.lookupReference('ckcczl').setReadOnly(panel.get('ccje') > 0);
-        //panel.down('#ckcczl').setReadOnly(panel.get('ccje')>0);
-
         if (store1) {
             var sl = store1.sum('ccsl');
             var zl = store1.sum('cczl');
-
             if ((sl > panel.get('mccsl')) || (zl > panel.get('mcczl'))) {
-                // console.log(sl,zl);
                 return false;
             };
             panel.set('ccsl', sl);
             panel.set('cczl', zl);
         }
-
-        //console.log('sumje');
         return true;
 
     },
-
     onCpckdmxShowView: function (button) {
-
         var rec = button.getWidgetRecord();
         if ((rec.data.mccsl == 0) && (rec.data.mcczl == 0)) {
             return;
-
         }
-      
         mmccsl = 0;
         mmcczl = 0;
         var rec0 = that.lookupReference('popupCpxsdWindow').getViewModel();
-
-        // console.log("onCpckdmxShowView",rec.data, rec0.data);
-
         var mxid = rec.data.mxid;
         var kcid = rec.data.kcid;
         var record = rec.data;
-
         record['btnButtonHidden'] = true;
         var view = this.getView();
         this.isEdit_mx = !!record;
         that.xsmxid = mxid;
-        // console.log("endrq", record);
-
         that.recordID = record['id'];
         record['newrecord'] = false;
         record['xjbz'] = rec0.data.xjbz;
@@ -485,33 +405,27 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             record['ccsl'] = record['mccsl'];
             record['cczl'] = record['mcczl'];
         }
-
-
-        //  console.log("onCpckdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
         this.dialog_mx = view.add({
             xtype: 'formmxwindow',
-
             viewModel: {
                 data: record
             },
             session: true
         });
-
         this.dialog_mx.show();
-
         var cpckdje_store = this.lookupReference('cpckdmxje').getStore();
         cpckdje_store.filter(
-            { filterFn: function (item) { return item.get("mxid") == mxid && (item.get("dh") == dh); } }
+            { filterFn: function (item) { return item.get("mxid") == mxid  } }
         );
         var cpckdcw_store = this.lookupReference('cpckdmxcw').getStore();
         cpckdcw_store.filter(
-            { filterFn: function (item) { return item.get("kcid") == kcid && (item.get("dh") == dh) && ((item.get("sl") != 0) || (item.get("zl") != 0)); } }
+            { filterFn: function (item) { return item.get("kcid") == kcid  && ((item.get("sl") != 0) || (item.get("zl") != 0)) } }
         );
         var cpckdmxcw = this.lookupReference('cpckdmxcw').getStore();
         cpckdmxcw.filter(
             {
                 filterFn: function (item) {
-                    return item.get("kcid") == kcid && (item.get("dh") == dh) && ((item.get("sl") != 0) || (item.get("zl") != 0));
+                    return item.get("kcid") == kcid  && ((item.get("sl") != 0) || (item.get("zl") != 0));
                 }
             }
         );
@@ -530,16 +444,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
     },
     onCpxsdmxShowView: function (button) {
     var  rec = button.getWidgetRecord();
-          dh = generateGUID();
-      //  console.log("dh=",dh);
+        //  dh = generateGUID();
         xsid = rec.data.xsid;
+        dh=xsid.toString();
         var record = rec.data;
         khid = rec.data.khid;
-        // that.xsmxid=rec.data.mxid;
-        //console.log("onCpxsdmxShowView", record);
         var endrq = Ext.Date.format(rec.data.endrq, 'Y-m-d');
         var today = Ext.Date.format(new Date(), 'Y-m-d');
-        //console.log("date", today, endrq);
         record['btnButtonHidden'] = true;
         record['ckrq'] = new Date();
         record['cwr'] = '';
@@ -568,6 +479,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         that.createdialog(record);
     },
     createdialog: function (record) {
+      //  console.log(record);
         var view = this.getView();
         this.isEdit = false;// !!record;
         this.dialog = view.add({
@@ -608,8 +520,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         obj['xjbz'] = rec.data.xjbx;
         obj['khid'] = khid;
         obj['bzid'] = rec.data.bzid;
-
-        //console.log('bzid', rec, obj);
         treeSelect('work', that, obj, that.popupmx, false, ckdworkCallBack);
         return false;
     },
@@ -640,25 +550,11 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             return false
         }
         var rec = form.getValues();
-        //   console.log('onCpckdmxFormSubmit', rec);
         var p = this.lookupReference('popupmxWindow').getViewModel();
-
-
         var cpckdcw_store = this.lookupReference('cpckdmxcw').getStore();
         var i = 0, sumsl = 0, sumzl = 0;
         sumsl = Math.round(1000 * cpckdcw_store.sum("ccsl")) / 1000;
         sumzl = Math.round(1000 * cpckdcw_store.sum("cczl")) / 1000;
-        /*cpckdcw_store.each(function (reccw) {
-            if ((reccw.data.ccsl != 0) || (reccw.data.cczl != 0)) {
-                i++;
-                sumsl = sumsl + reccw.data.ccsl;
-                sumzl = sumzl + reccw.data.cczl;
-            }
-        })
-        */
-
-
-
         if ((sumsl != 0) || (sumzl != 0)) {
             if ((sumsl != Math.round(1000 * p.get('ccsl')) / 1000) || (sumzl != Math.round(1000 * p.get('cczl')) / 1000)) {
                 Ext.MessageBox.alert('注意！', '输入出仓数量、重量与明细内容不一致！');
@@ -666,13 +562,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             }
         }
         cpckdcw_store.sync();
-
         var cpckdje_store = this.lookupReference('cpckdmxje').getStore();
         i = 0;
-
         var sumje = 0;
         var sumxjje = 0;
-
         cpckdje_store.each(function (recje) {
             if (recje.data.je != 0) {
                 sumje = sumje + recje.data.je;
@@ -683,14 +576,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         })
         sumje = sumje + 1 - 1;
         sumxjje = sumxjje + 1 - 1;
-
         cpckdje_store.sync();
-        curcpckdcwStore.reload();
-        curcpckdjeStore.reload();
+        curcpckdcwStore.sync();
+        //cpckdje_store.sync();
+     //   curcpckdcwStore.reload();
+      //  curcpckdjeStore.reload();
         var cpckdmx_store = that.lookupReference('CpxsdmxGrid').getStore();
-
         var r = that.recordID;
-
         var recmx = cpckdmx_store.getById(r);
         recmx.set("ccsl", 0);
         recmx.set("cczl", 0);
@@ -698,20 +590,9 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         recmx.set("cczl", Math.round(1000 * p.get('cczl')) / 1000);
         recmx.set("ccje", p.get('ccje'));
         recmx.set("xjje", p.get('xjje'));
-
-        // recmx.set("ccsl", sumsl);
-        // recmx.set("cczl", sumzl);
-        // recmx.set("ccje", sumje);
-        // recmx.set("xjje", sumxjje);
-        //console.log('onCpckdmxFormSubmit  3 r=',r,sumsl,sumzl,sumje,sumxjje);
         that.getView().down("#cpckdmxedit").close();
-        //      return;
     },
-
-
-
     onCpckdFormSubmit: function () {
-        // console.log('onCpckdFormSubmit');
         var dialog = this.dialog,
             form = this.lookupReference('windowForm'),
             isEdit = this.isEdit,
@@ -721,43 +602,26 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             return false
         }
         var ckdrec = form.getValues();
-
         var rec = ckdrec;
-        // console.log("rec", rec);
         var p = this.lookupReference('popupCpxsdWindow').getViewModel();
-
-
-        
+      
         var rq=rec.ckrq;//Ext.decode(Ext.encode(p.get('ckrq')));
-        //console.log(rq,sys_option_min_date);
         if (rq<sys_option_min_date) {
             Ext.MessageBox.alert('注意！', '输入出仓日期不能小于：'+sys_option_min_date);
             return false
         }
-    
-       // return;
-
         xsid = rec.xsid;
         var cpckd = {};
-
         cpckd['cnote'] = rec.cnote;
         cpckd['cphm'] = rec.cphm;
         cpckd['thr'] = rec.sfr;
 
         cpckd['xsid'] = xsid;
         cpckd['czy'] = sys_userInfo.username;
-        cpckd['ckrq'] = rec.ckrq;// Ext.decode(Ext.encode(p.get('ckrq')));
-
-        // console.log(cpckd['ckrq'],Ext.decode(Ext.encode(p.get('ckrq')))); 
-
-
+        cpckd['ckrq'] = rec.ckrq;
         var cpckdcw_store = this.lookupReference('cpckdmxcw0').getStore();
         var cpckdje_store = this.lookupReference('cpckdmxje0').getStore();
         var cpckdmx_store = this.lookupReference('CpxsdmxGrid').getStore();
-
-
-
-
         cpckdcw_store.load();
         cpckdje_store.load();
         cpckdcw_store.clearFilter();
@@ -787,7 +651,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     obj['cczl'] = reccw.data.cczl;
                     obj['ccje'] = reccw.data.ccje;
                     obj['xjje'] = reccw.data.xjje;
-
                     arraymx.push(obj);
                     cwrec++;
                 }
@@ -804,15 +667,12 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         cpckdcw_store.each(function (reccw) {
             if (reccw.get('dh') == dh) {
                 if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
-
                     reccw.data.czrq = Ext.Date.format(reccw.data.czrq, 'Y-m-d');
-                      
                     arraycw.push(reccw.data);
                     cwrec++;
                 }
             }
         })
-       //  console.log("reccwv len",arraycw.length);
        if (arraycw.length==0)
         {
             msg = msg + '<br><br>没有仓位出仓内容！';
@@ -822,14 +682,9 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             if (recje.get('dh') == dh) {
                 if (recje.get('sl')!=0){
                    sumjesl=sumjesl+recje.get('sl');
-                   //arrayje.push(recje.data);
                 }
             }
-
         })
-
-
-
         var s=0;
         cpckdje_store.each(function (recje) {
             if (recje.get('dh') == dh) {
@@ -847,18 +702,12 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         cpckd['cpckdmx'] = arraymx;
         cpckd['cpckdje'] = arrayje;
         cpckd['cpckdcw'] = arraycw;
-        //console.log('cpckd', cpckd);
-      //  console.log('msg',msg);
-        //return;
+       console.log(cpckd);
+      // return ;
+
+
         var str = obj2str(cpckd);
-
-
         var encodedString = base64encode(Ext.encode(str));
-        //var that = this;
-        // AjaxDataSave('cpckdmxcksave', xsid, encodedString, saveCallBack,that);
-
-        //------------------------------------
-
         if (msg != "") {
             Ext.MessageBox.show({
                 title: "还继续保存操作吗？",
@@ -871,7 +720,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 icon: Ext.MessageBox["WARNING"],
                 scope: this,
                 fn: function (btn, text) {
-                    //console.log(btn, text);
                     if (btn == "yes") {
                         that.data_save(xsid, encodedString);
                     }
@@ -879,15 +727,11 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             });
             return;
         }
-
         that.data_save(xsid, encodedString);
         //-------------------------------------
     },
 
     data_save: function (loc, dataStr) {
-
-        // console.log("id",loc);
-        // return ;
         Ext.Ajax.request({
             method: 'GET',
             url: sys_ActionPHP,
@@ -910,20 +754,12 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     that.locQuery(that);
                     Ext.MessageBox.alert('错误!', result.msg);
                 }
-
-
-
-
             },
             failure: function () {
                 Ext.MessageBox.alert('错误!', '发生错误！');
             }
         });
     }
-
-
-
-
 
 });
 

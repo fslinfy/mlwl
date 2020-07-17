@@ -3,5 +3,5 @@ Ext.define("MyApp.store.CurCpghdjeStore",{
     alias:"store.CurCpghdjeStore",
     model:"MyApp.model.CpghdjeModel",
     autoLoad:true,
-    proxy:{type:"localstorage",id:"CurCpghdjeModel"}
+    proxy:{type:"sessionstorage",id:"CurCpghdjeModel"}
 });

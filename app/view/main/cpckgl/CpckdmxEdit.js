@@ -174,17 +174,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                     itemId: 'ckcczl',
                                     reference: "ckcczl",
                                     bind: "{cczl}",
-
                                     fieldLabel: '出仓重量',
                                     format: '0.000',
                                     width: 160,
-
-                                    //bind: {
-                                    // readOnly: '{cpckdmxje.selection}'
-                                    //},
-
                                     hideTrigger: true,
-                                    // readOnly: true,
                                     decimalPrecision: 3,
                                     margin: '0 10 0 0',
                                     validator: function (value) {
@@ -232,8 +225,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
 
                 },
                 {
-                    //xtype: 'container',
-                    //width: "100%",
                     margin: '0 0 0 0',
                     height: 400,
                     defaultType: 'textfield',
@@ -249,10 +240,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
 
                         {
                             xtype: 'grid',
-                            //flex: 1,
                             height: 230,
                             border: 1,
-                            //hidden: false,
                             reference: 'cpckdmxcw',
                             itemId: 'cpckdmxcw',
                             columnLines: true,
@@ -263,31 +252,17 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                             title: '明细仓位出仓',
                             listeners: {
                                 celldblclick: function (grid, row) {
-                                    // if ((row.cellIndex == 8) || (row.cellIndex == 9)) return;
                                     var store = grid.getStore();
                                     var p = this.up('#cpckdmxedit').getViewModel();
                                     var sl = p.get('mccsl');
                                     var zl = p.get('mcczl');
                                     mmccsl = store.sum('ccsl');
                                     mmcczl = store.sum('cczl');
-
-                                    /* if (p.get('mccsl')>=p.get('ccsl'))
-                                        {
-                                         mmccsl=p.get('ccsl');
-                                         mmcczl=p.get('cczl');
-
-                                        }
-                                        */
-
                                     var selection = grid.getSelectionModel().getSelection()[0];
                                     var cwsl = selection.get('sl');
                                     var cwzl = selection.get('zl');
-                                    //console.log('mccsl,mcczl,ccsl,cczl',sl,zl,selection.get('ccsl'),selection.get('cczl'));  
-                                    //console.log('cwsl,cwzl',cwsl,cwzl);  
                                     mmccsl = mmccsl - selection.get('ccsl');
                                     mmcczl = mmcczl - selection.get('cczl');
-
-                                    //   console.log('cwsl,cwzl,mmccsl,mmcczl,sl,zl',cwsl,cwzl,mmccsl,mmcczl,sl,zl,selection.get('ccsl'));
                                     if ((sl - mmccsl < cwsl) || (sl - mmccsl == cwsl)) {
                                         selection.set('ccsl', sl - mmccsl);
                                         selection.set('cczl', zl - mmcczl);
@@ -296,13 +271,11 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                         selection.set('ccsl', cwsl);
                                         selection.set('cczl', cwzl);
                                     }
-
                                     mmccsl = store.sum('ccsl');
                                     mmcczl = store.sum('cczl');
                                     p.set('ccsl', mmccsl);
                                     p.set('cczl', mmcczl);
                                 }
-
                             },
                             columns: [
                                 {
@@ -312,8 +285,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                     width: 80,
                                     editor: {
                                         type: 'textfield',
-                                        
-                                        
                                         allowBlank: true
                                     }
                                 },
@@ -391,12 +362,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                         minValue: 0,
                                         maxValue: 999999.999,
                                         validator: function (value) {
-
                                             var customerGrid = this.up('#cpckdmxcw');
                                             var selection = customerGrid.getSelectionModel().getSelection()[0];
                                             var store = customerGrid.getStore();
                                             var panel = this.up('#cpckdmxedit').getViewModel();
-
                                             var sl = selection.get('sl');
                                             var zl = selection.get('zl');
                                             if (value > sl) {
@@ -417,7 +386,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                                 selection.set('cczl', 0);
                                                 return false;
                                             }
-
                                             return that.sumjs(store, null, this.up('#cpckdmxedit').getViewModel());
                                         },
                                         listeners: {
@@ -445,9 +413,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                                 if (sl != 0) {
                                                     rate = zl / sl;
                                                 }
-
                                                 if ((sl > 0) && (value > sl)) {
-                                                    // console.log(value,sl)
                                                     Ext.MessageBox.alert('注意！', '最大可发货数量为：' + sl);
                                                     value = sl;
                                                 }
@@ -455,8 +421,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                                     value = sl
                                                 }
                                                 selection.set('ccsl', value);
-                                                // console.log(value,selection.get('ccsl'))
-
                                                 selection.set('cczl',Math.round(1000* value * rate)/1000);
                                                  that.sumjs(store, null, panel);
                                             }
@@ -624,11 +588,6 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                                 selection.set('je', Math.ceil(value * sl));
                                                 var store = customerGrid.getStore();
                                                 return that.sumjs(null, store, this.up('#cpckdmxedit').getViewModel());
-
-                                                //var je = store.sum('je');
-                                                //this.up('#cpckdmxedit').getViewModel().set('ccje', je);
-
-
                                             }
                                         }
                                     }

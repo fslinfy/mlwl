@@ -4,7 +4,7 @@ Ext.define('MyApp.store.CurCpghdcwStore', {
     model: 'MyApp.model.CpghdcwModel',
     autoLoad: true,
     proxy: {
-        type: 'localstorage',
+        type: 'sessionstorage',
         id  : 'CurCpghdcwModel'
     }
 });
