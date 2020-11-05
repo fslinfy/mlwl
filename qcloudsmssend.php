@@ -19,7 +19,7 @@ $id=(int)$_GET["id"];
 
 //出仓信息处理  
 if ($act=="cpckd"){
-  if ($id==null)  $id=2253;   
+  if ($id!=null){   
 
   $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,cm.ccsl,cm.cczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,
   cpxsd.cphm,cpxsd.xsdh,customer.smsphone
@@ -105,14 +105,14 @@ if ($act=="cpckd"){
 		echo "客户未定义接收信息手机号码！";
   }
    
-
+}
 }
 
 
 
 //进仓信息处理  
 if ($act=="cpjkd"){
-   if ($id==null)  $id=1364;   
+   if ($id==null) {   
   $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,m.jcsl,m.jczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,
   cpjkd.cphm,cpjkd.sfdh,customer.smsphone
   FROM cpjkdmx m,cpjkd,customer,location  
@@ -193,7 +193,7 @@ if ($act=="cpjkd"){
   {
 		echo "客户未定义接收信息手机号码！";
   }
-
+   }
 
 }
 
@@ -479,21 +479,8 @@ if (count($phone_array)>0){
 {
      echo "客户未定义接收信息手机号码！";
 }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    }
-  }
+}
+}
 
   
 
