@@ -58,7 +58,6 @@ Ext.define('MyApp.view.main.QueryToolbarView', {
       itemId: 'btnPrint',
       text: '打印',
       hidden: true,
-      
       icon: "images/print.gif"
     },
     {

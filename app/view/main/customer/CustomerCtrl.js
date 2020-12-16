@@ -1,4 +1,5 @@
-﻿var that;
+﻿
+var that;
 Ext.define('MyApp.view.main.customer.CustomerCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CustomerCtrl',
@@ -140,6 +141,7 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
         if (khid > 0) {
             var record = {};
             record['khid'] = khid;
+            record['L_id'] =sys_location_id ;
             record['khmc'] = khmc;
             record['title'] = khmc + "  单价维护";
             var view = this.getView();
@@ -158,7 +160,7 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
             packing_store.proxy.extraParams.khid = khid;
             packing_store.proxy.extraParams.p_l_id = sys_location_id;
             packing_store.proxy.extraParams.p_e_code = sys_enterprise_code;
-
+            packing_store.proxy.extraParams.optype ="customer";
             packing_store.on('load', function (store, records, options) {
                 store.each(function (rec) {
                   //  console.log("rec",rec.data)
@@ -184,24 +186,6 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
             }, this);
             packing_store.reload();
 
-            /*
-            var cpjkdmx_store = this.lookupReference('CpjkdmxGrid').getStore();
-            var store = this.listmxstore;
-            store.each(function (rec) {
-                if (rec.data.jkid == jkid) {
-                    cpjkdmx_store.add(rec);
-                }
-            })
-            var cpjkdcw_store = this.lookupReference('cpjkdmxcw0').getStore();
-            cpjkdcw_store.proxy.extraParams.jkid = jkid;
-            cpjkdcw_store.proxy.extraParams.loc = 'cpjkdmxcksh';
-            cpjkdcw_store.reload();
-            imagesload(jkid);
-            var p = this.lookupReference('popupCpjkdWindow');
-            p.down("#btnCpjkdSave").setHidden(false);
-            p.down("#btnImagesAdd").setHidden(false);
-    
-            p.down("#btnCpjkdSave").setText("复核确认");*/
         }
 
     }

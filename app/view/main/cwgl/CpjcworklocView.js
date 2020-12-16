@@ -55,6 +55,20 @@ Ext.define('MyApp.view.main.cwgl.CpjcworklocView', {
             layout: 'hbox',
             items: [
                 {
+                    xtype: 'displayfield',
+                    //itemId:"PageTitle",
+                    fieldStyle: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+                    value:'进出仓费用明细账'
+                    
+                    },
+                { xtype: 'QueryDate'},
+
+                {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)
                 },
@@ -62,8 +76,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcworklocView', {
                     xtype: 'QueryCkmc', flex: 1,
                     hidden: (sys_location_id > 0)
                 },
-                { xtype: 'QueryDate'},
-
+                
                 {
                     xtype: 'combo',
                     name: "jclb",
@@ -76,8 +89,8 @@ Ext.define('MyApp.view.main.cwgl.CpjcworklocView', {
                     editable: false,
                    // allowBlank: false,
                     bind: '{jclb}'
-                },
-                {
+                }
+                /*{
                     labelWidth: 30,
                     xtype: 'triggerfield',
                     fieldLabel: '过滤',
@@ -88,7 +101,7 @@ Ext.define('MyApp.view.main.cwgl.CpjcworklocView', {
                     onTriggerClick: function () {
                         this.reset();
                     }
-                }
+                }*/
             ]
         }, {
             xtype: 'QueryToolbarView'

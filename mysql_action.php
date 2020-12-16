@@ -14,8 +14,9 @@ switch($act) {
 	case 'systemsetting' :
 		$retval = systemsetting();
 		break;
-
-
+	case 'getsqlselect' :
+			$retval = getsqlselect();
+			break;
 	case 'cpjkdselectdata' :
 		$retval = cpjkdselectdata();
 		break;
@@ -171,7 +172,10 @@ case 'cpckdcwshsave' :
 		$retval = systemmenutreelist();
 		break;
 
-
+    case 'wxsystemmenutreelist' :
+			$retval = wxsystemmenutreelist();
+			break;
+	
 	case 'packingselecttreelist' :
 		$retval = packingselecttreelist();
 		break;
@@ -287,10 +291,14 @@ case 'cpkccwedit' :
 	case 'packinglist' :
 		$retval = packinglist(0);
 		break;
+
+
 	case 'packinglist0' :
 		$retval = packinglist(1);
 		break;
 
+
+			
 	case 'executesql' :
 		$retval = executesql();
 		break;
@@ -310,8 +318,15 @@ case 'cpkccwedit' :
 		$retval = cktjjdlist();
 		break;
 
-
-
+	case 'cwjetj' :
+			$retval = cwjetj();
+			break;
+	
+	case 'cwworktj' :
+				$retval = cwworktj();
+				break;
+		
+	
 
 	case 'locationlist' :
 		$retval = locationlist();
@@ -521,7 +536,7 @@ case 'cpkccwedit' :
 	case 'customerlist' :
 		$retval = customerlist();
 		break;
-
+	
 	case 'warehouselist' :
 		$retval = warehouselist();
 		break;
@@ -993,6 +1008,13 @@ function cktjjdlist() {
 	return getjsonstoredata($query, 0);
 }
 
+function getsqlselect() {
+	$sqlstr=$_GET['sql'];
+//	return $sqlstr;
+	$query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
+
 function locationlist() {
 	$sqlstr = " SELECT *,L_id as id FROM location where E_code='" . $_GET['p_e_code'] . "' order by L_code";
 	$query = mysql_query($sqlstr);
@@ -1012,6 +1034,10 @@ function customerlist() {
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, $totalrow);
 }
+
+
+
+
 
 function cpjkdselectdata() {
 	$sqlstr = " SELECT C_id as Id,C_name as Name FROM customer where active=1 and E_code='" . $_GET['p_e_code'] . "' order by C_code";
@@ -1740,7 +1766,7 @@ function khworkselecttreelist() {
         $lid =(int)$_GET['p_l_id'];
 		$E_code =(int)$_GET['p_e_code'];
 		$khid=(int)$_GET['khid'];
-//return  (int)$_GET['bzid'];
+
 if ($_GET['bzid']=='undefined'){
      $gfbz=1;
 
@@ -1748,14 +1774,13 @@ if ($_GET['bzid']=='undefined'){
 	{
 		$lid =(int)$_GET['p_l_id'];
 		$sqlstr = "	SELECT  `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
-`Weight_Status`,`PS_code`,`Active`,`E_code`,
-a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
-a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,
-c.*
-FROM packing a LEFT OUTER JOIN (
-SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints  
-FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
-where active=1 and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
+			`Weight_Status`,`PS_code`,`Active`,`E_code`,
+			a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+			a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,c.*
+			FROM V_packing_l a LEFT OUTER JOIN (
+			SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints  
+			FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
+			where active=1 and a.L_id=".$lid."  and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
 		
 	}
 	else
@@ -1811,19 +1836,22 @@ $sqlstr="
 SELECT id,text,CASE WHEN ISNULL(dj) or dj=0  THEN dj0 ELSE dj END  AS dj ,zljs,'' AS code, inbz, indj
 FROM ( 
 SELECT `PS_id`,a.Bydj AS dj0,c.dj,'装卸' AS TEXT ,a.Weight_Status  AS zljs,1 AS id,1 AS inbz,1 AS indj
-FROM packing a LEFT OUTER JOIN (
+FROM v_packing_l a LEFT OUTER JOIN (
 SELECT PS_id AS Pid ,`Bydj` AS dj 
-FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid WHERE E_code='".$E_code."'  AND PS_id=".$bzid."
+FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid 
+WHERE E_code='".$E_code."'  AND PS_id=".$bzid." AND a.l_id=".$lid."  
 UNION ALL
 SELECT `PS_id`,a.Pbdj AS dj0,c.dj,'破包修复' AS TEXT ,0 AS zljs,2 AS id,1 AS inbz,1 AS indj
-FROM packing a LEFT OUTER JOIN (
+FROM v_packing_l a LEFT OUTER JOIN (
 SELECT PS_id AS Pid ,`Pbdj` AS dj 
-FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid WHERE E_code='".$E_code."'  AND PS_id=".$bzid."
+FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid 
+WHERE E_code='".$E_code."'  AND PS_id=".$bzid." AND a.l_id=".$lid."  
 UNION ALL
 SELECT `PS_id`,a.Ghdj AS dj0,c.dj,'过户费' AS TEXT ,1 AS zljs,3 AS id,1 AS inbz,1 AS indj
-FROM packing a LEFT OUTER JOIN (
+FROM v_packing_L a LEFT OUTER JOIN (
 SELECT PS_id AS pid ,`Ghdj` AS dj 
-FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid WHERE E_code='".$E_code."'  AND PS_id=".$bzid."
+FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid 
+WHERE E_code='".$E_code."'  AND PS_id=".$bzid."  AND a.l_id=".$lid."  
 UNION ALL
 SELECT 0 AS ps_id,Unit_price AS dj0 ,Unit_price AS dj ,Jobsname AS TEXT,Weight_status AS zljs,
 jobs AS id,Quantity_in AS inbz,Price_in AS indj
@@ -1993,45 +2021,98 @@ function systemmenutreelist() {
 	return @'[]';
 
 }
+function wxsystemmenutreelist() {
+
+
+	$sqlstr = "SELECT distinct type as text,TypeOrder as code  FROM wx_menu where system=0 ";
+	$sqlstr = $sqlstr . " order by TypeOrder";
+	$type = mysql_query($sqlstr);
+	
+	$sqlstr = "SELECT id ,Name as text,PageOrder as code,TypeOrder from wx_menu where system=0  ";
+	$sqlstr = $sqlstr . " order by PageOrder ";
+	$workerquery = mysql_query($sqlstr);
+	if ($workerquery) {
+		$menutype = "";
+		$tree = array();
+		while ($menurow = mysql_fetch_array($type)) {
+			$menutype = $menurow['code'];
+			$my0_array = array();
+			$my0_array["text"] = urlencode($menurow['text']);
+			$my0_array["id"] = $menurow['code'] + '1000';
+			$my0_array["pname"] =urlencode($menurow['text']);
+			$my0_array["code"] = $menurow['code'];
+			$my0_array["checked"] = false;
+			$my0_array["pid"] = 0;
+			$s = 0;
+			$menu_array1 = array();
+			mysql_data_seek($workerquery, 0);
+			while ($row = mysql_fetch_array($workerquery)) {
+				if ($row["TypeOrder"] == $menutype) {
+					$s = $S + 1;
+					$my_array = array();
+
+					$my_array["text"] = urlencode($row['text']);
+					$my_array["id"] = $row['id'];
+					$my_array["code"] = $row['code'];
+					$my_array["leaf"] = 1;
+					$my_array["checked"] = false;
+					$my_array["pname"] =urlencode($menurow['text']);
+					$my_array["expanded"] = 0;
+					array_push($menu_array1, $my_array);
+				}
+			}
+
+			if ($s > 0) {
+				$my0_array["leaf"] = 0;
+				$my0_array["expanded"] = 0;
+				$my0_array["children"] = $menu_array1;
+
+			} else {
+				$my0_array["leaf"] = 1;
+			}
+			array_push($tree, $my0_array);
+		}
+		return urldecode(json_encode($tree));
+
+	}
+	return @'[]';
+
+}
 
 
 function packingselecttreelist() {
 	$p_e_code =$_GET["p_e_code"];
 	$khid =(int)$_GET["p_c_id"];
-	
+
 	$gfbz =(int)$_GET["gfbz"];
-    
+   
 	if ($gfbz==undefined) $gfbz=0;
-
-	//return $khid;
-	//$C_id = 1;
-
-
-
-//	$sqlstr = "SELECT *  FROM packing WHERE Active=1 ";//
-	//$sqlstr = $sqlstr . " and E_code='" . $p_e_code . "'  ";
-	//$sqlstr = $sqlstr . " ORDER BY PS_code";
-
-
-
 	if ($khid>0)
 	{
 	$lid =(int)$_GET['p_l_id'];
-	$sqlstr = "	SELECT  `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
-`Weight_Status`,`PS_code`,`Active`,`E_code`,
-a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
-a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,
-c.*
-FROM packing a LEFT OUTER JOIN (
-SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints  
-FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
-where active=1 and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
+  		/*$sqlstr = "	SELECT  `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+		`Weight_Status`,`PS_code`,`Active`,`E_code`,
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,c.*
+		FROM packing a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints  
+		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
+		where active=1 and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
+		*/
+
+	    $sqlstr = "	SELECT  `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+		`Weight_Status`,`PS_code`,`Active`,`E_code`,
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,c.*
+		FROM v_packing_L a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,L_id  
+		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
+		where active=1 and  a.l_id=".$lid."  and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
 		
 	}
 	else
 	{
 		$sqlstr = " SELECT * ,PS_id as id  FROM packing where E_code='" . $_GET['p_e_code'] . "'";
-		
 		$sqlstr = $sqlstr . " and Active=1  and Xmlb=".$gfbz;
 		$sqlstr = $sqlstr . "   order by PS_code ";
 	}
@@ -2102,7 +2183,7 @@ function typetreelist() {
 function usertypetreelist() {
 
 	$p_e_code =$_GET["p_e_code"];
-	$sqlstr = "SELECT typeid as id ,typename as text,code,new,del,edit,cwsh ,sh,system,menustring FROM usertype where E_code='" . $p_e_code . "'  order by code";
+	$sqlstr = "SELECT typeid as id ,typename as text,code,new,del,edit,cwsh ,sh,system,menustring,wxmenustring  FROM usertype where E_code='" . $p_e_code . "'  order by code";
 	//return $sqlstr;
 	$typequery = mysql_query($sqlstr);
 
@@ -2119,6 +2200,7 @@ function usertypetreelist() {
 			$my0_array["sh"] = $menurow['sh'];
 			$my0_array["cwsh"] = $menurow['cwsh'];
 			$my0_array["menustring"] = $menurow['menustring'];
+			$my0_array["wxmenustring"] = $menurow['wxmenustring'];
 			$my0_array["system"] = $menurow['system'];
 			
 			$my0_array["leaf"] = 1;
@@ -5504,24 +5586,25 @@ function cpkclist_pc() {
 	$loc=$_GET["loc"];
 	if (($loc=='cpkcloc')||($loc=='cpkckhloc'))
 	{
-	if ($loc=='cpkckhloc')
-	{
-	$sqlstr=" SELECT  c.*,
- 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
- 		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
-		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
-		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
-	}
-	else
-	{
+	  if ($loc=='cpkckhloc')
+	  {
 	     $sqlstr=" SELECT  c.*,
  		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
 		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
+	  }
+	  else
+	  {
+	     $sqlstr=" SELECT  c.*,
+ 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
+ 		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
+		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
+		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
+	  }
 
+	     $sqlstr .=" where cpkcmx.sl<>0 ";
 
-	}
 		 if ($_GET["area"])
     	  {
     		if ($_GET["area"]!=""){
@@ -5529,7 +5612,7 @@ function cpkclist_pc() {
 			}
 		 }
 	
-	       $sqlstr.="GROUP BY kcid HAVING SUM(sl)<>0 OR SUM(zl)<>0) mx 
+	     $sqlstr.="GROUP BY kcid HAVING SUM(sl)<>0 OR SUM(zl)<>0) mx 
 			WHERE  mx.kcid=c.kcid AND c.L_id=ck.L_id AND c.khid=kh.c_id AND c.cpid=cp.s_id 
 			AND c.cdid=cd.p_id AND c.bzid=bz.ps_id  and kh.active=1 and cd.active=1 and cp.active=1  " ;
 	
@@ -5584,7 +5667,7 @@ function cpkclist_pc() {
 		$sqlstr =$sqlstr." order by khmc,l_id,cdmc,cpmc ";
 	}
 			//$sqlstr =$sqlstr." order by khmc,cdmc,spmc ";
-    //return $sqlstr;
+   //return $sqlstr;
 	$query = mysql_query($sqlstr);
 
 	return getjsonstoredata($query, 0);
@@ -5629,6 +5712,35 @@ function cpkcmxlist_pc() {
 	return getjsonstoredata($query, 0);
 }
 
+
+function cwjetj() {
+	$Lid=$_GET["p_l_id"];
+	$ny=$_GET["ny"];
+	$yu=$_GET["yu"];
+	$khid=$_GET["khid"];
+	$sqlstr = "CALL getydmxje(".$Lid.",".$khid.",".$ny.",".$yu.",0)";
+	//return $sqlstr; 
+	$query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
+
+function cwworktj() {
+	$Lid=$_GET["p_l_id"];
+	$ny=$_GET["ny"];
+	$yu=$_GET["yu"];
+	$bz=$_GET["bz"];
+	$loc=$_GET["loc"];
+
+	$khid=$_GET["khid"];
+	if ($loc="Cwworkwz"){
+		$sqlstr = "CALL getydbytj(".$Lid.",".$khid.",".$ny.",".$yu.",'".$bz."',1,0)";
+	}else{
+		$sqlstr = "CALL getydbytj(".$Lid.",".$khid.",".$ny.",".$yu.",'".$bz."',0,0)";
+	}
+	//return $sqlstr; 
+	$query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
 
 
 
@@ -5740,7 +5852,7 @@ function cpghdcwlist_pc(){
 		   
 			$sqlstr = " SELECT w.*,m.ghid,m.mxid,w.id as kcmxid,cpkc.cpph   
 			FROM cpkc,cpkcmx w,wxcpghd d ,wxcpghdmx m
-			where  d.ghid=m.ghid  and m.kcid=w.kcid and cpkc.kcid=w.kcid ";
+			where  d.ghid=m.ghid  and m.kcid=w.kcid and cpkc.kcid=w.kcid AND w.sl<>0 ";
 			$sqlstr .=" and m.mxid=".$mxid;	
 
 		break;
@@ -5773,10 +5885,54 @@ function cpghdcwlist_pc(){
 
 function packinglist($optype) {
 	
-		//$lid =(int)$_GET['p_l_id'];
-		//return $lid; 
+	$optype =$_GET['optype'];
 		
-	$khid =(int)$_GET['khid'];
+	switch($optype) 
+	{case 'location' :
+		$lid =(int)$_GET['p_l_id'];
+		$sqlstr = "	SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,c.*
+		FROM packing a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts  
+		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where E_code='".$_GET['p_e_code']."'";
+	   break;
+	 case 'customer' :
+		$khid =(int)$_GET['khid'];
+		$lid =(int)$_GET['p_l_id'];
+				
+		$sqlstr = "SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,c.*
+		FROM V_packing_L a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,czts  
+		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
+		where a.L_id=".$lid." and  a.E_code='".$_GET['p_e_code']."'";
+		
+		/*$sqlstr = "SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,c.*
+		FROM packing a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,czts  
+		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid where E_code='".$_GET['p_e_code']."'";
+        */
+	
+	break;
+	default:
+		$sqlstr = " SELECT * ,PS_id as id  FROM packing where E_code='" . $_GET['p_e_code'] . "'";
+		if ($_GET['active']) {
+			$sqlstr = $sqlstr . " and Active=" . $_GET['active'];
+		}
+		$sqlstr = $sqlstr . "   order by PS_code ";
+	break;
+	}
+
+
+		
+/*	$khid =(int)$_GET['khid'];
 	if ($khid>0)
 	{
 	$lid =(int)$_GET['p_l_id'];
@@ -5800,11 +5956,32 @@ FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid wher
 		if ($optype == 1) {
 			$sqlstr = $sqlstr . " Limit " . $_GET["start"] . "," . $_GET["limit"];
 		}
-	}
-	//return $sqlstr;
+	}*/
+
+//	return $sqlstr;
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
 }
+/*
+function L_packinglist($optype) {
+	
+	
+
+$lid =(int)$_GET['p_l_id'];
+$sqlstr = "	SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+`Weight_Status`,`PS_code`,`Active`,`E_code`,
+a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,
+c.*
+FROM packing a LEFT OUTER JOIN (
+SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,czts  
+FROM packing_L WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where E_code='".$_GET['p_e_code']."'";
+
+$query = mysql_query($sqlstr);
+return getjsonstoredata($query, 0);
+}
+*/
+
 
 function executesql() {
 	$sqlstr =$_GET['sql'];
@@ -10973,9 +11150,10 @@ foreach ($params as $arr) {
 switch ($optype) {
 case 1 :
 //insert
-$sql = "insert into location(L_code,E_code,L_name,Address,Tel) values('" . $arr['L_code'] . "'";
+$sql = "insert into location(L_code,E_code,L_name,L_shortname,Address,Tel) values('" . $arr['L_code'] . "'";
 $sql .= ",'" . $arr['E_code'] . "'";
 $sql .= ",'" . $arr['L_name'] . "'";
+$sql .= ",'" . $arr['L_shortname'] . "'";
 $sql .= ",'" . $arr['Address'] . "'";
 $sql .= ",'" . $arr['Tel'] . "')";
 break;
@@ -11001,6 +11179,12 @@ $str = $arr['L_name'];
 if (isset($str)) {
 $sql .= ",L_name='" . $str . "'";
 }
+
+$str = $arr['L_shortname'];
+if (isset($str)) {
+$sql .= ",L_shortname='" . $str . "'";
+}
+
 $str = $arr['Active'];
 if (isset($str)) {
 if ($str) {
@@ -11155,7 +11339,26 @@ switch ($optype) {
 
 case 1 :
 //insert
-$sql = "insert into Customer(C_code,L_id,C_name,Address,Tel,smsphone,Py_code,password,C_shortname) values('" . $arr['C_code'] . "'";
+
+$str = $arr['Active'];
+if (isset($str)) {
+	if ($str) {
+		$Active=1;
+	} else {
+	$Active=0;
+	}
+}
+$str = $arr['Aloneprice'];
+if (isset($str)) {
+	if ($str) {
+		$Aloneprice=1;
+	} else {
+	$Aloneprice=0;
+	}
+}
+
+
+$sql = "insert into Customer(C_code,L_id,C_name,Address,Tel,smsphone,Py_code,password,C_shortname,Aloneprice,Active) values('" . $arr['C_code'] . "'";
 $sql .= "," . $arr['L_id'];
 $sql .= ",'" . $arr['C_name'] . "'";
 $sql .= ",'" . $arr['Address'] . "'";
@@ -11163,7 +11366,9 @@ $sql .= ",'" . $arr['Tel'] . "'";
 $sql .= ",'" . $arr['smsphone'] . "'";
 $sql .= ",'" . $arr['Py_code'] . "'";
 $sql .= ",'" . base64_encode('8888') . "'";
-$sql .= ",'" . $arr['C_shortname'] . "')";
+$sql .= ",'" . $arr['C_shortname'] . "'";
+$sql .= "," . $Aloneprice ;
+$sql .= "," . $Active . ")";
 
 break;
 case 2 :
@@ -11208,13 +11413,20 @@ $sql .= ",password='" . $str . "'";
 }
 $str = $arr['Active'];
 if (isset($str)) {
-if ($str) {
-$sql .= ",Active=1";
-} else {
-$sql .= ",Active=0";
+	if ($str) {
+		$sql .= ",Active=1";
+	} else {
+	$sql .= ",Active=0";
+	}
 }
+$str = $arr['Aloneprice'];
+if (isset($str)) {
+	if ($str) {
+		$sql .= ",Aloneprice=1";
+	} else {
+	$sql .= ",Aloneprice=0";
+	}
 }
-
 $sql = "update Customer set " . substr($sql, 1) . " where C_id=" . $arr['id'];
 break;
 }
@@ -12131,7 +12343,7 @@ $update = $_POST['update'];
 		$sh = $_POST['sh'];
 		$cwsh = $_POST['cwsh'];
 		$menustring = $_GET['menustring'];
-        $wxmenustring=$_get['wxmenustring'];
+        $wxmenustring=$_GET['wxmenustring'];
 	
 		if ($id < 1) 
 		{
@@ -12227,21 +12439,21 @@ $update = $_POST['update'];
 
 
 
-function packingsave($optype) {
-//0 update 1 add 2 delete
-$khid=(int)$_GET['khid'];
-//$lid=$_GET['P_l_id'];
-$error = '';
-$raw = '';
-$sq = '';
-$fp = fopen('php://input', 'r');
-while ($kb = fread($fp, 1024)) {
-$raw .= $kb;
-}
+function packingsave($op) {
+	$optype=$_GET['optype'];
+	
+	//$L_id=(int)$_GET['khid'];
+	$error = '';
+	$raw = '';
+	$sq = '';
+	$fp = fopen('php://input', 'r');
+	while ($kb = fread($fp, 1024)) {
+		$raw .= $kb;
+	}
 
 $params = json_decode($raw, true);
 if (count($params) && !isset($params[0])) {
-$params = array($params);
+	$params = array($params);
 }
 
 // $_POST['php_input'] = $raw;
@@ -12251,274 +12463,282 @@ $sql = '';
 mysql_query('start transaction');
 
 foreach ($params as $arr) {
-switch ($optype) {
-case 1 :
-//insert
 
-if ($khid>0){
-	$lid=$_GET['p_l_id'];
-	$sql = "insert into packing_kh (PS_id,khid,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
-	$sql .= "," . $khid;
-	$sql .= "," . $lid;
-	$sql .= "," .$arr['mints'];
-	$sql .= "," .$arr['czts'];
-}
-else
-{
-	$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Weight_Status,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
-	$sql .= ",'" . $arr['E_code'] . "'";
-	$sql .= ",'" . $arr['PS_name'] . "'";
-	$sql .= ",'" . $arr['Quantity_Unit'] . "'";
-	$sql .= ",'" . $arr['Weight_Unit'] . "'";
-	$sql .= "," . $arr['Rate'];	
-	$sql .= "," . $arr['Weight_Status'];	
-	$sql .= "," . $arr['Xmlb'];	
-	$sql .= "," .$arr['mints'];
-	$sql .= "," .$arr['czts'];
-}
+	switch ($op) {
+	case 1 :
+	//insert
 
-$sql .= "," . $arr['Czdj'];
-$sql .= "," . $arr['Phdj'];
-$sql .= "," . $arr['Czdj2'];
-$sql .= "," . $arr['Phdj2'];
-$sql .= "," . $arr['Pfdj'];
-$sql .= "," . $arr['Bydj'];
-$sql .= "," . $arr['Pbdj'];
-$sql .= "," . $arr['Ghdj'];
-
-$sql .= ")";
-break;
-case 2 :
-//delete
-$sql = "delete from packing where PS_id=" . $arr['id'];
-break;
-default :
-	
-$id=(int)$arr['id'];
-if ($id>0){ 
-	
-$sql = "";
-$str = $arr['Quantity_Unit'];
-if (isset($str)) {
-$sql .= ",Quantity_Unit='" . $str . "'";
-}
-$str = $arr['Weight_Unit'];
-if (isset($str)) {
-$sql .= ",Weight_Unit='" . $str . "'";
-}
-
-$str = $arr['PS_code'];
-if (isset($str)) {
-$sql .= ",PS_code='" . $str . "'";
-}
-
-$str = $arr['PS_name'];
-if (isset($str)) {
-$sql .= ",PS_name='" . $str . "'";
-}
-$str = $arr['Rate'];
-if (isset($str)) {
-$sql .= ",Rate=" . $str;
-}
-
-$str = $arr['mints'];
-if (isset($str)) {
-$sql .= ",mints=" . $str;
-}
-
-$str = $arr['czts'];
-if (isset($str)) {
-$sql .= ",czts=" . $str;
-}
-
-$str = $arr['Czdj'];
-if (isset($str)) {
-$sql .= ",Czdj=" . $str;
-}
-
-$str = $arr['Phdj'];
-if (isset($str)) {
-$sql .= ",Phdj=" . $str;
-}
-$str = $arr['Czdj2'];
-if (isset($str)) {
-$sql .= ",Czdj2=" . $str;
-}
-$str = $arr['Phdj2'];
-if (isset($str)) {
-$sql .= ",Phdj2=" . $str;
-}
-$str = $arr['Pfdj'];
-if (isset($str)) {
-$sql .= ",Pfdj=" . $str;
-}
-$str = $arr['Bydj'];
-if (isset($str)) {
-$sql .= ",Bydj=" . $str;
-}
-$str = $arr['Pbdj'];
-if (isset($str)) {
-$sql .= ",Pbdj=" . $str;
-}
-$str = $arr['Ghdj'];
-if (isset($str)) {
-$sql .= ",Ghdj=" . $str;
-}
-
-$str = $arr['Weight_Status'];
-if (isset($str)) {
-if ($str) {
-$sql .= ",Weight_Status=1";
-} else {
-$sql .= ",Weight_Status=0";
-}
-}
-
-$str = $arr['Active'];
-if (isset($str)) {
-if ($str) {
-$sql .= ",Active=1";
-} else {
-$sql .= ",Active=0";
-}
-}
-if ($khid>0){
-	$sql = "update packing_kh set " . substr($sql, 1) . " where khPS_id=" . $arr['id'];
-}else{
-	$str = $arr['Xmlb'];
-	if (isset($str)) {
-    if ($str) {
-       $sql .= ",Xmlb=1";
-    } else {
-      $sql .= ",Xmlb=0";
-    }
-    }
-	$sql = "update packing set " . substr($sql, 1) . " where PS_id=" . $arr['id'];	
-}
-}else
-{
-$lid=$_GET['p_l_id'];
-$sql = "insert into packing_kh (PS_id,Khid,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
-$sql .= "," . $khid;
-$sql .= "," . $lid;
+		switch ($optype) {
+			case "location" :
+			$lid=$_GET['p_l_id'];
+			$sql = "insert into packing_L (PS_id,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+			$sql .= "," . $lid;
+			$sql .= "," .$arr['mints'];
+			$sql .= "," .$arr['czts'];		
+			break;
+			case "customer" :
+			$lid=$_GET['p_l_id'];
+			$khid=(int)$_GET['khid'];
+			$sql = "insert into packing_kh (PS_id,khid,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+			$sql .= "," . $khid;
+			$sql .= "," . $lid;
+			$sql .= "," .$arr['mints'];
+			$sql .= "," .$arr['czts'];
+			break;
+			default :
+			$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Weight_Status,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
+			$sql .= ",'" . $arr['E_code'] . "'";
+			$sql .= ",'" . $arr['PS_name'] . "'";
+			$sql .= ",'" . $arr['Quantity_Unit'] . "'";
+			$sql .= ",'" . $arr['Weight_Unit'] . "'";
+			$sql .= "," . $arr['Rate'];	
+			$sql .= "," . $arr['Weight_Status'];	
+			$sql .= "," . $arr['Xmlb'];	
+			$sql .= "," .$arr['mints'];
+			$sql .= "," .$arr['czts'];
+			break;
+		}
+		$sql .= "," . $arr['Czdj'];
+		$sql .= "," . $arr['Phdj'];
+		$sql .= "," . $arr['Czdj2'];
+		$sql .= "," . $arr['Phdj2'];
+		$sql .= "," . $arr['Pfdj'];
+		$sql .= "," . $arr['Bydj'];
+		$sql .= "," . $arr['Pbdj'];
+		$sql .= "," . $arr['Ghdj'];
+		$sql .= ")";
 		
-$str = $arr['mints'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",1" ;	
-}
-
-$str = $arr['czts'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",1" ;	
-}
-
-
-$str = $arr['Czdj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-$str = $arr['Phdj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-$str = $arr['Czdj2'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-$str = $arr['Phdj2'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-					
-$str = $arr['Pfdj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-						
-					
-$str = $arr['Bydj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-$str = $arr['Pbdj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
-$str = $arr['Ghdj'];
-if (isset($str)) {
-	$sql .= "," . $str;
-}else
-{
-	$sql .= ",0" ;	
-}		
+	    break;
+	case 2 :
+		//delete
+		$sql = "delete from packing where PS_id=" . $arr['id'];
+		break;
+	default :
 	
-$sql .= ")" ;	
-	
-	
-	
-	
-	
-	
-	
-}
+		$id=(int)$arr['id'];
+		if ($id>0){ 
+			$sql = "";
+			$str = $arr['Quantity_Unit'];
+			if (isset($str)) {
+				$sql .= ",Quantity_Unit='" . $str . "'";
+			}
+			$str = $arr['Weight_Unit'];
+			if (isset($str)) {
+				$sql .= ",Weight_Unit='" . $str . "'";
+			}
+			$str = $arr['PS_code'];
+			if (isset($str)) {
+				$sql .= ",PS_code='" . $str . "'";
+			}
+			$str = $arr['PS_name'];
+			if (isset($str)) {
+				$sql .= ",PS_name='" . $str . "'";
+			}
+			$str = $arr['Rate'];
+			if (isset($str)) {
+				$sql .= ",Rate=" . $str;
+			}
+			$str = $arr['mints'];
+			if (isset($str)) {
+				$sql .= ",mints=" . $str;
+			}
+			$str	 = $arr['czts'];
+			if (isset($str)) {
+				$sql .= ",czts=" . $str;
+			}
+			$str = $arr['Czdj'];
+			if (isset($str)) {
+				$sql .= ",Czdj=" . $str;
+			}
+			$str	 = $arr['Phdj'];
+			if (isset($str)) {
+				$sql .= ",Phdj=" . $str;
+			}
+			$str = $arr['Czdj2'];
+			if (isset($str)) {
+				$sql .= ",Czdj2=" . $str;
+			}
+			$str = $arr['Phdj2'];
+			if (isset($str)) {
+				$sql .= ",Phdj2=" . $str;
+			}
+			$str = $arr['Pfdj'];
+			if (isset($str)) {
+				$sql .= ",Pfdj=" . $str;
+			}
+			$str = $arr['Bydj'];
+			if (isset($str)) {
+				$sql .= ",Bydj=" . $str;
+			}
+			$str = $arr['Pbdj'];
+			if (isset($str)) {
+				$sql .= ",Pbdj=" . $str;
+			}
+			$str = $arr['Ghdj'];
+			if (isset($str)) {
+				$sql .= ",Ghdj=" . $str;
+			}
+			$str = $arr['Weight_Status'];
+			if (isset($str)) {
+				if ($str) {
+					$sql .= ",Weight_Status=1";
+				} else {
+					$sql .= ",Weight_Status=0";
+				}
+			}
+			$str = $arr['Active'];
+			if (isset($str)) {
+				if ($str) {
+					$sql .= ",Active=1";
+				} else {
+					$sql .= ",Active=0";
+				}
+			}
+
+
+			
+		switch ($optype) {
+			case "location" :
+				//$lid=$_GET['p_l_id'];
+				$sql = "update packing_L set " . substr($sql, 1) . " where id=" . $arr['id'];
+		    break;
+			case "customer" :
+				//$lid=$_GET['p_l_id'];
+				$sql = "update packing_kh set " . substr($sql, 1) . " where khPS_id=" . $arr['id'];
+   			break;
+			default :
+				$str = $arr['Xmlb'];
+				if (isset($str)) {
+	    			if ($str) {
+		       			$sql .= ",Xmlb=1";
+   					} else {
+	      				$sql .= ",Xmlb=0";
+    				}
+    			}
+				$sql = "update packing set " . substr($sql, 1) . " where PS_id=" . $arr['id'];	
+		    break;
+		}
+
+			
 
 
 
+		}else  
+		{//id==0 insert 
+		switch ($optype) {
+			case "location" :
+				$lid=$_GET['p_l_id'];
+				$sql = "insert into packing_L (PS_id,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+				$sql .= "," . $lid;
+		    break;
+			case "customer" :
+				$lid=$_GET['p_l_id'];
+				$khid=(int)$_GET['khid'];
+				$sql = "insert into packing_kh (PS_id,Khid,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+				$sql .= "," . $khid;
+				$sql .= "," . $lid;
+			   break;
+			   default :
+			   $sql = "aaaaaaaaaaaaaaaaaaaaaaa";	
+		   break;
+		}
+		
+			$str = $arr['mints'];
+			if (isset($str)) {
+					$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",1" ;	
+			}
+			$str = $arr['czts'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{	
+				$sql .= ",1" ;	
+			}
+			$str = $arr['Czdj'];
+			if (isset($str)) {
+					$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Phdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Czdj2'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Phdj2'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Pfdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Bydj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Pbdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			$str = $arr['Ghdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}		
+			
+			$sql .= ")" ;	
+		}
+		break;
+	}
 
 
-break;
-}
+	mysql_query($sql);
+	if (mysql_errno() > 0) {
+		return $sql;
+		$error = 'yes';
+		break;
+		}
+	}
 
-
-
-mysql_query($sql);
-
-if (mysql_errno() > 0) {
-return $sql;
-$error = 'yes';
-break;
-}
-}
-
-//mysql_query('commit');
-//return $sql;
-if ($error == 'yes') {
-mysql_query('rollback');
-return '{result:"fail",msg:"数据保存失败！!"}';
-//return '数据保存失败!!!'.$sql;
-} else {
-mysql_query('commit');
-return '{result:"success"}';
-}
-
-return $sql;
+	//mysql_query('commit');
+	//return $sql;
+	if ($error == 'yes') {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败！!"}';
+		//return '数据保存失败!!!'.$sql;
+	} else {
+		mysql_query('commit');
+		return '{result:"success"}';
+	}
+	return $sql;
 
 }
 

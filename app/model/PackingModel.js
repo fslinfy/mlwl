@@ -10,6 +10,10 @@ Ext.define('MyApp.model.PackingModel', {
         name: 'khid', type: 'int'
     },
     {
+        name: 'L_id', type: 'int'
+    },
+
+    {
         name: 'Pid', type: 'int'
     },
     {

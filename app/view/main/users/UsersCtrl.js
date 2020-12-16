@@ -267,6 +267,7 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
 
 
         records = that.getView().down("#selectWorkerTreePanel1").getChecked();
+        //console.log(records);
          names = [];
          ids = [];
         Ext.Array.each(records, function (rec) {
@@ -281,9 +282,9 @@ Ext.define('MyApp.view.main.users.UsersCtrl', {
              str1 = "|" + ids.join('|') + "|";
         }
         p.set("wxmenustring", str1);
-        console.log(str);
+        //console.log('str',str);
 
-        console.log(str1);
+        //console.log('str1',str1);
 
 
 

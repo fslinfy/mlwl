@@ -1,5 +1,11 @@
 
 
+    
+
+function test() {
+   alert("aaaaaaaaaaaaaaaaaa ")
+
+}
 function treeSelect(mc, the, kcbz, viewname, resh, callback) {
     this.callback = callback;
     this.mc = mc;
@@ -1145,10 +1151,10 @@ function loadModel(url, tab, id) {
 }
 
 function addTab(url, id, id0, mid) {
-
+ 
     var tabid = "tab_" + mid;
     var tab = Ext.getCmp(tabid);
-
+    console.log(id0,tab,tabid,url);         
     url = trim(url);
     if (!tab) {
 

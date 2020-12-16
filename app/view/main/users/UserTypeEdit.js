@@ -269,16 +269,16 @@ Ext.define('MyApp.view.main.users.UserTypeEdit', {
                         load: function (store) {
                             var p = that.lookupReference('popupWindow').getViewModel();
                             var str = p.get('wxmenustring');
-                            console.log(str);
+                            console.log('wxmenustring',str);
                             if (str==undefined) str='';
                             var tree = that.getView().down("#selectWorkerTreePanel1") ;
                             var nodes = tree.getRootNode().childNodes;
                             for (var j = 0; j < nodes.length; j++) {
                                 var node = tree.getRootNode().childNodes[j];
                                     if (str.indexOf("|"+node.data.id+"|")>-1)
-                                            {
+                                    {
                                                 node.data.checked=true;
-                                            }
+                                    }
                                 if (node.hasChildNodes()) {
                                     for (var i = 0; i < node.childNodes.length; i++) {
                                           var node1=node.childNodes[i];             

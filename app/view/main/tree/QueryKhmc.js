@@ -30,8 +30,11 @@ Ext.define('MyApp.view.main.tree.QueryKhmc', {
       triggerCls: 'x-form-clear-trigger',
       onTriggerClick: function () {
         this.reset();
-        this.up("gridpanel").getViewModel().set('khid', 0);
-        that.khmcTriggerClick();
+        //console.log("onTriggerClick");
+
+        that.getView().getViewModel().set('khid', sys_customer_id);
+      //  this.up("gridpanel").getViewModel().set('khid', 0);
+        //khmcTriggerClick();
       }
     },
     {

@@ -237,10 +237,8 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
                 dataIndex: 'kczl',
                 summaryType: 'sum',
                 summaryRenderer: slrenderer,
-
                 field: {
                     xtype: 'numberfield'
-
                 },
                 renderer: slrenderer
 
@@ -254,20 +252,29 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
             {
                 xtype: 'numbercolumn',
                 text: '数量',
-                //flex: 2,
                 sortable: false,
                 width: 80, align: 'right',
                 dataIndex: 'kdsl',
-                renderer: slrenderer
+                summaryType: 'sum',
+                summaryRenderer: slrenderer,
+                field: {
+                    xtype: 'numberfield'
 
+                },
+                renderer: slrenderer
             },
             {
                 xtype: 'numbercolumn',
                 text: '重量',
                 width: 80, align: 'right',
                 sortable: false,
-                //flex: 2,
                 dataIndex: 'kdzl',
+                summaryType: 'sum',
+                summaryRenderer: slrenderer,
+                field: {
+                    xtype: 'numberfield'
+
+                },
                 renderer: slrenderer
             }]
     }

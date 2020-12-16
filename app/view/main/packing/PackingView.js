@@ -124,7 +124,7 @@
 			text: '临时仓仓租单价',
 			columns: [
 				{
-					text: '180天内',
+					text: cztsfl+'天内',
 					columns: [
 
 						{
@@ -156,7 +156,7 @@
 
 
 				{
-					text: '180天以后',
+					text: cztsfl+ '天以后',
 					columns: [
 
 						{

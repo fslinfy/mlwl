@@ -45,6 +45,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
     },
     onBtnHelpClick: function (button, e, options) {
         //     this.printtest();
+        console.log('HELP');
         return;
     },
     init: function () {

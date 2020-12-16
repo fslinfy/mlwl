@@ -27,8 +27,8 @@ Ext.define('MyApp.view.main.tree.QueryCkmc', {
 
         this.reset();
 
-        this.up("gridpanel").getViewModel().set('ckid', 0);
-        that.ckmcTriggerClick();
+        that.getView().getViewModel().set('ckid', 0);
+      //  that.ckmcTriggerClick();
 
 
       }

@@ -39,6 +39,9 @@ Ext.define('MyApp.model.CustomerModel', {
     }, {
         name: 'Active',
         type: 'bool'
+    }, {
+        name: 'Aloneprice',
+        type: 'bool'
     }]
 });
 

@@ -124,6 +124,7 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
     },
     {
         text: '月度开始日', dataIndex: 'Beginday', width: 90, align: 'center',
+        hidden:true,
         editor: {
             allowBlank: false,
             type: 'numberfield',
@@ -134,7 +135,7 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
         xtype: 'datecolumn',
         text: '有效日期', sortable: false,
         dataIndex: 'Enddate',
-        width: 80,
+        width: 120,
         //formatter: 'date("Y-m-d")',
         format: 'Y-m-d',
         editor: {
@@ -149,6 +150,12 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
         width: 50,
         text: '活跃',
         dataIndex: 'Active'
+    },
+    {
+        xtype: 'checkcolumn',
+        width: 80,
+        text: '独立单价',
+        dataIndex: 'Aloneprice'
     },
     {
         xtype: 'widgetcolumn',

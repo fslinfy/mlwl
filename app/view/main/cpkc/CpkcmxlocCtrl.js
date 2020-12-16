@@ -40,13 +40,13 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
         return false;
     },
     onBtnHelpClick: function (button, e, options) {
-        /*  var grid = that.getView();
+          var grid = that.getView();
           grid.saveDocumentAs({
               type: 'excel',
               title: 'My export',
               fileName: 'myExport.xml'
           });
-  */
+  
         return false;
     },
     init: function () {
@@ -215,23 +215,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             } 
             var tableDataarr=[];
             var jsonSheetData=[];
-            
-           // for (var i = 0; i < sheetarr.length; i++) {
-             //   var   oldobj = sheetarr[i];
                  jsonSheetData=this.getexcelsheetdata1(kcarray,title) ;
-                 //console.log(jsonSheetData);
-                 //jsonSheetData0.push(jsonSheetData);
-
-             //    for (var j = 0; j < jsonSheetData.length; j++) {
-              //      var arr = kcarray[j].data;
-               //     jsonSheetData0.push(arr);
-               // }
-
-                 
-           // } 
-        //console.log(jsonSheetData);
-           //  return ;
-            
            tableDataarr.push(
                 {
                     "sheetName":title,
@@ -269,32 +253,6 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
              jsonData.push([]);
              jsonData.push([]);
              }
-          /*
-           arr= [
-            {
-                "merge": {
-                    "c": 15
-                },
-                "style": {
-                    "font": {
-                        "sz":24,
-                        "bold": true,
-                         "color": {
-                            "rgb": 'FF4F81BD' 
-                          }
-                    },
-                    "alignment": {
-                        "horizontal": 'center' 
-                      }
-                },
-                "text":title
-            }
-            ]
-
-
-        jsonData.push(arr);  //增加标题
-          */
-
         arr = [
             {
                 "merge": {
@@ -310,26 +268,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
                     }
                 },
                 "text": "客户：" + oldobj.khmc
-            }/*, {}, {}, {}, {}, {},  
-            {
-                "merge": {
-                    "c": 5
-                },
-
-                "style": {
-                    "font": {
-                        
-                        "bold": true
-                    },
-                    "color": {
-                        "rgb": 'FF4F81BD' 
-                      }
-    
-                }
-                ,
-                "text": "仓库：" + this.viewname.getViewModel().get('ckmc')
             }
-            */
 
         ]
         jsonData.push(arr);  //增加小标题
@@ -440,25 +379,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
             sumsl+=oldobj.sl;
             sumzl+=oldobj.zl;
             jsonData.push(arr);
-          //}
-       // }
-        /*if ( kcarray.length>1)  {
-            arr=[]; 
-            arr.push({});
-            arr.push({});
-            arr.push({});
-            arr.push({});
-            arr.push({});
-            arr.push({});
-            arr.push({});
-            arr.push({ 'text': '小计' });
-            arr.push({ 'text': slrenderer(sumsl) });
-            arr.push({ 'text': slrenderer(sumzl) });
-            arr.push({ 'text': '' });
-            arr.push({ 'text':''});
-            jsonData.push(arr);
-
-        }*/
+          
        khid=oldobj.khid;
 
     }

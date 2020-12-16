@@ -1,7 +1,27 @@
+var cztsfl=360;
+Ext.Ajax.request( {
+    url:"mysql_action.PHP?act=getsqlselect&sql=select * from sys_ini where varmc='CZTSFL' ", //跨域请求的URL
+    method : 'GET',
+    dataType:'json',
+    headers: {'Content-Type':'application/json'},
+    async: false,
+    //jsonData:Ext.util.JSON.decode(paraMap),
+   success : function(response, options) {
+       var o = Ext.util.JSON.decode(response.responseText);
+       var rs=o['rows'] ;
+       var oj=rs[0];
+      cztsfl=oj['VARVALUE'];
+   },
+   failure : function() {
+    console.log("failure")
+   }
+});
+
+
 Ext.define("MyApp.view.main.customer.PackingEditView",
     {
         extend: "Ext.window.Window", xtype: "formpackingwindow", reference: "popuppackingWindow", itemId: "PackingEditView",
-        bind: { title: "{title}" }, width: "95%", height: 700, minWidth: 600, minHeight: 400, layout: "fit",
+        bind: { title: "{title}" }, width: "95%", height:600, minWidth: 600, top:0,minHeight: 400, layout: "fit",
         closeAction: "destroy", bodyPadding: 5, plain: true, maximizable: true, modal: true,
         items: [{
             xtype: "form", reference: "windowForm",
@@ -26,7 +46,7 @@ Ext.define("MyApp.view.main.customer.PackingEditView",
                     }, {
                         text: "临时仓仓租单价",
                         columns: [{
-                            text: "180天内", columns: [{
+                            text: cztsfl+ "天内", columns: [{
                                 xtype: "numbercolumn", align: "right", format: "00000.00",
                                 text: "不分批号", dataIndex: "Czdj", flex: 1, align: "left", sortable: false,
                                 editor: { type: "numberfield", decimalPrecision: 3, align: "right", allowBlank: true, minValue: 0, maxValue: 9999.99 }
@@ -38,7 +58,7 @@ Ext.define("MyApp.view.main.customer.PackingEditView",
                             }]
                         },
                         {
-                            text: "180天之后",
+                            text: cztsfl+ "天之后",
                             columns: [{
                                 xtype: "numbercolumn", align: "right", format: "00000.00", 
                                 text: "不分批号",
