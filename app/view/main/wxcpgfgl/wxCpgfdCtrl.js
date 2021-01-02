@@ -379,7 +379,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
     
             //  //console.log("onCpgfdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
             this.dialog_mx = view.add({
-                xtype: 'formmxwindow',
+                xtype: 'gfdformmxwindow',
     
                 viewModel: {
                     data: record

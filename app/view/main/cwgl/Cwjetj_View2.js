@@ -6,11 +6,6 @@ title:"Cwjetj",
 reference: 'popupgridwindow',
 itemId:"popupgridwindow",
 requires:[
-    "MyApp.view.main.QueryToolbarView"
-    ,"MyApp.view.main.jqGridFunction"
- //   ,"MyApp.view.main.cwgl.Cwjetj_Grid"
-    ,'MyApp.view.main.tree.QueryKhmc'
-    ,'MyApp.view.main.tree.QueryCkmc'
     
 
 ],

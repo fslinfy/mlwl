@@ -30,7 +30,15 @@ var exportfilename=PageTitleName;
 Ext.define("MyApp.view.main.cpczgl.CpcztjlocCtrl", {
     extend:"Ext.app.ViewController",
     alias:"controller.CpcztjlocCtrl",
-    requires:["MyApp.view.main.cpczgl.CpcztjlocView"],
+    requires:[
+      "MyApp.view.main.jqGridFunction"
+      ,"MyApp.view.main.QueryToolbarView"
+      ,'MyApp.view.main.tree.QueryKhmc'
+      ,'MyApp.view.main.tree.QueryCkmc'
+      ,'MyApp.view.main.tree.PageTitle'
+      ,"MyApp.view.main.cpczgl.CpcztjlocView"
+ 
+    ],
     
     init:function(){
      that = this;
@@ -93,7 +101,7 @@ gridgroupingView = {
                 "#btnHelp":{click:onBtnHelpClick},
                 "#btnExport":{click:onBtnExportClick},
                 "#btnQueryKhmc":{click:onSelectKhbmView},
-                "#btnQueryCkmc":{click: onSelectCkbmView}
+                "#btnQueryCkmc":{click:onSelectCkbmView}
              });
 
              if (sys_customer_id > 0) {
@@ -108,18 +116,6 @@ gridgroupingView = {
     
     
     },
-    /*
-    onBtnExportClick:function(button,e,options){
-        //grid.jqGrid('exportToCsv');
-      //  console.log("exportToCsv");
-        grid.jqGrid("exportToCsv",{
-          includeLabels : true,
-          includeGroupHeader : true,
-          includeFooter: true,
-          fileName :exportfilename,
-          maxlength : 40 
-        })
-     },*/
     onBtnQueryClick:function(button,e,options){
 
         
@@ -203,5 +199,3 @@ gridgroupingView = {
  });
 
  
-
-

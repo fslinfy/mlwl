@@ -1,11 +1,13 @@
-﻿Ext.define('MyApp.view.main.jqGridFunction', {
-    extend: 'Ext.Mixin'
+﻿
+
+Ext.require('Ext.slider.*');
+Ext.define('MyApp.view.main.jqGridFunction',{
+	extend: 'Ext.Mixin'
 });
+
 
 creategrid=function(tableName){
   grid =jQuery("#"+tableName);
- // console.log("jqgrid",grid);
- // alert("grid");
   grid.jqGrid({
   url:listUrl,
   mtype: 'POST',

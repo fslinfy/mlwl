@@ -104,7 +104,7 @@ function onCpgfdmxShEdit(button) {
     var view = this.getView();
     this.isEdit = false;// !!record;
     this.dialog = view.add({
-        xtype: 'formmxwindow',
+        xtype: 'gfdformmxwindow',
         viewModel: {
             data: record
         },

@@ -21,7 +21,20 @@
 			xtype: 'container',
 			flex: 1,
 			layout: 'hbox',
-			items: [{
+			items: [    {
+				xtype: 'displayfield',
+				itemId:"PageTitle",
+				value:'收费项目维护',
+				style: {
+				   'font-size':'16px',
+				   'font-weight': 'bold',
+					margin: '5px 30px 0 0',
+					color:"#000"  
+				},
+			   fieldCls:'biggertext',
+				hideLabel: true
+				},
+				{
 				labelWidth: 30,
 				xtype: 'triggerfield',
 				fieldLabel: '过滤',

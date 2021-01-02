@@ -36,7 +36,15 @@ var exportfilename=PageTitleName;
 Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
     extend:"Ext.app.ViewController",
     alias:"controller.CpjcworklocCtrl",
-    requires:["MyApp.view.main.cpczgl.CpjcworklocView"],
+    requires:[
+    "MyApp.view.main.QueryToolbarView"
+    ,"MyApp.view.main.jqGridFunction"
+    ,'MyApp.view.main.tree.QueryKhmc'
+    ,'MyApp.view.main.tree.QueryCkmc'
+    ,'MyApp.view.main.tree.QueryDate'
+    ,"MyApp.view.main.cpczgl.CpjcworklocView"
+
+  ],
     init:function(){
      that = this;
      that.viewname = that.getView();

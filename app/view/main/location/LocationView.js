@@ -11,6 +11,19 @@ id:"LocationGrid",plugins:["cellediting","gridfilters"],controller:"LocationCtrl
 closeAction:"destroy",tbar:[{xtype:"container",flex:1,layout:"hbox",items:[
     {xtype:"container",flex:1,layout:"hbox",
 items:[
+    {
+        xtype: 'displayfield',
+        itemId:"PageTitle",
+        value:'仓库名称维护',
+        style: {
+           'font-size':'16px',
+           'font-weight': 'bold',
+            margin: '5px 30px 0 0',
+            color:"#000"  
+        },
+       fieldCls:'biggertext',
+        hideLabel: true
+        },
     {labelWidth:30,xtype:"triggerfield",fieldLabel:"\u8fc7\u6ee4",itemId:"FilterField",flex:1,triggerCls:"x-form-clear-trigger",
 onTriggerClick:function(){this.reset()}}]},{xtype:"QueryToolbarView"}]}],
 columns:[
@@ -28,7 +41,7 @@ filter:{type:"string",itemDefaults:{emptyText:"Search for\u2026"}},
 editor:{allowBlank:true,type:"string"}},{text:"\u8054\u7cfb\u7535\u8bdd",
 dataIndex:"Tel",flex:1,align:"left",editor:{allowBlank:true,type:"string"}},
 {xtype:"checkcolumn",width:90,text:"\u6d3b\u8dc3",dataIndex:"Active"}
-,
+/*,
     {
         xtype: 'widgetcolumn',
         width: 100, sortable: false,
@@ -37,5 +50,5 @@ dataIndex:"Tel",flex:1,align:"left",editor:{allowBlank:true,type:"string"}},
             text: '单价定义',
             handler: 'onPackingEdit'
         }
-    }
+    }*/
 ],listeners:{select:"onItemSelected"}});

@@ -4,13 +4,18 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CpkcmxlocCtrl',
     requires: [
-        'MyApp.view.main.cpkc.CpkcmxlocView'
-        , 'MyApp.view.main.cpkc.CpkccwEdit'
+        
+         'MyApp.view.main.cpkc.CpkccwEdit'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.tree.QueryCdmc'
         , 'MyApp.view.main.tree.QueryCpmc'
         , 'MyApp.view.main.tree.QueryCkmc'
         , 'MyApp.view.main.report.DataToExcel'
+
+        ,'MyApp.view.main.QueryToolbarView'
+        , 'MyApp.view.main.tree.QueryArea'
+        , 'MyApp.store.CpkclocStore'
+        ,'MyApp.view.main.cpkc.CpkcmxlocView'
     ],
     locQuery: function (that) {
         var ckid = that.viewname.getViewModel().get('ckid');

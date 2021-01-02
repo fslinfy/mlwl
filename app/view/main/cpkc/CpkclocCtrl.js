@@ -9,14 +9,18 @@ var cpkcmxStore;
 Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CpkclocCtrl',
-    requires: [
-        'MyApp.view.main.cpkc.CpkclocView'
+    requires: [ 
+      'MyApp.view.main.SubTable'
+    , 'MyApp.model.CpkcmxModel'
+    , 'MyApp.model.CpkcModel'
+    , 'MyApp.view.main.QueryToolbarView'
+    , 'MyApp.store.CpkcStore'
+    , 'MyApp.store.CpkclocStore'
         , 'MyApp.view.main.tree.QueryKhmc'
         , 'MyApp.view.main.tree.QueryCdmc'
         , 'MyApp.view.main.tree.QueryCpmc'
         , 'MyApp.view.main.tree.QueryCkmc'
-        //, 'MyApp.view.main.report.DataToExcel'
-        //, 'MyApp.view.main.report.ToExcel'
+        ,'MyApp.view.main.cpkc.CpkclocView'
     ],
     locQuery: function () {
         var ckid = that.viewname.getViewModel().get('ckid');
@@ -35,7 +39,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
         var khid = that.viewname.getViewModel().get('khid');
         var cdid = that.viewname.getViewModel().get('cdid');
         var cpid = that.viewname.getViewModel().get('cpid');
-        var store = this.getView().getStore();
+        var store = that.getView().getStore();
         cpkcmxStore.proxy.extraParams.p_l_id = ckid;
         cpkcmxStore.proxy.extraParams.khid = khid;
         cpkcmxStore.proxy.extraParams.cdid = cdid;
@@ -91,39 +95,39 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
             that.locQuery();
         });
         that.onBtnQueryClick();
-        this.control({
+        that.control({
             "#btnQuery": {
-                click: this.onBtnQueryClick
+                click: that.onBtnQueryClick
             },
             "#btnHelp": {
-                click: this.onBtnHelpClick
+                click: that.onBtnHelpClick
             },
             "#FilterField": {
-                change: this.onFilterChange
+                change: that.onFilterChange
             },
             "#btnQueryKhmc": {
-                click: this.onSelectKhbmView
+                click: that.onSelectKhbmView
             },
             "#btnQueryCdmc": {
-                click: this.onSelectCdbmView
+                click: that.onSelectCdbmView
             },
             "#btnQueryCpmc": {
-                click: this.SelectCpbmView
+                click: that.SelectCpbmView
             },
             "#btnExport": {
-                click: this.onBtnExportClick
+                click: that.onBtnExportClick
             },
             "#btnQueryCkmc": {
-                click: this.SelectCkbmView
+                click: that.SelectCkbmView
             }
         });
         var store = that.viewname.getStore();
-        var tool = this.getView().down("#QueryToolbarView");
+        var tool = that.getView().down("#QueryToolbarView");
         tool.down('#btnExport').setHidden(false);
     },
     onBtnExportClick: function (record) {
         var that = this;
-        var store = this.getView().getStore();
+        var store = that.getView().getStore();
         var kcarray = store.data.items;
         var sheetarr = [];
         var khid = 0;
@@ -144,7 +148,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
         var jsonSheetData = [];
         for (var i = 0; i < sheetarr.length; i++) {
             var oldobj = sheetarr[i];
-            jsonSheetData = this.getexcelsheetdata(kcarray, oldobj.khid, oldobj.khmc);
+            jsonSheetData = that.getexcelsheetdata(kcarray, oldobj.khid, oldobj.khmc);
             tableDataarr.push(
                 {
                     "sheetName": oldobj.khjc,
@@ -207,7 +211,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocCtrl', {
                         "bold": true
                     }
                 },
-                "text": "仓库：" + this.viewname.getViewModel().get('ckmc')
+                "text": "仓库：" + that.viewname.getViewModel().get('ckmc')
             }
 
         ]

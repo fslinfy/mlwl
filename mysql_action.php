@@ -1028,9 +1028,17 @@ function customerlist() {
     $sqlstr = " SELECT C_id    FROM customer where E_code='" . $_GET['p_e_code'] . "' order by C_code";
     $totalrow=mysql_numrows(mysql_query($sqlstr));
 	//return $totalrow;
-	$sqlstr = " SELECT *,C_id as id  FROM customer where E_code='" . $_GET['p_e_code'] . "' order by C_code ";
-    $sqlstr .= " limit ".$start.",".$limit ;    
-	 
+	$sqlstr = " SELECT *,C_id as id  FROM customer where E_code='" . $_GET['p_e_code'] . "'";
+
+	if (isset($_GET["CustomerDj"]))
+	{
+		$sqlstr .= " and Aloneprice=1 ";
+	}
+
+
+    $sqlstr .= "  order by C_code   limit ".$start.",".$limit ;    
+	//a.Aloneprice=1 and 
+
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, $totalrow);
 }
@@ -5909,7 +5917,7 @@ function packinglist($optype) {
 		FROM V_packing_L a LEFT OUTER JOIN (
 		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,czts  
 		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
-		where a.L_id=".$lid." and  a.E_code='".$_GET['p_e_code']."'";
+		where  a.L_id=".$lid." and  a.E_code='".$_GET['p_e_code']."'";
 		
 		/*$sqlstr = "SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
 	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
@@ -12639,7 +12647,7 @@ foreach ($params as $arr) {
 				$sql .= "," . $lid;
 			   break;
 			   default :
-			   $sql = "aaaaaaaaaaaaaaaaaaaaaaa";	
+		   $sql = "";	
 		   break;
 		}
 		

@@ -6,13 +6,6 @@ title:"jcworkloc",
 reference: 'popupgridwindow',
 itemId:"popupgridwindow",
 requires:[
-    "MyApp.view.main.QueryToolbarView"
-    ,"MyApp.view.main.jqGridFunction"
-  //  ,"MyApp.view.main.cpczgl.CpjcworklocGrid"
-    ,'MyApp.view.main.tree.QueryKhmc'
-    ,'MyApp.view.main.tree.QueryCkmc'
-    ,'MyApp.view.main.tree.QueryDate'
-
 ],
 //id:"CpjcworklocGrid",
 
@@ -23,6 +16,7 @@ closeAction:"destroy",
 viewModel: {
     data: {
         'khmc': '', 'khid': 0, 'jclb': '0',
+        'ckid':sys_location_id,
         'start_date': new Date(), 'end_date': new Date()
     }
 },

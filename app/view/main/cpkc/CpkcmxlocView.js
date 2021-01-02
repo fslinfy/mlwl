@@ -9,9 +9,7 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocView', {
     extend: 'Ext.grid.Panel',
     xtype: 'CpkcmxlocView',
     requires: [
-        'MyApp.view.main.QueryToolbarView'
-        , 'MyApp.view.main.tree.QueryArea'
-        , 'MyApp.store.CpkclocStore'
+       
     ],
     closeAction: 'destroy',
     itemId: 'CpkcmxlocGrid',

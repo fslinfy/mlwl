@@ -31,7 +31,13 @@ var exportfilename=PageTitleName+".xlsx";
 Ext.define("MyApp.view.main.cwgl.Cwjetj_Ctrl", {
     extend:"Ext.app.ViewController",
     alias:"controller.Cwjetj_Ctrl",
-    requires:["MyApp.view.main.cwgl.Cwjetj_View"],
+    requires:[
+    "MyApp.view.main.QueryToolbarView"
+    ,"MyApp.view.main.jqGridFunction"
+    ,'MyApp.view.main.tree.QueryKhmc'
+    ,'MyApp.view.main.tree.QueryCkmc'
+    ,"MyApp.view.main.cwgl.Cwjetj_View"
+],
     init:function(){
      that = this;
      that.viewname = that.getView();

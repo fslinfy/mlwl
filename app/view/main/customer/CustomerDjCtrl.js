@@ -1,16 +1,16 @@
-﻿
+﻿var PageTitleName ='客户独立仓租单价定义';
 var that;
-Ext.define('MyApp.view.main.customer.CustomerCtrl', {
+Ext.define('MyApp.view.main.customer.CustomerDjCtrl', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.CustomerCtrl',
+    alias: 'controller.CustomerDjCtrl',
     requires: [
-        'MyApp.model.CustomerModel',
-        'MyApp.store.CustomerStore',
-        //'MyApp.store.PackingStore',
-        //'MyApp.model.PackingModel',
-        //'MyApp.view.main.customer.PackingEditView',
+        'MyApp.view.main.tree.PageTitle',
+        "MyApp.model.CustomerModel",
+        'MyApp.store.PackingStore',
+        'MyApp.model.PackingModel',
+        'MyApp.view.main.customer.PackingEditView',
         'MyApp.view.main.QueryToolbarView',
-        'MyApp.view.main.customer.CustomerView'
+        'MyApp.view.main.customer.CustomerDjView'
     ],
     onBtnQueryClick: function (button, e, options) {
         this.getView().getStore().load();
@@ -22,27 +22,10 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
         tool.down('#btnDelete').setDisabled(false);
         return false;
     },
-    onBtnNewClick: function (rs) {
-        this.getView().getStore().addSorted([{ L_id: sys_location_id, password: base64encode('8888') }]);
-        return false;
-    },
-    onBtnDeleteClick: function (button, e, options) {
-        var store = this.getView().getStore();
-        var grid = Ext.getCmp('CustomerGrid');
-        return storeBtnDeleteClick(this, grid, store);
-    },
     onBtnHelpClick: function (button, e, options) {
         var changes = this.getView().getSession().getChanges();
 
         console.log(" help", changes)
-        return false;
-    },
-    onBtnSaveClick: function (button, e, options) {
-        var store = this.getView().getStore();
-        return storeBtnSaveClick(this, store);
-    },
-    onBtnUndoClick: function (button, e, options) {
-        this.getView().getStore().rejectChanges();
         return false;
     },
     onBeforeReload: function (store, records, options) {
@@ -58,39 +41,19 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
     init: function () {
         that = this;
         var tool = this.getView().down("#QueryToolbarView");
-        tool.down('#btnNew').setHidden(false);
-        tool.down('#btnSave').setHidden(false);
-        tool.down('#btnDelete').setHidden(false);
-        tool.down('#btnUndo').setHidden(false);
         this.control({
             "#btnQuery": {
                 click: this.onBtnQueryClick
-            },
-            "#button1": {
-                click: this.onButtonAddClick
-            },
-            "#btnNew": {
-                click: this.onBtnNewClick
-            },
-            "#btnSave": {
-                click: this.onBtnSaveClick
             },
             "#btnpackingSave": {
                 click: this.onBtnPackingSaveClick
             },
 
 
-
-            "#btnDelete": {
-                click: this.onBtnDeleteClick
-            },
             "#btnHelp": {
                 click: this.onBtnHelpClick
             },
-            "#btnUndo": {
-                click: this.onBtnUndoClick
-            }
-            ,
+            
             "#Cancel": {
                 click: this.onBtnCancelClick
             },
@@ -118,6 +81,9 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
     },
     onBtnPackingSaveClick: function () {
         var store = that.lookupReference('packingmxGrid').getStore();
+        // store.proxy.extraParams.khid = khid;
+        // store.proxy.extraParams.p_l_id =sys_location_id;
+        // store.proxy.extraParams.p_e_code=sys_enterprise_code;
         store.sync({
             success: function (batch, options) {
                 var p = this.lookupReference('popuppackingWindow');

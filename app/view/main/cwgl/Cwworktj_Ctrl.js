@@ -8,7 +8,6 @@ var bystore = Ext.create('Ext.data.ArrayStore', {
 var  griddiv=new Ext.Component({ 
         itemId: 'gridComponentId',
         flex:1,
-       // id: 'gridComponentId',
         bodyStyle:{"border":1}, 
         reference: 'gridComponentId',
         layout: 'fit' ,
@@ -27,7 +26,12 @@ var isSearchEnable;
 Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
     extend:"Ext.app.ViewController",
     alias:"controller.Cwworktj_Ctrl",
-    requires:["MyApp.view.main.cwgl.Cwworktj_View"],
+    requires:[
+      "MyApp.view.main.QueryToolbarView"
+      ,"MyApp.view.main.cwgl.Cwworktj_Grid"
+      ,'MyApp.view.main.tree.QueryKhmc'
+      ,'MyApp.view.main.tree.QueryCkmc'
+      ,"MyApp.view.main.cwgl.Cwworktj_View"],
     init:function(){
      that = this;
      that.viewname = that.getView();

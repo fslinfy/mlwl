@@ -1,18 +1,49 @@
 ﻿
-var store = Ext.create('MyApp.store.CustomerStore',{pageSize: 10000});
 
-Ext.define('MyApp.view.main.customer.CustomerView', {
+
+var store = Ext.define('MyApp.store.CustomerDjStore', {
+    extend: 'Ext.data.Store',
+    alias: 'store.CustomerDjStore',
+    model: 'MyApp.model.CustomerModel',
+    pageSize: 10000,
+    proxy: {
+        type: 'ajax',
+        api: {
+            read: sys_ActionPHP + '?act=customerlist'
+        },
+        actionMethods: {
+            create: 'POST',
+            read: 'GET',
+            update: 'POST',
+            destroy: 'POST'
+        },
+        extraParams: {
+            userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
+            p_e_code: sys_enterprise_code,
+            CustomerDj:1
+        },
+        reader: {
+            type: 'json',
+            rootProperty: 'rows'
+            
+        }
+    },
+    autoLoad: true
+});
+
+
+
+
+Ext.define('MyApp.view.main.customer.CustomerDjView', {
     extend: 'Ext.grid.Panel',
-    xtype: 'CustomerView',
-    title: 'Customer',
-    requires: [
-    ],
-    id: 'CustomerGrid',
+    xtype: 'CustomerDjView',
+    title: 'CustomerDj',
+    id: 'CustomerDjGrid',
     closeAction: 'destroy',
     plugins: ['cellediting', 'gridfilters'],
-    controller: 'CustomerCtrl',
-   // store: { type: 'CustomerStore' },
-    store:store,
+    controller: 'CustomerDjCtrl',
+    store: { type: 'CustomerDjStore' },
+   // store:store,
     enableHdMenu: false,
     tbar: [{
         xtype: 'container',
@@ -24,18 +55,8 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
             layout: 'hbox',
             items: [
                 {
-					xtype: 'displayfield',
-					itemId:"PageTitle",
-					value:'客户资料维护',
-					style: {
-					   'font-size':'16px',
-					   'font-weight': 'bold',
-						margin: '5px 30px 0 0',
-						color:"#000"  
-					},
-				   fieldCls:'biggertext',
-					hideLabel: true
-					},
+					xtype: 'PageTitle'
+                },
 
                 {
                 labelWidth: 30,
@@ -57,12 +78,7 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
     columns: [{
         text: '客户ID', width: 50, dataIndex: 'id'
     }, {
-        text: '代码', width: 70, dataIndex: 'C_code', align: 'left',
-        editor: {
-            allowBlank: false,
-            regex: /(^[0-9A-Z]{1,5}$)/,
-            type: 'string'
-        }
+        text: '代码', width: 70, dataIndex: 'C_code', align: 'left'
     },
     {
         text: '客户名称', dataIndex: 'C_name', flex:2, align: 'left',
@@ -71,10 +87,6 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
             itemDefaults: {
                 emptyText: 'Search for…'
             }
-        },
-        editor: {
-            allowBlank: false,
-            type: 'string'
         }
 
     },
@@ -85,39 +97,16 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
             itemDefaults: {
                 emptyText: 'Search for…'
             }
-        },
-        editor: {
-            allowBlank: true,
-            type: 'string'
         }
-
     },
-    {        text: '客户地址', dataIndex: 'Address', flex: 3, align: 'left',
+    {   text: '客户地址', dataIndex: 'Address', flex: 3, align: 'left',
         filter: {
             type: 'string',
             itemDefaults: {
                 emptyText: 'Search for…'
             }
-        },
-        editor: {
-            allowBlank: true,
-            type: 'string'
         }
 
-    },
-    {
-        text: '联系电话', dataIndex: 'Tel', flex: 1, align: 'left',
-        editor: {
-            allowBlank: true,
-            type: 'string'
-        }
-    },
-    {
-        text: '移动电话', dataIndex: 'smsphone', flex: 1, align: 'left',
-        editor: {
-            allowBlank: true,
-            type: 'string'
-        }
     },
     {
         text: '月度开始日', dataIndex: 'Beginday', width: 90, align: 'center',
@@ -133,41 +122,34 @@ Ext.define('MyApp.view.main.customer.CustomerView', {
         text: '有效日期', sortable: false,
         dataIndex: 'Enddate',
         width: 120,
-        //formatter: 'date("Y-m-d")',
-        format: 'Y-m-d',
-        editor: {
-            xtype: 'datefield',
-            format: 'y-m-d'
-            //disabledDays: [0, 6],
-            //disabledDaysText: 'Plants are not available on the weekends'
-        }
+        format: 'Y-m-d'
     },
     {
-        xtype: 'checkcolumn',
-        width: 50,
-        text: '活跃',
-        dataIndex: 'Active'
-    },
-    {
-        xtype: 'checkcolumn',
-        width: 80,
-        text: '独立单价',
-        dataIndex: 'Aloneprice'
+        width:90, text: "重量核算", sortable: false, dataIndex: "Weight_Status",
+        align: 'center',
+        renderer: function (val) { if (val) return "是"; else return "" }
+        
     }
-    /*,
+    ,
+    {
+        width:90, text: "活跃", sortable: false, dataIndex: "Active",align: 'center',
+        renderer: function (val) { if (val) return "是"; else return "" }
+    },
+    {
+        width:90, text: "独立单价", sortable: false, dataIndex: "Aloneprice",align: 'center',
+        renderer: function (val) { if (val) return "是"; else return "" }
+    },
     {
         xtype: 'widgetcolumn',
-        width: 100, sortable: false,
+        width: 120, sortable: false,
         widget: {
             xtype: 'button',
-            text: '单价定义',
+            text: '独立仓租单价',
             handler: 'onPackingEdit'
         }
-    }*/
+    }
     ],
     listeners: {
         select: 'onItemSelected'
-
     }
-
 });

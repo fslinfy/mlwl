@@ -30,14 +30,22 @@ var exportfilename=PageTitleName;
 Ext.define("MyApp.view.main.cpczgl.CpczmxlocCtrl", {
     extend:"Ext.app.ViewController",
     alias:"controller.CpczmxlocCtrl",
-    requires:["MyApp.view.main.cpczgl.CpczmxlocView"],
+    requires:[
+    "MyApp.view.main.QueryToolbarView"
+    ,"MyApp.view.main.jqGridFunction"
+ 
+    ,'MyApp.view.main.tree.QueryKhmc'
+    ,'MyApp.view.main.tree.QueryCkmc'
+    ,"MyApp.view.main.cpczgl.CpczmxlocView"
+  
+  ],
     init:function(){
      that = this;
      that.viewname = that.getView();
 
 
         var v = that.getView().getViewModel();
-        var ckid = v.get('ckid');
+        var ckid =sys_location_id;// v.get('ckid');
         var khid = v.get('khid');
      //   var cpid = v.get('cpid');
         var ny = v.get('ny');
@@ -93,7 +101,7 @@ gridgroupingView = {
            
             that.control({
                 "#btnQuery":{click:that.onBtnQueryClick},
-                "#btnHelp":{click:onBtnHelpClick},
+                "#btnHelp":{click:that.onBtnHelpClick},
                 "#btnExport":{click:onBtnExportClick},
                 "#btnQueryKhmc":{click:onSelectKhbmView},
                 "#btnQueryCkmc":{click: onSelectCkbmView}
@@ -123,6 +131,9 @@ gridgroupingView = {
           maxlength : 40 
         })
      },*/
+     onBtnHelpClick:function(button,e,options){
+      console.log('HELP');
+     },
     onBtnQueryClick:function(button,e,options){
 
         

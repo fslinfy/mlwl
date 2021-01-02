@@ -6,12 +6,7 @@ title:"czmxloc",
 reference: 'popupgridwindow',
 itemId:"popupgridwindow",
 requires:[
-    "MyApp.view.main.QueryToolbarView"
-    ,"MyApp.view.main.jqGridFunction"
- //   ,"MyApp.view.main.cpczgl.CpczmxlocGrid"
-    ,'MyApp.view.main.tree.QueryKhmc'
-    ,'MyApp.view.main.tree.QueryCkmc'
-    
+  
 
 ],
 //id:"CpczmxlocGrid",

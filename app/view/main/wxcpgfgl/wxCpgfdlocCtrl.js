@@ -242,7 +242,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl', {
                 record['zl'] = record['khzl'];
             }
             this.dialog_mx = view.add({
-                xtype: 'formmxwindow',
+                xtype: 'gfdformmxwindow',
     
                 viewModel: {
                     data: record

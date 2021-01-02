@@ -5,16 +5,6 @@ xtype:"CpcztjlocView",
 title:"cztjloc",
 reference: 'popupgridwindow',
 itemId:"popupgridwindow",
-requires:[
-    "MyApp.view.main.QueryToolbarView"
-    ,"MyApp.view.main.jqGridFunction"
- //   ,"MyApp.view.main.cpczgl.CpcztjlocGrid"
-    ,'MyApp.view.main.tree.QueryKhmc'
-    ,'MyApp.view.main.tree.QueryCkmc'
-    
-
-],
-//id:"CpcztjlocGrid",
 
 controller:"CpcztjlocCtrl",
 
@@ -36,17 +26,7 @@ tbar:[
       {xtype:"container",flex:1,layout:"hbox",
           items:[
             {
-            xtype: 'displayfield',
-            itemId:"PageTitle",
-            value:PageTitleName,
-            style: {
-               'font-size':'16px',
-               'font-weight': 'bold',
-                margin: '5px 30px 0 0px',
-                color:"#000"  
-            },
-           fieldCls:'biggertext',
-            hideLabel: true
+                xtype: "PageTitle",
             },
                     {
                         xtype: "numberfield",

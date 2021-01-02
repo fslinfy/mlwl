@@ -5,16 +5,7 @@ xtype:"Cwworktj_View",
 title:"Cwworktj",
 reference: 'popupworkgridwindow',
 itemId:"popupworkgridwindow",
-requires:[
-    "MyApp.view.main.QueryToolbarView"
-    ,"MyApp.view.main.cwgl.Cwworktj_Grid"
-    //,"MyApp.view.main.jqGridFunction"
-    ,'MyApp.view.main.tree.QueryKhmc'
-    ,'MyApp.view.main.tree.QueryCkmc'
-
-],
 //id:"Cwworktj_Grid",
-
 controller:"Cwworktj_Ctrl",
 style:{
 background:"yellow"
@@ -29,15 +20,10 @@ viewModel: {
         'cpmc': '', 'cpid': 0,'bywork':'1'
     }
 },
-
-
 tbar:[
     {xtype:"container",
     flex:1,
     layout:"hbox",
-   // style: {
-     //   border:'solid 1px #aaa'
-    //},
  
     items:[
       {xtype:"container",flex:1,layout:"hbox",

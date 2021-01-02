@@ -12,12 +12,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
     extend: 'Ext.grid.Panel',
     xtype: 'CpkclocView',
     requires: [
-        'MyApp.view.main.SubTable'
-        , 'MyApp.model.CpkcmxModel'
-        , 'MyApp.model.CpkcModel'
-        , 'MyApp.view.main.QueryToolbarView'
-        , 'MyApp.store.CpkcStore'
-        , 'MyApp.store.CpkclocStore'
+
     ],
     itemId: 'CpkclocGrid',
     reference: 'CpkclocGrid',
@@ -43,7 +38,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
             flex: 1,
             layout: 'hbox',
             items: [
-                {
+               /* {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)
                 },
@@ -52,7 +47,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
                     hidden: (sys_location_id > 0)
                 },
                 { xtype: 'QueryCdmc', flex: 1 },
-                { xtype: 'QueryCpmc', flex: 1 },
+                { xtype: 'QueryCpmc', flex: 1 },*/
                 {
                     labelWidth: 30,
                     xtype: 'triggerfield',

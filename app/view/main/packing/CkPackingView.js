@@ -1,20 +1,39 @@
-﻿var pagetitle='包装规格维护';
-Ext.define('MyApp.view.main.packing.PackingView', {
+﻿
+var CkPackingStore =Ext.define("MyApp.store.CkPackingStore",
+{extend:"Ext.data.Store",alias:"store.CkPackingStore",pageSize:1E4,model:"MyApp.model.PackingModel",proxy:{type:"ajax",
+api:{
+    read:sys_ActionPHP+"?act\x3dpackinglist0",
+    update:sys_ActionPHP+"?act\x3dpackingsave"
+    //create:sys_ActionPHP+"?act\x3dpackingnew",
+    //destroy:sys_ActionPHP+"?act\x3dpackingdelete"
+},
+actionMethods:{create:"POST",read:"GET",update:"POST",destroy:"POST"},
+extraParams:{
+    userInfo:base64encode(Ext.encode(obj2str(sys_userInfo))),
+    p_e_code:sys_enterprise_code,
+    p_l_id:sys_location_id,
+    optype:"location",
+    khid:0
+},
+reader:{type:"json",rootProperty:"rows",totalProperty:"results"}},autoLoad:false});
+
+
+
+
+Ext.define('MyApp.view.main.packing.CkPackingView', {
 	extend: 'Ext.grid.Panel',
-	xtype: 'PackingView',
-	title: 'Packing',
+	xtype: 'CkPackingView',
+	title: 'CkPacking',
 	requires: [
-		'MyApp.store.PackingStore',
-		'MyApp.model.PackingModel',
-		'MyApp.view.main.QueryToolbarView'
 	],
-	id: 'PackingGrid',
+	id: 'CkPackingGrid',
 	plugins: ['cellediting', 'gridfilters'],
-	controller: 'PackingCtrl',
+	controller: 'CkPackingCtrl',
 	columnLines: true,
 	enableHdMenu: false,
 	enableColumnHide: false,
-	store: { type: 'PackingStore' },
+	store: { type: 'CkPackingStore' },
+	//store: CkPackingStore,
 
 	tbar: [{
 		xtype: 'container',
@@ -28,7 +47,6 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 				{
 					xtype: 'PageTitle'
 				},
-
 				{
 				labelWidth: 30,
 				xtype: 'triggerfield',
@@ -55,75 +73,42 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 				itemDefaults: {
 					emptyText: 'Search for…'
 				}
-			},
-
-			editor: {
-				allowBlank: false,
-				regex: /(^[0-9A-Z]{1,5}$)/,
-				type: 'string'
 			}
 		},
 		{
-			text: '包装名称', dataIndex: 'PS_name', flex: 3, align: 'left', sortable: false,
+			text: '包装名称', dataIndex: 'PS_name', flex: 3, align: 'left', sortable: false,align: 'center',
 			filter: {
 				type: 'string',
 				itemDefaults: {
 					emptyText: 'Search for…'
 				}
-			},
-			editor: {
-				allowBlank: false,
-				type: 'string'
 			}
 		},
 		{
 			text: '数量单位', dataIndex: 'Quantity_Unit', flex: 1, align: 'left', sortable: false,
+			align: 'center',
 			filter: {
 				type: 'string',
 				itemDefaults: {
 					emptyText: 'Search for…'
 
 				}
-			},
-			editor: {
-				allowBlank: true,
-				//regex:/>([^<>]+)</,      
-				type: 'string'
 			}
 
 		},
 		{
-			//xtype: "numbercolumn",
-
 			align: 'right',
-			//formatter: 'usMoney',
 			format: '00000.00',
-			//align: 'right', 
-			text: '转换系数', dataIndex: 'Rate', flex: 1, align: 'left', sortable: false,
-			editor: {
-				type: 'numberfield',
-
-				//	regex: /(^[0-9]{1,8}.[0-9]{3}$)/,
-				decimalPrecision: 3,
-				align: 'right',
-
-				allowBlank: false,
-				minValue: 0,
-				maxValue: 100000
-
-			}
+			text: '转换系数', dataIndex: 'Rate', flex: 1, align: 'left', sortable: false
 		},
 		{
 			text: '重量单位', dataIndex: 'Weight_Unit', flex: 1, align: 'left', sortable: false,
+			align: 'center',
 			filter: {
 				type: 'string',
 				itemDefaults: {
 					emptyText: 'Search for…'
 				}
-			},
-			editor: {
-				allowBlank: true,
-				type: 'string'
 			}
 		},
 		{
@@ -273,26 +258,33 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 					}
 				}]
 		},
+
 		{
-			xtype: 'checkcolumn',
-			flex: 1,
-			text: '重量核算', sortable: false,
-			dataIndex: 'Weight_Status'
+			width:90, text: "重量核算", sortable: false, dataIndex: "Weight_Status",
+			align: 'center',
+			renderer: function (val) { if (val) return "是"; else return "" }
+			
 		}
 		,
 		{
-			xtype: 'checkcolumn',
-			flex: 1,
-			text: '活跃', sortable: false,
-			dataIndex: 'Active'
-		}
-		,
+			width:90, text: "活跃", sortable: false, dataIndex: "Active",align: 'center',
+			renderer: function (val) { if (val) return "是"; else return "" }
+			
+		},
+
 		{
-			xtype: 'checkcolumn',
-			flex: 1,
-			text: '过车', sortable: false,
-			dataIndex: 'Xmlb'
+			text: '过车', 
+			width:50,align: 'center',
+			sortable: false,
+			enable:false,
+			readOnly: true,
+			dataIndex: 'Xmlb',
+			renderer: function (val) { if (val) return "是"; else return "" }
 		}
+
+
+
+
 	],
 	listeners: {
 		select: 'onItemSelected'
