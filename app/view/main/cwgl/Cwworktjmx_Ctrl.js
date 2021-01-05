@@ -1,4 +1,4 @@
-﻿var gridTableName="cwworktjgridTable";
+﻿var gridTableName="cwworktjmxgridTable";
 
 var bystore = Ext.create('Ext.data.ArrayStore', {
     fields: ['id', 'workname'],
@@ -19,24 +19,24 @@ var paging=false;
 var that;
 var grid;
 var sumfooterrow=false;
-var PageTitleName='月度工作量统计表'; 
+var PageTitleName='月度工作量统计明细表'; 
 var exportfilename;
 var listUrl='';
 var isSearchEnable; 
-Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
+Ext.define("MyApp.view.main.cwgl.Cwworktjmx_Ctrl", {
     extend:"Ext.app.ViewController",
-    alias:"controller.Cwworktj_Ctrl",
+    alias:"controller.Cwworktjmx_Ctrl",
     requires:[
       "MyApp.view.main.QueryToolbarView"
-     // ,"MyApp.view.main.cwgl.Cwworktj_Grid"
+      //,"MyApp.view.main.cwgl.Cwworktjmx_Grid"
       ,'MyApp.view.main.tree.QueryKhmc'
       ,'MyApp.view.main.tree.QueryCkmc'
-      ,"MyApp.view.main.cwgl.Cwworktj_View"],
+      ,"MyApp.view.main.cwgl.Cwworktjmx_View"],
     init:function(){
      that = this;
      that.viewname = that.getView();
-    gridTableName="cwworktjgridTable";
-    PageTitleName='月度工作量统计表'; 
+    gridTableName="cwworktjmxgridTable";
+    PageTitleName='月度工作量统计明细表'; 
     exportfilename=PageTitleName+".xlsx";
             var tool=that.getView().down("#QueryToolbarView");
             tool.down("#btnExport").setHidden(false);
@@ -69,7 +69,7 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
     },
 
     onBtnQueryClick:function(button,e,options){
-      createpivotgrid(1);
+      createpivotgridmx(1);
     },
     onBtnHelpClick:function(button,e,options){
     },
@@ -143,13 +143,13 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
 
  })
 
- createpivotgrid=function(op){
+ createpivotgridmx=function(op){
   //if (op>0){
    var w=window.innerWidth-8;
    var h=document.documentElement.clientHeight-238;
    var dt=new Date().toISOString().replace("-",'').replace("-",'').replace(".",'').replace(":",'').replace(":",'');
    dt="Id"+dt;    
-   console.log('createpivotgrid0',dt,w,h);
+   //console.log('createpivotgrid0',dt,w,h);
    griddiv=new Ext.Component({ 
        itemId: dt,
        flex:1,
@@ -187,7 +187,7 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
      
    exportfilename=ny+"年"+yu+'月度'+workname+'工作量统计表.xlsx'; 
  
- var url='JQGRIDDATA.php?act=CwworktjLIST&loc=&bybz='+work+"&ny="+ny+"&yu="+yu+"&khid="+khid+"&p_l_id="+ckid+"&bz=&page=1&start=0&limit=25" ;  
+ var url='JQGRIDDATA.php?act=CwworktjmxLIST&loc=&bybz='+work+"&ny="+ny+"&yu="+yu+"&khid="+khid+"&p_l_id="+ckid+"&bz=&page=1&start=0&limit=25" ;  
    grid =jQuery("#"+gridTableName);
    //grid=that.getView().down("#"+gridTableName);
    //console.log(url,grid);
@@ -200,6 +200,7 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
            { dataName: "dw",label: '计量单位', align: 'center',width:100  }
        ],
        groupSummaryPos: "footer",
+       groupSummary:false,	
        aggregates: [
            { 
                formatter: "number",
@@ -214,9 +215,10 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
        ],
        yDimension : [
            { dataName: 'bz'                 },
-           { dataName: 'xm'                 }
+           { dataName: 'xm'                 },
+           { dataName: 'jcbz'                 }
         ],
-        rowTotals : false,
+        rowTotals :false,
         colTotals : true,
    // caption: "Multiple aggregates"
    },
@@ -225,14 +227,18 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
       {
         // onGridComplete();
         grid.setGridWidth(window.innerWidth-8);
-        grid.setGridHeight(document.documentElement.clientHeight-218);
+        grid.setGridHeight(document.documentElement.clientHeight-238);
         jQuery(window).bind('resize', function () {
              
             grid.setGridWidth(window.innerWidth-8);
-            grid.setGridHeight(document.documentElement.clientHeight-218);
-        //    console.log("resize",document.documentElement.clientHeight-238,window.innerWidth-8);
+            grid.setGridHeight(document.documentElement.clientHeight-238);
+          //  console.log("resize",document.documentElement.clientHeight-238,window.innerWidth-8);
         }).trigger('resize');
       },
+    //  groupingView: {
+      //  hideFirstGroupCol: false,
+      //  groupColumnShow: [true, true]
+     // },
        width: 600,
        height: 400,
        rowNum: 10000,
@@ -241,8 +247,8 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
        shrinkToFit:false,
       // footerrow: true,
        useColSpanStyle: true, 
-      // rowList : ["10:10","20:20","30:30","10000:All"],
-     //  pager: "#"+gridTableName+"Pager",
+     //  rowList : ["10:10","20:20","30:30","10000:All"],
+    //   pager: "#"+gridTableName+"Pager",
    });
  
  };

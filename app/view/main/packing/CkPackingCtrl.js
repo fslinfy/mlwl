@@ -1,5 +1,5 @@
 ﻿
-var PageTitleName='仓库单价维护';
+//var PageTitleName='仓库单价维护';
 
 
 var cztsfl=360;
@@ -26,7 +26,7 @@ Ext.define("MyApp.view.main.packing.CkPackingCtrl", {
     extend: "Ext.app.ViewController",
     alias: "controller.CkPackingCtrl",
     requires: [
-        'MyApp.view.main.tree.PageTitle',
+      //  'MyApp.view.main.tree.PageTitle',
 		'MyApp.model.PackingModel',
 		'MyApp.view.main.QueryToolbarView'
 

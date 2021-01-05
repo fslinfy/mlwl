@@ -4,9 +4,6 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 	xtype: 'PackingView',
 	title: 'Packing',
 	requires: [
-		'MyApp.store.PackingStore',
-		'MyApp.model.PackingModel',
-		'MyApp.view.main.QueryToolbarView'
 	],
 	id: 'PackingGrid',
 	plugins: ['cellediting', 'gridfilters'],
@@ -285,6 +282,13 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 			flex: 1,
 			text: '活跃', sortable: false,
 			dataIndex: 'Active'
+		}
+		,
+		{
+			xtype: 'checkcolumn',
+			flex: 1,
+			text: '粉料', sortable: false,
+			dataIndex: 'Flbz'
 		}
 		,
 		{

@@ -1,4 +1,10 @@
 ﻿sys_DisplayAll = "cpkc";
+var CpkclocStore = Ext.create('MyApp.store.CpkclocStore',
+    {
+        groupField: 'khmc',
+        autoLoad: false
+    }
+);
 var that;
 Ext.define('MyApp.view.main.cpkc.CpkcmxlocCtrl', {
     extend: 'Ext.app.ViewController',

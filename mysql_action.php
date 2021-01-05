@@ -12494,14 +12494,36 @@ foreach ($params as $arr) {
 			$sql .= "," .$arr['czts'];
 			break;
 			default :
-			$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Weight_Status,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
+			$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Weight_Status,flbz,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
 			$sql .= ",'" . $arr['E_code'] . "'";
 			$sql .= ",'" . $arr['PS_name'] . "'";
 			$sql .= ",'" . $arr['Quantity_Unit'] . "'";
 			$sql .= ",'" . $arr['Weight_Unit'] . "'";
 			$sql .= "," . $arr['Rate'];	
 			$sql .= "," . $arr['Weight_Status'];	
-			$sql .= "," . $arr['Xmlb'];	
+			
+			$str = $arr['Flbz'];
+			if (isset($str)) {
+				if ($str) {
+					$sql .= ",1";	
+					
+				   } else {
+					$sql .= ",0";	
+					  
+				}
+			}
+            $str = $arr['Xmlb'];
+			if (isset($str)) {
+				if ($str) {
+					$sql .= ",1";	
+					
+				   } else {
+					$sql .= ",0";	
+					  
+				}
+			}
+			//$sql .= "," . $arr['flbz'];	
+			//$sql .= "," . $arr['Xmlb'];	
 			$sql .= "," .$arr['mints'];
 			$sql .= "," .$arr['czts'];
 			break;
@@ -12622,7 +12644,17 @@ foreach ($params as $arr) {
    					} else {
 	      				$sql .= ",Xmlb=0";
     				}
-    			}
+				}
+				
+				$str = $arr['Flbz'];
+				if (isset($str)) {
+	    			if ($str) {
+		       			$sql .= ",Flbz=1";
+   					} else {
+	      				$sql .= ",Flbz=0";
+    				}
+				}
+				
 				$sql = "update packing set " . substr($sql, 1) . " where PS_id=" . $arr['id'];	
 		    break;
 		}

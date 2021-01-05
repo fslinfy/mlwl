@@ -38,7 +38,21 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
             flex: 1,
             layout: 'hbox',
             items: [
-               /* {
+                {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'库存查询',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
+                {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)
                 },
@@ -47,7 +61,7 @@ Ext.define('MyApp.view.main.cpkc.CpkclocView', {
                     hidden: (sys_location_id > 0)
                 },
                 { xtype: 'QueryCdmc', flex: 1 },
-                { xtype: 'QueryCpmc', flex: 1 },*/
+                { xtype: 'QueryCpmc', flex: 1 },
                 {
                     labelWidth: 30,
                     xtype: 'triggerfield',

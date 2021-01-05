@@ -1,4 +1,5 @@
 ﻿var cztsfl=360;
+var PageTitleName='包装规格维护';
 Ext.Ajax.request( {
     url:"mysql_action.PHP?act=getsqlselect&sql=select * from sys_ini where varmc='CZTSFL' ", //跨域请求的URL
     method : 'GET',
@@ -21,7 +22,12 @@ Ext.Ajax.request( {
 Ext.define("MyApp.view.main.packing.PackingCtrl", {
     extend: "Ext.app.ViewController",
     alias: "controller.PackingCtrl",
-    requires: ["MyApp.view.main.packing.PackingView"],
+    requires: [
+        'MyApp.view.main.tree.PageTitle',
+        'MyApp.store.PackingStore',
+		'MyApp.model.PackingModel',
+		'MyApp.view.main.QueryToolbarView',
+        "MyApp.view.main.packing.PackingView"],
     onBtnQueryClick: function(button, e, options) {
         this.getView().getStore().load();
         return false

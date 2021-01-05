@@ -1,10 +1,11 @@
-﻿var PageTitleName ='客户独立仓租单价定义';
+﻿//var PageTitleName ='客户独立仓租单价定义';
+
 var that;
 Ext.define('MyApp.view.main.customer.CustomerDjCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CustomerDjCtrl',
     requires: [
-        'MyApp.view.main.tree.PageTitle',
+       // 'MyApp.view.main.tree.PageTitle',
         "MyApp.model.CustomerModel",
         'MyApp.store.PackingStore',
         'MyApp.model.PackingModel',

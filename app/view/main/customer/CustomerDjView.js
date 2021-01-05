@@ -55,8 +55,19 @@ Ext.define('MyApp.view.main.customer.CustomerDjView', {
             layout: 'hbox',
             items: [
                 {
-					xtype: 'PageTitle'
-                },
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'客户独立仓租单价定义',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
 
                 {
                 labelWidth: 30,

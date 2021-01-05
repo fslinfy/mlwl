@@ -89,6 +89,11 @@ Ext.define('MyApp.model.PackingModel', {
         type: 'bool'
     },
     {
+        name: 'Flbz',
+        type: 'bool'
+    },
+
+    {
         name: 'Weight_Status',
         type: 'bool'
     }]

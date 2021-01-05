@@ -15,4 +15,10 @@ items:[{xtype:"container",flex:1,layout:"hbox",items:[
        fieldCls:'biggertext',
         hideLabel: true
         },
-    {labelWidth:30,xtype:"triggerfield",fieldLabel:"\u8fc7\u6ee4",itemId:"FilterField",flex:1,triggerCls:"x-form-clear-trigger",onTriggerClick:function(){this.reset()}}]},{xtype:"QueryToolbarView"}]}],columns:[{text:"\u4eba\u5458\u59d3\u540d",dataIndex:"Name",flex:1,align:"left",filter:{type:"string",itemDefaults:{emptyText:"Search for\u2026"}},editor:{allowBlank:false,type:"string"}},{text:"\u7535\u8bdd",dataIndex:"Tel",flex:1,align:"left",filter:{type:"string",itemDefaults:{emptyText:"Search for\u2026"}},editor:{allowBlank:false,type:"string"}},{xtype:"checkcolumn",width:90,text:"\u6d3b\u8dc3",dataIndex:"Active"}],listeners:{select:"onItemSelected"}});
+    {labelWidth:30,xtype:"triggerfield",fieldLabel:"\u8fc7\u6ee4",itemId:"FilterField",flex:1,triggerCls:"x-form-clear-trigger",
+    onTriggerClick:function(){this.reset()}}]},{xtype:"QueryToolbarView"}]}],
+    columns:[{text:"\u4eba\u5458\u59d3\u540d",dataIndex:"Name",flex:1,align:"left",
+    filter:{type:"string",itemDefaults:{emptyText:"Search for\u2026"}},editor:{allowBlank:false,type:"string"}},
+    {text:"\u7535\u8bdd",dataIndex:"Tel",flex:1,align:"left",filter:{type:"string",itemDefaults:{emptyText:"Search for\u2026"}},
+    editor:{allowBlank:false,type:"string"}},{xtype:"checkcolumn",width:90,text:"\u6d3b\u8dc3",dataIndex:"Active"}],
+    listeners:{select:"onItemSelected"}});

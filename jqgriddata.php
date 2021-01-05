@@ -46,6 +46,9 @@ switch($act) {
 	case 'cwworktjlist' :
 			$retval = cwworktjlist();
 		break;		
+		case 'cwworktjmxlist' :
+			$retval = cwworktjmxlist();
+		break;		
 		
 		case 'cpjcworkloclist' :
 			$retval = cpjcworkloclist();
@@ -430,12 +433,6 @@ function cztjloclist() {
 
 function cwworktjlist() {
 	global 	$link, $search,$query, $total,$page;
-	/*$page=(int)$_POST['page'] ;
-	$limit=(int)$_POST['rows'] ;
-	$sidx = $_POST['sidx']; 
-	$sord = $_POST['sord']; 
-	$pcode = $_POST['p_e_code']; 
-*/
 	$loc=$_GET["loc"];
 	$Lid=$_GET["p_l_id"];
 	$ny=$_GET["ny"];
@@ -443,27 +440,39 @@ function cwworktjlist() {
 	$bz=$_GET["bz"];
 	$khid=$_GET["khid"];
 	$bybz=0;
-if (isset($_GET["bybz"])) $bybz=(int)$_GET["bybz"];
-
-//	$sqlstr = "CALL getydmxje(".$Lid.",".$khid.",".$ny.",".$yu.")";
-
-if ($loc=="cwworkwz"){
-	$sqlstr = "CALL getydbytj($Lid,$khid,$ny,$yu,'$bz',1,$bybz)";
-}else{
-	$sqlstr = "CALL getydbytj($Lid,$khid,$ny,$yu,'$bz',0,$bybz)";
-}
-
-//$sqlstr="CALL getydbytj(1,0,2020,11,'',0,1)" ;
+	if (isset($_GET["bybz"])) $bybz=(int)$_GET["bybz"];
+	if ($loc=="cwworkwz"){
+		$sqlstr = "CALL getydbytj($Lid,$khid,$ny,$yu,'$bz',1,$bybz)";
+	}else{
+		$sqlstr = "CALL getydbytj($Lid,$khid,$ny,$yu,'$bz',0,$bybz)";
+	}
 	$page =1; 
-	
 	$start=1;
 	$totalrows=0;
 	$total=1;
-	
 	return getjsonJqGriddatapiv($sqlstr,true);	
-	//return getjsonJqGriddata($sqlstr,true);	
 }
-
+function cwworktjmxlist() {
+	global 	$link, $search,$query, $total,$page;
+	$loc=$_GET["loc"];
+	$Lid=$_GET["p_l_id"];
+	$ny=$_GET["ny"];
+	$yu=$_GET["yu"];
+	$bz=$_GET["bz"];
+	$khid=$_GET["khid"];
+	$bybz=0;
+	if (isset($_GET["bybz"])) $bybz=(int)$_GET["bybz"];
+	if ($loc=="cwworkwz"){
+		$sqlstr = "CALL getydbytjmx($Lid,$khid,$ny,$yu,'$bz',1,$bybz)";
+	}else{
+		$sqlstr = "CALL getydbytjmx($Lid,$khid,$ny,$yu,'$bz',0,$bybz)";
+	}
+	$page =1; 
+	$start=1;
+	$totalrows=0;
+	$total=1;
+	return getjsonJqGriddatapiv($sqlstr,true);	
+}
 function cpjcworkloclist() {
 	global 	$link;
 	$Lid=(int)$_POST["p_l_id"];
@@ -792,145 +801,6 @@ else{
 
 
 
-/*
-
-if (($jclb=="4") || ($jclb=="0")) {
-
-		$filter =" and cpgfd.ztbz>0 ";
-		if ($_POST["startdate"])
-    	{
-    			$filter .=" and cpgfd.gfrq>='".$_POST["startdate"]."'";
-    	}
-    	if ($_POST["enddate"])
-    	{
-    			$filter .=" and cpgfd.gfrq<='".$_POST["enddate"]."'";
-	    }
-   	
-		if ($ckid>0)
-		{
-			$filter .= " and cpgfd.L_id=".$ckid;
-			
-		}
-		if ($khid>0)
-    	{
-    		$filter .= " and cpgfd.khid=".$khid;
-    	}
-
-	$sqlstr0 = "SELECT '过车' as jclb,
-    `cpgfd`.`gfdh` as dh
-    , `cpgfd`.`gfrq` as rq
-    , `cpgfd`.`khmc`
-
-    , `cpgfdmx`.`xmmc` as cpmc
-    , '' as `bzmc`
-	, '' as `cdmc`
-	, '' as jldw
-    , 0 as jcsl
-    , 0 as jczl
-    , '过车' as `work`
-    , `cpgfdmx`.`zl` as sl
-    , `cpgfdmx`.`jldw` as dw
-    , `cpgfdmx`.`dj`
-    , `cpgfdmx`.`je`
-    , `cpgfdmx`.`mxid` as id
-	,case when cpgfd.xjbz then cpgfdmx.je else 0 end as xjje
-    , `cpgfdmx`.`byg`
-    , `cpgfdmx`.`gs`
-    , `cpgfdmx`.`cg`
-    FROM
-    `wms`.`cpgfdmx`
-    INNER JOIN `wms`.`cpgfd` 
-        ON (`cpgfdmx`.`gfid` = `cpgfd`.`gfid`)
-    where cpgfd.delbz=0  ".$filter;
-	}
-
-
-    if (($sqlstr1!="")&&($sqlstr0!=""))
-	{
-      $sqlstr1.=" union all ".$sqlstr0;
-	}
-	else{
-		if ($sqlstr0!="")
-		{
-			$sqlstr1=$sqlstr0;
-		}
-	}    
-
-
-
-
-
-
-
-
-
-
-
-
-
-  if (($jclb=="3")|| ($jclb=="0")) {
-
-		$filter =" and cptzd.ztbz>0 ";
-		if ($_POST["startdate"])
-    	{
-    			$filter .=" and cptzd.tzrq>='".$_POST["startdate"]."'";
-    	}
-    	if ($_POST["enddate"])
-    	{
-    			$filter .=" and cptzd.tzrq<='".$_POST["enddate"]."'";
-	    }
-
-    	
-		if ($ckid>0)
-		{
-			$filter .= " and cptzd.L_id=".$ckid;
-			
-		}
-		if ($khid>0)
-    	{
-    		$filter .= " and cptzd.khid=".$khid;
-    	}
-
-	$sqlstr3 = "SELECT '过户' as jclb,
-      `cptzd`.`tzdh` as dh
-    , `cptzd`.`tzrq` as rq
-    , `cptzd`.`khmc`
-	 , '' as cpmc
-    , '' as bzmc
-	, '' as cdmc
-	, '' as jldw
-    , 0 as jcsl
-    , 0 as jczl
-
-    , `cptzdje`.`work`
-    , `cptzdje`.`sl`
-    , `cptzdje`.`dw`
-    , `cptzdje`.`dj`
-    , `cptzdje`.`je`
-    , `cptzdje`.`jeid` as id
-	,case when cptzdje.xjbz then cptzdje.je else 0 end as xjje
-    , `cptzdje`.`byg`
-    , `cptzdje`.`gs`
-    , `cptzdje`.`cg`
-    FROM
-    `wms`.`cptzd`
-     INNER JOIN `wms`.`cptzdje` 
-        ON (`cptzd`.`tzid` = `cptzdje`.`tzid`)  
-		where cptzd.delbz=0 ".$filter;
-	}
-
-    if (($sqlstr1!="")&&($sqlstr3!=""))
-	{
-      $sqlstr1.=" union all ".$sqlstr3;
-	}
-	else{
-
-		if ($sqlstr3!="")
-		{
-			$sqlstr1=$sqlstr3;
-		}
-	}    
-*/
 
 	$query = mysqli_query($link,$sqlstr1);
 		if ($query) {

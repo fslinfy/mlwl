@@ -1,16 +1,9 @@
-﻿var CpkclocStore = Ext.create('MyApp.store.CpkclocStore',
-    {
-        groupField: 'khmc',
-        autoLoad: false
-    }
-);
+﻿
 var showSummary = true;
 Ext.define('MyApp.view.main.cpkc.CpkcmxlocView', {
     extend: 'Ext.grid.Panel',
     xtype: 'CpkcmxlocView',
-    requires: [
-       
-    ],
+ 
     closeAction: 'destroy',
     itemId: 'CpkcmxlocGrid',
     reference: 'CpkcmxlocGrid',
@@ -28,8 +21,8 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocView', {
             'cpmc': '', 'cpid': 0
         }
     },
-    //store: { type: 'CpkclocStore' },
-    store: CpkclocStore,
+    store: { type: 'CpkclocStore' },
+    //store: CpkclocStore,
     tbar: [{
         xtype: 'container',
         flex: 1,
@@ -39,6 +32,20 @@ Ext.define('MyApp.view.main.cpkc.CpkcmxlocView', {
             flex: 1,
             layout: 'hbox',
             items: [
+                {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'库存明细查询',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
                 {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)

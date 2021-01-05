@@ -45,8 +45,19 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 			layout: 'hbox',
 			items: [
 				{
-					xtype: 'PageTitle'
-				},
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'仓库单价维护',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
 				{
 				labelWidth: 30,
 				xtype: 'triggerfield',
