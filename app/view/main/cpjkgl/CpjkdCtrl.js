@@ -798,7 +798,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
         sumzl = 0;
         var sumxjje = 0;
         cpjkdje_store.each(function (rec) {
-            if (rec.data.je != 0) {
+            if (rec.data.sl != 0) {
 
                 arrayje.push(rec.data);
                 sumzl = sumzl + rec.data.je;
@@ -1102,7 +1102,8 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdCtrl', {
             recmx0['cpjkdcw'] = arraycw;
             arrayje = [];
             cpjkdje_store.each(function (recje) {
-                if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
+                //if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
+                if ((recje.get('mxdh') == mxdh) && (recje.get('sl') != 0)) {                    
                     if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
                         recje.data.sl=recje.data.sl+(1-sumjesl);
                         recje.data.je=Math.ceil(recje.data.dj*recje.data.sl);

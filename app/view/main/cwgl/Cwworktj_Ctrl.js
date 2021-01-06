@@ -200,6 +200,7 @@ Ext.define("MyApp.view.main.cwgl.Cwworktj_Ctrl", {
            { dataName: "dw",label: '计量单位', align: 'center',width:100  }
        ],
        groupSummaryPos: "footer",
+       groupSummary:false,	
        aggregates: [
            { 
                formatter: "number",

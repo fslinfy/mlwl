@@ -567,7 +567,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         var sumje = 0;
         var sumxjje = 0;
         cpckdje_store.each(function (recje) {
-            if (recje.data.je != 0) {
+            if (recje.data.sl != 0) {
                 sumje = sumje + recje.data.je;
                 if (recje.data.xjbz) {
                     sumxjje = sumxjje + recje.data.je;

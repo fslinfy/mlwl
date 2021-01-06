@@ -689,7 +689,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         var sumxjje = 0;
 
         cpghdje_store.each(function (recje) {
-            if (recje.data.je != 0) {
+            if (recje.data.sl != 0) {
                 sumje = sumje + recje.data.je;
                 if (recje.data.xjbz) {
                     sumxjje = sumxjje + recje.data.je;

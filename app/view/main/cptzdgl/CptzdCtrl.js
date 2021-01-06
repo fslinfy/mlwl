@@ -432,9 +432,9 @@ Ext.define('MyApp.view.main.cptzdgl.CptzdCtrl', {
         })
 
         cptzdje_store.each(function (recje) {
-            if (recje.get('je') != 0) {
+          //  if (recje.get('je') != 0) {
                 arrayje.push(recje.data);
-            }
+          //  }
         })
         
         //      return;

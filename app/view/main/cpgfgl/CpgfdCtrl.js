@@ -590,7 +590,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         sumzl = 0;
         var sumxjje = 0;
         cpgfdje_store.each(function (rec) {
-            if (rec.data.je != 0) {
+            if (rec.data.sl != 0) {
 
                 arrayje.push(rec.data);
                 sumzl = sumzl + rec.data.je;
@@ -832,7 +832,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             recmx0['cpgfdcw'] = arraycw;
             arrayje = [];
             cpgfdje_store.each(function (recje) {
-                if ((recje.get('mxdh') == mxdh) && (recje.get('je') != 0)) {
+                if ((recje.get('mxdh') == mxdh) && (recje.get('sl') != 0)) {
                     arrayje.push(recje.data);
                     sumje = sumje + recje.get('je');
                 }

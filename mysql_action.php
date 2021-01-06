@@ -230,7 +230,10 @@ case 'cwsjupdate' :
 case 'cpkccwedit' :
 		$retval = cpkccwedit();
 		break;
-
+case 'jobssave' :
+			$retval = jobssave(0);
+			break;
+	
 
 
 	case 'producessave' :
@@ -526,7 +529,10 @@ case 'cpkccwedit' :
 	case 'cwsjlist' :
 		$retval = cwsjlist();
 		break;
-
+	case 'jobslist' :
+			$retval = jobslist();
+			break;
+	
 	case 'produceslist' :
 		$retval = produceslist();
 		break;
@@ -2242,7 +2248,13 @@ function produceslist() {
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
 }
+function jobslist() {
 
+	$sqlstr = " SELECT *  FROM Jobs where E_code='" . $_GET['p_e_code'] . "'   and l_id=".$_GET['p_l_id'];
+	//return $sqlstr;
+	$query = mysql_query($sqlstr);
+	return getjsonstoredata($query, 0);
+}
 
 function cwsjlist() {
     $shzt=$_GET['shzt'];
@@ -11943,6 +11955,51 @@ return '{result:"success"}';
 return $sql;
 
 }
+
+function jobssave($optype) {
+	//0 update 1 add 2 delete
+	
+	$error = '';
+	$raw = '';
+	$sq = '';
+	$fp = fopen('php://input', 'r');
+	while ($kb = fread($fp, 1024)) {
+	$raw .= $kb;
+	}
+	
+	$params = json_decode($raw, true);
+	if (count($params) && !isset($params[0])) {
+	$params = array($params);
+	}
+	
+	$sql = '';
+	mysql_query('start transaction');
+	foreach ($params as $arr) {
+		$sql = "update jobs set Tcdj= " .$arr['Tcdj'].",Tcdj1=".$arr['Tcdj1']. " where id=" . $arr['id'];
+	
+		$sq .= $sql;
+		mysql_query($sql);
+	
+		if (mysql_errno() > 0) {
+			$error = 'yes';
+			break;
+		}
+	}
+	
+	//mysql_query('commit');
+	//return $sql;
+	if ($error == 'yes') {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败！!"'.$sq.'}';
+		//return '数据保存失败！!';
+	} else {
+		mysql_query('commit');
+		return '{result:"success"}';
+	}
+	
+	return $sql;
+	
+	}
 
 function typesave($optype) {
 //0 update 1 add 2 delete
