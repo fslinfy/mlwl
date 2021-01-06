@@ -11975,7 +11975,20 @@ function jobssave($optype) {
 	$sql = '';
 	mysql_query('start transaction');
 	foreach ($params as $arr) {
-		$sql = "update jobs set Tcdj= " .$arr['Tcdj'].",Tcdj1=".$arr['Tcdj1']. " where id=" . $arr['id'];
+
+
+		$sql = "";
+		$str = $arr['Tcdj'];
+		if (isset($str)) {
+			$sql .= ",Tcdj=" . $str;
+		}
+		$str = $arr['Tcdj1'];
+		if (isset($str)) {
+			$sql .= ",Tcdj1=" . $str;
+		}
+		
+		$sql = "update jobs set " . substr($sql, 1) . " where id=" . $arr['id'];
+	
 	
 		$sq .= $sql;
 		mysql_query($sql);
