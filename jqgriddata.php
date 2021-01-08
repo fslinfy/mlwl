@@ -545,7 +545,7 @@ function cpjcworkloclist() {
 
  	if (($jclb=="2")||($jclb=="0")) {
 
-		$filter =" and cpckd.delbz=0 ";
+		$filter =" and cpckd.delbz=0 AND CPCKD.ZTBZ>1  ";
 		if ($_POST["startdate"])
     	{
     			$filter .=" and cpckd.ckrq>='".$_POST["startdate"]."'";

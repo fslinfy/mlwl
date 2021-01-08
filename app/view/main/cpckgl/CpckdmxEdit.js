@@ -600,13 +600,14 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                     flex: 1,
                                     renderer: jerenderer,
                                     decimalPrecision: 0
-                                },
+                                }/*,
                                 {
                                     xtype: 'checkcolumn',
 
                                     width: 60,
                                     text: '现付',
                                     sortable: false,
+                                    readOnly:true,
                                     dataIndex: 'xjbz',
                                     // renderer: jerenderer,
                                     listeners: {
@@ -618,7 +619,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                         }
                                     }
 
-                                }
+                                }*/
                             ]
                         }
 

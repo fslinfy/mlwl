@@ -426,12 +426,12 @@ Ext.define('MyApp.view.main.showView.CpgfkdShowView', {
         beforedestroy: function (obj) {
           
 
-             //curcpgfdcwStore.clearFilter();
-             curcpgfdjeStore.clearFilter();
-             //curcpgfdcwStore.removeAll();
-             curcpgfdjeStore.removeAll();
-             //curcpgfdcwStore.sync();
+             curcpgfdjeStore.getProxy().clear();
+             curcpgfdjeStore.data.clear();
              curcpgfdjeStore.sync();
+             curcpgfdcwStore.getProxy().clear();
+             curcpgfdcwStore.data.clear();
+             curcpgfdcwStore.sync();
 
              //that.getView().down("#cpgfdshowview").close();
              that.locQuery(that);

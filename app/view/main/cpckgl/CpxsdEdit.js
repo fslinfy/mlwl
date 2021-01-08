@@ -401,6 +401,7 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdEdit', {
             text: '放弃',
             icon: "images/close.gif",
             handler: function () {
+
                 this.up("#cpxsdedit").close();
             }
         }]

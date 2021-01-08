@@ -442,18 +442,21 @@ Ext.define('MyApp.view.main.showView.CpghkdShowView',
                     this.up("window").close();
                 }
             }]
-            /*,
+            ,
         listeners: {
             beforedestroy: function (obj) {
-                curcpckdcwStore.clearFilter();
-                curcpckdjeStore.clearFilter();
-                curcpckdcwStore.removeAll();
-                curcpckdjeStore.removeAll();
-                curcpckdcwStore.sync();
+                curcpckdjeStore.getProxy().clear();
+                curcpckdjeStore.data.clear();
                 curcpckdjeStore.sync();
+                curcpckdcwStore.getProxy().clear();
+                curcpckdcwStore.data.clear();
+                curcpckdcwStore.sync();
+         
                 that.locQuery(that);
                 console.log("beforedestroy");
+
+
             }
-        }*/
+        }
     }
 )

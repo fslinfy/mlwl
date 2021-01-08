@@ -447,7 +447,7 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdEdit', {
     }],
     listeners: {
         beforedestroy: function (obj) {
-            cpjkd_store.reload();
+          /* cpjkd_store.reload();
             cpjkd_store.clearFilter();
             cpjkd_store.removeAll();
             cpjkd_store.sync();
@@ -460,6 +460,22 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdEdit', {
             CurCpjkdjeStore.clearFilter();
             CurCpjkdjeStore.removeAll();
             CurCpjkdjeStore.sync();
+*/
+CurCpjkdmxStore.getProxy().clear();
+CurCpjkdmxStore.data.clear();
+CurCpjkdmxStore.sync();
+cpjkd_store.getProxy().clear();
+cpjkd_store.data.clear();
+cpjkd_store.sync();
+
+            CurCpjkdjeStore.getProxy().clear();
+            CurCpjkdjeStore.data.clear();
+            CurCpjkdjeStore.sync();
+            CurCpjkdcwStore.getProxy().clear();
+            CurCpjkdcwStore.data.clear();
+            CurCpjkdcwStore.sync();
+            
+            
 
             /*CurCpjkdmxStore.reload();
                         CurCpjkdmxStore.clearFilter();

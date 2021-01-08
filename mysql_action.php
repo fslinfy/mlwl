@@ -9274,14 +9274,20 @@ function cpckdmxcksave() {
 	}
      foreach ($cpckdmx as $row) {
      	    $xsmxid=$row['mxid'];
-			$cpckdmxstr = " insert into cpckdmx (ckid,xsmxid,ccsl,cczl,ccje,xjje)";
+		//	$cpckdmxstr = " insert into cpckdmx (ckid,xsmxid,ccsl,cczl,ccje,xjje)";
+		//	$cpckdmxstr .= " values (" .$ckid . "," . $row['mxid'] . "," . $row['ccsl'];
+		//	$cpckdmxstr .=  "," . $row['cczl'] . "," . $row['ccje'] . "," . $row['xjje']. ")";
+			
+			$cpckdmxstr = " insert into cpckdmx (ckid,xsmxid,ccsl,cczl)";
 			$cpckdmxstr .= " values (" .$ckid . "," . $row['mxid'] . "," . $row['ccsl'];
-			$cpckdmxstr .=  "," . $row['cczl'] . "," . $row['ccje'] . "," . $row['xjje']. ")";
+			$cpckdmxstr .=  "," . $row['cczl'] . ")";	
+			
 			mysql_query($cpckdmxstr);
 			$ckmxid=mysql_insert_id();
 			if ((mysql_errno() > 0)|| ($ckmxid==0)) {
 				mysql_query('rollback');
-				return '{result:"fail",msg:"仓位数据保存失败!"}';
+				//return '{result:"fail",msg:"仓位数据保存失败!"}';
+				return '{result:"fail",msg:"出仓明细数据保存失败!'.$cpckdmxstr.'" } ';
 				break;
 			}
 			foreach ($cpckdcw as $cwrow) {
@@ -9291,17 +9297,18 @@ function cpckdmxcksave() {
 					$cpckdcwstr .= " values ('" .$cwrow['cw'] . "','" . $cwrow['czrq']. "','" . $cwrow['area']. "','" . $cwrow['cpph'] . "','" . $cwrow['dw'] . "'";
 					$cpckdcwstr .=  ",'" . $cwrow['sm'] . "'," . $cwrow['ccsl'] . "," . $cwrow['czdj'].",".$ckmxid. ",". $cwrow['kcmxid'] . ",". $cwrow['mints']. ",". $cwrow['cczl'] . ")";
 					mysql_query($cpckdcwstr);
-					if (mysql_errno() > 0) {
+					$cwid=mysql_insert_id();
+					if ((mysql_errno() > 0) ||( $cwid==0 )) {
 						mysql_query('rollback');
-						return '{result:"fail",msg:"仓位数据保存失败!"'.$cpckdcwstr.' } ';
+						return '{result:"fail",msg:"仓位数据保存失败!'.$cpckdcwstr.'" } ';
 						break;
 					}
 				}
 			}
 			foreach ($cpckdje as $jerow) {
 				if ($xsmxid==$jerow['mxid']){
-					$cpckdjestr = " insert into cpckdje (work,area,dw,sl,dj,je,workid,ckmxid,xjbz,zljs,inbz,indj)";
-					$cpckdjestr .= " values ('" . $jerow['work']. "','" . $jerow['area'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je'];
+					$cpckdjestr = " insert into cpckdje (work,area,dw,sl,dj,je,xjje,workid,ckmxid,xjbz,zljs,inbz,indj)";
+					$cpckdjestr .= " values ('" . $jerow['work']. "','" . $jerow['area'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $jerow['xjje'];
 					$cpckdjestr .= "," . $jerow['workid'] ;
 					$cpckdjestr .= "," . $ckmxid;
 					$cpckdjestr .= "," .($jerow['xjbz']?'1':'0') ;
@@ -9310,9 +9317,10 @@ function cpckdmxcksave() {
 					$cpckdjestr .= "," .($jerow['indj']?'1':'0') ; 
 					$cpckdjestr .= ")";
 					mysql_query($cpckdjestr);
-					if (mysql_errno() > 0) {
+					$jeid=mysql_insert_id();
+					if ((mysql_errno() > 0) ||( $jeid==0 ) ) {
 						mysql_query('rollback');
-						return '{result:"fail",msg:"费用数据保存失败!"}';
+						return '{result:"fail",msg:"费用数据保存失败!'.$cpckdjestr.'" } ';
 						break;
 					}
 				}

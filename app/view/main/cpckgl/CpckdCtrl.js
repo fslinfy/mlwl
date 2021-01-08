@@ -615,7 +615,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         cpckd['cnote'] = rec.cnote;
         cpckd['cphm'] = rec.cphm;
         cpckd['thr'] = rec.sfr;
-
+        //var xjbz=rec.xjbz;
         cpckd['xsid'] = xsid;
         cpckd['czy'] = sys_userInfo.username;
         cpckd['ckrq'] = rec.ckrq;
@@ -694,16 +694,22 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                         recje.data.je= Math.ceil(recje.data.dj*recje.data.sl);
                         s=1;
                     }
-                   arrayje.push(recje.data);
+                    if (recje.get('xjbz')>0){
+                        recje.data.xjje=recje.data.je
+                    }
+                    arrayje.push(recje.data);
                 }
             }
 
         })
+
+
+
         cpckd['cpckdmx'] = arraymx;
         cpckd['cpckdje'] = arrayje;
         cpckd['cpckdcw'] = arraycw;
        console.log(cpckd);
-      // return ;
+//       return ;
 
 
         var str = obj2str(cpckd);

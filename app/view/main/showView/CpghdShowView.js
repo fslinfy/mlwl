@@ -445,19 +445,12 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
     ],
     listeners: {
         beforedestroy: function (obj) {
-          
-/*
-             curcpghdcwStore.clearFilter();
-             curcpghdjeStore.clearFilter();
-             curcpghdcwStore.removeAll();
-             curcpghdjeStore.removeAll();
-             curcpghdcwStore.sync();
-             curcpghdjeStore.sync();
-
-             //that.getView().down("#cpghdshowview").close();
-             that.locQuery(that);
-             console.log("beforedestroy");
-*/
+            curcpghdjeStore.getProxy().clear();
+            curcpghdjeStore.data.clear();
+            curcpghdjeStore.sync();
+             curcpghdcwStore.getProxy().clear();
+             curcpghdcwStore.data.clear();
+             curcpghdcwStore.sync();  
    
         }
     }
