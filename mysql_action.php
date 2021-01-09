@@ -9307,11 +9307,17 @@ function cpckdmxcksave() {
 			}
 			foreach ($cpckdje as $jerow) {
 				if ($xsmxid==$jerow['mxid']){
+					
+					$xjbz=($jerow['xjbz']?'1':'0');
+					$xjje=$jerow['xjje'];
+					if ($xjbz=='1'){
+						$xjje=$jerow['je'];
+					}
 					$cpckdjestr = " insert into cpckdje (work,area,dw,sl,dj,je,xjje,workid,ckmxid,xjbz,zljs,inbz,indj)";
-					$cpckdjestr .= " values ('" . $jerow['work']. "','" . $jerow['area'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $jerow['xjje'];
-					$cpckdjestr .= "," . $jerow['workid'] ;
-					$cpckdjestr .= "," . $ckmxid;
-					$cpckdjestr .= "," .($jerow['xjbz']?'1':'0') ;
+					$cpckdjestr .= " values ('" . $jerow['work']. "','" . $jerow['area'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $xjje;
+					$cpckdjestr .= "," .$jerow['workid'] ;
+					$cpckdjestr .= "," .$ckmxid;
+					$cpckdjestr .= "," .$xjbz ;
 					$cpckdjestr .= "," .($jerow['zljs']?'1':'0') ;
 					$cpckdjestr .= "," .($jerow['inbz']?'1':'0') ;
 					$cpckdjestr .= "," .($jerow['indj']?'1':'0') ; 
