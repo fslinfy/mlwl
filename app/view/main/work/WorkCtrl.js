@@ -5,8 +5,10 @@ Ext.define('MyApp.view.main.work.WorkCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.WorkCtrl',
     requires: [
-        'MyApp.view.main.work.WorkView'
-        , 'MyApp.view.main.tree.CkmcSelectTree'
+        'MyApp.store.WorkStore',
+	    'MyApp.view.main.QueryToolbarView'
+        ,'MyApp.view.main.work.WorkView'
+        ,'MyApp.view.main.tree.CkmcSelectTree'
     ],
     onBtnQueryClick: function (button, e, options) {
         this.getView().getStore().load();
@@ -23,7 +25,7 @@ Ext.define('MyApp.view.main.work.WorkCtrl', {
         return false;
     },
     onBtnNewClick: function (rs) {
-        this.getView().getStore().addSorted([{ E_code: sys_enterprise_code }]);
+        this.getView().getStore().addSorted([{ E_code: sys_enterprise_code, L_id:sys_location_id,Weight_status:1,Active:1}]);
         return false;
     },
     onBtnDeleteClick: function (button, e, options) {

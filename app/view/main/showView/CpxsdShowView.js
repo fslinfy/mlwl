@@ -457,20 +457,15 @@ Ext.define('MyApp.view.main.showView.CpxsdShowView', {
         }],
     listeners: {
         beforedestroy: function (obj) {
-          
-
-
-curcpckdjeStore.getProxy().clear();
-curcpckdjeStore.data.clear();
-curcpckdjeStore.sync();
-curcpckdcwStore.getProxy().clear();
-curcpckdcwStore.data.clear();
-curcpckdcwStore.sync();
-
-
+            curcpckdjeStore.getProxy().clear();
+            curcpckdjeStore.data.clear();
+            curcpckdjeStore.sync();
+            curcpckdcwStore.getProxy().clear();
+            curcpckdcwStore.data.clear();
+            curcpckdcwStore.sync();
              //that.getView().down("#cpxsdshowview").close();
-             that.locQuery(that);
-             console.log("beforedestroy");
+            that.locQuery(that);
+            //console.log("beforedestroy");
 
    
         }

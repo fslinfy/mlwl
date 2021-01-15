@@ -461,9 +461,14 @@ Ext.define('MyApp.view.main.cpjkgl.CpjkdEdit', {
             CurCpjkdjeStore.removeAll();
             CurCpjkdjeStore.sync();
 */
-CurCpjkdmxStore.getProxy().clear();
-CurCpjkdmxStore.data.clear();
-CurCpjkdmxStore.sync();
+//CurCpjkdmxStore.getProxy().clear();
+//CurCpjkdmxStore.data.clear();
+//CurCpjkdmxStore.sync();
+//CurCpjkdmxStore.clearFilter();
+//CurCpjkdmxStore.removeAll();
+
+
+
 cpjkd_store.getProxy().clear();
 cpjkd_store.data.clear();
 cpjkd_store.sync();

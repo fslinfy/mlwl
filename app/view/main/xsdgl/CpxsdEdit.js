@@ -406,5 +406,12 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdEdit', {
             handler: function () {
                 this.up("#cpxsdedit").close();
             }
-        }]
+        }],
+        listeners: {
+            beforedestroy: function (obj) {
+                CurCpxsdmxStore.getProxy().clear();
+                CurCpxsdmxStore.data.clear();
+                CurCpxsdmxStore.sync();
+            }
+        }
 });

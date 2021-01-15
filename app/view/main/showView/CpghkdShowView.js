@@ -451,9 +451,8 @@ Ext.define('MyApp.view.main.showView.CpghkdShowView',
                 curcpckdcwStore.getProxy().clear();
                 curcpckdcwStore.data.clear();
                 curcpckdcwStore.sync();
-         
                 that.locQuery(that);
-                console.log("beforedestroy");
+//                console.log("beforedestroy");
 
 
             }

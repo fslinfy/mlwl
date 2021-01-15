@@ -2,8 +2,7 @@
 	extend: 'Ext.grid.Panel',
 	xtype: 'WorkView',
 	title: 'Work',
-	requires: ['MyApp.store.WorkStore',
-	 'MyApp.view.main.QueryToolbarView'],
+	//requires: [],
 	id: 'WorkGrid',
 	plugins: ['cellediting', 'gridfilters'],
 
@@ -24,7 +23,7 @@
 			items: [    {
 				xtype: 'displayfield',
 				itemId:"PageTitle",
-				value:'收费项目维护',
+				value:'附加收费项目维护',
 				style: {
 				   'font-size':'16px',
 				   'font-weight': 'bold',
@@ -50,16 +49,21 @@
 		}]
 	}],
 
-	columns: [{
-		text: '项目代码',
+	columns: [
+	{
+		text: '序码',
 		width: 80,
 		dataIndex: 'Jobs',
 		align: 'left',
 		editor: {
-			allowBlank: false,
-			regex: /(^[0-9A-Z]{1,5}$)/,
-			type: 'string'
+			type: 'numberfield',
+			decimalPrecision: 0,
+			align: 'right',
+			allowBlank: true,
+			minValue: 0,
+			maxValue: 999
 		}
+
 	}, {
 		text: '项目名称',
 		dataIndex: 'Jobsname',
@@ -78,8 +82,8 @@
 
 	}, 
 	{
-		xtype: "numbercolumn", align: 'right', format: '00000.00',
-		text: '项目缺省单价', dataIndex: 'Unit_price', flex: 1, align: 'left', sortable: false,
+		xtype: "numbercolumn", align: 'left', format: '00000.00',
+		text: '项目缺省单价', dataIndex: 'Unit_price', flex: 1,  sortable: false,
 		editor: {
 			type: 'numberfield',
 			decimalPrecision: 2,
@@ -89,6 +93,59 @@
 			maxValue: 9999.99
 		}
 	},
+	{
+		text: '工作费用提成单价',
+		columns: [
+			{
+				xtype: "numbercolumn", align: 'right', format: '00000.00',
+				text: '搬运', dataIndex: 'Bytcdj', flex: 1, sortable: false,
+				editor: {
+					type: 'numberfield',
+					decimalPrecision: 3,
+					align: 'right',
+					allowBlank: true,
+					minValue: 0,
+					maxValue: 9999.99
+				}
+			},
+			{
+				xtype: "numbercolumn", align: 'right', format: '00000.00',
+				text: '搬运(粉料)', dataIndex: 'Bytcdj2', flex: 1, sortable: false,
+				editor: {
+					type: 'numberfield',
+					decimalPrecision: 3,
+					align: 'right',
+					allowBlank: true,
+					minValue: 0,
+					maxValue: 9999.99
+				}
+			},
+			{
+				xtype: "numbercolumn", align: 'right', format: '00000.00',
+				text: '机械', dataIndex: 'Gstcdj', flex: 1,  sortable: false,
+				editor: {
+					type: 'numberfield',
+					decimalPrecision: 3,
+					align: 'right',
+					allowBlank: true,
+					minValue: 0,
+					maxValue: 9999.99
+				}
+			},
+			{
+				xtype: "numbercolumn", align: 'right', format: '00000.00',
+				text: '仓管', dataIndex: 'Cgtcdj', flex: 1,  sortable: false,
+				editor: {
+					type: 'numberfield',
+					decimalPrecision: 3,
+					align: 'right',
+					allowBlank: true,
+					minValue: 0,
+					maxValue: 9999.99
+				}
+			}]
+	},
+
     {
 		xtype: 'checkcolumn',
 		width: 90,
@@ -111,8 +168,8 @@
 		width: 90,
 		text: '活跃',
 		dataIndex: 'Active'
-	},
-	{
+	}
+	/*{
 
 		text: '适用仓库',
 		dataIndex: 'lidstring',
@@ -126,7 +183,7 @@
 			xtype: 'button',
 			handler:'onSelectckmcView'
 		}
-	}
+	}*/
 
 ],
 	listeners: {

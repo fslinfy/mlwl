@@ -22,15 +22,15 @@ Ext.Ajax.request( {
 });
 
 
-Ext.define("MyApp.view.main.packing.CkPackingCtrl", {
+Ext.define("MyApp.view.main.packing.GfPackingCtrl", {
     extend: "Ext.app.ViewController",
-    alias: "controller.CkPackingCtrl",
+    alias: "controller.GfPackingCtrl",
     requires: [
       //  'MyApp.view.main.tree.PageTitle',
 		'MyApp.model.PackingModel',
 		'MyApp.view.main.QueryToolbarView'
 
-        ,"MyApp.view.main.packing.CkPackingView"],
+        ,"MyApp.view.main.packing.GfPackingView"],
     onBtnQueryClick: function(button, e, options) {
         this.getView().getStore().load();
         return false
@@ -49,7 +49,7 @@ Ext.define("MyApp.view.main.packing.CkPackingCtrl", {
     },
     onBtnDeleteClick: function(button, e, options) {
         var store = this.getView().getStore();
-        var grid = Ext.getCmp("CkPackingGrid");
+        var grid = Ext.getCmp("GfPackingGrid");
         return storeBtnDeleteClick(this, grid, store)
     },
     onBtnHelpClick: function(button, e, options) {
@@ -131,6 +131,9 @@ Ext.define("MyApp.view.main.packing.CkPackingCtrl", {
                 rec.set('Ghdj', rec.data.Ghdj0);
                 rec.set('Pfdj', rec.data.Pfdj0);
                 rec.set('Bytcdj', rec.data.Bytcdj0);
+                
+                rec.set('Bytcdjt', rec.data.Bytcdjt0);
+
                 rec.set('Gstcdj', rec.data.Gstcdj0);
                 rec.set('Cgtcdj', rec.data.Cgtcdj0);
                 rec.set('mints', rec.data.mints0);

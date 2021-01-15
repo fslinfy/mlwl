@@ -445,13 +445,13 @@ Ext.define('MyApp.view.main.showView.CpghdShowView', {
     ],
     listeners: {
         beforedestroy: function (obj) {
-            curcpghdjeStore.getProxy().clear();
+          /*  curcpghdjeStore.getProxy().clear();
             curcpghdjeStore.data.clear();
             curcpghdjeStore.sync();
-             curcpghdcwStore.getProxy().clear();
-             curcpghdcwStore.data.clear();
-             curcpghdcwStore.sync();  
-   
+            curcpghdcwStore.getProxy().clear();
+            curcpghdcwStore.data.clear();
+            curcpghdcwStore.sync();  
+            */
         }
     }
 });

@@ -1,18 +1,35 @@
-﻿var pagetitle='包装规格维护';
-Ext.define('MyApp.view.main.packing.PackingView', {
+﻿
+var GfPackingStore =Ext.define("MyApp.store.GfPackingStore",
+{extend:"Ext.data.Store",alias:"store.GfPackingStore",pageSize:1E4,model:"MyApp.model.PackingModel",proxy:{type:"ajax",
+api:{
+    read:sys_ActionPHP+"?act\x3dpackinglist0",
+    update:sys_ActionPHP+"?act\x3dpackingsave"
+    //create:sys_ActionPHP+"?act\x3dpackingnew",
+    //destroy:sys_ActionPHP+"?act\x3dpackingdelete"
+},
+actionMethods:{create:"POST",read:"GET",update:"POST",destroy:"POST"},
+extraParams:{
+    userInfo:base64encode(Ext.encode(obj2str(sys_userInfo))),
+    p_e_code:sys_enterprise_code,
+    p_l_id:sys_location_id,
+    optype:"gfgl",
+    khid:0
+},
+reader:{type:"json",rootProperty:"rows",totalProperty:"results"}},autoLoad:false});
+
+Ext.define('MyApp.view.main.packing.GfPackingView', {
 	extend: 'Ext.grid.Panel',
-	xtype: 'PackingView',
-	title: 'Packing',
+	xtype: 'GfPackingView',
+	title: 'GfPacking',
 	requires: [
 	],
-	id: 'PackingGrid',
+	id: 'GfPackingGrid',
 	plugins: ['cellediting', 'gridfilters'],
-	controller: 'PackingCtrl',
+	controller: 'GfPackingCtrl',
 	columnLines: true,
 	enableHdMenu: false,
 	enableColumnHide: false,
-	store: { type: 'PackingStore' },
-
+	store: { type: 'GfPackingStore' },
 	tbar: [{
 		xtype: 'container',
 		flex: 1,
@@ -23,9 +40,19 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 			layout: 'hbox',
 			items: [
 				{
-					xtype: 'PageTitle'
-				},
-
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'过车作业项目维护',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
 				{
 				labelWidth: 30,
 				xtype: 'triggerfield',
@@ -52,77 +79,18 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 				itemDefaults: {
 					emptyText: 'Search for…'
 				}
-			},
-
-			editor: {
-				allowBlank: false,
-				regex: /(^[0-9A-Z]{1,5}$)/,
-				type: 'string'
 			}
 		},
 		{
-			text: '包装名称', dataIndex: 'PS_name', width:250, align: 'left', sortable: false,
+			text: '作业名称', dataIndex: 'PS_name', width:250, align: 'left', sortable: false,
 			filter: {
 				type: 'string',
 				itemDefaults: {
 					emptyText: 'Search for…'
 				}
-			},
-			editor: {
-				allowBlank: false,
-				type: 'string'
 			}
 		},
-		{
-			text: '数量单位', dataIndex: 'Quantity_Unit', width:80, align: 'left', sortable: false,
-			filter: {
-				type: 'string',
-				itemDefaults: {
-					emptyText: 'Search for…'
-
-				}
-			},
-			editor: {
-				allowBlank: true,
-				//regex:/>([^<>]+)</,      
-				type: 'string'
-			}
-
-		},
-		{
-			//xtype: "numbercolumn",
-
-			align: 'right',
-			//formatter: 'usMoney',
-			format: '00000.00',
-			//align: 'right', 
-			text: '转换系数', dataIndex: 'Rate', width:80, align: 'right', sortable: false,
-			editor: {
-				type: 'numberfield',
-
-				//	regex: /(^[0-9]{1,8}.[0-9]{3}$)/,
-				decimalPrecision: 3,
-				align: 'right',
-
-				allowBlank: false,
-				minValue: 0,
-				maxValue: 100000
-
-			}
-		},
-		{
-			text: '重量单位', dataIndex: 'Weight_Unit', width:80, align: 'left', sortable: false,
-			filter: {
-				type: 'string',
-				itemDefaults: {
-					emptyText: 'Search for…'
-				}
-			},
-			editor: {
-				allowBlank: true,
-				type: 'string'
-			}
-		},
+/*
 		{
 			text: '临时仓仓租单价',
 			columns: [
@@ -229,8 +197,9 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 					]
 				}]
 		},
+ */
 		{
-			text: '其它费用单价',
+			text: '作业费用单价',
 			columns: [
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
@@ -243,7 +212,8 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 						minValue: 0,
 						maxValue: 9999.99
 					}
-				},
+				}
+				/*,
 
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
@@ -268,7 +238,9 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 						minValue: 0,
 						maxValue: 9999.99
 					}
-				}]
+				}
+			*/
+			]
 		},
 		{
 			text: '工作费用提成单价',
@@ -276,6 +248,18 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
 					text: '搬运', dataIndex: 'Bytcdj', flex: 1,  sortable: false,
+					editor: {
+						type: 'numberfield',
+						decimalPrecision: 3,
+						align: 'right',
+						allowBlank: true,
+						minValue: 0,
+						maxValue: 9999.99
+					}
+				},
+				{
+					xtype: "numbercolumn", align: 'right', format: '00000.00',
+					text: '搬运(粉料)', dataIndex: 'Bytcdjt', flex: 1,  sortable: false,
 					editor: {
 						type: 'numberfield',
 						decimalPrecision: 3,
@@ -312,32 +296,20 @@ Ext.define('MyApp.view.main.packing.PackingView', {
 				}]
 		},
 		{
-			xtype: 'checkcolumn',
-			width:80,
-			text: '重量核算', sortable: false,
-			dataIndex: 'Weight_Status'
+			width:90, text: "重量核算", sortable: false, dataIndex: "Weight_Status",
+			align: 'center',
+			renderer: function (val) { if (val) return "是"; else return "" }
+			
 		}
 		,
 		{
-			xtype: 'checkcolumn',
-			width:50,
-			text: '活跃', sortable: false,
-			dataIndex: 'Active'
+			width:50, text: "活跃", sortable: false, dataIndex: "Active",align: 'center',
+			renderer: function (val) { if (val) return "是"; else return "" }
+			
 		}
-		,
-		{
-			xtype: 'checkcolumn',
-			width:50,
-			text: '粉料', sortable: false,
-			dataIndex: 'Flbz'
-		}
-		,
-		{
-			xtype: 'checkcolumn',
-			width:50,
-			text: '过车', sortable: false,
-			dataIndex: 'Xmlb'
-		}
+
+
+
 	],
 	listeners: {
 		select: 'onItemSelected'

@@ -87,7 +87,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 			}
 		},
 		{
-			text: '包装名称', dataIndex: 'PS_name', flex: 3, align: 'left', sortable: false,align: 'center',
+			text: '包装名称', dataIndex: 'PS_name', width:250, align: 'left', sortable: false,
 			filter: {
 				type: 'string',
 				itemDefaults: {
@@ -96,7 +96,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 			}
 		},
 		{
-			text: '数量单位', dataIndex: 'Quantity_Unit', flex: 1, align: 'left', sortable: false,
+			text: '数量单位', dataIndex: 'Quantity_Unit', width:80, align: 'left', sortable: false,
 			align: 'center',
 			filter: {
 				type: 'string',
@@ -110,10 +110,10 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 		{
 			align: 'right',
 			format: '00000.00',
-			text: '转换系数', dataIndex: 'Rate', flex: 1, align: 'left', sortable: false
+			text: '转换系数', dataIndex: 'Rate', width:80, align: 'right', sortable: false
 		},
 		{
-			text: '重量单位', dataIndex: 'Weight_Unit', flex: 1, align: 'left', sortable: false,
+			text: '重量单位', dataIndex: 'Weight_Unit', width:80, align: 'left', sortable: false,
 			align: 'center',
 			filter: {
 				type: 'string',
@@ -131,7 +131,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 
 						{
 							xtype: "numbercolumn", align: 'right', format: '00000.00',
-							text: '不分批号', dataIndex: 'Czdj', flex: 1, align: 'left', sortable: false,
+							text: '不分批号', dataIndex: 'Czdj', flex: 1,  sortable: false,
 							editor: {
 								type: 'numberfield',
 								decimalPrecision: 3,
@@ -144,7 +144,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 
 						{
 							xtype: "numbercolumn", align: 'right', format: '00000.00',
-							text: '分批号', dataIndex: 'Phdj', flex: 1, align: 'left', sortable: false,
+							text: '分批号', dataIndex: 'Phdj', flex: 1,  sortable: false,
 							editor: {
 								type: 'numberfield',
 								decimalPrecision: 3,
@@ -163,7 +163,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 
 						{
 							xtype: "numbercolumn", align: 'right', format: '00000.00',
-							text: '不分批号', dataIndex: 'Czdj2', flex: 1, align: 'left', sortable: false,
+							text: '不分批号', dataIndex: 'Czdj2', flex: 1,  sortable: false,
 							editor: {
 								type: 'numberfield',
 								decimalPrecision: 3,
@@ -176,7 +176,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 
 						{
 							xtype: "numbercolumn", align: 'right', format: '00000.00',
-							text: '分批号', dataIndex: 'Phdj2', flex: 1, align: 'left', sortable: false,
+							text: '分批号', dataIndex: 'Phdj2', flex: 1,  sortable: false,
 							editor: {
 								type: 'numberfield',
 								decimalPrecision: 3,
@@ -215,7 +215,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 						{
 							xtype: "numbercolumn", align: 'right', format: '00000.00',
 							width: 70,
-							text: '单   价', dataIndex: 'Pfdj', align: 'left', sortable: false,
+							text: '单   价', dataIndex: 'Pfdj',  sortable: false,
 							editor: {
 								type: 'numberfield',
 								decimalPrecision: 3,
@@ -233,7 +233,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 			columns: [
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
-					text: '装卸单价', dataIndex: 'Bydj', flex: 1, align: 'left', sortable: false,
+					text: '装卸', dataIndex: 'Bydj', flex: 1,  sortable: false,
 					editor: {
 						type: 'numberfield',
 						decimalPrecision: 3,
@@ -246,7 +246,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
-					text: '破包修复', dataIndex: 'Pbdj', flex: 1, align: 'left', sortable: false,
+					text: '破包修复', dataIndex: 'Pbdj', flex: 1,  sortable: false,
 					editor: {
 						type: 'numberfield',
 						decimalPrecision: 3,
@@ -258,7 +258,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 				},
 				{
 					xtype: "numbercolumn", align: 'right', format: '00000.00',
-					text: '过户费', dataIndex: 'Ghdj', flex: 1, align: 'left', sortable: false,
+					text: '过户费', dataIndex: 'Ghdj', flex: 1,  sortable: false,
 					editor: {
 						type: 'numberfield',
 						decimalPrecision: 3,
@@ -269,7 +269,47 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 					}
 				}]
 		},
+		{
+			text: '工作费用提成单价',
+			columns: [
+				{
+					xtype: "numbercolumn", align: 'right', format: '00000.00',
+					text: '搬运', dataIndex: 'Bytcdj', flex: 1,  sortable: false,
+					editor: {
+						type: 'numberfield',
+						decimalPrecision: 3,
+						align: 'right',
+						allowBlank: true,
+						minValue: 0,
+						maxValue: 9999.99
+					}
+				},
 
+				{
+					xtype: "numbercolumn", align: 'right', format: '00000.00',
+					text: '机械', dataIndex: 'Gstcdj', flex: 1,  sortable: false,
+					editor: {
+						type: 'numberfield',
+						decimalPrecision: 3,
+						align: 'right',
+						allowBlank: true,
+						minValue: 0,
+						maxValue: 9999.99
+					}
+				},
+				{
+					xtype: "numbercolumn", align: 'right', format: '00000.00',
+					text: '仓管', dataIndex: 'Cgtcdj', flex: 1,  sortable: false,
+					editor: {
+						type: 'numberfield',
+						decimalPrecision: 3,
+						align: 'right',
+						allowBlank: true,
+						minValue: 0,
+						maxValue: 9999.99
+					}
+				}]
+		},
 		{
 			width:90, text: "重量核算", sortable: false, dataIndex: "Weight_Status",
 			align: 'center',
@@ -278,7 +318,24 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 		}
 		,
 		{
-			width:90, text: "活跃", sortable: false, dataIndex: "Active",align: 'center',
+			width:50, text: "活跃", sortable: false, dataIndex: "Active",align: 'center',
+			renderer: function (val) { if (val) return "是"; else return "" }
+			
+		}
+		/*,
+				,
+		{
+			xtype: 'checkcolumn',
+			width:50,
+			text: '粉料', sortable: false,
+			dataIndex: 'Flbz'
+		}
+
+		,
+
+
+		{
+			width:50, text: "粉料", sortable: false, dataIndex: "Flbz",align: 'center',
 			renderer: function (val) { if (val) return "是"; else return "" }
 			
 		},
@@ -292,7 +349,7 @@ Ext.define('MyApp.view.main.packing.CkPackingView', {
 			dataIndex: 'Xmlb',
 			renderer: function (val) { if (val) return "是"; else return "" }
 		}
-
+*/
 
 
 

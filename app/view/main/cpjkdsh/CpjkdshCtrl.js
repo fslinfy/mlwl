@@ -17,8 +17,10 @@ var jkdshsaveCallBack = function (th) {
             },
             scope: this,
             success: function (response) {
+               /* console.log('response',response.responseText);
                 var result = Ext.decode(response.responseText);
-              //  console.log(result);
+                result=response.responseText;
+                console.log('result',result);
                 if (result.result == 'success') {
                    // Ext.MessageBox.alert('错误!', '数据保存失败！');
                   //  that.getView().down("#cpxsdshowview").close();
@@ -26,7 +28,7 @@ var jkdshsaveCallBack = function (th) {
                 }
                 else {
                     Ext.MessageBox.alert('提示!',result.msg);
-                }
+                }*/
             }
         });
 

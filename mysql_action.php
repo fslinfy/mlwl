@@ -1781,6 +1781,8 @@ function khworkselecttreelist() {
 		$E_code =(int)$_GET['p_e_code'];
 		$khid=(int)$_GET['khid'];
 
+		$lid=1;
+
 if ($_GET['bzid']=='undefined'){
      $gfbz=1;
 
@@ -1843,7 +1845,7 @@ if ($_GET['bzid']=='undefined'){
 else
 {
 
-
+$lid =(int)$_GET['p_l_id'];
 $bzid=(int)$_GET['bzid'];
 		
 $sqlstr="			
@@ -1868,7 +1870,7 @@ FROM packing_kh WHERE khid=".$khid." AND L_id=".$lid." ) c ON a.PS_id=c.Pid
 WHERE E_code='".$E_code."'  AND PS_id=".$bzid."  AND a.l_id=".$lid."  
 UNION ALL
 SELECT 0 AS ps_id,Unit_price AS dj0 ,Unit_price AS dj ,Jobsname AS TEXT,Weight_status AS zljs,
-jobs AS id,Quantity_in AS inbz,Price_in AS indj
+id,Quantity_in AS inbz,Price_in AS indj
 FROM WORK 
 WHERE editbz=1 AND l_id=".$lid." AND E_code='".$E_code."') packing";
 
@@ -5911,19 +5913,33 @@ function packinglist($optype) {
 	{case 'location' :
 		$lid =(int)$_GET['p_l_id'];
 		$sqlstr = "	SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
-	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, Flbz,
 		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
-		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,c.*
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,
+		a.Bytcdj as Bytcdj0,a.Gstcdj as Gstcdj0,a.Cgtcdj as Cgtcdj0,
+		c.*
 		FROM packing a LEFT OUTER JOIN (
-		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts  
-		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where E_code='".$_GET['p_e_code']."'";
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts,Bytcdj,Gstcdj,Cgtcdj  
+		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where a.xmlb=0  and  E_code='".$_GET['p_e_code']."'";
 	   break;
+	 case 'gfgl' :
+		$lid =(int)$_GET['p_l_id'];
+		$sqlstr = "	SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, Flbz,
+		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
+		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,
+		a.Bytcdj as Bytcdj0,a.Gstcdj as Gstcdj0,a.Cgtcdj as Cgtcdj0,c.Bytcdjt as Bytcdjt0,
+		c.*
+		FROM packing a LEFT OUTER JOIN (
+		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts,Bytcdj,Bytcdjt,Gstcdj,Cgtcdj  
+		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where  a.xmlb=1  and  E_code='".$_GET['p_e_code']."'";
+	   break;	   
 	 case 'customer' :
 		$khid =(int)$_GET['khid'];
 		$lid =(int)$_GET['p_l_id'];
 				
 		$sqlstr = "SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
-	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
+	    `Weight_Status`,`PS_code`,`Active`,`E_code`, Flbz,
 		a.Czdj as Czdj0,a.Phdj as Phdj0,a.Czdj2 as Czdj20,a.Phdj2 as Phdj20,a.Bydj as Bydj0,
 		a.Pbdj as Pbdj0,a.Ghdj as Ghdj0,a.Pfdj as Pfdj0,a.mints as mints0,a.czts as czts0, a.Xmlb,c.*
 		FROM V_packing_L a LEFT OUTER JOIN (
@@ -6714,7 +6730,16 @@ function workerlist_pc() {
 }
 
 function worklist0() {
-	$sqlstr = "SELECT * FROM work where E_code='" . $_GET['p_e_code'] . "'";
+	$L_id=1;
+	if (isset($_GET['p_l_id'])) {
+		$L_id=$_GET['p_l_id'];
+		
+	}
+  //return $_GET['p_l_id'];
+	
+ 
+
+	$sqlstr = "SELECT * FROM work where editbz=1 and  E_code='" . $_GET['p_e_code'] . "' and  L_id=" . $L_id ;
 	if ($_GET['active']) {
 		$sqlstr = $sqlstr . " and Active=" . $_GET['active'];
 	}
@@ -9241,6 +9266,9 @@ function cpckdmxcksave() {
     $loc = $_GET['loc'];  
     $s = base64_decode($str);
 //	return $s;
+	$sq="";
+	$jeid=0;
+    mysql_query('insert into logs_err (msg) values ("'.$s.'")');
 	$o = json_decode($s);
 	$o = json_decode($o, true);
 	$i = 0;
@@ -9265,11 +9293,13 @@ function cpckdmxcksave() {
 	$cpckdstr .= ",'" . $o['cnote'] . "'";
 	$cpckdstr .= ",'" . $o['ckrq'] . "')";
     $cpxsdstr=" update cpxsd set fhbz=". $o['fhbz'] . " where xsid=".$o['xsid'];
+	$sq.=';'.$cpckdstr;
 	mysql_query('start transaction');
 	mysql_query($cpckdstr);
 	$ckid=mysql_insert_id();
 	if ((mysql_errno() > 0 ) ||($ckid==0)) {
 		mysql_query('rollback');
+		mysql_query('insert into logs_err (msg) values ("'.$sq.'")');
 		return '{result:"fail",msg:"数据保存失败!"}';
 	}
      foreach ($cpckdmx as $row) {
@@ -9277,17 +9307,21 @@ function cpckdmxcksave() {
 		//	$cpckdmxstr = " insert into cpckdmx (ckid,xsmxid,ccsl,cczl,ccje,xjje)";
 		//	$cpckdmxstr .= " values (" .$ckid . "," . $row['mxid'] . "," . $row['ccsl'];
 		//	$cpckdmxstr .=  "," . $row['cczl'] . "," . $row['ccje'] . "," . $row['xjje']. ")";
-			
+		$sumccje=0;		
+		$ccje=(float)$row['ccje'];		
+		$sumccsl=0;		
+		$ccsl=(float)$row['ccsl'];		
 			$cpckdmxstr = " insert into cpckdmx (ckid,xsmxid,ccsl,cczl)";
 			$cpckdmxstr .= " values (" .$ckid . "," . $row['mxid'] . "," . $row['ccsl'];
 			$cpckdmxstr .=  "," . $row['cczl'] . ")";	
-			
+			$sq.=';'.$cpckdmxstr;
 			mysql_query($cpckdmxstr);
 			$ckmxid=mysql_insert_id();
 			if ((mysql_errno() > 0)|| ($ckmxid==0)) {
 				mysql_query('rollback');
 				//return '{result:"fail",msg:"仓位数据保存失败!"}';
-				return '{result:"fail",msg:"出仓明细数据保存失败!'.$cpckdmxstr.'" } ';
+				mysql_query('insert into logs_err (msg) values ("'.$sq.'")');
+				return '{result:"fail",msg:"出仓明细数据保存失败!" } ';
 				break;
 			}
 			foreach ($cpckdcw as $cwrow) {
@@ -9296,18 +9330,29 @@ function cpckdmxcksave() {
 					//$cpckdcwstr .= "select  cpkcmx.cw,cpkcmx.czrq,cpkcmx.area,cpkc.cpph,cpkcmx.dw,cpkcmx.sm,".$cwrow['ccsl'].",cpkcmx.czdj,".$ckmxid.",cpkcmx.id,cpkcmx.mints,".$cwrow['cczl']." from cpkcmx,cpkc where cpkcmx.kcid=cpkc.kcid AND  cpkcmx.id=".$cwrow['kcmxid'];
 					$cpckdcwstr .= " values ('" .$cwrow['cw'] . "','" . $cwrow['czrq']. "','" . $cwrow['area']. "','" . $cwrow['cpph'] . "','" . $cwrow['dw'] . "'";
 					$cpckdcwstr .=  ",'" . $cwrow['sm'] . "'," . $cwrow['ccsl'] . "," . $cwrow['czdj'].",".$ckmxid. ",". $cwrow['kcmxid'] . ",". $cwrow['mints']. ",". $cwrow['cczl'] . ")";
+					$sq.=';'.$cpckdcwstr;
+					$sumccsl=$sumccsl+(float)$cwrow['ccsl'];
+
 					mysql_query($cpckdcwstr);
 					$cwid=mysql_insert_id();
 					if ((mysql_errno() > 0) ||( $cwid==0 )) {
 						mysql_query('rollback');
-						return '{result:"fail",msg:"仓位数据保存失败!'.$cpckdcwstr.'" } ';
+						mysql_query('insert into logs_err (msg) values ("'.$sq.'")');
+						return '{result:"fail",msg:"仓位数据保存失败!" } ';
 						break;
 					}
 				}
 			}
+            if ($sumccsl!=$ccsl){
+				mysql_query('rollback');
+				mysql_query('insert into logs_err (msg) values ("'.$sq.'")');
+				
+				return '{result:"fail",msg:"仓位数据保存失败!" } ';
+				break;
+
+			}  
 			foreach ($cpckdje as $jerow) {
 				if ($xsmxid==$jerow['mxid']){
-					
 					$xjbz=($jerow['xjbz']?'1':'0');
 					$xjje=$jerow['xjje'];
 					if ($xjbz=='1'){
@@ -9322,26 +9367,38 @@ function cpckdmxcksave() {
 					$cpckdjestr .= "," .($jerow['inbz']?'1':'0') ;
 					$cpckdjestr .= "," .($jerow['indj']?'1':'0') ; 
 					$cpckdjestr .= ")";
+					$sq.=';'.$cpckdjestr;
+					$sumccje=$sumccje+(float)$jerow['je'];
+					$jeid=0;
 					mysql_query($cpckdjestr);
 					$jeid=mysql_insert_id();
 					if ((mysql_errno() > 0) ||( $jeid==0 ) ) {
 						mysql_query('rollback');
-						return '{result:"fail",msg:"费用数据保存失败!'.$cpckdjestr.'" } ';
+						//mysql_query('insert into logs_err (msg) values ("1: 费用数据保存失败: jeid='.$jeid.' sql= ' .$sq.'")');
+						mysql_query('insert into logs_err (msg) values (" 2:费用数据保存失败 sumccje='.$sumccje.' ccje=  '.$ccje.'  jeid='.$jeid.'   sql= ' .$sq.'")');
+						return '{result:"fail",msg:"费用数据保存失败!" } ';
 						break;
 					}
 				}
 			}	
+			if ($sumccje!=$ccje){
+				mysql_query('rollback');
+				mysql_query('insert into logs_err (msg) values (" 2:费用数据保存失败 sumccje='.$sumccje.' ccje=  '.$ccje.'  jeid='.$jeid.'   sql= ' .$sq.'")');
+				return '{result:"fail",msg:"费用数据保存失败!" } ';
+				break;
+			}  
 		}
-		     
 		mysql_query($cpxsdstr);
 		if (mysql_errno() > 0) {
 			mysql_query('rollback');
+			mysql_query('insert into logs_err (msg) values ("'.$cpxsdstr.'")');
 			return '{result:"fail",msg:"费用数据保存失败!"}';
 			break;
 		}
 	mysql_query('commit');
 	if (mysql_errno() > 0) {
 		mysql_query('rollback');
+		mysql_query('insert into logs_err (msg) values ("'.$sq.'")');
 		return '{result:"fail",msg:"数据保存失败!请再试一次!"}';
 	} 
 	else 
@@ -12563,10 +12620,14 @@ foreach ($params as $arr) {
 		switch ($optype) {
 			case "location" :
 			$lid=$_GET['p_l_id'];
-			$sql = "insert into packing_L (PS_id,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+			$sql = "insert into packing_L (PS_id,L_id,mints,czts,Bytcdj,Bytcdjt,Gstcdj,Cgtcdj,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
 			$sql .= "," . $lid;
 			$sql .= "," .$arr['mints'];
 			$sql .= "," .$arr['czts'];		
+			$sql .= "," .$arr['Bytcdj'];		
+			$sql .= "," .$arr['Bytcdjt'];		
+			$sql .= "," .$arr['Gstcdj'];		
+			$sql .= "," .$arr['Cgtcdj'];		
 			break;
 			case "customer" :
 			$lid=$_GET['p_l_id'];
@@ -12578,12 +12639,17 @@ foreach ($params as $arr) {
 			$sql .= "," .$arr['czts'];
 			break;
 			default :
-			$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Weight_Status,flbz,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
+			$sql = "insert into packing(PS_code,E_code,PS_name,Quantity_Unit,Weight_Unit,Rate,Bytcdj,Gstcdj,Cgtcdj,Weight_Status,flbz,xmlb,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values('" . $arr['PS_code'] . "'";
 			$sql .= ",'" . $arr['E_code'] . "'";
 			$sql .= ",'" . $arr['PS_name'] . "'";
 			$sql .= ",'" . $arr['Quantity_Unit'] . "'";
 			$sql .= ",'" . $arr['Weight_Unit'] . "'";
 			$sql .= "," . $arr['Rate'];	
+			$sql .= "," .$arr['Bytcdj'];		
+
+			$sql .= "," .$arr['Gstcdj'];		
+			$sql .= "," .$arr['Cgtcdj'];		
+
 			$sql .= "," . $arr['Weight_Status'];	
 			
 			$str = $arr['Flbz'];
@@ -12714,8 +12780,55 @@ foreach ($params as $arr) {
 		switch ($optype) {
 			case "location" :
 				//$lid=$_GET['p_l_id'];
+
+
+				$str = $arr['Bytcdj'];
+				if (isset($str)) {
+					$sql .= ",Bytcdj=" . $str;
+				}
+	
+				$str = $arr['Gstcdj'];
+				if (isset($str)) {
+					$sql .= ",Gstcdj=" . $str;
+				}
+
+				$str = $arr['Cgtcdj'];
+				if (isset($str)) {
+					$sql .= ",Cgtcdj=" . $str;
+				}
+
+
+				$sql = "update packing_L set " . substr($sql, 1) . " where id=" . $arr['id'];
+			break;
+			
+			case "gfgl" :
+				//$lid=$_GET['p_l_id'];
+
+
+				$str = $arr['Bytcdj'];
+				if (isset($str)) {
+					$sql .= ",Bytcdj=" . $str;
+				}
+
+				$str = $arr['Bytcdjt'];
+				if (isset($str)) {
+					$sql .= ",Bytcdjt=" . $str;
+				}
+
+				$str = $arr['Gstcdj'];
+				if (isset($str)) {
+					$sql .= ",Gstcdj=" . $str;
+				}
+
+				$str = $arr['Cgtcdj'];
+				if (isset($str)) {
+					$sql .= ",Cgtcdj=" . $str;
+				}
+
+
 				$sql = "update packing_L set " . substr($sql, 1) . " where id=" . $arr['id'];
 		    break;
+
 			case "customer" :
 				//$lid=$_GET['p_l_id'];
 				$sql = "update packing_kh set " . substr($sql, 1) . " where khPS_id=" . $arr['id'];
@@ -12738,7 +12851,20 @@ foreach ($params as $arr) {
 	      				$sql .= ",Flbz=0";
     				}
 				}
-				
+				$str = $arr['Bytcdj'];
+				if (isset($str)) {
+					$sql .= ",Bytcdj=" . $str;
+				}
+	
+				$str = $arr['Gstcdj'];
+				if (isset($str)) {
+					$sql .= ",Gstcdj=" . $str;
+				}
+
+				$str = $arr['Cgtcdj'];
+				if (isset($str)) {
+					$sql .= ",Cgtcdj=" . $str;
+				}
 				$sql = "update packing set " . substr($sql, 1) . " where PS_id=" . $arr['id'];	
 		    break;
 		}
@@ -12752,8 +12878,66 @@ foreach ($params as $arr) {
 		switch ($optype) {
 			case "location" :
 				$lid=$_GET['p_l_id'];
-				$sql = "insert into packing_L (PS_id,L_id,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+				$sql = "insert into packing_L (PS_id,L_id,Bytcdj,Gstcdj,Cgtcdj,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
 				$sql .= "," . $lid;
+				$str = $arr['Bytcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+			$str = $arr['Gstcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+			$str = $arr['Cgtcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+			break;
+			case "gfgl" :
+				$lid=$_GET['p_l_id'];
+				$sql = "insert into packing_L (PS_id,L_id,Bytcdj,Bytcdjt,Gstcdj,Cgtcdj,mints,czts,Czdj,Phdj,Czdj2,Phdj2,Pfdj,Bydj,Pbdj,Ghdj) values(" . $arr['Pid'] ;
+				$sql .= "," . $lid;
+
+				$str = $arr['Bytcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+
+			
+			$str = $arr['Bytcdjt'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+
+			$str = $arr['Gstcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
+			$str = $arr['Cgtcdj'];
+			if (isset($str)) {
+				$sql .= "," . $str;
+			}else
+			{
+				$sql .= ",0" ;	
+			}
 		    break;
 			case "customer" :
 				$lid=$_GET['p_l_id'];
@@ -12887,13 +13071,39 @@ foreach ($params as $arr) {
 switch ($optype) {
 case 1 :
 //insert
-$sql = "insert into work(E_code,Jobs,Jobsname,Unit_price,Weight_status,Quantity_in,Price_in) values('" . $arr['E_code'] . "'";
-$sql .= ",'" . $arr['Jobs'] . "'";
+$sql = "insert into work(E_code,Jobs,Jobsname,L_id,Unit_price,Bytcdj,Bytcdj2,Gstcdj,Cgtcdj,   Weight_status,Quantity_in,Price_in) values('" . $arr['E_code'] . "'";
+$sql .= "," . $arr['Jobs'] ;
 $sql .= ",'" . $arr['Jobsname'] . "'";
+$sql .= "," . $arr['L_id'];
 $sql .= "," . $arr['Unit_price'];
+$sql .= "," . $arr['Bytcdj'];
+$sql .= "," . $arr['Bytcdj2'];
+$sql .= "," . $arr['Gstcdj'];
+$sql .= "," . $arr['Cgtcdj'];
+
 $sql .= "," . $arr['Weight_status'];
-$sql .= "," . $arr['Quantity_in'];
-$sql .= "," . $arr['Price_in'] . ")";
+
+$str = $arr['Quantity_in'];
+if (isset($str)) {
+if ($str) {
+	$sql .= ",1";
+} else {
+	$sql .= ",0";
+}
+}
+
+
+
+
+
+$str = $arr['Price_in'];
+if (isset($str)) {
+if ($str) {
+	$sql .= ",1)";
+} else {
+	$sql .= ",0)";
+}
+}
 
 break;
 case 2 :
@@ -12904,7 +13114,7 @@ default :
 $sql = "";
 $str = $arr['Jobs'];
 if (isset($str)) {
-$sql .= ",Jobs='" . $str . "'";
+$sql .= ",Jobs=" . $str ;
 }
 $str = $arr['Jobsname'];
 if (isset($str)) {
@@ -12914,6 +13124,25 @@ $sql .= ",Jobsname='" . $str . "'";
 $str = $arr['Unit_price'];
 if (isset($str)) {
 $sql .= ",Unit_price=" . $str;
+}
+
+$str = $arr['Bytcdj'];
+if (isset($str)) {
+$sql .= ",Bytcdj=" . $str;
+}
+
+$str = $arr['Bytcdj2'];
+if (isset($str)) {
+$sql .= ",Bytcdj2=" . $str;
+}
+
+$str = $arr['Gstcdj'];
+if (isset($str)) {
+$sql .= ",Gstcdj=" . $str;
+}
+$str = $arr['Cgtcdj'];
+if (isset($str)) {
+$sql .= ",Cgtcdj=" . $str;
 }
 
 $str = $arr['Weight_status'];
@@ -12966,7 +13195,7 @@ break;
 //return $sql;
 if ($error == 'yes') {
 mysql_query('rollback');
-return '{result:"fail",msg:"数据保存失败！!"}';
+return '{result:"fail",msg:"数据保存失败！!'.$sql.'"}';
 //return '数据保存失败！!';
 } else {
 mysql_query('commit');

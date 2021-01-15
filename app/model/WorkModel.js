@@ -8,7 +8,7 @@ Ext.define('MyApp.model.WorkModel', {
     }, {
         name: 'E_code'
     }, {
-        name: 'Jobs'
+        name: 'Jobs',type: 'int'
     }, {
         name: 'Jobsname'
 
@@ -20,6 +20,22 @@ Ext.define('MyApp.model.WorkModel', {
     {
         name: 'Unit_price', type: 'int'
     },
+    {
+        name: 'L_id', type: 'int'
+    },
+    {
+        name: 'Bytcdj', type: 'number'
+    },
+    {
+        name: 'Bytcdj2', type: 'number'
+    },
+    {
+        name: 'Gstcdj', type: 'number'
+    },
+    {
+        name: 'Cgtcdj', type: 'number'
+    },
+
     {
         name: 'Weight_status',
         type: 'bool'

@@ -79,7 +79,44 @@ Ext.define('MyApp.model.PackingModel', {
     }, {
         name: 'Ghdj0', type: 'number'
     },
+    {
+        name: 'Bytcdj', type: 'number'
+    },
+    {
+        name: 'Bytcdjt', type: 'number'
+    },
 
+    {
+        name: 'Gstcdj', type: 'number'
+    },
+    {
+        name: 'Cgtcdj', type: 'number'
+    },
+    {
+        name: 'Bytcdj2', type: 'number'
+    },
+    {
+        name: 'Bytcdjt2', type: 'number'
+    },
+
+    {
+        name: 'Gstcdj2', type: 'number'
+    },
+    {
+        name: 'Cgtcdj2', type: 'number'
+    },
+    {
+        name: 'Bytcdj0', type: 'number'
+    },
+    {
+        name: 'Bytcdjt0', type: 'number'
+    },
+    {
+        name: 'Gstcdj0', type: 'number'
+    },
+    {
+        name: 'Cgtcdj0', type: 'number'
+    },
     {
         name: 'Active',
         type: 'bool'
