@@ -685,7 +685,10 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 }
             }
         })
+
         var s=0;
+        var sumje=0;
+        var sumxjje=0;
         cpckdje_store.each(function (recje) {
             if (recje.get('dh') == dh) {
                 if (recje.get('sl')!=0 ){
@@ -695,12 +698,42 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                         s=1;
                     }
                     if (recje.get('xjbz')>0){
-                        recje.data.xjje=recje.data.je
+                        recje.data.xjje=recje.data.je;
                     }
+                    sumje=sumje+ recje.data.je;
+                    sumxjje=sumxjje+ recje.data.xjje;
+
                     arrayje.push(recje.data);
                 }
             }
 
+        })
+        var arraymx = [];
+        cpckdmx_store.each(function (reccw) {
+         
+            if (reccw.get('dh') == dh) {
+                if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
+                  var mxid= reccw.data.mxid;
+
+                  sumje=0;
+                  sumxjje=0;
+                  cpckdje_store.each(function (recje) {
+                      if (recje.get('dh') == dh) {
+                        if (recje.get('mxid')==mxid){
+                              sumje=sumje+ recje.data.je;
+                              sumxjje=sumxjje+ recje.data.xjje;
+                          }
+                      }
+                  })
+                    var obj = {};
+                    obj['mxid'] = reccw.data.mxid;
+                    obj['ccsl'] = reccw.data.ccsl;
+                    obj['cczl'] = reccw.data.cczl;
+                    obj['ccje'] = sumje;
+                    obj['xjje'] = sumxjje;
+                    arraymx.push(obj);
+                }
+            }
         })
 
 
@@ -709,7 +742,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         cpckd['cpckdje'] = arrayje;
         cpckd['cpckdcw'] = arraycw;
        console.log(cpckd);
-//       return ;
+       //return ;
 
 
         var str = obj2str(cpckd);
