@@ -15,9 +15,9 @@ var khmcCallBack = function (node) {
    
 }
 */
-var ckdworkCallBack = function (node) {
+var gfdworkCallBack = function (node) {
     var rec = node.data;
-    //console.log('ckdworkCallBack',rec);
+    //console.log('gfdworkCallBack',rec);
     var p = that.popupmx;
     var xjbz = p.getViewModel().get('xjbz');
     var mxid = p.getViewModel().get('mxid');
@@ -408,7 +408,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         //    obj['bzid'] = rec.data.bzid;
     
             ////console.log('bzid', rec, obj);
-            treeSelect('work', that, obj, that.popupmx, false, ckdworkCallBack);
+            treeSelect('work', that, obj, that.popupmx, false, gfdworkCallBack);
             return false;
         },
     

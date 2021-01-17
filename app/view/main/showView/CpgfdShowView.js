@@ -428,7 +428,7 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
 
         },
         {
-            text: '返回..',
+            text: '返回',
             icon: "images/close.gif",
             handler: function () {
                 //this.up("window").hide();
