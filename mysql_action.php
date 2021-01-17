@@ -9418,7 +9418,7 @@ function cpghdmxcksave() {
 	$sumjcsl = 0;
 	$sumjczl = 0;
 	$sumjcje = 0;
-	$cpghdmx = $o['cpghdmx'];
+//	$cpghdmx = $o['cpghdmx'];
 	$cpghdje = $o['cpghdje'];
 	$cpghdcw = $o['cpghdcw'];
 //	$my_date =new DateTime( $o['ckrq']);
@@ -9433,8 +9433,15 @@ function cpghdmxcksave() {
 	$cpghdstr .= ",ghr='" . $o['czy'] . "'";
 	$cpghdstr .= ",cnote='" . $o['cnote'] . "'";
 	$cpghdstr .= ",ghrq='" . $o['ghrq'] . "' where ghid=".$ghid;
-
 	
+	/*$sumje=0;
+	$sumxjje=0
+	foreach ($cpghdmx as $row) {
+
+
+	}
+*/
+
 	mysql_query('start transaction');
 	
 	mysql_query($cpghdstr);

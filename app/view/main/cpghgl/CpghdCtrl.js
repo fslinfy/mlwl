@@ -802,7 +802,8 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
          
             if (reccw.get('ghid') == ghid) {
                 if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
-                    var obj = {};
+                  
+                   /* var obj = {};
                     obj['ghid'] = reccw.data.ghid;
                     obj['mxid'] = reccw.data.mxid;
                     obj['ghsl'] = reccw.data.ghsl;
@@ -811,6 +812,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
                     obj['xjje'] = reccw.data.xjje;
                     
                     arraymx.push(obj);
+                    */
                     cwrec++;
                 }
             }
@@ -852,20 +854,61 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
                         recje.data.je= Math.ceil(recje.data.dj*recje.data.sl);
                         s=1;
                     }
-
-
+                    if (recje.get('xjbz')){
+                        recje.data.xjje=recje.data.je;
+                    }
                    arrayje.push(recje.data);
                 }
             }
 
         })
-        //console.log("recje len",arrayje);
-        cpghd['cpghdmx'] = arraymx;
+/*
+var mxid=0;
+var sumje=0;
+var sumxjje=0;
+arraymx=[];
+        cpghdmx_store.each(function (reccw) {
+         
+            if (reccw.get('ghid') == ghid) {
+                if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
+                    var obj = {};
+                   mxid=reccw.data.mxid;
+                   sumje=0;
+                   sumxjje=0;
+                   cpghdje_store.each(function (recje) {
+                       if (recje.get('ghid') ==ghid) {
+                         if (recje.get('mxid')==mxid){
+                               sumje=sumje+ recje.data.je;
+                               sumxjje=sumxjje+ recje.data.xjje;
+                           }
+                       }
+                   })
+
+                    obj['ghid'] = reccw.data.ghid;
+                    obj['mxid'] =mxid;
+                    obj['ghsl'] = reccw.data.ghsl;
+                    obj['ghzl'] = reccw.data.ghzl;
+                    obj['ghje'] =sumje;
+                    obj['xjje'] =sumxjje;
+                    
+                    arraymx.push(obj);
+                    cwrec++;
+                }
+            }
+            if (reccw.get('ccsl') < reccw.get('mccsl')) {
+                msg = msg + '<br><br>商品：' + reccw.get('cpmc') + '过户数量小于过户单开单数量';
+            }
+        })
+*/
+
+
+       
+       // cpghd['cpghdmx'] = arraymx;
         cpghd['cpghdje'] = arrayje;
         cpghd['cpghdcw'] = arraycw;
-        //console.log('cpghd', cpghd,msg);
+        console.log('cpghd', cpghd,msg);
       //  //console.log('msg',msg);
-      // return;
+       //return;
         var str = obj2str(cpghd);
         //console.log('cpghd str', str);
 

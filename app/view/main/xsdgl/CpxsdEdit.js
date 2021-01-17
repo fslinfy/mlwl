@@ -409,9 +409,9 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdEdit', {
         }],
         listeners: {
             beforedestroy: function (obj) {
-                CurCpxsdmxStore.getProxy().clear();
-                CurCpxsdmxStore.data.clear();
-                CurCpxsdmxStore.sync();
+              //  CurCpxsdmxStore.getProxy().clear();
+              //  CurCpxsdmxStore.data.clear();
+              //  CurCpxsdmxStore.sync();
             }
         }
 });

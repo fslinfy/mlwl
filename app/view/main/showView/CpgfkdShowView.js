@@ -413,7 +413,7 @@ Ext.define('MyApp.view.main.showView.CpgfkdShowView', {
 
         },
         {
-            text: '返回',
+            text: '返回...',
             icon: "images/close.gif",
             handler: function () {
                 //this.up("window").hide();
@@ -427,9 +427,9 @@ Ext.define('MyApp.view.main.showView.CpgfkdShowView', {
              curcpgfdjeStore.getProxy().clear();
              curcpgfdjeStore.data.clear();
              curcpgfdjeStore.sync();
-             curcpgfdcwStore.getProxy().clear();
-             curcpgfdcwStore.data.clear();
-             curcpgfdcwStore.sync();
+            // curcpgfdcwStore.getProxy().clear();
+           //  curcpgfdcwStore.data.clear();
+           //  curcpgfdcwStore.sync();
              //that.getView().down("#cpgfdshowview").close();
              that.locQuery(that);
 //             console.log("beforedestroy");

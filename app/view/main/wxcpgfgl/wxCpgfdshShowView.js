@@ -456,7 +456,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdshShowView', {
             itemId: 'btnCpgfdCancel'
         },
         {
-            text: '返回',
+            text: '返回.',
             icon: "images/close.gif",
             handler: function () {
 

@@ -643,7 +643,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         var msg = "";
         cpckdmx_store.each(function (reccw) {
          
-            if (reccw.get('dh') == dh) {
+           // if (reccw.get('dh') == dh) {
                 if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
                     var obj = {};
                     obj['mxid'] = reccw.data.mxid;
@@ -654,7 +654,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     arraymx.push(obj);
                     cwrec++;
                 }
-            }
+           // }
             if (reccw.get('ccsl') < reccw.get('mccsl')) {
                 msg = msg + '<br><br>商品：' + reccw.get('cpmc') + '出仓数量小于提单开单数量';
             }
@@ -665,13 +665,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         }
         cwrec == 0;
         cpckdcw_store.each(function (reccw) {
-            if (reccw.get('dh') == dh) {
+           // if (reccw.get('dh') == dh) {
                 if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
                     reccw.data.czrq = Ext.Date.format(reccw.data.czrq, 'Y-m-d');
                     arraycw.push(reccw.data);
                     cwrec++;
                 }
-            }
+          //  }
         })
        if (arraycw.length==0)
         {
@@ -679,18 +679,18 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         }
        var sumjesl=0;
         cpckdje_store.each(function (recje) {
-            if (recje.get('dh') == dh) {
+           // if (recje.get('dh') == dh) {
                 if (recje.get('sl')!=0){
                    sumjesl=sumjesl+recje.get('sl');
                 }
-            }
+          //  }
         })
 
         var s=0;
         var sumje=0;
         var sumxjje=0;
         cpckdje_store.each(function (recje) {
-            if (recje.get('dh') == dh) {
+            //if (recje.get('dh') == dh) {
                 if (recje.get('sl')!=0 ){
                     if ((sumjesl<1) && (s==0) && (recje.get('zljs')) ) {  //重不够吨按一吨计
                         recje.data.sl=recje.data.sl+(1-sumjesl);
@@ -700,30 +700,30 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     if (recje.get('xjbz')>0){
                         recje.data.xjje=recje.data.je;
                     }
-                    sumje=sumje+ recje.data.je;
-                    sumxjje=sumxjje+ recje.data.xjje;
+                  //  sumje=sumje+ recje.data.je;
+                  //  sumxjje=sumxjje+ recje.data.xjje;
 
                     arrayje.push(recje.data);
                 }
-            }
+           // }
 
         })
         var arraymx = [];
         cpckdmx_store.each(function (reccw) {
          
-            if (reccw.get('dh') == dh) {
+           // if (reccw.get('dh') == dh) {
                 if ((reccw.get('ccsl') != 0) || (reccw.get('cczl') != 0)) {
                   var mxid= reccw.data.mxid;
 
                   sumje=0;
                   sumxjje=0;
                   cpckdje_store.each(function (recje) {
-                      if (recje.get('dh') == dh) {
+                    //  if (recje.get('dh') == dh) {
                         if (recje.get('mxid')==mxid){
                               sumje=sumje+ recje.data.je;
                               sumxjje=sumxjje+ recje.data.xjje;
                           }
-                      }
+                    //  }
                   })
                     var obj = {};
                     obj['mxid'] = reccw.data.mxid;
@@ -733,7 +733,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     obj['xjje'] = sumxjje;
                     arraymx.push(obj);
                 }
-            }
+           // }
         })
 
 
