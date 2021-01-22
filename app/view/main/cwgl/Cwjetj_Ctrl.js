@@ -93,20 +93,20 @@ gridgroupingView = {
          mycolModel= [
            // {label: '月',  name: 'yu', sortable: false,align: 'center', sorttype: "string"},
             {label: '日',  name: 'day', width:50,sortable: false,align: 'center'},
-            {label: '公司',  name: 'khmc', sortable: false },
-            {label: '单位',  name: 'dw', align: 'center', sortable: false },
-            {label: '重量',  name: 'sl',align: 'right', formatter:zlFormat,sortable: false },
-            {label: '记帐',  name: 'byje',align: 'right', formatter:jeFormat,sortable: false ,summaryType:'sum'},
-            {label: '现收',  name: 'byxjje', align: 'right',formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '记帐',  name: 'gfje', align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '现收',  name: 'gfxjje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '记帐',  name: 'ghje', align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '现收',  name: 'ghxjje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'            },
-            {label: '记帐',  name: 'qtje', align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '现收',  name: 'qtxjje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '记帐',  name: 'je',  align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '现收',  name: 'xjje',align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '合计',  name: 'je0', align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum' }
+            {label: '公司',  name: 'khmc', width:120, sortable: false },
+            {label: '单位',  name: 'dw', width:50, align: 'center', sortable: false },
+            {label: '重量',  name: 'sl', width:100,align: 'right', formatter:zlFormat,sortable: false },
+            {label: '记帐',  name: 'byje', width:100,align: 'right', formatter:jeFormat,sortable: false ,summaryType:'sum'},
+            {label: '现收',  name: 'byxjje', width:100, align: 'right',formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '记帐',  name: 'gfje', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '现收',  name: 'gfxjje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '记帐',  name: 'ghje', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '现收',  name: 'ghxjje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'            },
+            {label: '记帐',  name: 'qtje', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '现收',  name: 'qtxjje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '记帐',  name: 'je', width:100,  align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '现收',  name: 'xjje', width:100,align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '合计',  name: 'je0', width:100, align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum' }
             ];
             var tool=that.getView().down("#QueryToolbarView");
             tool.down("#btnExport").setHidden(!isExportEnable);

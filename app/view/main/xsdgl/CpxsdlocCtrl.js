@@ -9,8 +9,8 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdlocCtrl', {
         'MyApp.view.main.xsdgl.CpxsdlocView'
         , 'MyApp.view.main.report.PrintCpxsd'
     ],
-    locQuery: function (that) {
-        var v = that.viewname.getViewModel();
+    locQuery: function (the) {
+        var v = this.viewname.getViewModel();
         var khid = v.get('khid');
         var ckid = v.get('ckid');
         start_date = v.get('start_date');

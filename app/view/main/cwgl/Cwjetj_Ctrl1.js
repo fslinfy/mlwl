@@ -93,14 +93,14 @@ gridgroupingView = {
 
          mycolModel= [
             {label: '日',  name: 'day',width:50, sortable: false,align: 'center'},
-            {label: '公司',  name: 'khmc', sortable: false },
-            {label: '单位',  name: 'dw', align: 'center', sortable: false },
-            {label: '重量',  name: 'sl',align: 'right', sortable: false,formatter:zlFormat },
-            {label: '装卸',  name: 'byje',align: 'right', formatter:jeFormat,sortable: false ,summaryType:'sum'},
-            {label: '过车',  name: 'gfje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '过户',  name: 'ghje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '其它',  name: 'qtje',align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '合计',  name: 'je', align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'}
+            {label: '公司',  name: 'khmc', width:120, sortable: false },
+            {label: '单位',  name: 'dw', width:50, align: 'center', sortable: false },
+            {label: '重量',  name: 'sl', width:100,align: 'right', sortable: false,formatter:zlFormat },
+            {label: '装卸',  name: 'byje', width:100,align: 'right', formatter:jeFormat,sortable: false ,summaryType:'sum'},
+            {label: '过车',  name: 'gfje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '过户',  name: 'ghje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '其它',  name: 'qtje', width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
+            {label: '合计',  name: 'je', width:100, align: 'right',  formatter:jeFormat,sortable: false,summaryType:'sum'}
             ];
             var tool=that.getView().down("#QueryToolbarView");
             tool.down("#btnExport").setHidden(!isExportEnable);

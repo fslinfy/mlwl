@@ -36,7 +36,11 @@ switch($act) {
 	case 'cwjetjlist' :
    		  $retval = cwjetjlist();
 		 break;		
-    case 'czmxloclist' :
+		 case 'cwbytcjetjlist' :
+			$retval = cwbytcjetjlist();
+		break;		
+
+		 case 'czmxloclist' :
 		$retval = czmxloclist();
 		break;		
 		case 'cztjloclist' :
@@ -226,6 +230,97 @@ function cwjetjlist() {
 
 
 }
+
+function cwbytcjetjlist() {
+	global 	$link, $search,$query, $total,$page;
+	$page=(int)$_POST['page'] ;
+	$limit=(int)$_POST['rows'] ;
+	$sidx = $_POST['sidx']; 
+	$sord = $_POST['sord']; 
+	$pcode = $_POST['p_e_code']; 
+
+	$loc="";
+	
+	if (isset($_POST["loc"])) $loc=(int)$_POST["loc"];
+	
+	$Lid=$_POST["p_l_id"];
+	$ny=$_POST["ny"];
+	$yu=$_POST["yu"];
+	$bz=$_POST["bz"];
+	$khid=$_POST["khid"];
+	$bybz=0;
+	if (isset($_POST["bybz"])) $bybz=(int)$_POST["bybz"];
+
+	//if ($loc=="cwworkwz"){
+	//	$sqlstr = "CALL getydbytctjmx($Lid,$khid,$ny,$yu,'$bz',1,$bybz)";
+	//}else{
+		$sqlstr = "CALL getydbytctjmx($Lid,$khid,$ny,$yu,'$bz',0,$bybz)";
+	//}
+
+
+	$page =1; 
+	
+	$start=1;
+	$totalrows=0;
+	$total=1;
+
+
+
+//	global 	$search, $total,$page,$link;
+	$query = mysqli_query($link,$sqlstr);
+		if ($query) {
+			$z=0;
+			$sumzl=0;
+			$sumje=0;
+
+			$arr = array();
+			while ($row = mysqli_fetch_array($query)) {
+				$my_array = array();
+				
+				for ($i = 0; $i < mysqli_num_fields($query); $i++) {
+					$fieldname =mysqli_fetch_field_direct($query, $i)->name;
+					$newvar = $row[$fieldname];
+					$my_array[$fieldname] = urlencode($newvar);
+				};
+				
+
+				$sumje=$sumje+ $row['je'];
+				$sumzl=$sumzl+ $row['zl'];
+				$z++;
+				//if ($idop){
+					$aa["id"]=$z;
+				//}else{
+					//$aa["id"]=$row['Id'];	
+				//}
+				$aa["cell"]= $my_array;
+				array_push($arr, $aa);
+				//array_push($arr, $my_array);
+			}
+			$result["total"]=$total;
+			$result["page"]=$page;
+			$result["records"]=$z;
+			$result["rows"]=$arr;
+			$my_array = array();
+			$my_array['je'] = $sumje;
+			$my_array['zl'] = $sumzl;
+			$result['userdata'] =$my_array;
+			$result['success'] = true;
+		} else {
+			$result['success'] = false;
+			$result['userdata'] = $sqlstr;
+			$result['data'] = array('id' => 1, 'msg' => urlencode('数据查询操作失败！'));
+		}
+		//return json_encode($result);
+		return urldecode(json_encode($result));
+
+
+
+
+
+
+
+}
+
 
 function czmxloclist() {
 	global 	$link, $search,$query, $total,$page;

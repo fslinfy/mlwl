@@ -329,7 +329,18 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdEdit', {
                             }
 
                         },
+                      /*  {
+                            text: '包装id',
+                            name: 'bzid',
+                            dataIndex: 'bzid',
+                            sortable: false,
+                            flex: 1,
+                            editor: {
+                                allowBlank: false,
+                                type: 'string'
+                            }
 
+                        },*/
                         {
                             text: '单位',
                             dataIndex: 'jldw',

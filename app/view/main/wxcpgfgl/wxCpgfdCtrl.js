@@ -143,7 +143,8 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         ,'MyApp.view.main.report.PrintwxCpgfd'
     ],
     locQuery: function (the) {
-        var v = that.viewname.getViewModel();
+        console.log(this,the);
+        var v = the.viewname.getViewModel();
         var khid = v.get('khid');
         cpgfdmxStore0.proxy.extraParams.loc = "wxcpgfdfhck";
         
@@ -364,11 +365,12 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
             var view = this.getView();
             this.isEdit_mx = !!record;
             that.ghmxid = mxid;
-            //console.log("endrq", record);
+            //console.log("rec0", rec0);
     
             that.recordID = record['id'];
             record['newrecord'] = false;
             record['xjbz'] = rec0.data.xjbz;
+            record['area'] = rec0.data.area;
             record['title'] = "商品过车处理";
     
             if (record['sl'] == 0 && record['zl'] == 0) {

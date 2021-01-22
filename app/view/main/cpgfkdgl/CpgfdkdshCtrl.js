@@ -15,8 +15,9 @@ var cdmcCallBack = function (node) {
 var bzmcCallBack = function (node) {
     var customerGrid = that.lookupReference('CpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
-
+    console.log('node',node);
     selection.set('bzmc', node.data.text);
+    selection.set('bzid', node.data.id);
     selection.set('dj', node.data.bydj);
     selection.set('rate', node.data.rate);
 }
@@ -35,10 +36,10 @@ var gfdDeleteCallBack = function (th) {
 
 var addCpmcCallBack = function (node) {
     var rec = node.data;
+    console.log(rec);
     var p = that.popupmx;
     var cpgfdmx = that.lookupReference('CpgfdmxGrid').getStore();
-    cpgfdmx.add({
-        xmmc: rec.text, jldw: '吨', sl: 0, zl: 0, je: 0, dj: 0, byg: '', cg: '', gs: ''
+    cpgfdmx.add({cpid:rec.id, xmmc: rec.text, jldw: '吨', sl: 0, zl: 0, je: 0, dj: 0, byg: '', cg: '', gs: ''
     })
 
 }
@@ -361,6 +362,13 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl', {
         }
 
 
+        cpgfdmx_store.each(function (rec) {
+            if (rec.data.bzid ==0) {
+                Ext.MessageBox.alert('注意！', '请完善过车商品的包装信息！');
+                return false;
+            }
+        })
+
 
         var sumsl = 0, sumzl = 0, sumje = 0;
         var mx = [];
@@ -398,7 +406,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl', {
         gfd["gfid"] = gfid;
 
         gfd["khmc"] = p.data.khmc;
-
+        gfd["area"] = p.data.area;
         gfd["cphm"] = p.data.cphm;
         gfd["sfr"] = p.data.sfr;
         gfd["cnote"] = p.data.cnote;

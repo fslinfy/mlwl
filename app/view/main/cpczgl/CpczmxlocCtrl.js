@@ -79,20 +79,20 @@ gridgroupingView = {
          mycolModel= [
             {label: '公司',  name: 'khmc',width:80, sortable: false },
             {label: '日期 ',  name: 'rq',width:80, sortable: false},
-            {label: '产地名称',  name: 'cdmc', sortable: false },
+            {label: '产地名称',  name: 'cdmc', width:120, sortable: false },
             {label: '产品名称',  name: 'cpmc', width:200,sortable: false },
            
             {label: '单位',  name: 'jldw', index: 'jldw',width:40,align: 'center',sortable: false },
             
             
             
-            {label: '数量',  name: 'sl', align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
-            {label: '重量',  name: 'zl', align: 'right', formatter: zlFormat, sortable: false,summaryType:'sum' },
-            {label: '计租天数',  name: 'days', align: 'right', sortable: false },
-            {label: '单价',  name: 'dj', align: 'right', formatter:jeFormat,sortable: false },
-            {label: '仓租',  name: 'je',  align: 'right',search: false ,formatter:zlFormat,sortable: false,summaryType:'sum'},
-            {label: '产品批号',  name: 'cpph', sortable: false },
-            {label: '类别',  name: 'jclbmc', sortable: false },
+            {label: '数量',  name: 'sl', width:100, align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
+            {label: '重量',  name: 'zl', width:100, align: 'right', formatter: zlFormat, sortable: false,summaryType:'sum' },
+            {label: '计租天数',  name: 'days', width:60, align: 'right', sortable: false },
+            {label: '单价',  name: 'dj', width:100, align: 'right', formatter:jeFormat,sortable: false },
+            {label: '仓租',  name: 'je', width:100,  align: 'right',search: false ,formatter:zlFormat,sortable: false,summaryType:'sum'},
+            {label: '产品批号',  name: 'cpph', width:100, sortable: false },
+            {label: '类别',  name: 'jclbmc', width:60, sortable: false },
             {label: '进仓日期 ',  name: 'czrq', width:80,sortable: false,search: false }
             
             ];

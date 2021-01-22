@@ -86,8 +86,9 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
         , 'MyApp.view.main.cpckgl.CpckdCtrlFunction'
         , 'MyApp.view.main.report.PrintCpckd'
     ],
-    locQuery: function (that) {
-        var v = that.getView().down("#CpxsdListGrid").getViewModel();
+    locQuery: function (the) {
+        console.log(this,the);
+        var v = this.getView().down("#CpxsdListGrid").getViewModel();
         khid = v.get('khid');
         var ckid = v.get('ckid');
         cpxsdmxStore.proxy.extraParams.loc = "cpxsdmxmfhck";

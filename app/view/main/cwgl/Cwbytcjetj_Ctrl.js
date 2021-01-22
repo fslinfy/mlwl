@@ -6,7 +6,7 @@ var grid;
 var jelb=2;
 var fheight=218;
 var sumfooterrow=true;
-var gridTableName="cwjetjgridTable";
+var gridTableName="cwbytcjetjgridTable";
 var gridpostData;
 var isEditEnable=false;
 var isAddEnable=false;
@@ -15,7 +15,7 @@ var isExportEnable=true;
 var isSearchEnable=false;
 var gridrowNum;
 var gridSortName;
-var PageTitleName='月度工作费用现收表'; 
+var PageTitleName='作业提成统计明细'; 
 var gridgrouping=false;
 var gridgroupingView = {};
 var lastSel=0;   
@@ -28,15 +28,15 @@ var listUrl='';
 var mycolModel;
 var setGroupHeaders=false;
 var exportfilename=PageTitleName+".xlsx";
-Ext.define("MyApp.view.main.cwgl.Cwjetj_Ctrl2", {
+Ext.define("MyApp.view.main.cwgl.Cwbytcjetj_Ctrl", {
     extend:"Ext.app.ViewController",
-    alias:"controller.Cwjetj_Ctrl2",
+    alias:"controller.Cwbytcjetj_Ctrl",
     requires:[
     "MyApp.view.main.QueryToolbarView"
     ,"MyApp.view.main.jqGridFunction"
      ,'MyApp.view.main.tree.QueryKhmc'
     ,'MyApp.view.main.tree.QueryCkmc'
-    ,"MyApp.view.main.cwgl.Cwjetj_View2"
+    ,"MyApp.view.main.cwgl.Cwbytcjetj_View"
 ],
     init:function(){
      that = this;
@@ -52,6 +52,8 @@ Ext.define("MyApp.view.main.cwgl.Cwjetj_Ctrl2", {
         gridpostData={
             export:"0",
             jelb:2,
+            bz:0,
+            loc:'',
             initArg:123,
             p_e_code:1,
             p_l_id:ckid,
@@ -61,7 +63,7 @@ Ext.define("MyApp.view.main.cwgl.Cwjetj_Ctrl2", {
         };
 //console.log(gridpostData);
 setGroupHeaders=false;
-gridTableName="cwjetjgridTable";
+gridTableName="cwbytcjetjgridTable";
 gridpostData;
 isEditEnable=false;
 isAddEnable=false;
@@ -70,7 +72,7 @@ isExportEnable=true;
 isSearchEnable=false;
 gridrowNum=20000;
 gridSortName="Id";
-PageTitleName='月度工作费用现收表'; 
+PageTitleName='作业提成统计明细'; 
 lastSel=0;   
 jelb=2;
 fheight=218;
@@ -79,11 +81,11 @@ exportload=false;
 exportfilename=ny+'年'+yu+PageTitleName+".xlsx";
 
 editUrl= "";
-listUrl='jqgriddata.php?act=cwjetjlist';
+listUrl='jqgriddata.php?act=cwbytcjetjlist';
 gridgrouping=true;
 gridgroupingView = {
-               groupField : ['day'],
-               groupColumnShow : [true],
+               groupField : ['xm'],
+               groupColumnShow : [false],
                groupSummary : [true],
               // groupText : ['<b>{0}日 - {1}条记录 </b>'],
                groupCollapse : false,
@@ -91,15 +93,13 @@ gridgroupingView = {
              };
 
          mycolModel= [
-            {label: '日',  name: 'day', width:50, sortable: false,align: 'center' },
-            {label: '公司',  name: 'khmc',width:120, sortable: false },
-            {label: '单位',  name: 'dw', width:50,align: 'center',sortable: false },
-            {label: '重量',  name: 'sl',width:100,align: 'right', sortable: false ,formatter:zlFormat},
-            {label: '装卸',  name: 'byxjje', width:100,align: 'right',formatter:jeFormat ,sortable: false,summaryType:'sum'},
-            {label: '过车',  name: 'gfxjje',width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '过户',  name: 'ghxjje',width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '其它',  name: 'qtxjje',width:100,align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'},
-            {label: '合计',  name: 'xjje', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'}
+            {label: '姓名',  name: 'xm',sortable: false,width:120 },
+            {label: '日',  name: 'ri', width:50, sortable: false,align: 'center' },
+            {label: '单位',  name: 'dw', width:50, align: 'center',sortable: false },
+            {label: '',  name: 'jcbz', width:50, align: 'center',sortable: false },
+            {label: '重量',  name: 'zl',width:100,align: 'right', sortable: false ,formatter:zlFormat,summaryType:'sum'},
+            {label: '提成单价',  name: 'tcdj',width:100,align: 'right', sortable: false ,formatter:zlFormat},
+            {label: '提成金额',  name: 'je',width:100,  align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum'}
             ];
             var tool=that.getView().down("#QueryToolbarView");
             tool.down("#btnExport").setHidden(!isExportEnable);
@@ -150,7 +150,7 @@ gridgroupingView = {
         if (khid>0){
             gridgroupingView = {
                 groupField : ['khmc'],
-                groupColumnShow : [true],
+                groupColumnShow : [false],
                 groupSummary : [false],
                 // groupText : ['<b>{0}日 - {1}条记录 </b>'],
                 groupCollapse : false,
@@ -159,8 +159,8 @@ gridgroupingView = {
 
         }else{
             gridgroupingView = {
-                groupField : ['day'],
-                groupColumnShow : [true],
+                groupField : ['xm'],
+                groupColumnShow : [false],
                 groupSummary : [true],
                 // groupText : ['<b>{0}日 - {1}条记录 </b>'],
                 groupCollapse : false,
@@ -175,6 +175,8 @@ gridgroupingView = {
         gridpostData={
             export:"0",
             jelb:2,
+            loc:'',
+            bz:'',
             initArg:123,
             p_e_code:1,
             p_l_id:ckid,

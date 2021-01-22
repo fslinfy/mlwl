@@ -82,15 +82,15 @@ gridgroupingView = {
             {label: '公司',   name: 'khmc',width:80, sortable: false },
             {label: '日 ',    name: 'day',width:50, sortable: false},
             {label: '产品名称',name: 'cpmc', width:300,sortable: false },
-            {label: '单位',    name: 'jldw',align: 'center',width:40,align: 'center',sortable: false },
-            {label: '数量',    name: 'sl', align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
-            {label: '重量',    name: 'zl', align: 'right', formatter: zlFormat, sortable: false,summaryType:'sum' },
-            {label: '仓租',    name: 'je',  align: 'right', formatter:jeFormat,sortable:  false,summaryType:'sum'},
+            {label: '单位',    name: 'jldw', width:50,align: 'center',width:40,align: 'center',sortable: false },
+            {label: '数量',    name: 'sl', width:100, align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
+            {label: '重量',    name: 'zl', width:100, align: 'right', formatter: zlFormat, sortable: false,summaryType:'sum' },
+            {label: '仓租',    name: 'je', width:100,  align: 'right', formatter:jeFormat,sortable:  false,summaryType:'sum'},
           //  {label: '单位',    name: 'dw',align: 'center',width:40, sortable: false },
-            {label: '重量',    name: 'byzl',align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
-            {label: '记帐金额',name: 'byje',align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
-            {label: '现收金额',name: 'byxjje',align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
-            {label: '合计金额',name: 'sumje',align: 'right', sortable: false,formatter:jeFormat,summaryType:'sum' }
+            {label: '重量',    name: 'byzl', width:100,align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
+            {label: '记帐金额',name: 'byje', width:100,align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
+            {label: '现收金额',name: 'byxjje', width:100,align: 'right', sortable: false,formatter: jeFormat,summaryType:'sum' },
+            {label: '合计金额',name: 'sumje', width:100,align: 'right', sortable: false,formatter:jeFormat,summaryType:'sum' }
             
             ];
             var tool=that.getView().down("#QueryToolbarView");

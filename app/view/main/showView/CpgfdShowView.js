@@ -446,6 +446,7 @@ Ext.define('MyApp.view.main.showView.CpgfdShowView', {
             // curcpgfdcwStore.data.clear();
             // curcpgfdcwStore.sync();
               //that.getView().down("#cpgfdshowview").close();
+              console.log(this,that);
              that.locQuery(that);
     //         console.log("beforedestroy");
 

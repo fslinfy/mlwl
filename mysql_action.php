@@ -5177,7 +5177,7 @@ function wxcpgfdmxlist_pc() {
 	  	break;
 
 	  	case 'wxcpgfdmxloc' :
-		$filter .=" and (wxcpgfd.ztbz=1 ) ";
+		$filter .=" and (wxcpgfd.ztbz>0 ) ";
 		if ($_GET["startdate"])
     	{
     		$filter .=" and wxcpgfd.kdrq>='".$_GET["startdate"]."'";
@@ -9095,7 +9095,7 @@ function cpgfkdmxsave() {
 	$result = mysql_query($dhsql);
 	$arr=mysql_fetch_assoc($result);
 	$dh =$arr['dh'];
-	$cpgfdstr = " insert into wxcpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,sl,zl,kdrq,endrq)values('";
+	$cpgfdstr = " insert into wxcpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,khsl,khzl,kdrq,endrq)values('";
 	$cpgfdstr .= $dh. "'";
 	$cpgfdstr .= "," . $L_id;
 	$cpgfdstr .= "," . $o['khid'];
@@ -9119,8 +9119,8 @@ function cpgfkdmxsave() {
 		//return '数据保存失败!' . $cpgfdstr;
 	}
 	foreach ($cpgfdmx as $row) {
-		$cpjkdmxstr = " insert into wxcpgfdmx (xmmc,cdmc,bzmc,gfid,jldw,khsl,khzl)";
-		$cpjkdmxstr = $cpjkdmxstr . " values ('". $row['xmmc'] . "','". $row['cdmc'] . "','". $row['bzmc'] . "'," . $gfid . ",'" . $row['jldw'] . "'," . $row['khsl'];
+		$cpjkdmxstr = " insert into wxcpgfdmx (xmmc,cdmc,bzmc,bzid,cpid,gfid,jldw,khsl,khzl)";
+		$cpjkdmxstr = $cpjkdmxstr . " values ('". $row['xmmc'] . "','". $row['cdmc'] . "','". $row['bzmc'] . "',". $row['bzid'] . ","   . $row['cpid'] . ","  . $gfid . ",'" . $row['jldw'] . "'," . $row['khsl'];
 		$cpjkdmxstr = $cpjkdmxstr . "," . $row['khzl'] . ")";
 		mysql_query($cpjkdmxstr);
 		$mxid=mysql_insert_id();

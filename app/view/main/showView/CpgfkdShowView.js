@@ -427,6 +427,7 @@ Ext.define('MyApp.view.main.showView.CpgfkdShowView', {
              curcpgfdjeStore.getProxy().clear();
              curcpgfdjeStore.data.clear();
              curcpgfdjeStore.sync();
+             console.log(this,that);
             // curcpgfdcwStore.getProxy().clear();
            //  curcpgfdcwStore.data.clear();
            //  curcpgfdcwStore.sync();

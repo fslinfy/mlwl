@@ -30,7 +30,7 @@ creategrid=function(tableName){
      that.onGridComplete();
   },
       autowidth: true,
-      shrinkToFit: true,
+      shrinkToFit:false,
       pager: "#"+tableName+"Pager",
       iconSet: "fontAwesome",
       autoencode: true,

@@ -463,9 +463,11 @@ Ext.define('MyApp.view.main.showView.CpxsdShowView', {
             curcpckdcwStore.getProxy().clear();
             curcpckdcwStore.data.clear();
             curcpckdcwStore.sync();
-             //that.getView().down("#cpxsdshowview").close();
+            console.log(this,that);
+            //that.getView().down("#cpxsdshowview").close();
             that.locQuery(that);
-            //console.log("beforedestroy");
+            
+
 
    
         }

@@ -9,6 +9,8 @@ Ext.define('MyApp.model.CpgfdmxModel', {
      {name: 'bzmc'    },
      {name: 'area'    },
     { name: 'mxid', type: 'int'    },
+    { name: 'bzid', type: 'int'    },
+    { name: 'cpid', type: 'int'    },
     {name: 'sl',        type: 'float'    },
     {name: 'zl',        type: 'float'    },
     {name: 'khsl',        type: 'float'    },

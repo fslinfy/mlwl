@@ -118,14 +118,15 @@
             dataIndex: 'zl',
             renderer: slrenderer
 
-        }, {
+        }, 
+        /*{
             xtype: 'numbercolumn',
             text: '单价',
             width: 100,
             align: 'right',
             dataIndex: 'dj',
             renderer: jerenderer
-        },
+        },*/
         {
             xtype: 'numbercolumn',
             text: '费用',

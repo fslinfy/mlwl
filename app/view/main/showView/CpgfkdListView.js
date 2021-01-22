@@ -251,15 +251,15 @@
 
     {
         xtype: 'numbercolumn',
-        text: '过车数量', align: 'right',
-        dataIndex: 'sl',
+        text: '通知数量', align: 'right',
+        dataIndex: 'khsl',
         sortable: false,
         renderer: slrenderer
     },
     {
         xtype: 'numbercolumn',
-        text: '过车重量', align: 'right',
-        dataIndex: 'zl',
+        text: '通知重量', align: 'right',
+        dataIndex: 'khzl',
         sortable: false,
         renderer: slrenderer
     },

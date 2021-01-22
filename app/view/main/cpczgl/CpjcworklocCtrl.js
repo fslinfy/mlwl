@@ -99,20 +99,20 @@ Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
             {label: '产品名称',  name: 'cpmc', width:250,sortable: false },
           //  {label: '包装名称',  name: 'bzmc', width:200, sortable: false },
             {label: '单位',  name: 'jldw',width:60,align: 'center',sortable: false },
-            {label: '数量',  name: 'jcsl', align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
-            {label: '重量',  name: 'jczl', align: 'right', formatter:zlFormat, sortable: false,summaryType:'sum' },
-            {label: '工作名称',  name: 'work', sortable: false },
+            {label: '数量',  name: 'jcsl', width:100, align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
+            {label: '重量',  name: 'jczl', width:100, align: 'right', formatter:zlFormat, sortable: false,summaryType:'sum' },
+            {label: '工作名称',  name: 'work', width:100, sortable: false },
             {label: '单位',  name: 'dw', width:60,align: 'center',sortable: false },
-            {label: '重量',  name: 'sl', align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
-            {label: '单价',  name: 'dj', align: 'right', formatter: jeFormat, sortable: false},
-            {label: '金额',  name: 'je', align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum' },
-            {label: '其中现付',  name: 'xjje', align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum' },
-            {label: '机械',  name: 'gs', sortable: false },
+            {label: '重量',  name: 'sl', width:100, align: 'right', formatter:zlFormat,sortable: false,summaryType:'sum' },
+            {label: '单价',  name: 'dj', width:100, align: 'right', formatter: jeFormat, sortable: false},
+            {label: '金额',  name: 'je', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum' },
+            {label: '其中现付',  name: 'xjje', width:100, align: 'right', formatter:jeFormat,sortable: false,summaryType:'sum' },
+            {label: '机械',  name: 'gs',  sortable: false },
             {label: '搬运',  name: 'byg', sortable: false },
             {label: '仓管',  name: 'cg', sortable: false },
-            {label: '日期 ',  name: 'rq', width:100,sortable: false },
-            {label: '单号',  name: 'dh',  width:150,sortable: false },
-            {label: '分类',  name: 'jclb',width:80, sortable: false }
+            {label: '日期 ',  name: 'rq', width:80,sortable: false },
+            {label: '单号',  name: 'dh',  width:120,sortable: false },
+            {label: '分类',  name: 'jclb',width:60, sortable: false }
             ];
             var tool=that.getView().down("#QueryToolbarView");
             tool.down("#btnExport").setHidden(!isExportEnable);
