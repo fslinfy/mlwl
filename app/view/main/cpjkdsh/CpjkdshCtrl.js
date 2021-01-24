@@ -1,4 +1,6 @@
-﻿var  issave=false;
+﻿
+
+var  issave=false;
 var that;
 var jkdshsaveCallBack = function (th) {
     var p = th.lookupReference('popupCpjkdWindow');
@@ -190,7 +192,7 @@ console.log(sys_location_id,sys_customer_id);
             that.getView().down('#QueryCkmc').setHidden(false);
         }
         }
-      
+        that.viewname.getViewModel().set('PageTitleName', '商品进仓单业务审核');
      that.locQuery(that);
     },
     /*

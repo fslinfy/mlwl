@@ -59,6 +59,19 @@ Ext.define('MyApp.view.main.cpkc.CpjxclocView', {
             layout: 'hbox',
             items: [
                 {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'商品进出月报表',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                        margin: '5px 30px 0 0px',
+                        color:"#000"  
+                        },
+                    fieldCls:'biggertext',
+                    hideLabel: true
+                },
+                {
                     xtype: "numberfield",
                     name: 'ny',
                     labelWidth: 30,

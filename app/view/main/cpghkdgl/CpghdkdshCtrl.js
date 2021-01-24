@@ -107,6 +107,7 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdkdshCtrl', {
         var viewname = that.getView().down("#CpghdListGrid");
         that.viewname = viewname;
         var v = viewname.getViewModel();
+        v.set('PageTitleName', '商品过户单审核');
         //v.set('start_date', start_date);
         //v.set('end_date', end_date);
         if (sys_location_id > 0) {

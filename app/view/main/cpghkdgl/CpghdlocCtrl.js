@@ -85,6 +85,7 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdlocCtrl', {
             }
         });
         var v = viewname.getViewModel();
+        v.set('PageTitleName', '商品过户单明细查询');
         v.set('start_date', start_date);
         v.set('end_date', end_date);
         if (sys_location_id > 0) {

@@ -74,6 +74,8 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdmfhCtrl', {
         that.viewname = viewname;
 
         var v = viewname.getViewModel();
+
+        v.set('PageTitleName', '未过户商品过户单明细');
         that.getView().down('#deletebz').setHidden(true);
         if (sys_location_id > 0) {
             v.set('ckmc', sys_location_name);

@@ -1,4 +1,5 @@
-﻿sys_DisplayAll = "";
+﻿var PageTitleName='进仓商品明细帐';
+sys_DisplayAll = "";
 var that;
 Ext.define('MyApp.view.main.cpjkdsh.CpjksplocCtrl', {
     extend: 'Ext.app.ViewController',

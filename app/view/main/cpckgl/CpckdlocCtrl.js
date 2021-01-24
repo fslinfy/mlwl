@@ -177,6 +177,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdlocCtrl', {
             that.getView().down('#QueryCkmc').setHidden(false);
         }
         }
+        that.viewname.getViewModel().set('PageTitleName', '商品出仓单明细查询');
+
         that.onBtnQueryClick();
     },
     onFilterChange: function (v) {

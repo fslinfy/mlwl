@@ -73,6 +73,7 @@ Ext.define('MyApp.view.main.cpckgl.CpcksplocCtrl', {
             }
         });
         var v = this.getView().getViewModel();
+        v.set('PageTitleName', '商品过户单明细查询');
         v.set('start_date', start_date);
         v.set('end_date', end_date);
         that.viewname.down('#QueryDate').setHidden(false);

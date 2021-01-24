@@ -63,6 +63,8 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdmfhCtrl', {
         that.viewname = viewname;
 
         var v = viewname.getViewModel();
+        v.set('PageTitleName', '未提货提货单查询');
+
         if (sys_location_id > 0) {
             v.set('ckmc', sys_location_name);
             v.set('ckid', sys_location_id);

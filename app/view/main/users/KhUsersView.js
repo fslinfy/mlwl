@@ -25,6 +25,19 @@
 			flex: 1,
 			layout: 'hbox',
 			items: [
+				{
+					xtype: 'displayfield',
+					itemId:"PageTitle",
+					value:'客户操作员维护',
+					style: {
+						'font-size':'16px',
+						'font-weight': 'bold',
+						margin: '5px 30px 0 0px',
+						color:"#000"  
+						},
+					fieldCls:'biggertext',
+					hideLabel: true
+				},
 				{ xtype: 'QueryKhmc', flex: 1 },
 				{
 					labelWidth: 30,

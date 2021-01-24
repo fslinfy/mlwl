@@ -159,6 +159,7 @@ Ext.define('MyApp.view.main.wxcpgfgl.wxCpgfdCtrl', {
         that = this;
         that.viewname = that.getView().down("#CpgfdListGrid");
         var v = that.viewname.getViewModel();
+        v.set('PageTitleName', '商品过车处理');
         if (sys_customer_id > 0) {
             v.set('khmc', sys_customer_name);
             v.set('khid', sys_customer_id);

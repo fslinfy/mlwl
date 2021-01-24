@@ -22,7 +22,7 @@
     plugins: ['gridfilters'],
     closeAction: 'destroy',
     viewModel: {
-        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0,'deletebz':0 }
+        data: { 'start_date': new Date(), 'end_date': new Date(), 'khmc': '', 'khid': 0,'deletebz':0,'PageTitleName':'' }
     },
     store: { type: 'CpjkdListStore' },
     enableHdMenu: false,
@@ -35,6 +35,19 @@
             flex: 1,
             layout: 'hbox',
             items: [
+                {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    bind:'{PageTitleName}',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                        margin: '5px 30px 0 0px',
+                        color:"#000"  
+                        },
+                    fieldCls:'biggertext',
+                    hideLabel: true
+                },
                 { xtype: 'QueryKhmc' },
                 { xtype: 'QueryCkmc' },
                 { xtype: 'QueryDate', itemId: 'QueryDate', hidden: true },

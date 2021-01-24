@@ -74,6 +74,7 @@ Ext.define('MyApp.view.main.xsdgl.CpxsdlocCtrl', {
             }
         });
         var v = viewname.getViewModel();
+        v.set('PageTitleName', '商品提货单查询');
         v.set('start_date', start_date);
         v.set('end_date', end_date);
         if (sys_location_id > 0) {

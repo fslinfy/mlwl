@@ -44,6 +44,20 @@ Ext.define('MyApp.view.main.cpkc.CpkcKhlocView', {
             layout: 'hbox',
             items: [
                 {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'商品库存查询',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
+                {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)
                 },

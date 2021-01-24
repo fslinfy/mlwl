@@ -146,6 +146,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdcwshCtrl', {
             that.getView().down('#QueryCkmc').setHidden(false);
         }
         }
+        that.viewname.getViewModel().set('PageTitleName', '商品出仓单财务审核');
+
     },
     onFilterChange: function (v) {
         //return storeFilter(this.getView().getStore(),'C_name',v.rawValue);

@@ -163,6 +163,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
             v.set('khmc', sys_customer_name);
             v.set('khid', sys_customer_id);
         }
+        v.set('PageTitleName', '商品出仓单处理');
+
 
         if (sys_customer_id > 0) {
             that.getView().down('#QueryKhmc').setHidden(true);

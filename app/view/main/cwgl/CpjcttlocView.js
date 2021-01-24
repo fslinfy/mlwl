@@ -64,6 +64,20 @@ Ext.define('MyApp.view.main.cwgl.CpjcttlocView', {
             layout: 'hbox',
             items: [
                 {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'商品吞吐量统计',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                        margin: '5px 30px 0 0px',
+                        color:"#000"  
+                        },
+                    fieldCls:'biggertext',
+                    hideLabel: true
+                },
+
+                {
                     xtype: 'QueryKhmc', flex: 2,
                     hidden: (sys_customer_id > 0)
                 },

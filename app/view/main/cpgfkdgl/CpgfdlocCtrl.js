@@ -153,6 +153,7 @@ Ext.define('MyApp.view.main.cpgfkdgl.CpgfdlocCtrl', {
         var v =that.viewname.getViewModel();
         v.set('start_date', start_date);
         v.set('end_date', end_date);
+        v.set('PageTitleName', '商品过车单明细');
         that.locQuery(that);
     },
 

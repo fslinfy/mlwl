@@ -42,6 +42,20 @@ Ext.define('MyApp.view.main.cpghkdgl.GhdglView', {
             flex: 1,
             layout: 'hbox',
             items: [
+                {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'商品过户开单',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                         margin: '5px 30px 0 0px',
+                         color:"#000"  
+                     },
+         
+                   fieldCls:'biggertext',
+                    hideLabel: true
+                    },
                 { xtype: 'QueryKhmc', flex: 1 },
                 { xtype: 'QueryCkmc', flex: 1 },
                 { xtype: 'QueryCdmc', flex: 1 },

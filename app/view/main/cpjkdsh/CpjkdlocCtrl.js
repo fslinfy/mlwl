@@ -101,7 +101,7 @@ Ext.define('MyApp.view.main.cpjkdsh.CpjkdlocCtrl', {
         that.viewname.down('#QueryDate').setHidden(false);
          that.viewname.down('#deletebz').setHidden(false);
 
-
+         that.viewname.getViewModel().set('PageTitleName', '商品进仓单明细查询');
 
 
         cpjkdmxStore = Ext.create('Ext.data.Store', {

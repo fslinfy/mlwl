@@ -141,6 +141,8 @@ console.log(sys_location_id,sys_customer_id);
             that.getView().down('#QueryCkmc').setHidden(false);
         }
         }
+
+        that.viewname.getViewModel().set('PageTitleName', '商品进仓单财务审核');
     
     },
 

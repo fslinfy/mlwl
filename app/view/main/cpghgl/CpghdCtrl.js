@@ -198,6 +198,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         });
         
         var v = that.getView().down("#CpghdListGrid").getViewModel();
+        v.set('PageTitleName', '商品过户处理');
         if (sys_location_id > 0) {
             v.set('ckmc', sys_location_name);
             v.set('ckid', sys_location_id);

@@ -61,6 +61,19 @@ Ext.define('MyApp.view.main.cpghgl.CpghsplocView', {
             layout: 'hbox',
             items: [
                 {
+                    xtype: 'displayfield',
+                    itemId:"PageTitle",
+                    value:'过户商品明细账',
+                    style: {
+                        'font-size':'16px',
+                        'font-weight': 'bold',
+                        margin: '5px 30px 0 0px',
+                        color:"#000"  
+                        },
+                    fieldCls:'biggertext',
+                    hideLabel: true
+                },
+                {
                     xtype: 'QueryKhmc', flex: 1,
                     hidden: (sys_customer_id > 0)
                 },
