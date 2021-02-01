@@ -149,10 +149,11 @@ Ext.define('MyApp.view.main.cktjjd.CktjjdCtrl', {
                             Ext.getCmp("msgboxid").setHidden(false);
                             Ext.getCmp("sysCancelButton").setDisabled(true);  //.setHidden(false);
                             Ext.getCmp("syssubmitButton").setDisabled(true)  //.setHidden(false);
-
+                            Ext.Ajax.setTimeout(60000*120); 
                             Ext.Ajax.request({
                                 method: 'GET',
                                 url: sys_ActionPHP,
+                                //timeout: 60000*120,
                                 params: {
                                     act: 'cktjjdnew',
                                     userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
