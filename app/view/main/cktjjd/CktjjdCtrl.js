@@ -56,6 +56,9 @@ Ext.define('MyApp.view.main.cktjjd.CktjjdCtrl', {
 
             var msg = "</br>年度：" + curny + "</br></br>月度：" + yu1;
         }
+
+        that.system_tj(curny,yu1);
+        return ;
         console.log(msg, curyu, yu1, curstatus);
         var abc = Ext.Msg.confirm('真的对此月度数据进行统计处理？', msg + "</br>", function (e) {
             if (e == 'yes') {
@@ -87,6 +90,114 @@ Ext.define('MyApp.view.main.cktjjd.CktjjdCtrl', {
         }
         );
     },
+    system_tj:function (_ny,_yu) {
+        var appid = 1;
+        appsettingWin = new Ext.Window({
+            width: 400,
+            height:200,
+            title: '月度统计',
+            plain: true,
+            resizable: false,
+            frame: true,
+            layout: 'fit',
+            closeAction: 'destroy',
+            border: false,
+            hasvcode: false,
+            items: [
+                appsettingForm = new Ext.form.FormPanel({
+                    labelAlign: 'left',
+                    buttonAlign: 'center',
+                    bodyStyle: 'padding:5px',
+                    frame: true,
+                    
+                    items: [
+
+                        {
+                            xtype: 'displayfield',
+                            value:_ny+'年'+_yu+'月',
+                            style: {
+                                'font-size':'16px',
+                                'font-weight': 'bold',
+                                 margin: '20px 10px 10px 20px',
+                                 color:"#000"  
+                             },
+                            fieldCls:'biggertext',
+                            hideLabel: true
+                            },
+                            {
+                                xtype: 'displayfield',
+                                id:'msgboxid',
+                                hidden:true,
+                                value:'正在进行统计，需要一些时间，请等待统计结束.',
+                                style: {
+                                    'font-size':'12px',
+                                    'font-weight': 'bold',
+                                     margin: '20px 10px 10px 20px',
+                                     color:"red"  
+                                 },
+                                fieldCls:'biggertext',
+                                hideLabel: true
+                                },
+                    ],
+                    buttons: [{
+                        id: "syssubmitButton",
+                        text: '开始统计',
+                        cls: "x-btn-text-icon",
+                        icon: "images/right.gif",
+                        scope: this,
+                        handler: function () {
+                            Ext.getCmp("msgboxid").setHidden(false);
+                            Ext.getCmp("sysCancelButton").setDisabled(true);  //.setHidden(false);
+                            Ext.getCmp("syssubmitButton").setDisabled(true)  //.setHidden(false);
+
+                            Ext.Ajax.request({
+                                method: 'GET',
+                                url: sys_ActionPHP,
+                                params: {
+                                    act: 'cktjjdnew',
+                                    userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
+                                    p_l_id: sys_location_id,
+                                    ny: _ny,
+                                    yu:_yu
+                                },
+                                scope: this,
+                                success: function (response) {
+                                    var result = Ext.decode(response.responseText);
+                                    if (result.result == 'success') {
+                                        appsettingWin.destroy();
+                                        that.onBtnQueryClick();
+                                    }
+                                    else {
+                                        Ext.MessageBox.alert('错误!', '月度数据统计失败！');
+                                        Ext.getCmp("msgboxid").setValue('月度数据统计失败！');
+                                        Ext.getCmp("sysCancelButton").setDisabled(false);  
+                                    }
+                                },
+                                failure: function () {
+                                    Ext.MessageBox.alert('错误!', '发生错误！');
+                                    Ext.getCmp("msgboxid").setValue('发生错误！');
+                                    Ext.getCmp("sysCancelButton").setDisabled(false);  
+                                    //that.onBtnQueryClick();
+                                }
+                            });
+
+                        }
+                    }, {
+                        text: '放弃',
+                        id: "sysCancelButton",
+                        cls: 'x-btn-text-icon details',
+                        icon: "images/close.gif",
+                        scope: this,
+                        handler: function () {
+    
+                            appsettingWin.destroy();
+                        }
+                    }]
+                })]
+        }).show();
+    
+    },
+        
     onBtnDeleteClick: function (button, e, options) {
         var store = this.getView().getStore();
         var grid = Ext.getCmp('CktjjdGrid');
@@ -354,3 +465,4 @@ function cktjjdQuery(e) {
     //console.log("cktjjdQuery");
     that.onBtnQueryClick(e);
 }
+

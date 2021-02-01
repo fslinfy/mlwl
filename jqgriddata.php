@@ -576,6 +576,7 @@ function cpjcworkloclist() {
 	//return 'jclb='.$jclb;
 	$ckid=(int)$_POST["ckid"];
 	$khid=(int)$_POST["khid"];
+	$cpid=(int)$_POST["cpid"];
 	//$loc=$_GET["loc"];
 	$filter="";
 	$sqlstr0="";
@@ -608,12 +609,17 @@ function cpjcworkloclist() {
     	{
     		$filter .= " and cpjkd.khid=".$khid;
     	}
+		if ($cpid>0)
+    	{
+    		$filter .= " and cpjkdmx.cpid=".$cpid;
+    	}
 
 	$sqlstr1 = "SELECT '进仓' as jclb,
     `cpjkd`.`jkdh` as dh
     , `cpjkd`.`czrq` as rq
     , `cpjkd`.`khmc`
-    , `cpjkdmx`.`cpmc`
+    , `cpjkdmx`.`cpid`
+	, `cpjkdmx`.`cpmc`
     , `cpjkdmx`.`bzmc`
 	, `cpjkdmx`.`cdmc`
 	, `cpjkdmx`.`jldw`
@@ -657,12 +663,17 @@ function cpjcworkloclist() {
     	{
     		$filter .= " and cpxsd.khid=".$khid;
     	}
+		if ($cpid>0)
+    	{
+    		$filter .= " and cpxsdmx.cpid=".$cpid;
+    	}
 
 	$sqlstr2 = "SELECT '出仓' as jclb,
     `cpckd`.`ckdh` as dh
     , `cpckd`.`ckrq` as rq
     , `cpxsd`.`khmc`
-    , `cpxsdmx`.`cpmc`
+    , `cpxsdmx`.`cpid`
+	, `cpxsdmx`.`cpmc`
     , `cpxsdmx`.`bzmc`
 	, `cpxsdmx`.`cdmc`
 	, `cpxsdmx`.`jldw`
@@ -726,11 +737,16 @@ function cpjcworkloclist() {
     	{
     		$filter .= " and d.khid=".$khid;
     	}
+		if ($cpid>0)
+    	{
+    		$filter .= " and mx.cpid=".$cpid;
+    	}
 
 	$sqlstr2 = "SELECT '过户' as jclb,
     d.ghdh as dh
     , d.ghrq  as rq
     , d.khmc
+	,mx.cpid
     , mx.cpmc
     , mx.bzmc
 	, mx.cdmc
@@ -788,11 +804,16 @@ function cpjcworkloclist() {
 	{
 		$filter .= " and d.newkhid=".$khid;
 	}
+	if ($cpid>0)
+	{
+		$filter .= " and mx.cpid=".$cpid;
+	}
 
 $sqlstr2 = "SELECT '过户' as jclb,
 d.ghdh as dh
 , d.ghrq  as rq
 , d.newkhmc as khmc
+, mx.cpid
 , mx.cpmc
 , mx.bzmc
 , mx.cdmc
@@ -853,11 +874,16 @@ if (($jclb=="4")||($jclb=="0")) {
 	{
 		$filter .= " and d.khid=".$khid;
 	}
+	if ($cpid>0)
+	{
+		$filter .= " and mx.cpid=".$cpid;
+	}
 
 $sqlstr2 = "SELECT '过车' as jclb,
 d.gfdh as dh
 , d.gfrq  as rq
 , d.khmc
+, mx.cpid
 , mx.xmmc as cpmc
 , mx.bzmc
 , mx.cdmc

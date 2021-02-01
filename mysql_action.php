@@ -11321,30 +11321,20 @@ return $sql;
 }
 
 function cktjjdsavenew() {
-
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $jby =$o['username'] ;
-
-
 	$l_id = $_GET['p_l_id'];
 	$ny = $_GET['ny'];
 	$yu = $_GET['yu'];
 	$sql = "call cpjxc(" . $l_id.",".$ny.",".$yu.",'".$jby."')";
 //	return $sql;
 	mysql_query($sql);
-	
-	//$arr['success'] = true;
-
 	if (mysql_errno() > 0) {
 		return '{result:"fail",msg:"月度数据统计失败！!"}';
-		//return '{result:"月度数据统计失败！"}';
 	}
 	return '{result:"success"}';
-	//$arr['data'] = array('id' => mysql_errno(), 'msg' => urlencode($msg));
-	//return urldecode(json_encode($arr));
-
 }
 
 

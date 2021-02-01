@@ -15,7 +15,7 @@ closeAction:"destroy",
 
 viewModel: {
     data: {
-        'khmc': '', 'khid': 0, 'jclb': '0',
+        'khmc': '', 'khid': 0, 'jclb': '0','cpid':'0',
         'ckid':sys_location_id,
         'start_date': new Date(), 'end_date': new Date()
     }
@@ -50,6 +50,11 @@ tbar:[
                 xtype: 'QueryCkmc', flex: 1,
                 hidden: (sys_location_id > 0)
             },
+            {
+                xtype: 'QueryCpmc', flex: 1
+                
+            },
+
             {
                 xtype: "combo",
                 fieldLabel: '',

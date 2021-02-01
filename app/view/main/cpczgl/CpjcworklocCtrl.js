@@ -41,6 +41,7 @@ Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
     ,"MyApp.view.main.jqGridFunction"
     ,'MyApp.view.main.tree.QueryKhmc'
     ,'MyApp.view.main.tree.QueryCkmc'
+    ,'MyApp.view.main.tree.QueryCpmc'
     ,'MyApp.view.main.tree.QueryDate'
     ,"MyApp.view.main.cpczgl.CpjcworklocView"
 
@@ -122,6 +123,10 @@ Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
                 "#btnHelp":{click:onBtnHelpClick},
                 "#btnExport":{click:that.onBtnExportClick},
                 "#btnQueryKhmc":{click:onSelectKhbmView},
+                "#btnQueryCpmc": {
+                  click: onSelectCpbmView
+              },
+  
                 "#btnQueryCkmc":{click: onSelectCkbmView}
              });
 
@@ -151,7 +156,7 @@ Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
         var ckid = v.get('ckid');
         var jclb = v.get('jclb');
         var khid = v.get('khid');
-      //  var cpid = v.get('cpid');
+        var cpid = v.get('cpid');
         start_date = v.get('start_date');
         end_date = v.get('end_date');
         var d1 = Ext.Date.format(start_date, 'Y-m-d');
@@ -160,7 +165,7 @@ Ext.define("MyApp.view.main.cpczgl.CpjcworklocCtrl", {
         gridpostData={
             export:"0",
             jclb:jclb,
-            cpid:0,
+            cpid:cpid,
             p_e_code:1,
             ckid:ckid,
             p_l_id:ckid,

@@ -383,6 +383,16 @@ khmcTriggerClick= function (record) {
   return false;
 };
 
+onSelectCpbmView=function (record) {
+  treeSelect('cpmc', that, '', that.viewname, true);
+  return false;
+};
+cpmcTriggerClick= function (record) {
+//   that.onBtnQueryClick();
+  return false;
+};
+
+
 onSelectCkbmView= function (record) {
   treeSelect('ckmc', that, '', that.viewname, true);
   return false;
