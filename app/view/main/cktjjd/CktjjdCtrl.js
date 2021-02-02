@@ -175,11 +175,13 @@ Ext.define('MyApp.view.main.cktjjd.CktjjdCtrl', {
                                     }
                                 },
                                 failure: function () {
-                                    Ext.MessageBox.alert('错误!', '发生错误！');
-                                    Ext.getCmp("msgboxid").setValue('发生错误！');
-                                    Ext.getCmp("sysCancelButton").setDisabled(false);  
+                                  //  Ext.MessageBox.alert('错误!', '发生错误！');
+                                  //  Ext.getCmp("msgboxid").setValue('发生错误！');
+                                  //  Ext.getCmp("sysCancelButton").setDisabled(false);  
                                     //that.onBtnQueryClick();
-                                }
+                                    appsettingWin.destroy();
+                                        that.onBtnQueryClick();
+                                    }
                             });
 
                         }
