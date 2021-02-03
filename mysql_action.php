@@ -3253,7 +3253,6 @@ function cpjxcloc() {
     	}
 	$sqlstr="SELECT cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name as khmc,kh.c_shortname as khjc,cd.P_name as cdmc,
 	cp.s_name as cpmc,bz.ps_name as bzmc, cpph,
-	cpgg,
 	jldw,
 	SUM(kcsl0) AS kcsl0,SUM(kczl0) AS kczl0,
 	SUM(jcsl) AS jcsl,SUM(jczl) AS jczl,
@@ -3263,7 +3262,7 @@ function cpjxcloc() {
 	FROM cpjxc ,commodity cp,customer kh ,packing bz,produces cd
 	WHERE cpjxc.khid=kh.C_id and cpjxc.cpid=cp.s_id 
 	and cpjxc.cdid=cd.p_id and cpjxc.bzid=bz.ps_id ".$filter;
-	$sqlstr .=" GROUP BY cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name,cd.P_name,cp.s_name ,bz.ps_name,cpph,cpgg,jldw 
+	$sqlstr .=" GROUP BY cpjxc.l_id,khid,cdid,cpid,bzid,kh.c_name,cd.P_name,cp.s_name ,bz.ps_name,cpph,jldw 
 	 having sum(jcsl)<>0  or sum(ccsl)<>0  or sum(kcsl0)<>0  or SUM(tzjcsl-tzccsl)<>0  or SUM(kcsl0+jcsl-ccsl+tzjcsl-tzccsl) <>0";
     $query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
