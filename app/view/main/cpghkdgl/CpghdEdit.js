@@ -236,7 +236,7 @@ Ext.define('MyApp.view.main.cpghkdgl.CpghdEdit', {
                 },
                 {
                     text: '商品批号',
-                    dataIndex: 'cpgg',
+                    dataIndex: 'cpph',
                     sortable: false,
                     flex: 2
                 },

@@ -9,7 +9,7 @@ var ghshsaveCallBack = function (th) {
     //  var mckid = p.getViewModel().get('ckid');
     var mghid = that.ghid;
    // console.log("qcloudsmssend",mghid);
-    if (that.loc == "ok") {
+    if (th.loc == "ok") {
     // 发信息
         
        /*Ext.Ajax.request({

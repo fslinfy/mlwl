@@ -7,11 +7,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdShowView', {
     bind: {
         title: '{title}'
     },
-
     width: '95%',
     height: 600,
-    //width: 1200,
-    // height: 500,
     minWidth: 600,
     requires: [
         'MyApp.view.main.report.PrintCpckd'
@@ -371,13 +368,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdShowView', {
                         dataIndex: 'cw', sortable: false,
                         flex: 1
                     },
-
+/*
                     {
                         text: '商品批号',
                         dataIndex: 'cpph', sortable: false,
                         flex: 1
                     },
-
+*/
                     {
                         xtype: 'numbercolumn',
                         text: '数量', sortable: false,

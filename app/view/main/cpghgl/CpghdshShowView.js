@@ -373,11 +373,11 @@ Ext.define('MyApp.view.main.cpghgl.CpghdshShowView', {
                         flex: 1
                     },
 
-                    {
+/*                    {
                         text: '商品批号',
                         dataIndex: 'cpph', sortable: false,
                         flex: 1
-                    },
+                    },*/
 
                     {
                         xtype: 'numbercolumn',

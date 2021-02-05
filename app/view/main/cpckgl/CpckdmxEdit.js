@@ -294,12 +294,12 @@ Ext.define('MyApp.view.main.cpckgl.CpckdmxEdit', {
                                     sortable: false,
                                     flex: 1
                                 },
-                                {
+                                /*{
                                     text: '商品批号',
                                     sortable: false,
                                     dataIndex: 'cpph',
                                     flex: 1
-                                },
+                                },*/
                                 {
                                     text: '单位',
                                     sortable: false,

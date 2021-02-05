@@ -9,7 +9,7 @@ var ckshsaveCallBack = function (th) {
     //  var mckid = p.getViewModel().get('ckid');
     var mckid = that.ckid;
    // console.log("qcloudsmssend",mckid);
-    if (that.loc == "ok") {
+    if (th.loc == "ok") {
     // 发信息
         Ext.Ajax.request({
             method: 'GET',

@@ -289,7 +289,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                 }).items.length;
                // console.log("find:",ss);
                 if (ss<1){
-                //console.log("cw kc reccw:  ",reccw);
+                console.log("cw kc reccw:  ",reccw);
                 
                 
 
@@ -303,7 +303,8 @@ Ext.define('MyApp.view.main.cpckgl.CpckdCtrl', {
                     sl: reccw.data.sl,
                     zl: reccw.data.zl,
                     mints: reccw.data.mints,
-                    czrq: Ext.Date.format(reccw.data.czrq, 'Y-m-d'),
+                    //czrq: Ext.Date.format(reccw.data.czrq, 'Y-m-d'),
+                    czrq: reccw.data.czrq,
                     czdj: reccw.data.czdj,
                     cpph: reccw.data.cpph,
                     kcid: reccw.data.kcid,

@@ -8,7 +8,7 @@ var ghshsaveCallBack = function (th) {
     var p = th.lookupReference('popupCpghdWindow');
     var mghid = that.ghid;
    // console.log("qcloudsmssend",mghid);
-    if (that.loc == "ok") {
+    if (th.loc == "ok") {
     // 发信息
         
        Ext.Ajax.request({
