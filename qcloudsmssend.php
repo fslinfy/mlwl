@@ -112,7 +112,7 @@ if ($act=="cpckd"){
 
 //进仓信息处理  
 if ($act=="cpjkd"){
-   if ($id==null) {   
+   if ($id!=null) {   
   $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,m.jcsl,m.jczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,
   cpjkd.cphm,cpjkd.sfdh,customer.smsphone
   FROM cpjkdmx m,cpjkd,customer,location  
@@ -120,7 +120,8 @@ if ($act=="cpjkd"){
   AND  cpjkd.khid=customer.C_id
   AND  cpjkd.L_id=location.L_id
   AND  cpjkd.jkid=".$id;
-  
+
+//echo $sqlstr;
   $query = mysql_query($sqlstr);
   $ckstr="";
   $dh="";
@@ -139,7 +140,7 @@ if ($act=="cpjkd"){
         $ckmc=$row['ckmc'];
         $phone=$row['smsphone'];  
                   }
-                  /*
+                  
                   $newvar=$cphm;
                   if  ((substr($newvar,0,1)=="~")  && (substr($newvar,strlen($newvar)-1,1)=="~"))
                    {
@@ -147,14 +148,15 @@ if ($act=="cpjkd"){
                     $newvar=str_replace("\n"," ",$newvar);
                    }
                    $cphm=$newvar ;    
-        $ckstr=$dh.$ckstr." ".$cphm."已办理进仓！";	*/
+                  $ckstr=$dh.$ckstr." ".$cphm."已办理进仓！";	
+             //    echo $ckstr;
    }
 
 
    $phone_array=explode(',',$phone);
 
   if (count($phone_array)>0){
-	$templateId =111465; 
+	    $templateId =111465; 
 	//$params = [$cphm,$ckstr,$dh];
 
     $params =array();//
