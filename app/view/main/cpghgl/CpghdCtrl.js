@@ -131,6 +131,7 @@ Ext.define('MyApp.view.main.cpghgl.CpghdCtrl', {
         return false;
     },
     onBtnHelpClick: function (button, e, options) {
+        return ;
         Ext.Ajax.request({
             method: 'GET',
             url: "qcloudsmssend.php",

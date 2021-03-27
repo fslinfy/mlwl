@@ -231,6 +231,7 @@ if ($act=="cpgfd"){
     $query = mysql_query($sqlstr);
     $ckstr="";
     $dh="";
+    $dh='';
     $cphm="";
     $ckmc="";
     $phone="";  
@@ -287,7 +288,10 @@ if ($act=="cpgfd"){
               $result = $ssender->sendWithParam("86", $smsphone, $templateId,
                   $params, $smsSign, "", ""); 
   
-                  $str= $smsphone." ck msg:".$ckstr;
+                  $ckstr=$dh.$ckstr." ".$cphm."已办理过货！";	
+
+                  $str= $smsphone." GH msg:".$ckstr;
+
                   $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
              }
               
@@ -403,7 +407,9 @@ if ($act=="cpghd"){
             if (strlen($smsphone)>0){
               $result=0;
                   $result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
-  
+
+                  $ckstr1=$dh.$ckstr1." 已办理过户！";	
+                  
                   $str= $smsphone." ck msg:".$ckstr1;
                   $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
              }

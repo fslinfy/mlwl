@@ -10,7 +10,7 @@ var khmcCallBack = function (node) {
 var gfdshsaveCallBack = function (th) {
     var p = th.lookupReference('popupCpgfdWindow');
    // var mid = th.gfid;
-    if (that.loc = 'delete') {
+    if (that.loc != 'delete') {
     // 发信息
         
        Ext.Ajax.request({
