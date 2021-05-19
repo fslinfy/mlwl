@@ -33,7 +33,7 @@ Ext.define("MyApp.view.main.cpczgl.CpczmxlocCtrl", {
     requires:[
     "MyApp.view.main.QueryToolbarView"
     ,"MyApp.view.main.jqGridFunction"
- 
+    ,'MyApp.view.main.tree.QueryCpmc'
     ,'MyApp.view.main.tree.QueryKhmc'
     ,'MyApp.view.main.tree.QueryCkmc'
     ,"MyApp.view.main.cpczgl.CpczmxlocView"
@@ -47,7 +47,7 @@ Ext.define("MyApp.view.main.cpczgl.CpczmxlocCtrl", {
         var v = that.getView().getViewModel();
         var ckid =sys_location_id;// v.get('ckid');
         var khid = v.get('khid');
-     //   var cpid = v.get('cpid');
+        var cpid = v.get('cpid');
         var ny = v.get('ny');
         var yu = v.get('yu');
         exportfilename=ny+'年'+yu+PageTitleName+".xlsx";
@@ -57,6 +57,7 @@ Ext.define("MyApp.view.main.cpczgl.CpczmxlocCtrl", {
             p_e_code:1,
             p_l_id:ckid,
             khid:khid,
+            cpid:cpid,
             ny:ny,
             yu:yu
         };
@@ -104,7 +105,8 @@ gridgroupingView = {
                 "#btnHelp":{click:that.onBtnHelpClick},
                 "#btnExport":{click:onBtnExportClick},
                 "#btnQueryKhmc":{click:onSelectKhbmView},
-                "#btnQueryCkmc":{click: onSelectCkbmView}
+                "#btnQueryCkmc":{click: onSelectCkbmView},
+                "#btnQueryCpmc":{click: onSelectCpbmView}
              });
 
              if (sys_customer_id > 0) {
@@ -141,6 +143,8 @@ gridgroupingView = {
         
         var ckid = v.get('ckid');
         var khid = v.get('khid');
+        var cpid = v.get('cpid');
+        
         var ny = v.get('ny');
         var yu = v.get('yu');
         exportfilename=ny+'年'+yu+PageTitleName+".xlsx";
@@ -150,6 +154,7 @@ gridgroupingView = {
             p_e_code:1,
             p_l_id:ckid,
             khid:khid,
+            cpid:cpid,
             ny:ny,
             yu:yu
         };

@@ -334,7 +334,8 @@ function czmxloclist() {
 	$ny=$_POST["ny"];
 	$yu=$_POST["yu"];
 	$khid=$_POST["khid"];
-	$sqlstr = "CALL getydczmx(".$Lid.",".$khid.",".$ny.",".$yu.")";
+	$cpid=$_POST["cpid"];
+	$sqlstr = "CALL getydczmx1(".$Lid.",".$khid.",".$cpid.",".$ny.",".$yu.")";
 
 	
 	$page =1; 

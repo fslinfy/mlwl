@@ -76,6 +76,9 @@ tbar:[
                     },
                     {
                         xtype: 'QueryCkmc', flex: 1//,        hidden: (sys_location_id > 0)
+                    },
+                    {
+                        xtype: 'QueryCpmc', flex: 1//,        hidden: (sys_location_id > 0)
                     }
             ]
       },
