@@ -8,7 +8,7 @@ include_once ('Qcloud\Sms\SmsSenderUtil.php');
 	$appid = 1400083497; // 1400开头
 	$appkey = "b4ad65d8d9e2617a7d6795c75b98d8ea";
     $smsSign = "明联物流"; 
-
+$send=0;
 use Qcloud\Sms\SmsSingleSender;  
 use Qcloud\Sms\SmsSenderUtil;  
   
@@ -53,13 +53,10 @@ if ($act=="cpckd"){
           $newvar=str_replace("\n"," ",$newvar);
          }
          $cphm=$newvar ;        
-        
-
-
-        $ckstr=$dh.$ckstr." ".$cphm."已办理提货！"." (".$ckmc.")";	
+         $ckstr=$dh.$ckstr.$cphm."已办理提货！"."\n(".$ckmc.")";	
   }
     
-     //echo $cphm;
+     
 
 
 
@@ -77,17 +74,27 @@ if ($act=="cpckd"){
     	$ssender = new SmsSingleSender($appid, $appkey);
 		$sendcount=0;
     	foreach ( $phone_array as $smsphone ){ 
-		  if (strlen($smsphone)>0){
-	    	$result = $ssender->sendWithParam("86", $smsphone, $templateId,
-    	    	$params, $smsSign, "", ""); 
-
+		        if (strlen($smsphone)>0){
                 $str= $smsphone." ck msg:".$ckstr;
-                $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
-           }
-			
+                $str1=$smsphone." ck msg:".$dh;
+                //检查是否已发短信
+                $sendquery = mysql_query('select count(1) as send from logs where  msg like "%'.$str1.'%" ');
+                $send=0;
+                if ($sendquery){
+                    while ($row = mysql_fetch_array($sendquery)) {
+                         $send=intval($row['send']);  
+                    }
+                 }
+               if ($send==0){
+	    	            $result = $ssender->sendWithParam("86", $smsphone, $templateId, 	$params, $smsSign, "", ""); 
+                    $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
+               }else{
+                    $str=mysql_query('insert into logs (msg) values ("'.$str. '信息之前已发送！")');
+               }
+            //  $str=mysql_query('insert into logs (msg) values ("'.$str1.'")');
+            }
 		}
         $a=json_decode($result, true);
-
         if ($a["result"]==0)
         {
          	echo '{result:"success"}';
@@ -97,7 +104,7 @@ if ($act=="cpckd"){
           echo $a["errmsg"];
         }
     } catch(\Exception $e) {
-		echo "信息发送失败！";
+		    echo "";
     }
 
   }else
@@ -168,11 +175,23 @@ if ($act=="cpjkd"){
 		$sendcount=0;
     	foreach ( $phone_array as $smsphone ){ 
             if (strlen($smsphone)>0){
-	            	$result = $ssender->sendWithParam("86", $smsphone, $templateId,
-    	    	    $params, $smsSign, "", ""); 
+              $str= $smsphone." jc msg:".$ckstr;
+              $str1=$smsphone." jc msg:".$dh;
+              //检查是否已发短信
+              $sendquery = mysql_query('select count(1) as send from logs where  msg like "%'.$str1.'%" ');
+              $send=0;
+              if ($sendquery){
+                  while ($row = mysql_fetch_array($sendquery)) {
+                       $send=intval($row['send']);  
+                  }
+               }
+             if ($send==0){
+	            	$result = $ssender->sendWithParam("86", $smsphone, $templateId, $params, $smsSign, "", ""); 
+                $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
+             }else{
+              $str=mysql_query('insert into logs (msg) values ("'.$str. '信息之前已发送！")');
 
-                    $str= $smsphone." jc msg:".$ckstr;
-                    $str=mysql_query('insert into logs (msg) values ("'.$str.'")');
+             }
                     
             }
 			
