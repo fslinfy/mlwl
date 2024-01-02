@@ -15,35 +15,35 @@ function printcpjkd(p) {
   str = str + '<caption><br><b><font face="黑体" size="4">' + sys_enterprise_name + '</font></b></caption>'
   str = str + '<caption><br><b><font face="黑体" size="5">商品进库单</font></b></caption>'
   str = str + '<thead>'
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >客户名称:</td><td style="border:0;"><strong>' + p.khmc + '</strong></td><td style="border:0;width:30;">No:</td><td style="border:0;width:120;" ><strong>' + p.jkdh + '</strong></td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >客户名称:</td><td style="border:0;"><strong>' + p.khmc + '</strong></td><td style="border:0;width:30;">No:</td><td style="border:0;width:120;" ><strong>' + p.jkdh + '</strong></td></tr></table></th></tr>'
   
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >进库仓库:</td><td style="border:0;"><strong>' + p.ckmc ;
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >进库仓库:</td><td style="border:0;"><strong>' + p.ckmc ;
   if (p.area != "") {
       str = str +  '(' + p.area + ')' ;
   }
   str = str + '</strong></td><td style="width:75;border:0; " >送货单号:</td><td  style="border:0;width:150;" ><strong>' + p.sfdh + '</strong></td><td style="text-align:right;border:0;width:70;">进库日期:</td><td style="border:0;width:120;" ><strong>' + p.jkrq +p.rq.substr(10,6)+ '</strong></td></tr></table></th></tr>';
   //表头
-  str = str + '  <tr><strong><td  style="text-align:center;" ><strong>产地名称</strong></td><td  style="text-align:center;" ><strong>商品名称</strong></td><td  style="text-align: center;"><strong>批号</strong></td><td  style="text-align: center;"><strong>包装</strong></td><td  style="text-align:right;width:70;"><strong>数量(包)</strong></td><td  style="text-align:right;width:70;"><strong>重量(吨)</strong></td><td  style="text-align:center;width:50;"><strong>仓位</strong></td></strong></tr>'
+  str = str + '  <tr><strong><td  style="text-align:center;" ><strong>产地名称</strong></td><td  style="text-align:center;" ><strong>商品名称</strong></td><td  style="text-align: center;"><strong>批号</strong></td><td  style="text-align: center;"><strong>包装</strong></td><td  style="text-align:center;"><strong>数量(包)</strong></td><td  style="text-align:center;"><strong>重量(吨)</strong></td><td  style="text-align:center;"><strong>作业方式</strong></td><td  style="text-align:center;"><strong>仓位</strong></td></strong></tr>'
   str = str + '</thead>'
   str = str + '<tbody>'
   mx.forEach(function (rec) {
     if (rec.mxdh < '2') {
-      str = str + '<tr><td>' + rec.cdmc + '</td><td>' + trim(rec.cpmc) + '</td><td>' + rec.cpph + '</td><td>' + trim(rec.bzmc) + '</td><td style="text-align:center;">' + slrenderer(rec.jcsl) + '</td><td  style="text-align:center;">' + slrenderer(rec.jczl) + '</td><td >' + rec.cw + '</td></tr>'
+      str = str + '<tr><td>' + rec.cdmc + '</td><td>' + trim(rec.cpmc) + '</td><td>' + rec.cpph + '</td><td>' + trim(rec.bzmc) + '</td><td style="text-align:center;">' + slrenderer(rec.jcsl) + '</td><td  style="text-align:center;">' + slrenderer(rec.jczl) + '</td><td style="text-align:center;">' + rec.zyfs + '</td><td style="text-align:center;" >' + rec.cw + '</td></tr>'
     }
   })
 
-  str = str + '  <tr><strong><td  style="text-align:center;">汇总 </td><td    colspan="3"><strong>进仓费用:' + lowMoneyToUp(p.jcje) + '(' + slrenderer(p.jcje) + '元)' + '</strong></td><td  style="text-align:center;"><strong>' + slrenderer(p.jcsl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.jczl) + '</strong></td><td  style="text-align:center;"></td></strong></tr>'
+  str = str + '  <tr><strong><td  style="text-align:center;">汇总 </td><td    colspan="3"><strong>进仓费用:' + lowMoneyToUp(p.jcje) + '(' + slrenderer(p.jcje) + '元)' + '</strong></td><td  style="text-align:center;"><strong>' + slrenderer(p.jcsl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.jczl) + '</strong></td><td></td><td></td></strong></tr>'
 
 
-  str = str + '<tr height="50" ><td    colspan="12">'
+  str = str + '<tr height="50" ><td    colspan="13">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:75;border:0; " >送货车牌:</td><td  style="border:0;" ><strong>' + p.cphm + '</strong></td>';
   str = str + '<td style="text-align:right;width:60;border:0;"  >送货人:</td><td style="border:0;width:30%;" ><strong>' + p.sfr + '</strong></td></tr></table>';
   str = str + '</td></tr>'
 
 
-  str = str + '<tr height="50" ><td    colspan="12">'
+  str = str + '<tr height="50" ><td    colspan="13">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:42;border:0; " >备注:</td><td style="border:0;"  >' + p.cnote + '</td></tr></table>';
   str = str + '</td></tr>'
@@ -52,13 +52,13 @@ function printcpjkd(p) {
 
   str = str + '</tbody>'
   str = str + '<tfoot>'
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >制单:' + p.czy + '</td>';
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >制单:' + p.czy + '</td>';
   str = str + '<td  style="border:0;width:20%;">审核:' + p.shr + '</td>';
   str = str + '<td  style="border:0;width:20%;">仓管:' + p.cg + '</td>';
   str = str + '<td  style="border:0;width:20%;">叉车:' + p.gs + '</td>';
   str = str + '<td  style="border:0;width:20%;">搬运:' + p.byg + '</td></tr></table></th></tr>'
   str = str + '<tr><th ></th></tr>'
-  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >第一联：存概</td>';
+  str = str + '<tr><th width="100%" colspan="13"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >第一联：存概</td>';
   str = str + '<td  style="border:0;width:20%;">第二联：叉车</td>';
   str = str + '<td  style="border:0;width:20%;">第三联：仓库</td>';
   str = str + '<td  style="border:0;width:20%;">第四联：搬运</td>';
@@ -154,16 +154,28 @@ function prtjcd(prtjkStore, prtjkmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
-  var byg='',gs='',cg='';
+  var byg='',gs='',cg='',zyfs='';
+  var prtjkmxStoreje=prtjkmxStore;
   prtjkStore.each(function (p) {
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     prtjkmxStore.each(function (rec) {
-      // console.log(rec.data);
+     // console.log("mxrec",rec.data);
       sumje = sumje + rec.data.jcje;
       sumxjje = sumxjje + rec.data.xjje;
+      zyfs='';
       if (rec.data.jeid == 0) {
         sumsl = sumsl + rec.data.jcsl;
         sumzl = sumzl + rec.data.jczl;
+        prtjkmxStoreje.each(function (jerec) {
+          if (jerec.data.jeid >0 && jerec.data.mxid ==rec.data.mxid) {
+            if (!zyfs.includes(jerec.data.cpmc+";"))
+            {
+                zyfs+=jerec.data.cpmc+';';
+            }
+          }
+        })
+
+
       }else
       {
          
@@ -176,7 +188,13 @@ function prtjcd(prtjkStore, prtjkmxStore) {
         if ((cg== '') && (rec.data.cg!='')) {
            cg=rec.data.cg; 
         } 
+    
+
       }
+      if (zyfs.length>0){
+      //  rec.data.cpph=zyfs.substring(0,zyfs.length-1);  
+        rec.data.zyfs=zyfs.substring(0,zyfs.length-1);  
+      }  
 
       mxrec.push(rec.data);
       i = i + 1
@@ -197,6 +215,7 @@ function prtjcd(prtjkStore, prtjkmxStore) {
     gsbyrec["jcje"] = 0;
     gsbyrec["xjje"] = 0;
     gsbyrec["cpph"] = "";
+    gsbyrec["zyfs"] = "";
     mxrec.push(gsbyrec);
 
     var jkd = p.data;
@@ -211,6 +230,7 @@ function prtjcd(prtjkStore, prtjkmxStore) {
     jkd['cg'] =cg;
     jkd["jcsl"] = sumsl.toFixed(3);
     jkd["jczl"] = sumzl.toFixed(3);
+   // console.log("jkd",jkd);
     printcpjkd(jkd);
   })
 }

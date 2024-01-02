@@ -22,7 +22,7 @@ if ($act=="cpckd"){
   if ($id!=null){   
 
   $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,cm.ccsl,cm.cczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,
-  cpxsd.cphm,cpxsd.xsdh,customer.smsphone
+  cpxsd.cphm,cpxsd.xsdh,customer.smsphone,cpckd.ckdh
   FROM cpxsdmx m,cpckd,cpxsd,cpckdmx cm,customer,location  
   WHERE cpckd.xsid = m.xsid AND cpxsd.xsid = m.xsid 
   AND cm.ckid=cpckd.ckid AND cpxsd.khid=customer.C_id
@@ -32,6 +32,7 @@ if ($act=="cpckd"){
   $query = mysql_query($sqlstr);
   $ckstr="";
   $dh="";
+  $ckdh="";
   $cphm="";
   $ckmc="";
   $phone="";  
@@ -42,6 +43,7 @@ if ($act=="cpckd"){
         $ckstr.="\n数量:".printsl($row['ccsl'])."".$row['jldw'];				
         $ckstr.="\n重量:".printsl($row['cczl'])."吨\n";	
         $dh=$row['xsdh'];
+        $ckdh=$row['ckdh'];
         $ckmc=$row['ckmc'];
         $cphm=$row['cphm'];
         $phone=$row['smsphone'];  
@@ -75,8 +77,8 @@ if ($act=="cpckd"){
 		$sendcount=0;
     	foreach ( $phone_array as $smsphone ){ 
 		        if (strlen($smsphone)>0){
-                $str= $smsphone." ck msg:".$ckstr;
-                $str1=$smsphone." ck msg:".$dh;
+                $str= $smsphone." ckdh:".$ckdh." msg:".$ckstr;
+                $str1=$smsphone." ckdh:".$ckdh." msg:".$dh;
                 //检查是否已发短信
                 $sendquery = mysql_query('select count(1) as send from logs where  msg like "%'.$str1.'%" ');
                 $send=0;
@@ -120,7 +122,7 @@ if ($act=="cpckd"){
 //进仓信息处理  
 if ($act=="cpjkd"){
    if ($id!=null) {   
-  $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,m.jcsl,m.jczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,
+  $sqlstr = "SELECT m.cdmc,m.cpmc,m.jldw,m.jcsl,m.jczl,customer.C_shortname AS khjc,location.L_shortname AS ckmc,cpjkd.jkdh,
   cpjkd.cphm,cpjkd.sfdh,customer.smsphone
   FROM cpjkdmx m,cpjkd,customer,location  
   WHERE cpjkd.jkid = m.jkid
@@ -132,6 +134,7 @@ if ($act=="cpjkd"){
   $query = mysql_query($sqlstr);
   $ckstr="";
   $dh="";
+  $jkdh="";
   $cphm="";
   $ckmc="";
   $phone="";  
@@ -145,6 +148,7 @@ if ($act=="cpjkd"){
         $dh=$row['sfdh']." (".$row['ckmc'].")";
         $cphm=$row['cphm'];
         $ckmc=$row['ckmc'];
+        $jkdh=$row['jkdh'];
         $phone=$row['smsphone'];  
                   }
                   
@@ -175,8 +179,8 @@ if ($act=="cpjkd"){
 		$sendcount=0;
     	foreach ( $phone_array as $smsphone ){ 
             if (strlen($smsphone)>0){
-              $str= $smsphone." jc msg:".$ckstr;
-              $str1=$smsphone." jc msg:".$dh;
+              $str= $smsphone." jcdh:".$jkdh." msg:".$ckstr;
+              $str1=$smsphone." jcdh:".$jkdh;
               //检查是否已发短信
               $sendquery = mysql_query('select count(1) as send from logs where  msg like "%'.$str1.'%" ');
               $send=0;
@@ -192,6 +196,7 @@ if ($act=="cpjkd"){
               $str=mysql_query('insert into logs (msg) values ("'.$str. '信息之前已发送！")');
 
              }
+            // $str=mysql_query('insert into logs (msg) values ("'.$str1.'")');
                     
             }
 			

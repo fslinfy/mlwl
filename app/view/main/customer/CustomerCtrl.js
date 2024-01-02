@@ -23,6 +23,7 @@ Ext.define('MyApp.view.main.customer.CustomerCtrl', {
         return false;
     },
     onBtnNewClick: function (rs) {
+        console.log(sys_location_id);
         this.getView().getStore().addSorted([{ L_id: sys_location_id, password: base64encode('8888') }]);
         return false;
     },

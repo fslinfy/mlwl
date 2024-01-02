@@ -22,6 +22,7 @@ Ext.define('MyApp.model.CpckdmxModel', {
     { name: 'xjje', type: 'float' },
     { name: 'cpgg' },
     { name: 'cpph' },
+    { name: 'zyfs' },
     { name: 'dh' },
     { name: 'jldw' },
     { name: 'sm' },

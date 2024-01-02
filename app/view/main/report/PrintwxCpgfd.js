@@ -11,54 +11,52 @@ function printwxcpgfd(p) {
   var mx = p.mxrec;
 
   LODOP.PRINT_INIT("过货单");
-  var str = '<style>table,th{border:none;height:22px;align:left;} td{border: 1px solid #000;height:20px}</style>'
-  str = str + '<table border=0 cellSpacing=0 cellPadding=0  width="100%"  bordercolor="#000000" style="border-collapse:collapse">'
-  str = str + '<caption><br><b><font face="黑体" size="4">' + sys_enterprise_name + '</font></b></caption>'
-  str = str + '<caption><br><b><font face="黑体" size="5">商品过车单</font></b></caption>'
+  var str = '<style>table,th{border:1px;height:22px;align:left;} td{border: 1px solid #000;height:20px}</style>'
+  str = str + '<table border=0 cellSpacing=0 cellPadding=0  width="100%"  bordercolor="#000" style="border-collapse:collapse">'
+  str = str + '<caption><br><b><font face="黑体" size="5">' + sys_enterprise_name + '</font></b></caption>'
+  str = str + '<caption><br><b><font face="黑体" size="6">商品过车单</font></b></caption>'
   str = str + '<thead>'
   
   upje='';
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="text-align:left;border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="text-align:left;border:0;width:130;" ><strong></strong></td></tr></table></th></tr>'
 
   if (p.xjje > 0) {
    // upje=lowMoneyToUp(p.ccje + p.xjje) + '(' + slrenderer(p.ccje + p.xjje) + '元)'
-    str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
+    str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
   }
-  
-  
-  //str = str + '<tr><th width="100%" colspan="6"><table width="100%" border=0 ><tr><td style="text-align:left;border:0;width:70;" >客户名称:</td><td style="text-align:left;border:0;"><strong>' + p.khmc + '</strong></td><td style="text-align:left;border:0;width:30;">No:</td><td style="text-align:left;border:0;width:120;" ><strong>' + p.gfdh + '</strong></td></tr></table></th></tr>'
 
-
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >客户名称:</td><td style="text-align:left;border:0;"><strong>' + p.khmc + '</strong></td>'
+  str = str + '<tr><td width="100%" colspan="9"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >客户名称:</td><td style="text-align:left;border:0;"><strong>' + p.khmc + '</strong></td>'
   
     str = str + '<td style="text-align:cnter;border:0;width:150;" ><strong>               </strong></td>'
   
-  str = str + '<td style="text-align:left;border:0;width:30;">No:</td><td style="text-align:left;border:0;width:120;" ><strong>' + p.gfdh + '</strong></td></tr></table></th></tr>'
+  str = str + '<td style="text-align:left;border:0;width:30;">No:</td><td style="text-align:left;border:0;width:120;" ><strong>' + p.gfdh + '</strong></td></tr></table></td></tr>'
 
 
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td style="border:0;width:70;" >过货仓库:</td><td style="text-align:left;border:0;"><strong>' + p.ckmc + '</strong></td>'
+  str = str + '<tr><td width="100%" colspan="9"><table width="100%" border="0px" ><tr><td style="border:0px;width:70;" >过货仓库:</td><td style="text-align:left;border:0px;"><strong>' + p.ckmc + '</strong></td>'
   
-  str = str + '<td style="text-align:right;border:0;width:50;">日期:</td><td style="text-align:left;border:0;width:120;" ><strong>' + p.gfrq +p.rq.substr(10,6) + '</strong></td></tr></table></th></tr>'
+  str = str + '<td style="text-align:right;border:0px;width:50;">日期:</td><td style="text-align:left;border:0px;width:120;" ><strong>' + p.gfrq +p.rq.substr(10,6) + '</strong></td></tr></table></td></tr>'
 
   
   //表头
-  str = str + '  <tr><strong><td  style="text-align:center;" ><strong>产地</strong></td>';
-  str = str + '<td  style="text-align:center;" ><strong>商品名称</strong></td>';
-  str = str + '<td  style="text-align:center;width:50;" ><strong>单位</strong></td>';
-  str = str + '<td  style="text-align:center;width:80;"><strong>通知数量</strong></td>';
-  str = str + '<td  style="text-align:center;width:80;"><strong>通知重量(吨)</strong></td>';
-  str = str + '<td  style="text-align:center;width:80;"><strong>过车数量</strong></td>';
-  str = str + '<td  style="text-align:center;width:80;"><strong>过车重量(吨)</strong></td>';
-  //  str = str + '<td  style="text-align:center;width:80;"><strong>单价</strong></td>';
-  str = str + '<td  style="text-align:center;width:80;"><strong>金额</strong></td></strong></tr>'
-  str = str + '</thead>'
+  str = str + '<tr><td  style="text-align:center;" ><strong>产地</strong></td>';
+  str = str + '<td  style="height="50"" ><strong>商品名称</strong></td>';
+  str = str + '<td  style="text-align:center;width:40px;" ><strong>单位</strong></td>';
+  str = str + '<td  style="text-align:center;width:60px;"><strong>通知数量</strong></td>';
+  str = str + '<td  style="text-align:center;width:80px;"><strong>通知重量(吨)</strong></td>';
+  str = str + '<td style="text-align:center;width:60px;"><strong>过车数量</strong></td>';
+  str = str + '<td  style="text-align:center;width:80px;"><strong>过车重量(吨)</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>作业方式</strong></td>'
+  str = str + '<td  style="text-align:center;width:60px;"><strong>金额1</strong></td>'
+  
+  str = str + '</tr></thead>'
   str = str + '<tbody>'
   mx.forEach(function (rec) {
-    str = str + '<tr><td>' + rec.cdmc + '</td><td>' + rec.xmmc + '</td><td style="text-align:center;" >' + trim(rec.jldw) + '</td><td style="text-align:right;">' + slrenderer(rec.khsl) + '</td><td  style="text-align:right;">' + slrenderer(rec.khzl) + '</td><td style="text-align:right;">' + slrenderer(rec.sl) + '</td><td  style="text-align:right;">' + slrenderer(rec.zl) + '</td><td  style="text-align:right;">' + slrenderer(rec.je) + '</td></tr>'
-
+    if (rec.mxdh < '2') {
+    str = str + '<tr><td>' + rec.cdmc + '</td><td>' + rec.cpmc + '</td><td style="text-align:center;" >' + trim(rec.jldw) + '</td><td style="text-align:center;">' + slrenderer(rec.khsl) + '</td><td  style="text-align:center;">' + slrenderer(rec.khzl) + '</td><td style="text-align:center;">' + slrenderer(rec.sl) + '</td><td  style="text-align:center;margin-right:2px;">' + slrenderer(rec.zl) + '</td><td  style="text-align:center;">' + rec.zyfs + '</td><td  style="text-align:center;width:70px;">' +slrenderer(rec.je) + '</td></tr>'
+    }
   })
 
-  str = str + '  <tr><strong><td  style="text-align:center;">汇总 </td><td  style="text-align:left;"  colspan="2"><strong>' + lowMoneyToUp(p.je) + '</strong></td><td  style="text-align:right;"><strong>' + slrenderer(p.khsl) + '</strong></td><td style="text-align:right;"><strong>' + slrenderer(p.khzl) + '</strong></td><td  style="text-align:right;"><strong>' + slrenderer(p.sl) + '</strong></td><td style="text-align:right;"><strong>' + slrenderer(p.zl) + '</strong></td><td  style="text-align:right;">' + slrenderer(p.je) + '</td></strong></tr>'
+  str = str + '  <tr><td  style="text-align:center;">汇总 </td><td  style="text-align:left;"  colspan="2"><strong>' + lowMoneyToUp(p.je) + '</strong></td><td  style="text-align:center;"><strong>' + slrenderer(p.khsl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.khzl) + '</strong></td><td  style="text-align:center;"><strong>' + slrenderer(p.sl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.zl) + '</strong></td><td  style="text-align:right;width:70px;">' + slrenderer(p.je) + '</td><td></td></tr>'
   
   str = str + '<tr height="50" ><td  style="text-align:left;"  colspan="9">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
@@ -66,7 +64,7 @@ function printwxcpgfd(p) {
   str = str + '<td style="text-align:right;width:75;border:0;"  >司机姓名:</td><td style="text-align:left;border:0;" ><strong>' + p.sfr + '</strong></td></tr></table>';
   str = str + '</td></tr>'
 
-  str = str + '<tr height="50" ><td  style="text-align:left;"  colspan="8">'
+  str = str + '<tr height="50" ><td  style="text-align:left;"  colspan="9">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:42;border:0; " >备注:</td><td style="border:0;"  >' + p.cnote + '</td></tr></table>';
   str = str + '</td></tr>'
@@ -74,7 +72,7 @@ function printwxcpgfd(p) {
   str = str + '<tfoot>'
   // str = str + '<tr><th width="100%" colspan="7"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:42;" >备注:</td><td  style="text-align:left;border:0;">' + p.cnote + '</td></tr></table></th></tr>'
   // str = str + '<tr><th width="100%" colspan="7"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:20%;" >制单:' + p.czy + '</td><td  style="text-align:left;border:0;width:20%;">业务:' + p.shr + '</td><td  style="text-align:left;border:0;width:20%;">财务:' + p.cwsh + '</td><td  style="text-align:left;border:0;width:20%;">仓库:' + p.cgy + '</td><td  style="text-align:left;border:0;width:20%;">打印:' +sys_userInfo.username + '</td></tr></table></th></tr>'
-  str = str + '<tr><th width="100%" colspan="8"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:16%;" >制单:' + p.czy + '</td>';
+  str = str + '<tr><th width="100%" colspan="9"><table width="100%" border=0 ><tr><td  style="text-align:left;border:0;width:16%;" >制单:' + p.czy + '</td>';
   str = str + '<td  style="text-align:left;border:0;width:16%;">审核:' + p.shr + '</td>';
   str = str + '<td  style="text-align:left;border:0;width:17%;">仓管:</td>';
   str = str + '<td  style="text-align:left;border:0;width:17%;">叉车:</td>';
@@ -121,13 +119,13 @@ function PrintCpgfdgfid(gfid) {
     proxy: {
       type: 'ajax',
       api: {
-        read: sys_ActionPHP + '?act=wxcpgfdmxlist_pc'
+        read: sys_ActionPHP + '?act=wxcpgfdgfmxlist_pc'
       },
       actionMethods: {
         read: 'GET'
       },
       extraParams: {
-        loc: "wxcpgfdmxloc",
+        loc: "wxcpgfdgfmxloc",
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
         gfid: gfid,
         p_e_code: sys_enterprise_code,
@@ -178,23 +176,47 @@ function prtwxgfd(prtwxgfStore, prtwxgfmxStore) {
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
+  var zyfs="";
+  var mxje=0;
+  var prtwxgfmxStoreje=prtwxgfmxStore;
   prtwxgfStore.each(function (p) {
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     prtwxgfmxStore.each(function (rec) {
+      
+      if (rec.data.jeid == 0) {
       sumje = sumje + rec.data.je;
       // sumxjje = sumxjje + rec.data.xjje;
-
       sumsl = sumsl + rec.data.sl;
       sumzl = sumzl + rec.data.zl;
+      
+      zyfs="";
+      mxje=0;
+      prtwxgfmxStoreje.each(function (jerec) {
+        if (jerec.data.jeid >0 && jerec.data.mxid ==rec.data.mxid) {
+          mxje = mxje + jerec.data.xjje+ jerec.data.je;
+          if (!zyfs.includes(jerec.data.cpmc+";"))
+          {
 
+              zyfs+=jerec.data.cpmc+';';
+          }
+        }
+      })
+      if (zyfs.length>0){
+        //  rec.data.cpph=zyfs.substring(0,zyfs.length-1);  
+          rec.data.zyfs=zyfs.substring(0,zyfs.length-1);  
+
+        } 
+        rec.data.je=mxje; 
+        
+      i ++;
+
+      }
       mxrec.push(rec.data);
-      i = i + 1
-      // }
     })
 
     gsbyrec = {};
     gsbyrec["cdmc"] = "";
-    gsbyrec["xmmc"] = "";
+    gsbyrec["cpmc"] = "";
     gsbyrec["jldw"] = "";
     gsbyrec["khsl"] = 0;
     gsbyrec["khzl"] = 0;
@@ -203,6 +225,7 @@ function prtwxgfd(prtwxgfStore, prtwxgfmxStore) {
     gsbyrec["dj"] = 0;
     gsbyrec["je"] = 0;
     gsbyrec["xjje"] = 0;
+    gsbyrec["zyfs"] = "";
     mxrec.push(gsbyrec);
 
     var gfd = p.data;
@@ -217,7 +240,7 @@ function prtwxgfd(prtwxgfStore, prtwxgfmxStore) {
     }
     gfd["sl"] = sumsl.toFixed(3);
     gfd["zl"] = sumzl.toFixed(3);
-   // console.log(gfd);
+    console.log('wx gfd',gfd);
     printwxcpgfd(gfd);
   })
 }

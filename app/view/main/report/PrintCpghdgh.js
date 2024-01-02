@@ -19,17 +19,17 @@ function printcpghghd(p) {
 
   if (p.xjbz > 0) {
     upje=lowMoneyToUp(p.ccje + p.xjje) + '(' + slrenderer(p.ccje + p.xjje) + '元)'
-    str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
+    str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
   }
-  str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;">No:</td><td style="border:0;width:130;" ><strong>' + p.ghdh + '</strong></td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;">No:</td><td style="border:0;width:130;" ><strong>' + p.ghdh + '</strong></td></tr></table></th></tr>'
 
-  str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr>';
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr>';
   str = str + '<td style="border:0;width:70;" >客户名称:</td>';
   str = str + '<td style="border:0;"><strong>' + p.khmc + '</strong></td>';
   //str = str + '<td style="text-align:right;border:0;width:70;" >新客户:</td><td style="border:0;"><strong></strong></td>';
   str = str + '<td style="text-align:right;border:0;width:70;">开单日期:</td><td style="border:0;width:90;" ><strong>' + p.xsrq + '</strong></td></tr></table></th></tr>';
 
-  str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr>';
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr>';
   str = str + '<td style="border:0;width:70;" >新客户:</td><td style="border:0;"><strong>' + p.newkhmc + '</strong></td>';
   str = str + '<td style="border:0;width:70;" >过货仓库:</td><td style="border:0;"><strong>' + p.ckmc + '</strong></td>';
   str = str + '<td style="text-align:right;border:0;width:70;" >过货日期:</td><td  style="border:0;width:90;"><strong>' + p.ghrq + '</strong></td>   </tr></table></th></tr>';
@@ -40,23 +40,26 @@ function printcpghghd(p) {
 
   str = str + '<td  style="text-align: center;"><strong>包装</strong></td>';
   str = str + '<td  style="text-align: center;"><strong>批号</strong></td>';
-  str = str + '<td  style="text-align:right;width:70;"><strong>数量(包)</strong></td>';
-  str = str + '<td  style="text-align:right;width:70;"><strong>重量(吨)</strong></td>';
-  str = str + '<td  style="width:50;text-align:center;"><strong>仓位</strong></td>';
-  str = str + '<td  style="text-align: center;width:50;"><strong>付现</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>数量(包)</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>重量(吨)</strong></td>';
+  str = str + '<td  style="text-align: center;"><strong>作业方式</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>仓位</strong></td>';
+  str = str + '<td  style="text-align: center;"><strong>付现</strong></td>';
+  
   str = str + '</td></tr></thead>';
   str = str + '<tbody>';
   mx.forEach(function (rec) {
     if (rec.mxdh < '2') {
       str = str + '<tr><td>' + trim(rec.cdmc) + '</td>';
-
       str = str + '<td>' + trim(rec.cpmc) + '</td>';
       str = str + '<td>' + trim(rec.bzmc) + '</td>';
       str = str + '<td>' + trim(rec.cpph) + '</td>';
       str = str + '<td style="text-align:center;">' + slrenderer(rec.ccsl) + '</td>';
       str = str + '<td  style="text-align:center;">' + slrenderer(rec.cczl) + '</td>';
-      str = str + '<td>' + rec.cw + '</td>';
-      str = str + '<td  style="text-align:center;">' + slrenderer(rec.xjje) + '</td></tr>';
+      str = str + '<td  style="text-align:center;">' + rec.zyfs + '</td>';
+      str = str + '<td  style="text-align:center;">' + rec.cw + '</td>';
+      str = str + '<td  style="text-align:center;">' + slrenderer(rec.xjje) + '</td>';
+      str = str + '</tr>';
     }
   })
 
@@ -68,16 +71,11 @@ function printcpghghd(p) {
  
   str = str + '<td style="text-align:center;"><strong>' + slrenderer(p.ccsl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.cczl) + '</strong></td>';
   str = str + '<td  style="text-align:right;"><strong></strong></td>';
-  str = str + '<td  style="text-align:center;：color:red;"><strong>' + slrenderer(p.xjje) + '</strong></td></tr>';
+  str = str + '<td  style="text-align:center;color:red;"><strong>' + slrenderer(p.xjje) + '</strong></td><td></td></tr>';
   
- // str = str + '<tr height="50" ><td   colspan="12">'
- // str = str + '<table  style="font-size:15px;" width="100%" border="0">'
- // str = str + '<tr><td style="width:75;border:0; " >新客户:</td><td  style="border:0;" ><strong>' + p.newkhmc + '</strong></td>';
- // str = str + '<td style="text-align:right;width:60;border:0;"  ></td><td style="border:0;width:35%;" ><strong></strong></td></tr></table>';
- // str = str + '</td></tr>'
 
 
-  str = str + '<tr height="50" ><td   colspan="12">'
+  str = str + '<tr height="50" ><td   colspan="13">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:42;border:0; " >备注:</td><td style="border:0;"  >'+ p.cnote + '</td></tr></table>';
   str = str + '</td></tr>'
@@ -88,7 +86,7 @@ function printcpghghd(p) {
   
   
 
-  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.ghr + '</td>';
+  str = str + '<tr><th width="100%" colspan="13"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.ghr + '</td>';
 
   str = str + '<td  style="border:0;width:16%;">仓管:</td>';
   str = str + '<td  style="border:0;width:16%;">叉车:</td>';
@@ -97,7 +95,7 @@ function printcpghghd(p) {
   
   str = str + '<tr><th ></th></tr>'
 
-  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >第一联：存概</td>';
+  str = str + '<tr><th width="100%" colspan="13"><table width="100%" border=0 ><tr><td  style="border:0;width:20%;" >第一联：存概</td>';
   str = str + '<td  style="border:0;width:20%;">第二联：叉车</td>';
   str = str + '<td  style="border:0;width:20%;">第三联：仓库</td>';
   str = str + '<td  style="border:0;width:20%;">第四联：搬运</td>';
@@ -314,6 +312,7 @@ function prtghghd0(prtghStore, prtghmxStore, area) {
     var ckcwstr0 = "";
     var ckmxid = 0;
     var ckcount = 0;
+    var prtghmxStoreje=prtghmxStore;
     prtghmxStore.each(function (rec) {
       if (rec.data.area == area) {
         sumxjje = sumxjje + rec.data.xjje;
@@ -323,6 +322,21 @@ function prtghghd0(prtghStore, prtghmxStore, area) {
           //sumzl = sumzl + rec.data.cczl;
           sumsl =sumsl+ Math.round(1000 * rec.data.ccsl) / 1000;
           sumzl =sumzl+ Math.round(1000 * rec.data.cczl) / 1000;
+          zyfs="";
+          prtghmxStoreje.each(function (jerec) {
+            if (jerec.data.jeid>0 && jerec.data.mxid==rec.data.mxid) {
+              if (!zyfs.includes(jerec.data.cpmc+";"))
+              {
+                  zyfs +=jerec.data.cpmc+";";
+              }
+            }
+          })      
+          if (zyfs.length>0){
+            rec.data.zyfs=zyfs.substring(0,zyfs.length-1);  
+            rec.data.sm=zyfs.substring(0,zyfs.length-1);  
+          }  
+
+
         }
         mxrec.push(rec.data);
         i = i + 1
@@ -348,6 +362,7 @@ function prtghghd0(prtghStore, prtghmxStore, area) {
     gsbyrec["sm"] = "";
     gsbyrec["cw"] = "";
     gsbyrec["cpph"] = "";
+    gsbyrec["zyfs"] = "";
 
     mxrec.push(gsbyrec);
 
@@ -362,7 +377,7 @@ function prtghghd0(prtghStore, prtghmxStore, area) {
     ghd["xjje"] = sumxjje;
     ghd["ccsl"] = sumsl.toFixed(3);
     ghd["cczl"] = sumzl.toFixed(3);
-   // console.log("prt ghd",pp.data,ghd,sumsl);
+    console.log("prt ghd",pp.data,ghd,sumsl);
     printcpghghd(ghd);
 
   })

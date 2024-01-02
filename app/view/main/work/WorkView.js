@@ -101,7 +101,7 @@
 				text: '搬运', dataIndex: 'Bytcdj', flex: 1, sortable: false,
 				editor: {
 					type: 'numberfield',
-					decimalPrecision: 3,
+					decimalPrecision: 2,
 					align: 'right',
 					allowBlank: true,
 					minValue: 0,
@@ -113,7 +113,7 @@
 				text: '搬运(粉料)', dataIndex: 'Bytcdj2', flex: 1, sortable: false,
 				editor: {
 					type: 'numberfield',
-					decimalPrecision: 3,
+					decimalPrecision: 2,
 					align: 'right',
 					allowBlank: true,
 					minValue: 0,
@@ -125,7 +125,7 @@
 				text: '机械', dataIndex: 'Gstcdj', flex: 1,  sortable: false,
 				editor: {
 					type: 'numberfield',
-					decimalPrecision: 3,
+					decimalPrecision: 2,
 					align: 'right',
 					allowBlank: true,
 					minValue: 0,
@@ -137,7 +137,7 @@
 				text: '仓管', dataIndex: 'Cgtcdj', flex: 1,  sortable: false,
 				editor: {
 					type: 'numberfield',
-					decimalPrecision: 3,
+					decimalPrecision: 2,
 					align: 'right',
 					allowBlank: true,
 					minValue: 0,

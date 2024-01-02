@@ -19,11 +19,11 @@ function printcpckd(p) {
 
   if (p.xjje > 0) {
     upje=lowMoneyToUp(p.ccje + p.xjje) + '(' + slrenderer(p.ccje + p.xjje) + '元)'
-    str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
+    str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;"></td><td style="border:0;width:130;color:red; " ><strong>作业费用即结</strong></td></tr></table></th></tr>'
   }
-  str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;">No:</td><td style="border:0;width:130;" ><strong>' + p.ckdh + '</strong></td></tr></table></th></tr>'
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td style="border:0;" ></td><td style="text-align:right;border:0;width:50;">No:</td><td style="border:0;width:130;" ><strong>' + p.ckdh + '</strong></td></tr></table></th></tr>'
 
-  str = str + '<tr><th width="100%" colspan="11"><table width="100%" border=0 ><tr>';
+  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr>';
   str = str + '<td style="border:0;width:70;" >客户名称:</td>';
   str = str + '<td style="border:0;"><strong>' + p.khmc + '</strong></td>';
   str = str + '<td style="text-align:right;border:0;width:70;" >提货单号:</td><td style="border:0;"><strong>' + p.xsdh + '</strong></td>';
@@ -39,9 +39,10 @@ function printcpckd(p) {
 
   str = str + '<td  style="text-align: center;"><strong>包装</strong></td>';
   str = str + '<td  style="text-align: center;"><strong>批号</strong></td>';
-  str = str + '<td  style="text-align:right;width:70;"><strong>数量(包)</strong></td>';
-  str = str + '<td  style="text-align:right;width:70;"><strong>重量(吨)</strong></td>';
-  str = str + '<td  style="width:50;text-align:center;"><strong>仓位</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>数量(包)</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>重量(吨)</strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>作业方式 </strong></td>';
+  str = str + '<td  style="text-align:center;"><strong>仓位</strong></td>';
   str = str + '<td  style="text-align: center;width:50;"><strong>付现</strong></td>';
   str = str + '</td></tr></thead>';
   str = str + '<tbody>';
@@ -53,9 +54,10 @@ function printcpckd(p) {
       str = str + '<td>' + trim(rec.bzmc) + '</td>';
       str = str + '<td>' + trim(rec.cpph) + '</td>';
       str = str + '<td style="text-align:center;">' + slrenderer(rec.ccsl) + '</td>';
-      str = str + '<td  style="text-align:center;">' + slrenderer(rec.cczl) + '</td>';
-      str = str + '<td>' + rec.cw + '</td>';
-      str = str + '<td  style="text-align:center;">' + slrenderer(rec.xjje) + '</td></tr>';
+      str = str + '<td style="text-align:center;">' + slrenderer(rec.cczl) + '</td>';
+      str = str + '<td style="text-align:center;" >' + rec.sm + '</td>';
+      str = str + '<td style="text-align:center;">' + rec.cw + '</td>';
+      str = str + '<td style="text-align:center;">' + slrenderer(rec.xjje) + '</td></tr>';
     }
   })
 
@@ -67,15 +69,16 @@ function printcpckd(p) {
  
   str = str + '<td style="text-align:center;"><strong>' + slrenderer(p.ccsl) + '</strong></td><td style="text-align:center;"><strong>' + slrenderer(p.cczl) + '</strong></td>';
   str = str + '<td  style="text-align:right;"><strong></strong></td>';
+  str = str + '<td  style="text-align:right;"><strong></strong></td>';
   str = str + '<td  style="text-align:center;：color:red;"><strong>' + slrenderer(p.xjje) + '</strong></td></tr>';
-  str = str + '<tr height="50" ><td   colspan="12">'
+  str = str + '<tr height="50" ><td   colspan="13">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:75;border:0; " >提货车牌:</td><td  style="border:0;" ><strong>' + p.cphm + '</strong></td>';
   str = str + '<td style="text-align:right;width:60;border:0;"  >提货人:</td><td style="border:0;width:35%;" ><strong>' + p.thr + '</strong></td></tr></table>';
   str = str + '</td></tr>'
 
 
-  str = str + '<tr height="50" ><td   colspan="12">'
+  str = str + '<tr height="50" ><td   colspan="13">'
   str = str + '<table  style="font-size:15px;" width="100%" border="0">'
   str = str + '<tr><td style="width:42;border:0; " >备注:</td><td style="border:0;"  >'+ p.cnote + '</td></tr></table>';
   str = str + '</td></tr>'
@@ -86,7 +89,7 @@ function printcpckd(p) {
   
   
 
-  str = str + '<tr><th width="100%" colspan="12"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.czy + '</td>';
+  str = str + '<tr><th width="100%" colspan="13"><table width="100%" border=0 ><tr><td  style="border:0;width:16%;" >制单:' + p.czy + '</td>';
 
   str = str + '<td  style="border:0;width:16%;">仓管:</td>';
   str = str + '<td  style="border:0;width:16%;">叉车:</td>';
@@ -187,13 +190,14 @@ function PrintCpckdckid(ckid) {
 }
 
 function prtckd(prtckStore, prtckmxStore, prtcwStore) {
+ // console.log("store", prtckStore, prtckmxStore, prtcwStore);    
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
   prtckStore.each(function (p) {
       p.data.ckrq = Ext.Date.format(p.data.ckrq, 'Y-m-d');
       p.data.xsrq = Ext.Date.format(p.data.xsrq, 'Y-m-d');
-  console.log("p", p.data);    
+ // console.log("prt", p.data);    
       ckmc = p.data.ckmc;
   })
   //console.log("ckmc", ckmc);
@@ -201,6 +205,7 @@ function prtckd(prtckStore, prtckmxStore, prtcwStore) {
 
   prtckmxStore.each(function (rec) {
     i = 0;
+   // console.log("ckmx", rec);
     areaArray.forEach(function (item, index) {
       if (item == rec.data.area) {
         i = 1;
@@ -290,7 +295,7 @@ function prtckd(prtckStore, prtckmxStore, prtcwStore) {
 }
 
 function prtckd0(prtckStore, prtckmxStore, area) {
-  //console.log("area=" + area);
+ // console.log("area=" + area);
   var mxrec = [];
   var gsbyrec = {};
   var i = 0;
@@ -299,15 +304,15 @@ function prtckd0(prtckStore, prtckmxStore, area) {
 
     var sumsl = 0, sumzl = 0, sumje = 0, sumxjje = 0;
     var ckd = pp.data;
-  
-
-
     var ckcw = "";
     var ckcwstr = "";
     var ckcwstr0 = "";
     var ckmxid = 0;
     var ckcount = 0;
+    var zyfs="";
+    var prtckmxStoreje=prtckmxStore;
     prtckmxStore.each(function (rec) {
+     // console.log("rec=", rec.data);
       if (rec.data.area == area) {
         sumxjje = sumxjje + rec.data.xjje;
         sumje = sumje + rec.data.ccje;
@@ -315,6 +320,18 @@ function prtckd0(prtckStore, prtckmxStore, area) {
           sumsl = sumsl + rec.data.ccsl;
           sumzl = sumzl + rec.data.cczl;
         }
+        zyfs="";
+        prtckmxStoreje.each(function (jerec) {
+          if (jerec.data.jeid>0 && jerec.data.mxid==rec.data.mxid) {
+            if (!zyfs.includes(jerec.data.cpmc+";")){
+               zyfs +=jerec.data.cpmc+";";
+            }
+          }
+        })      
+        if (zyfs.length>0){
+          rec.data.sm=zyfs.substring(0,zyfs.length-1);  
+        }  
+          
         mxrec.push(rec.data);
         i = i + 1
       }
@@ -352,7 +369,7 @@ function prtckd0(prtckStore, prtckmxStore, area) {
    // ckd["xjje"] = sumxjje;
     ckd["ccsl"] = sumsl.toFixed(3);
     ckd["cczl"] = sumzl.toFixed(3);
-    console.log("ckd",pp.data,ckd);
+   // console.log("prt ckd",pp.data,ckd);
     printcpckd(ckd);
 
   })

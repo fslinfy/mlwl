@@ -54,6 +54,10 @@ Ext.define('MyApp.model.CpjkdmxModel', {
         name: 'cpph'
     },
     {
+        name: 'zyfs'
+    },
+    
+    {
         name: 'jldw'
     },
     {

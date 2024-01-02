@@ -212,7 +212,7 @@ function prtgfkd(prtgfkdStore, prtgfkdmxStore) {
 
     gfd["khsl"] = sumsl.toFixed(3);
     gfd["khzl"] = sumzl.toFixed(3);
-    console.log(gfd);
+    console.log('cpgfd',gfd);
     printcpgfkd(gfd);
   })
 }

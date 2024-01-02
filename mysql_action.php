@@ -2413,7 +2413,8 @@ function cpjkdmxlist_pc() {
   0 AS xjje,
   '' AS gs,
   '' AS byg,
-  '' AS cg 
+  '' AS cg ,
+  '' as zyfs
 FROM
   cpjkdmx m,
   cpjkd, 
@@ -2429,13 +2430,13 @@ WHERE cpjkd.jkid = m.jkid AND m.mxid=cw.mxid  ".$filter;
 
 
 	$sqlstr = " (SELECT '1' as mxdh, m.jkid,m.mxid,0 as jeid,m.cdmc,m.cpmc,m.bzmc,m.cpgg,'' as cw,'' as cpph,m.jldw,m.jcsl,m.jczl,m.czdj,0 as jcje,0 as xjje 
-     	,'' as gs,'' as byg,'' as cg  FROM cpjkdmx m,cpjkd where cpjkd.jkid=m.jkid  ".$filter;
+     	,'' as gs,'' as byg,'' as cg ,'' as zyfs FROM cpjkdmx m,cpjkd where cpjkd.jkid=m.jkid  ".$filter;
     
     	
    }
     	$sqlstr =$sqlstr. ") union all ( SELECT '2' as mxdh,m.jkid,m.mxid,j.jeid,'' as cdmc,j.work as cpmc,'' as bzmc,'' as cpgg,''  as cw,'' as cpph,j.dw as jldw,case when j.zljs=1 then 0 else j.sl end as  jcsl , ";
 		$sqlstr =$sqlstr. " case when j.zljs=1 then j.sl else 0 end  as  jczl ,j.dj as czdj,case when j.xjbz=1 then 0 else j.je end  as  jcje ,case when j.xjbz=1 then j.je else 0 end  as  xjje 
-		,gs,byg,cg FROM cpjkdmx m,cpjkd,cpjkdje j where cpjkd.jkid=m.jkid and m.mxid=j.mxid  ".$filter;	
+		,gs,byg,cg ,'' as zyfs FROM cpjkdmx m,cpjkd,cpjkdje j where cpjkd.jkid=m.jkid and m.mxid=j.mxid  ".$filter;	
 		$sqlstr =$sqlstr. ") order by mxid,mxdh";	
     //return $sqlstr;
     
@@ -3002,7 +3003,7 @@ function cpckdmxlist_prt() {
 
 
 
-  $sqlstr ="SELECT '1' AS mxdh, cpckd.ckid,cm.ckmxid AS mxid,m.cdmc,m.cpmc,m.bzmc,
+  $sqlstr ="(SELECT '1' AS mxdh, cpckd.ckid,cm.ckmxid AS mxid,m.cdmc,m.cpmc,m.bzmc,
 		m.cpgg,m.cpph,m.sm,m.jldw ,0 AS czdj,
 		cw.cwsl AS ccsl,cw.cwzl AS cczl,
 		0 AS ccje,0 AS xjje,
@@ -3023,6 +3024,30 @@ AND cpckd.xsid = cpxsd.xsid ".$filter;
     
   
 
+		  $sqlstr .=" )	union 	all	 (";
+   
+   
+		  $sqlstr .=" 	SELECT '2' AS mxdh, cpckd.ckid, cm.ckmxid as mxid, '' AS cdmc, 
+		   j.work AS cpmc, '' AS bzmc,   '' AS cpgg,'' as cpph,'' as sm ,
+		 j.dw AS jldw,  j.dj AS czdj,  CASE    WHEN j.zljs = 1    THEN 0  ELSE j.sl  END AS ccsl,
+		 CASE WHEN j.zljs = 1  THEN j.sl  ELSE 0  END AS cczl, 
+		 CASE WHEN j.xjbz = 1  THEN 0  ELSE j.je  END AS ccje,
+		 CASE WHEN j.xjbz = 1  THEN j.je   ELSE 0 END AS xjje
+		 ,j.gs,j.byg,j.cg,j.jeid  ,'' AS AREA,'' AS cw 
+		 FROM
+		 cpxsdmx m,
+		 cpckd,
+		 cpckdje j,
+		 cpxsd,
+		 cpckdmx cm 
+		  WHERE cpckd.xsid = cpxsd.xsid 
+		 AND cpckd.ckid = cm.ckid
+		 AND cm.xsmxid=m.mxid and j.sl<>0  
+		 AND cm.ckmxid = j.ckmxid ".$filter;	
+			   $sqlstr .=") order by ckid,mxid,mxdh";
+		
+
+
 
 	$query = mysql_query($sqlstr);
 
@@ -3041,7 +3066,7 @@ function cpghdghmxlist_prt() {
   cw.cwsl AS ccsl,cw.cwzl AS cczl,
   0 AS ccje,0 AS xjje,
   '' AS gs,'' AS byg,'' AS cg,0 AS jeid,
-  cw.area ,cw.cw
+  cw.area ,cw.cw,'' as zyfs 
 	FROM wxcpghd,wxcpghdmx m ,(
 	SELECT  m.ghid,m.mxid,w.area,w.cw,SUM(w.sl) AS cwsl,SUM(w.zl) AS cwzl 
 FROM  wxcpghdcw w ,wxcpghdmx m,wxcpghd 
@@ -3057,11 +3082,11 @@ CASE WHEN j.zljs = 1  THEN 0  ELSE j.sl  END AS ccsl,
 CASE WHEN j.zljs = 1  THEN j.sl  ELSE 0  END AS cczl,
 CASE WHEN j.xjbz = 1  THEN 0  ELSE j.je  END AS ccje,
 CASE WHEN j.xjbz = 1  THEN j.je   ELSE 0 END AS xjje
-,j.gs,j.byg,j.cg,j.jeid,j.area,'' AS cw  
+,j.gs,j.byg,j.cg,j.jeid,j.area,'' AS cw  ,'' as zyfs
 FROM  wxcpghd,wxcpghdje j,wxcpghdmx m 
 WHERE wxcpghd.ghid = m.ghid 
 AND j.sl <>0  AND m.mxid = j.mxid ".$filter;
-
+   // return $sqlstr;
 	$query = mysql_query($sqlstr);
 
 	return getjsonstoredata($query, 0);

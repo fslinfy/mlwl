@@ -18,7 +18,7 @@ Ext.define('MyApp.model.WorkModel', {
 
     },
     {
-        name: 'Unit_price', type: 'int'
+        name: 'Unit_price', type: 'number'
     },
     {
         name: 'L_id', type: 'int'
