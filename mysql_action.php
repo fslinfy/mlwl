@@ -29,6 +29,10 @@ IF (($SE<1)  || (!$LoginUserName)  || $LoginUserName=="" )
 	echo "非法访问！";
 	return; 
 }
+
+//echo "非法访问！==".$LoginUserName;
+//return; 
+
 switch($act) {
 	case 'systemsetting' :
 		$retval = systemsetting();
@@ -9443,7 +9447,8 @@ function cpgfdmxsave() {
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $czy =$_SESSION['LoginUserName'] ;
+    //$czy =$_SESSION['LoginUserName'] ;
+	$czy =$o['username'] ;
     $s = base64_decode($str);
 
 	$o = json_decode($s);
@@ -9589,6 +9594,7 @@ function cpgfkdmxsave() {
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $czy =$_SESSION['LoginUserName'] ;
+	$czy =$o['username'] ;
     $s = base64_decode($str);
 
 	$o = json_decode($s);
@@ -10425,7 +10431,7 @@ function cpckdckshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	
 		
 	$loc = $_GET['loc'];
@@ -10501,7 +10507,7 @@ function cpckdcwshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	
 		
 	$loc = $_GET['loc'];
@@ -10577,7 +10583,7 @@ function cpckdshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -10641,7 +10647,7 @@ function cpghdghshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -10746,7 +10752,7 @@ function wxcpgfdshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -10899,7 +10905,7 @@ function cpghdckshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -10991,7 +10997,7 @@ function cpghdcwshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -11083,7 +11089,7 @@ function cptzdckshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-	
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -11149,8 +11155,9 @@ function cpjkdcwshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$_SESSION['LoginUserName']; //  $o['username'] ;
-				
+    $shr = $o['username'] ;
+			
+	//return $shr.'--'.$o['username'].'=='.base64_decode($shr) ;
 
 	if ($loc=="ok"){
 		$str = $_GET['data'];
@@ -11219,6 +11226,7 @@ function cptzdywshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -11290,6 +11298,7 @@ function cpjkdckshsave()
 		$o = json_decode($o, true);
     	//$shr =$o['username'] ;
 		$shr =$_SESSION['LoginUserName'];
+		$shr =$o['username'] ;
 	if ($loc=="ok"){	
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];  
@@ -11349,8 +11358,9 @@ function cpjkdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    //$shr =$o['username'] ;
-	$shr =$_SESSION['LoginUserName'];
+    $shr =$o['username'] ;
+	//$shr =$_SESSION['LoginUserName'];
+//return $shr.' --  '.$_SESSION['LoginUserName'].'=='.$o['username'];
 				
 
 	if ($loc=="ok"){
@@ -11491,6 +11501,7 @@ function cptzdcwshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update cptzd set ztbz=2";
 		$sqlstr .= " ,cwshrq=NOW(), cwsh='".$shr."' where  ztbz=1 and delbz=0  and tzid=".$tzid;
@@ -11525,6 +11536,8 @@ function cpjkdcwshsave_()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
+	//return $shr.'=='.$o['username'].'   -- '.base64_decode($_SESSION['LoginUserName']);
 	//if ($loc=="ok"){	
 		$sqlstr = " update cpjkd set ztbz=3";
 	//}else
@@ -11636,6 +11649,7 @@ function cpckdcwshsave_old()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
 	//if ($loc=="ok"){	
 		$sqlstr = " update cpckd set ztbz=3";
 	//}else
@@ -11663,6 +11677,7 @@ function cpxsdshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update cpxsd set ztbz=1";
 		$sqlstr .= ",shrq=NOW(), shr='".$shr."' where  ztbz=0 and delbz=0 and xsid=".$xsid;
@@ -11699,6 +11714,7 @@ function cpghdshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
+	$shr =$o['username'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update wxcpghd set ztbz=1";
 		$sqlstr .= ",khshrq=NOW(), khshr='".$shr."' where  ztbz=0 and delbz=0 and ghid=".$xsid;
@@ -11877,6 +11893,7 @@ function cktjjdsavenew() {
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $jby =$_SESSION['LoginUserName'] ;
+	$jby =$o['username'] ;
 	$l_id = $_GET['p_l_id'];
 	$ny = $_GET['ny'];
 	$yu = $_GET['yu'];
@@ -12878,7 +12895,7 @@ if ($loc=='sjsh')
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =$_SESSION['LoginUserName'] ;
-
+	$shr =$o['username'] ;
 	$sjid = $_GET['data'];
 	
 	$sql = "update cwsj set shzt=1,shrq=now(),shr='".$shr."' where shzt=0 and sjid=".$sjid;
