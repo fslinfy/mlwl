@@ -62,7 +62,8 @@ if ($khid>0){
       $_SESSION["VerifyCode"] = $code;
     
    	try {   
-     $templateId =106661;
+     //$templateId =106661;
+     $templateId =2125205;
 	   $params =array();//
      array_push($params,$code);
      array_push($params,5);

@@ -13,7 +13,6 @@
     defaults: {
         xtype: 'form',
         layout: 'anchor',
-
         bodyPadding: 10,
         style: {
             'margin-bottom': '20px'
@@ -68,14 +67,12 @@
         frame: true,
         bodyPadding: '10 10 0',
         reference: 'firstForm',
-
         defaults: {
             anchor: '100%',
             allowBlank: false,
             msgTarget: 'side',
             labelWidth: 50
         },
-
         items: [{
             xtype: 'textfield',
             fieldLabel: 'Name'
@@ -89,7 +86,6 @@
                 iconCls: 'file-uploads-image-add'
             }
         }],
-
         buttons: [{
             text: 'Save',
             handler: 'firstFormSave'
@@ -102,14 +98,12 @@
         frame: true,
         bodyPadding: '10 10 0',
         reference: 'secondForm',
-
         defaults: {
             anchor: '100%',
             allowBlank: false,
             msgTarget: 'side',
             labelWidth: 70
         },
-
         items: [{
             xtype: 'textfield',
             fieldLabel: 'Name'
@@ -130,7 +124,6 @@
             maxValue: 599,
             name: 'returnResponse'
         }],
-
         buttons: [{
             text: 'Save',
             handler: 'secondFormSubmit'
@@ -141,67 +134,61 @@
     }]
 });
 */
-
-
-Ext.define('MyApp.view.main.MSFieldFileImageContainer', {
-	extend: 'Ext.form.FieldContainer',
-	alias: 'widget.msFieldFileImageContainer',
-	imageWidth: 300,
-	notice: '',
-	layout: 'fit',
-	border: false,
-	items: [
-		{
-			xtype: 'form',
-			reference: 'uploadForm',
-			layout: {
-				type: 'vbox',
-				align: 'stretch'
-			},
-			bodyPadding: 10,
-
-
-
-			items: [
-				{
-					xtype: 'box',
-					flex: 1,
-					//width: 300,
-					//maxWidth: 300,
-					reference: 'imageShow',
-					autoEl: {
-						tag: 'img'
-						//style : 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);'  
-						//src: MoenSun.moensun.constant.Image.noPicture,
-						// onerror:"javascript:this.src='"+MoenSun.moensun.constant.Image.noPicture+"'"
-					}
-				},
-				{
-					xtype: 'filefield',
-					//flex:1,
-					height: 50,
-					width: 80,
-					buttonText: '',
-					buttonOnly: false,
-					//buttonText: '选择图片',
-					listeners: {
-						change: function (fileFiled, value, eOpts) {
-							var me = this;
-							var image = me.up().down('box').getEl().dom;
-							var hidden = me.up().down('hiddenfield');
-							var file = fileFiled.fileInputEl.dom.files.item(0);
-							var fileReader = new FileReader(value);
-							fileReader.readAsDataURL(file);
-							fileReader.onload = function (e) {
-								image.src = e.target.result;
-								hidden.setValue(e.target.result);
-							}
-
-							me.value = '';
-						}
-					}
-				}
-				/*,
+Ext.define("MyApp.view.main.MSFieldFileImageContainer", {
+  extend: "Ext.form.FieldContainer",
+  alias: "widget.msFieldFileImageContainer",
+  imageWidth: 300,
+  notice: "",
+  layout: "fit",
+  border: false,
+  items: [
+    {
+      xtype: "form",
+      reference: "uploadForm",
+      layout: {
+        type: "vbox",
+        align: "stretch",
+      },
+      bodyPadding: 10,
+      items: [
+        {
+          xtype: "box",
+          flex: 1,
+          //width: 300,
+          //maxWidth: 300,
+          reference: "imageShow",
+          autoEl: {
+            tag: "img",
+            //style : 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);'
+            //src: MoenSun.moensun.constant.Image.noPicture,
+            // onerror:"javascript:this.src='"+MoenSun.moensun.constant.Image.noPicture+"'"
+          },
+        },
+        {
+          xtype: "filefield",
+          //flex:1,
+          height: 50,
+          width: 80,
+          buttonText: "",
+          buttonOnly: false,
+          //buttonText: '选择图片',
+          listeners: {
+            change: function (fileFiled, value, eOpts) {
+              var me = this;
+              var image = me.up().down("box").getEl().dom;
+              var hidden = me.up().down("hiddenfield");
+              var file = fileFiled.fileInputEl.dom.files.item(0);
+              var fileReader = new FileReader(value);
+              fileReader.readAsDataURL(file);
+              fileReader.onload = function (e) {
+                image.src = e.target.result;
+                hidden.setValue(e.target.result);
+              };
+              me.value = "";
+            },
+          },
+        },
+        /*,
 				{
 					xtype: 'component',
 					hight: 70,
@@ -212,17 +199,18 @@ Ext.define('MyApp.view.main.MSFieldFileImageContainer', {
 					xtype: 'hiddenfield',
 					//	name: me.name
 				}*/
-			],
-			buttons: [{
-				text: '上传',
-				handler: 'btnUploadFormSave'
-			}, {
-				text: '放弃',
-				icon: "images/close.gif",
-				handler:'btnUploadFormCancel'
-			}]
-		}]
-
-
-
+      ],
+      buttons: [
+        {
+          text: "上传",
+          handler: "btnUploadFormSave",
+        },
+        {
+          text: "放弃",
+          icon: "images/close.gif",
+          handler: "btnUploadFormCancel",
+        },
+      ],
+    },
+  ],
 });

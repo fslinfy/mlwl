@@ -1,5 +1,5 @@
-﻿Ext.define('MyApp.view.main.cwgl.Cwworktj_Grid', {
-    extend: 'Ext.Mixin'
+﻿Ext.define("MyApp.view.main.cwgl.Cwworktj_Grid", {
+  extend: "Ext.Mixin",
 });
 /*
 createpivotgrid=function(op){
@@ -19,7 +19,6 @@ createpivotgrid=function(op){
       bodyPadding: 0,
       html: '<div style="width:'+w+';height:'+h+';padding:0 1 0 1;" id="griddivid'+gridTableName+'"> <table id="'+gridTableName+'" style="width:100%;"></table><div id="'+gridTableName+'Pager"></div></div>'
   });
-
   var panel=that.getView().down("#"+gridTableName+'gridPanelId');
    panel.removeAll();
    panel.add(griddiv)
@@ -45,13 +44,11 @@ createpivotgrid=function(op){
     }
     
   exportfilename=ny+"年"+yu+'月度'+workname+'工作量统计表.xlsx'; 
-
 var url='JQGRIDDATA.php?act=CwworktjLIST&loc=&bybz='+work+"&ny="+ny+"&yu="+yu+"&khid="+khid+"&p_l_id="+ckid+"&bz=&page=1&start=0&limit=25" ;  
   grid =jQuery("#"+gridTableName);
   //grid=that.getView().down("#"+gridTableName);
   //console.log(url,grid);
   grid.jqGrid('jqPivot',url,
-
   {
       xDimension: [
          // { dataName: "bz" , label: '   ',width:20 },
@@ -103,10 +100,7 @@ var url='JQGRIDDATA.php?act=CwworktjLIST&loc=&bybz='+work+"&ny="+ny+"&yu="+yu+"&
       rowList : ["10:10","20:20","30:30","10000:All"],
       pager: "#"+gridTableName+"Pager",
   });
-
 };*/
-
-
 /*
 editbeforeSubmit=function(postdata, formid) {
   return [true,''];
@@ -116,28 +110,21 @@ editAfterSubmit=function(resp, postdata) {
   alert(obj.data.msg);
   return true;
 };
-
 addAfterSubmit=function(resp, postdata) {
        var obj=JSON.parse(resp.responseText);
        alert(obj.data.msg);
        return true;
 };
-
 deleteAfterSubmit=function(resp, postdata) {
   var obj=JSON.parse(resp.responseText);
   alert(obj.data.msg);
   return true;
 };
-
 gridLoadComplete=function(data)
 {
  
 };
-
 onGridSelectRow=function(id)
 {
-
 };
 */
-
-

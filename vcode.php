@@ -11,7 +11,7 @@ $height = 30;
 $code = ' ';
 for ($i = 0; $i < $num; $i++)//生成验证码
 {
-	switch(rand(0,2)) {
+/*	switch(rand(0,2)) {
 		case 0 :
 			$code[$i] = chr(rand(48, 57));//数字
 			break;
@@ -22,7 +22,8 @@ for ($i = 0; $i < $num; $i++)//生成验证码
 		//	$code[$i] = chr(rand(97, 122));//小写字母
 			$code[$i] = chr(rand(48, 57));//数字
 			break;
-	}
+	}*/
+	$code[$i] = chr(rand(48, 57));//数字
 }
 //$code = '1234';
 $_SESSION["VerifyCode"] = $code;

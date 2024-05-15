@@ -217,6 +217,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdlocCtrl', {
         record['op'] = 'loc';
         record['gsop'] = true;
         record["w"] = 0;
+        that.ckdrecord=rec;
         var view = that.getView();
         that.isEdit = false;
         that.dialog = view.add({

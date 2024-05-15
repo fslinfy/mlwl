@@ -1,7 +1,6 @@
 ﻿var that;
 var khid = 0;
 var cpgfd_store;
-
 var gfdworkCallBack = function (node) {
     var rec = node.data;
     var p = that.popupmx;
@@ -9,13 +8,11 @@ var gfdworkCallBack = function (node) {
     if (rec.zljs == '1') {
         var dw = p.getViewModel().get('zldw');
         var sl = p.getViewModel().get('jczl');
-
     }
     else {
         var dw = p.getViewModel().get('sldw');
         var sl = p.getViewModel().get('jcsl');
     }
-
     if ((sl < 1) && (sl > 0)) {
         sl = 1;
     }
@@ -34,55 +31,38 @@ var gfdworkCallBack = function (node) {
         indj: rec.indj
     })
     sumjs(null, cpgfdmxje, p.getViewModel());
-
-
 }
 var packingCallBack = function (node) {
     console.log('packing------CallBack', node);
     //var p= this.lookupReference('popupcpgfWindow');
-
     var r = that.popupmx.getViewModel();
     r.set('bzmc', node.data.text);
     r.set('bzid', node.data.id);
-
     r.set('rate', node.data.rate);
-
     r.set('zljs', node.data.zljs);
-
     //  r.set('czdj', node.data.czdj);
     //  r.set('phdj', node.data.phdj);
-
     r.set('czdj', 0);
     r.set('phdj', 0);
-
     r.set('bydj', node.data.bydj);
     r.set('sldw', node.data.sldw);
     r.set('zldw', node.data.zldw);
-
-
     if (node.data.zljs == 1) {
         r.set('jldw', node.data.zldw);
     } else {
         r.set('jldw', node.data.sldw);
     }
-
-
 }
-
 Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.CpgfdCtrl',
     requires: [
         
-
          'MyApp.view.main.DataSave'
         , 'MyApp.view.main.report.PrintCpgfd'
      
-
-
     ],
     onBtnQueryClick: function (button, e, options) {
-
         this.getView().getStore().load();
         return false;
     },
@@ -126,8 +106,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         that = this;
         //console.log("init");
         //console.log(base64encode('8888'));
-
-
         cpgfd_store = Ext.create('Ext.data.Store', {
             extend: 'Ext.data.Store',
             alias: 'store.CpgfdStore',
@@ -138,10 +116,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                 id: 'CpgfdModel'
             }
         });
-
         // console.log("init  0");
-
-
         /*  cpgfd_store = Ext.create('Ext.data.Store', {
               extend: 'Ext.data.Store',
               alias: 'store.CpgfdStore',
@@ -155,7 +130,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
           });
           
           */
-
         var store = this.getView().getStore();
         store.on('beforeload', this.onBeforeReload, this);
         var tool = this.getView().down("#QueryToolbarView");
@@ -163,7 +137,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         tool.down('#btnDelete').setHidden(true);
         tool.down('#btnNew').setHidden(true);
         tool.down('#btnSave').setHidden(true);
-
         this.control({
             "#btnQueryCdmc": {
                 click: this.onSelectCdbmView
@@ -171,23 +144,19 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             "#btnQueryBzmc": {
                 click: this.onSelectBzbmView
             },
-
             "#btnQueryCpmc": {
                 click: this.SelectCpbmView
             },
-
             "#FilterField": {
                 change: this.onFilterChange
             }/*,
             "#btnJkspTreeAdd": {
                 change: this.onJkspSelectOkClick
             }*/
-
         });
         // console.log("init  2");
     },
     onUploadFile: function () {
-
         uploadWin = new Ext.Window({
             width: 600,
             height: 700,
@@ -204,7 +173,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             ]
         }).show();
     },
-
     onFilterChange: function (v) {
         var store = this.getView().getStore()
         var regExp = new RegExp(".*" + v.rawValue + ".*");
@@ -213,13 +181,9 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             return (regExp.test(record.get('C_name')) || regExp.test(record.get('C_shortname')) || regExp.test(record.get('C_code')) || regExp.test(record.get('Py_code')));
         });
     },
-
-
-
     onEditCpgfdmxClick: function (button) {
         this.createDialog(button.getWidgetRecord());
     },
-
     onshowEditView: function (button) {
         var rec = button.getWidgetRecord();
         // console.log("area",sys_location_area);
@@ -247,7 +211,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             cpgfd_store.sync();
             index = cpgfd_store.find('khid', khid);
             record = cpgfd_store.getAt(index);
-
         }
         record = record.data;
         if ((record['gfdh'] == '') || (!record['gfdh'])) {
@@ -275,10 +238,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         cpgfdmx.filter(
             { filterFn: function (item) { return item.get("gfdh") == gfdh; } }
         );
-
         var cpgfdcw_store = that.lookupReference('cpgfdmxcw0').getStore();
     },
-
     createDialog: function (record, gfdh) {
         var view = this.getView();
         system_khid = khid;
@@ -286,7 +247,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         this.isEdit_mx = !!record;
         if (!this.isEdit_mx) {
             record = {};
-
             this.editrecordID = 0;
             record['newrecord'] = true;
             record['mints'] = 1;
@@ -294,7 +254,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             record['khid'] = khid;
             record['mxdh'] = generateGUID();
             record['sfr'] = '';
-
             record['cphm'] = '';
             record['cdid'] = 0;
             record['cdmc'] = '';
@@ -303,13 +262,11 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             record['cpgg'] = '';
             record['bzid'] = 0;
             record['bzmc'] = '';
-
         } else {
             this.editrecordID = record['id'];
             record['newrecord'] = false;
             record['khid'] = khid;
             // console.log("this.recordID",this.recordID);
-
         }
         // console.log(record);
         record['title'] = '过货商品明细录入';
@@ -329,26 +286,18 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         cpgfdmxje.filter(
             { filterFn: function (item) { return item.get("mxdh") == mxdh; } }
         );
-
         this.dialog_mx.show();
-
-
     },
-
     onEditCpgfdmxClick: function (button) {
         this.createDialog(button.getWidgetRecord().data, null);
     },
-
-
     onshowmxEditView: function (record) {
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         this.createDialog(null, p.get('gfdh'));
     },
-
     onSelectCdbmView: function (record) {
         // console.log('onSelectCdbmView');
         treeSelect('cdmc', that, '', that.getView().down('#cpgfdmxedit'), false);
-
         return false;
     },
     onSelectBzbmView: function (record) {
@@ -356,15 +305,10 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         treeSelect('bzmc', that, '', that.getView().down('#cpgfdmxedit'), false);
         return false;
     },
-
     onSelectCpbmView: function (record) {
         treeSelect('cpmc', that, '', that.getView().down('#cpgfdmxedit'), false);
         return false;
     },
-
-
-
-
     onSelectWorkerView: function (button) {
         this.recordID = button.getWidgetRecord();
         var view = this.getView();
@@ -429,15 +373,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             selection.set('gs', gs.join(';'));
             selection.set('byg', by.join(';'));
             selection.set('cg', cg.join(';'));
-
             that.getView().down("#selectWorkerWindow").close();
         }
     },
     onWorkerSelectCanelClick: function () {
-
         this.getView().down("#selectWorkerWindow").close();
     },
-
     onRemoveCpgfdcwClick: function (button) {
         var store = this.lookupReference('cpgfdmxcw').getStore();
         store.remove(button.getWidgetRecord());
@@ -446,20 +387,15 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var store = this.lookupReference('cpgfdmxje').getStore();
         store.remove(button.getWidgetRecord());
     },
-
     onRemoveCpgfdmxClick: function (button) {
         var cpgfdmxGrid = this.lookupReference('CpgfdmxGrid');
         var store = cpgfdmxGrid.getStore();
         var selection = cpgfdmxGrid.getSelectionModel().getSelection()[0];
         selection.set('phdj', 15.9);
-
-
     },
     onCpgfdcwDeleteClick: function (button) {
-
         var customerGrid = this.lookupReference('cpgfdmxcw'),
             selection = customerGrid.getSelectionModel().getSelection()[0];
-
         var msg = "仓位：" + selection.get('cw') + "<br>数量：" + selection.get('sl') + "<br>单位：" + selection.get('dw') + "<br>重量：" + selection.get('zl');
         var abc = Ext.Msg.confirm('真的删除仓位内容？', msg, function (e) {
             if (e == 'yes') {
@@ -470,13 +406,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             }
         }
         );
-
-
-
     },
-
     onCpgfdjeDeleteClick: function (button) {
-
         var customerGrid = this.lookupReference('cpgfdmxje'),
             selection = customerGrid.getSelectionModel().getSelection()[0];
         var msg = "费用项目：" + selection.get('work') + "<br>数量：" + selection.get('sl') + "<br>单位：" + selection.get('dw') + "<br>单价：" + selection.get('dj') + "<br>金额:" + selection.get('je');
@@ -489,11 +420,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             }
         }
         );
-
-
     },
-
-
     onCpgfdmxFormSubmit: function () {
         var dialog = this.dialog_mx,
             form = this.lookupReference('windowFormmx'),
@@ -508,26 +435,20 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         //     return false;
         // 、、if (form.isValid()) {
         var rec = form.getValues();
-
-
         var gfdmx = {};
-
         var p = this.lookupReference('popupcpgfWindow').getViewModel();
         if ((p.get('bzid') == 0) || (p.get('cpid') == 0) || (p.get('cdid') == 0)) {
             Ext.MessageBox.alert('注意！', '请输入商品过货资料有误，请重进行商品选择！');
             return false;
         }
-
         gfdmx['bzid'] = p.get('bzid');
         gfdmx['bzmc'] = p.get('bzmc');
         gfdmx['cdmc'] = p.get('cdmc');
         gfdmx['cdid'] = p.get('cdid');
         gfdmx['cpid'] = p.get('cpid');
         gfdmx['cpmc'] = p.get('cpmc');
-
         gfdmx['mints'] = p.get('mints');
         gfdmx['cpgg'] = p.get('cpgg');
-
         gfdmx['sldw'] = p.get('sldw');
         gfdmx['zldw'] = p.get('zldw');
         gfdmx['jldw'] = p.get('jldw');
@@ -536,10 +457,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         gfdmx['phdj'] = p.get('phdj');
         gfdmx['zljs'] = p.get('zljs');
         gfdmx['bydj'] = p.get('bydj');
-
         gfdmx['mxdh'] = p.get('mxdh');
         gfdmx['gfdh'] = p.get('gfdh');
-
         if ((gfdmx['mints'] == '') || (gfdmx['mints'] == undefined)) gfdmx['mints'] = 0;
         if (!p.get('mxdh')) {
             gfdmx['mxdh'] = generateGUID();
@@ -549,19 +468,14 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var cpgfdcw_store = this.lookupReference('cpgfdmxcw').getStore();
         cpgfdcw_store.sync();
         var ret = 0;
-
         var i = 0, sumsl = 0, sumzl = 0, recs = 0;
         if (cpgfdcw_store.getCount() == 0) {
             Ext.MessageBox.alert('注意！', '输入仓位商品的过货数量及重量！');
-
             return false;
         }
-
         cpgfdcw_store.each(function (rec) {
             if ((rec.data.sl == 0) && (rec.data.zl == 0)) {
-
                 //  ret = 1;
-
                 //  return false;
             }
             else {
@@ -576,11 +490,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             Ext.MessageBox.alert('注意！', '输入仓位商品的过货数量及重量！');
             return false;
         }
-
-
         gfdmx['jcsl'] = sumsl;
         gfdmx['jczl'] = sumzl;
-
         if (i > 0) {
             gfdmx['cpgfdcw'] = arraycw;
         }
@@ -591,7 +502,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var sumxjje = 0;
         cpgfdje_store.each(function (rec) {
             if (rec.data.sl != 0) {
-
                 arrayje.push(rec.data);
                 sumzl = sumzl + rec.data.je;
                 if (rec.data.xjbz) {
@@ -633,30 +543,19 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         } else {
             cpgfdmx_store.add(gfdmx);
         }
-
         cpgfdmx_store.sync();
         this.getView().down("#cpgfdmxedit").close();
-
         return;
     },
     onCpgfdmxDeleteClick: function () {
-
-
-
-
-
-
         var cpgfdcw_store = this.lookupReference('cpgfdmxcw').getStore();
         var cpgfdje_store = this.lookupReference('cpgfdmxje').getStore();
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
-
         var p = this.lookupReference('popupcpgfWindow').getViewModel();
-
         var win = this.getView().down("#cpgfdmxedit");
         var mxdh = p.get('mxdh');
         var gfdh = p.get('gfdh');
         var msg = "商品名称：" + p.get('cpmc') + "<br>产地名称：" + p.get('cdmc') + "<br>包装规格：" + p.get('bzmc') + "<br>过货数量：" + p.get('jcsl');
-
         var abc = Ext.Msg.confirm('真的删除此货物过货内容？', msg, function (e) {
             if (e == 'yes') {
                 cpgfdje_store.filter(
@@ -676,7 +575,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                         }
                     }
                 })
-
                 cpgfdmx_store.sync();
                 //cpgfdmx_store.load();
                 win.close();
@@ -705,18 +603,14 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         })
         cpgfdmx_store.removeAll();
         cpgfdmx_store.sync();
-
         //cpgfd_store.filter(
         //    { filterFn: function (item) { return item.get("gfdh") == gfdh; } }
         //);
         cpgfd_store.clearFilter();
         cpgfd_store.removeAll();
-
         cpgfd_store.sync();
     },
-
     onCpgfdFormSubmit: function () {
-
         var dialog = this.dialog,
             form = this.lookupReference('windowForm'),
             isEdit = this.isEdit,
@@ -730,18 +624,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             Ext.MessageBox.alert('注意！', '请输入商品过货明细数据！');
             return false;
         }
-
-
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         var khid = p.get('khid');
         //console.log(p);
         var index = cpgfd_store.find('khid', khid);
-
         var rec = cpgfd_store.getAt(index);
-
   
-
-
         if (sys_location_areas>1) {
             if ((p.get('area')=="")||(p.get('area')==null)) {
                 Ext.MessageBox.alert('注意！', '请选择分区！');
@@ -753,35 +641,25 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         {
             rec.set('area', '');
         }
-
-
         rec.set('czy', sys_userInfo.username);
         rec.set('cnote', p.get('cnote'));
-
         rec.set('sfdh', p.get('sfdh'));
         rec.set('cphm', p.get('cphm'));
         rec.set('sfr', p.get('sfr'));
-
         
         cpgfd_store.sync();
         //  console.log('rece', rec.data);
-
         var cpgfd = rec.data;
         var gfdh = rec.get("gfdh");
         cpgfd['czrq'] = Ext.decode(Ext.encode(p.get('czrq')));
         cpgfd['gfrq'] = Ext.decode(Ext.encode(p.get('gfrq')));
-
         //     console.log(cpgfd['czrq'], Ext.encode(p.get('czrq')));
-
-
         var cpgfdcw_store = this.lookupReference('cpgfdmxcw0').getStore();
         if (cpgfdcw_store.getCount() == 0) {
             Ext.MessageBox.alert('注意！', '请输入商品过货仓位明细数量及重量！!');
             return false;
-
         }
         var cpgfdje_store = this.lookupReference('cpgfdmxje0').getStore();
-
         var i = 0, mxdh = '';
         var arraymx = [];
         var arraycw = [];
@@ -796,18 +674,13 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var recs = 0;
         cpgfdmx_store.each(function (recmx) {
             mxdh = recmx.get('mxdh');
-
             if ((recmx.get('cdid') == 0) || (recmx.get('cpid') == 0) || (recmx.get('bzid') == 0)) {
                 Ext.MessageBox.alert('注意！', '请输入商品过货资料有误，请重进行商品选择！');
                 return false;
             }
-
             if ((recmx.get('jcsl') == 0) && (recmx.get('jczl') == 0)) {
                 Ext.MessageBox.alert('注意！', '请输入商品过货数量及重量！');
-
                 return false;
-
-
             }
             arraycw = [];
             cpgfdcw_store.each(function (reccw) {
@@ -816,7 +689,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                         //   Ext.MessageBox.alert('注意！', '请输入商品过货明细数量及重量！');
                         //  ret = 1;
                         //  return false;
-
                     }
                     else {
                         arraycw.push(reccw.data);
@@ -837,9 +709,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                     sumje = sumje + recje.get('je');
                 }
             })
-
-
-
             recmx0['cpgfdje'] = arrayje;
             arraymx.push(recmx0);
         })
@@ -850,9 +719,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         if (recs == 0) {
             Ext.MessageBox.alert('注意！', '请输入商品过货仓位明细数量及重量！!');
             return false;
-
         }
-
         cpgfd['cpgfdmx'] = arraymx;
          console.log('gfd', cpgfd);
          return;
@@ -877,7 +744,6 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                     //console.log('gfdh=', result.dh);
                     //Ext.toast.msg("提示",'进库单已保存，单号是：'+result.gfdh);
                     Ext.MessageBox.alert('提示', '过货单已保存，单号是：' + result.dh);
-
                     that.DeletecpgfdAll(cpgfdmx_store, cpgfdcw_store, cpgfdje_store, gfdh);
                     that.getView().down("#cpgfdedit").close();
                 }
@@ -889,9 +755,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                 Ext.MessageBox.alert('错误!', '发生错误！');
             }
         });
-
     },
-
     sumje: function () {
      //   console.log(           "sumje"        );
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
@@ -902,14 +766,9 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     //    console.log( p.get('sl'), p.get('zl'), p.get('je'))
         if (p.get('xjbz')) {
             p.set('xjje') = cpgfdmx_store.sum("je");
-
         }else
         {
             p.set('xjje') =0;
         }
-
-
     }
-
 });
-

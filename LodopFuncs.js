@@ -1,5 +1,4 @@
 ﻿var CreatedOKLodop7766=null;
-
 //====判断是否需要安装CLodop云打印服务器:====
 function needCLodop(){
     try{
@@ -34,20 +33,17 @@ function needCLodop(){
         return false;
     } catch(err) {return true;};
 };
-
 //====页面引用CLodop云打印必须的JS文件：====
 if (needCLodop()) {
 	var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
 	var oscript = document.createElement("script");
 	oscript.src ="http://localhost:8000/CLodopfuncs.js?priority=1";
 	head.insertBefore( oscript,head.firstChild );
-
 	//引用双端口(8000和18000）避免其中某个被占用：
 	oscript = document.createElement("script");
 	oscript.src ="http://localhost:18000/CLodopfuncs.js?priority=0";
 	head.insertBefore( oscript,head.firstChild );
 };
-
 //====获取LODOP对象的主过程：====
 function getLodop(oOBJECT,oEMBED){
     var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
@@ -66,12 +62,9 @@ function getLodop(oOBJECT,oEMBED){
             document.documentElement.innerHTML='本系统完全谦容IE游览器，请使用FireFox或Chrome游览器。';
             document.documentElement.innerHTML= document.documentElement.innerHTML+'<br>点击这里下载<a href="http://www.firefox.com.cn/download/" target="_self">FireFox</a>浏览器安装。';
             document.documentElement.innerHTML= document.documentElement.innerHTML+'<br>点击这里下载<a href="http://www.chromeliulanqi.com/" target="_self">Chrome</a>浏览器安装。';
-
             
             return;
         }
-
-
         if (needCLodop()) {
             try{ LODOP=getCLodop();} catch(err) {};
 	    if (!LODOP && document.readyState!=="complete") {
@@ -89,7 +82,6 @@ function getLodop(oOBJECT,oEMBED){
 		// document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
                  return;
             } else {
-
 	         if (CLODOP.CVERSION<"2.1.0.2") { 
 		//	if (isIE) document.write(strCLodopUpdate); else
 		//	document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
@@ -133,9 +125,7 @@ function getLodop(oOBJECT,oEMBED){
             return LODOP;
         };
         //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
-
         //===========================================================
         return LODOP;
     } catch(err) {alert("getLodop出错:"+err);};
 };
-

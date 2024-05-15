@@ -31,6 +31,7 @@ Ext.define('MyApp.model.CpckdModel', {
         { name: 'shrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
         { name: 'ztbz', type: 'int' },
         { name: 'delbz', type: 'bool' },
+        { name: 'xjbz', type: 'bool' },
         { name: 'shbz', type: 'bool' }
     ]
 });

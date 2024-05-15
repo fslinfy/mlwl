@@ -19,7 +19,9 @@ Ext.define('MyApp.store.CustomerStore', {
         },
         extraParams: {
             userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
-            p_e_code: sys_enterprise_code
+            p_e_code: sys_enterprise_code,
+            allkh:1,
+            p_l_id:sys_location_id
         },
         reader: {
             type: 'json',

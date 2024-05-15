@@ -23,10 +23,7 @@
  *  Make batch actions faster
  *  Implement dynamic insertion through remote calls
  */
-
-
 (function($) {
-
 $.widget("ui.multiselect", {
   options: {
 		sortable: true,
@@ -56,12 +53,10 @@ $.widget("ui.multiselect", {
 		this.availableList = $('<ul class="available connected-list"><li class="ui-helper-hidden-accessible"></li></ul>').bind('selectstart', function(){return false;}).appendTo(this.availableContainer);
 		
 		var that = this;
-
 		// set dimensions
 		this.container.width(this.element.width()+1);
 		this.selectedContainer.width(Math.floor(this.element.width()*this.options.dividerLocation));
 		this.availableContainer.width(Math.floor(this.element.width()*(1-this.options.dividerLocation)));
-
 		// fix list height to match <option> depending on their individual header's heights
 		this.selectedList.height(Math.max(this.element.height()-this.selectedActions.height(),1));
 		this.availableList.height(Math.max(this.element.height()-this.availableActions.height(),1));
@@ -135,18 +130,15 @@ $.widget("ui.multiselect", {
 	destroy: function() {
 		this.element.show();
 		this.container.remove();
-
 		$.Widget.prototype.destroy.apply(this, arguments);
 	},
 	_populateLists: function(options) {
 		this.selectedList.children('.ui-element').remove();
 		this.availableList.children('.ui-element').remove();
 		this.count = 0;
-
 		var that = this;
 		var items = $(options.map(function(i) {
 	      var item = that._getOptionNode(this).appendTo(this.selected ? that.selectedList : that.availableList).show();
-
 			if (this.selected) that.count += 1;
 			that._applyItemState(item, this.selected);
 			item.data('idx', i);
@@ -177,7 +169,6 @@ $.widget("ui.multiselect", {
 	},
 	_setSelected: function(item, selected) {
 		item.data('optionLink')[ this.useProp ? 'prop' : 'attr' ]('selected', selected);
-
 		if (selected) {
 			var selectedItem = this._cloneWithData(item);
 			item[this.options.hide](this.options.animated, function() { $(this).remove(); });
@@ -190,7 +181,6 @@ $.widget("ui.multiselect", {
 			// look for successor based on initial option index
 			var items = this.availableList.find('li'), comparator = this.options.nodeComparator;
 			var succ = null, i = item.data('idx'), direction = comparator(item, $(items[i]));
-
 			// TODO: test needed for dynamic list populating
 			if ( direction ) {
 				while (i>=0 && i<items.length) {
@@ -247,11 +237,9 @@ $.widget("ui.multiselect", {
 			rows.show();
 		} else {
 			rows.hide();
-
 			cache.each(function(i) {
 				if (this.indexOf(term)>-1) { scores.push(i); }
 			});
-
 			$.each(scores, function() {
 				$(rows[this]).show();
 			});
@@ -313,7 +301,6 @@ $.widget("ui.multiselect", {
  	},
 	_registerSearchEvents: function(input) {
 		var that = this;
-
 		input.focus(function() {
 			$(this).addClass('ui-state-active');
 		})
@@ -337,6 +324,4 @@ $.extend($.ui.multiselect, {
 		itemsCount:'items selected'
 	}
 });
-
-
 })(jQuery);

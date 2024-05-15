@@ -1,7 +1,6 @@
-﻿Ext.define('MyApp.view.main.cpczgl.CpcztjlocGrid', {
-    extend: 'Ext.Mixin'
+﻿Ext.define("MyApp.view.main.cpczgl.CpcztjlocGrid", {
+  extend: "Ext.Mixin",
 });
-
 /*
 onGridComplete=function()
 {
@@ -35,24 +34,20 @@ editAfterSubmit=function(resp, postdata) {
     alert(obj.data.msg);
     return true;
 };
-
 addAfterSubmit=function(resp, postdata) {
          var obj=JSON.parse(resp.responseText);
          alert(obj.data.msg);
          return true;
 };
-
 deleteAfterSubmit=function(resp, postdata) {
     var obj=JSON.parse(resp.responseText);
     alert(obj.data.msg);
     return true;
 };
-
 gridLoadComplete=function(data)
 {
    
 };
-
 onGridSelectRow=function(id)
 {
  

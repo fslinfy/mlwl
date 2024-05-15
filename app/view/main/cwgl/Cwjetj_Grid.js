@@ -1,5 +1,5 @@
-﻿Ext.define('MyApp.view.main.cwgl.Cwjetj_Grid', {
-    extend: 'Ext.Mixin'
+﻿Ext.define("MyApp.view.main.cwgl.Cwjetj_Grid", {
+  extend: "Ext.Mixin",
 });
 /*
 onGridComplete=function()
@@ -31,7 +31,6 @@ onGridComplete=function()
       });
      
     };
-
     if (jelb==1){
       jQuery("#"+gridTableName).jqGrid('setGroupHeaders', {
           //useColSpanStyle: false, 
@@ -71,7 +70,6 @@ onGridComplete=function()
   
   
 };
-
 editbeforeSubmit=function(postdata, formid) {
     return [true,''];
 };
@@ -80,24 +78,20 @@ editAfterSubmit=function(resp, postdata) {
     alert(obj.data.msg);
     return true;
 };
-
 addAfterSubmit=function(resp, postdata) {
          var obj=JSON.parse(resp.responseText);
          alert(obj.data.msg);
          return true;
 };
-
 deleteAfterSubmit=function(resp, postdata) {
     var obj=JSON.parse(resp.responseText);
     alert(obj.data.msg);
     return true;
 };
-
 gridLoadComplete=function(data)
 {
    
 };
-
 onGridSelectRow=function(id)
 {
  

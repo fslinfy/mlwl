@@ -1,6 +1,17 @@
 ﻿<?php
 ini_set('display_errors', 'Off');
 include_once ('mysql_connect.php');
+// 设置此页面的过期时间(用格林威治时间表示)，只要是已经过去的日期即可。 
+header ( " Expires: Mon, 26 Jul 1970 05:00:00 GMT " );
+ // 设置此页面的最后更新日期(用格林威治时间表示)为当天，可以强制浏览器获取最新资料
+header ( " Last-Modified:" . gmdate ( " D, d M Y H:i:s " ). "GMT " );
+ 
+// 告诉客户端浏览器不使用缓存，HTTP 1.1 协议
+ header ( " Cache-Control: no-cache, must-revalidate " );
+ 
+ // 告诉客户端浏览器不使用缓存，兼容HTTP 1.0 协议
+header ( " Pragma: no-cache " );
+
 
 $act = $_GET['act'];
 if (!$act) {
@@ -8,9 +19,17 @@ if (!$act) {
 }
 $act = strtolower($act);
 $retval = '';
+session_start();
+ $LoginUserName=$_SESSION['LoginUserName'];
+ $LoginUserId=$_SESSION['LoginUserId'];
+
+$SE=get_seo();
+IF (($SE<1)  || (!$LoginUserName)  || $LoginUserName=="" )
+{
+	echo "非法访问！";
+	return; 
+}
 switch($act) {
-
-
 	case 'systemsetting' :
 		$retval = systemsetting();
 		break;
@@ -27,13 +46,27 @@ switch($act) {
 	case 'test' :
 		$retval = test();
 		break;
+		
 	case 'cpjkdmxsave' :
 		$retval = cpjkdmxsave();
 		break;
-	case 'cpgfdmxsave' :
+	case 'cpjkdjesave' :
+			$retval = cpjkdjesave();
+			break;
+	case 'cpckdjesave' :
+			$retval = cpckdjesave();
+			break;
+			case 'cpghdjesave' :
+				$retval = cpghdjesave();
+				break;
+				case 'cpgfdjesave' :
+					$retval = cpgfdjesave();
+					break;
+		
+			case 'cpgfdmxsave' :
 		$retval = cpgfdmxsave();
 		break;
-		case 'cpgfkdmxsave' :
+	case 'cpgfkdmxsave' :
 		$retval = cpgfkdmxsave();
 		break;
 		
@@ -956,6 +989,26 @@ if ($act == 'userlogin') {
     }
 }
 
+
+function get_referer(){
+	$url = $_SERVER["HTTP_REFERER"]; //获取完整的来路URL
+	$str = str_replace("http://","",$url); //去掉http://
+	$strdomain = explode("/",$str); // 以“/”分开成数组
+	$domain = $strdomain[0]; //取第一个“/”以前的字符
+	return $domain;
+}
+	 
+	//对于百度、谷歌搜索引擎来路判断
+function get_seo(){
+	$s = 0;
+	if(get_referer()=='localhost:8080'){
+	$s = 1;
+	}
+	else if(get_referer()=='fsminglian.com'){
+	$s = 1;
+	}
+	return $s;
+}
 function commoditytypetree() {
 	//$sqlstr=" SELECT CT_code as id,CT_name as text,P_CT_code as pid,1 as leaf  FROM commoditytype where active=1 and  L_id=".$_GET['p_l_id']." order by CT_code"  ;
 	//$query = mysql_query($sqlstr);
@@ -1031,20 +1084,40 @@ function customerlist() {
     $page=$_GET['page'] ;
 	$start=$_GET['start'] ;
 	$limit=$_GET['limit'] ;
-    $sqlstr = " SELECT C_id    FROM customer where E_code='" . $_GET['p_e_code'] . "' order by C_code";
-    $totalrow=mysql_numrows(mysql_query($sqlstr));
-	//return $totalrow;
-	$sqlstr = " SELECT *,C_id as id  FROM customer where E_code='" . $_GET['p_e_code'] . "'";
-
+	$p_l_id=$_GET['p_l_id'] ;
+	$active =1;
+	$allkh=1;
+	if (isset($_GET["active"]))
+	{
+     $active=$_GET['active'];
+	}
+	if (isset($_GET['allkh']))
+	{
+     $allkh=(int)$_GET['allkh'];
+	}
+    if ($allkh==1)
+	{
+   		$sqlstr = " SELECT C_id    FROM customer where E_code='" . $_GET['p_e_code'] . "' order by C_code";
+    	$totalrow=mysql_numrows(mysql_query($sqlstr));
+		$sqlstr = " SELECT *,C_id as id  FROM customer where E_code='" . $_GET['p_e_code'] . "'";
+	}else{
+		$sqlstr = " SELECT customer.C_id    FROM customer,cpkc where customer.l_id=cpkc.l_id and cpkc.l_id=".$p_l_id." and customer.E_code='" . $_GET['p_e_code'] . "' order by customer.C_code";
+		$totalrow=mysql_numrows(mysql_query($sqlstr));
+		$sqlstr = " SELECT distinct  customer.*,C_id as id  FROM customer,cpkc where customer.l_id=cpkc.l_id and cpkc.l_id=".$p_l_id." and customer.E_code='" . $_GET['p_e_code'] . "'";
+	}
 	if (isset($_GET["CustomerDj"]))
 	{
-		$sqlstr .= " and Aloneprice=1 ";
+		$sqlstr .= " and customer.Aloneprice=1 and customer.active=1 ";
+	}else{
+		$sqlstr .= " and customer.active=".$active ;
 	}
-
-
-    $sqlstr .= "  order by C_code   limit ".$start.",".$limit ;    
+	if ($allkh !=1 )
+	{
+		$sqlstr .= " group by  customer.c_id";
+	}
+    $sqlstr .= "  order by customer.C_code   limit ".$start.",".$limit ;    
 	//a.Aloneprice=1 and 
-
+   // return $allkh.'  '. $sqlstr;
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, $totalrow);
 }
@@ -1651,7 +1724,6 @@ function customerselecttreelist() {
 function locationselecttreelist() {
 	$p_e_code =$_GET['p_e_code'];
 	$loc=$_GET['loc'];
-	
 	$sqlstr = "SELECT L_code AS code, L_name AS text  ,L_id  AS id";
 	$sqlstr = $sqlstr . " FROM location WHERE   Active=1 ";
 	
@@ -2245,7 +2317,12 @@ function unitslist() {
 
 function produceslist() {
 
-	$sqlstr = " SELECT * ,P_id as id FROM produces where E_code='" . $_GET['p_e_code'] . "' order by P_code";
+	$active =1;
+	if (isset($_GET["active"]))
+	{
+     $active=$_GET['active'];
+	}
+	$sqlstr = " SELECT * ,P_id as id FROM produces where E_code='" . $_GET['p_e_code'] . "' and active=" . $active . "  order by P_code";
 	//return $sqlstr;
 	$query = mysql_query($sqlstr);
 	return getjsonstoredata($query, 0);
@@ -2401,6 +2478,7 @@ function cpjkdmxlist_pc() {
   0 AS jeid,
   m.cdmc,
   m.cpmc,
+  m.bzid,
   m.bzmc,
   m.cpgg,
   cw.cw,
@@ -2420,21 +2498,17 @@ FROM
   cpjkd, 
   cpjkdcw cw
 WHERE cpjkd.jkid = m.jkid AND m.mxid=cw.mxid  ".$filter;
-     	//$sqlstr =$sqlstr. ") union all ( SELECT '2' as mxdh,m.jkid,m.mxid,j.jeid,'' as cdmc,j.work as cpmc,'' as bzmc,'' as cpgg,''  as cw,'' as cpph,j.dw as jldw,case when j.zljs=1 then 0 else j.sl end as  jcsl , ";
-		//$sqlstr =$sqlstr. " case when j.zljs=1 then j.sl else 0 end  as  jczl ,j.dj as czdj,case when j.xjbz=1 then 0 else j.je end  as  jcje ,case when j.xjbz=1 then j.je else 0 end  as  xjje 
-		//,gs,byg,cg FROM cpjkdmx m,cpjkd,cpjkdje j where cpjkd.jkid=m.jkid and m.mxid=j.mxid  ".$filter;	
-		//$sqlstr =$sqlstr. ") order by mxid,mxdh";
    }
    else
    {	
 
 
-	$sqlstr = " (SELECT '1' as mxdh, m.jkid,m.mxid,0 as jeid,m.cdmc,m.cpmc,m.bzmc,m.cpgg,'' as cw,'' as cpph,m.jldw,m.jcsl,m.jczl,m.czdj,0 as jcje,0 as xjje 
+	$sqlstr = " (SELECT '1' as mxdh, m.jkid,m.mxid,0 as jeid,m.cdmc,m.cpmc,m.bzid,m.bzmc,m.cpgg,'' as cw,'' as cpph,m.jldw,m.jcsl,m.jczl,m.czdj,0 as jcje,0 as xjje 
      	,'' as gs,'' as byg,'' as cg ,'' as zyfs FROM cpjkdmx m,cpjkd where cpjkd.jkid=m.jkid  ".$filter;
     
     	
    }
-    	$sqlstr =$sqlstr. ") union all ( SELECT '2' as mxdh,m.jkid,m.mxid,j.jeid,'' as cdmc,j.work as cpmc,'' as bzmc,'' as cpgg,''  as cw,'' as cpph,j.dw as jldw,case when j.zljs=1 then 0 else j.sl end as  jcsl , ";
+    	$sqlstr =$sqlstr. ") union all ( SELECT '2' as mxdh,m.jkid,m.mxid,j.jeid,'' as cdmc,j.work as cpmc,0 as bzid,'' as bzmc,'' as cpgg,''  as cw,'' as cpph,j.dw as jldw,case when j.zljs=1 then 0 else j.sl end as  jcsl , ";
 		$sqlstr =$sqlstr. " case when j.zljs=1 then j.sl else 0 end  as  jczl ,j.dj as czdj,case when j.xjbz=1 then 0 else j.je end  as  jcje ,case when j.xjbz=1 then j.je else 0 end  as  xjje 
 		,gs,byg,cg ,'' as zyfs FROM cpjkdmx m,cpjkd,cpjkdje j where cpjkd.jkid=m.jkid and m.mxid=j.mxid  ".$filter;	
 		$sqlstr =$sqlstr. ") order by mxid,mxdh";	
@@ -2634,9 +2708,9 @@ function cpckdmxlist_pc() {
    
    
   $sqlstr = "(SELECT '1' AS mxdh, ck.ckid,ck.mxid,ck.cdmc,ck.cpmc,ck.bzmc,ck.cpgg,ck.cpph,ck.sm,ck.jldw,
-  		0 as czdj,ck.ccsl,ck.cczl ,cw.cwsl,cw.cwzl,0 as ccje,0 as xjje,gs,byg,cg,jeid   from   
+  		0 as czdj,ck.ccsl,ck.cczl ,cw.cwsl,cw.cwzl,0 as ccje,0 as xjje,gs,byg,cg,jeid,bzid,xjbz   from   
 		( SELECT '1' AS mxdh, cpckd.ckid,cm.ckmxid as mxid,m.cdmc,m.cpmc,m.bzmc,m.cpgg,m.cpph,m.sm,m.jldw ,
-		'' as gs,'' as byg,'' as cg,0 as jeid,cm.ccsl,cm.cczl 
+		'' as gs,'' as byg,'' as cg,0 as jeid,cm.ccsl,cm.cczl ,m.bzid,cpxsd.xjbz
   		FROM cpxsdmx m,cpckd,cpxsd,cpckdmx cm  
   		WHERE cpckd.xsid = m.xsid AND cpxsd.xsid = m.xsid and cm.ckid=cpckd.ckid 
   		and cm.xsmxid=m.mxid  ".$filter;
@@ -2692,7 +2766,7 @@ AND cpckd.xsid = cpxsd.xsid AND CPCKD.CKID=4652
   CASE WHEN j.zljs = 1  THEN j.sl  ELSE 0  END AS cczl,0 as cwsl,0 as cwzl, 
   CASE WHEN j.xjbz = 1  THEN 0  ELSE j.je  END AS ccje,
   CASE WHEN j.xjbz = 1  THEN j.je   ELSE 0 END AS xjje
-  ,j.gs,j.byg,j.cg,j.jeid  
+  ,j.gs,j.byg,j.cg,j.jeid  ,m.bzid,cpxsd.xjbz
   FROM
   cpxsdmx m,
   cpckd,
@@ -2705,7 +2779,7 @@ AND cpckd.xsid = cpxsd.xsid AND CPCKD.CKID=4652
   AND cm.ckmxid = j.ckmxid ".$filter;	
 		$sqlstr .=") order by ckid,mxid,mxdh";
   
-  //return $sqlstr;
+//  return $sqlstr;
     
 	$query = mysql_query($sqlstr);
 
@@ -3170,7 +3244,7 @@ function cpjkdlist_pc() {
 		//$sqlstr = " SELECT cpjkd.*,cpjkd.jkid as id,location.L_name as ckmc,location.Address FROM cpjkd,location  where location.L_id=cpjkd.L_id ".$filter;
 	if ($loc=="cpjksploc")
 	{
-	    $sqlstr = "SELECT cpjkd.khmc,cpjkd.czrq,w.cdmc,w.cpmc,w.bzmc,w.cpgg,cw.cpph,w.jldw,cpjkd.jkdh  as dh,cw.sl aS sl,cw.zl AS zl,location.l_name AS ckmc
+	    $sqlstr = "SELECT cpjkd.khmc,cpjkd.czrq,w.cdmc,w.cpmc,w.bzmc,w.cpgg,cw.cpph,w.jldw,cpjkd.jkdh  as dh,cw.sl aS sl,cw.zl AS zl,location.l_name AS ckmc,cpjkd.ztbz
     FROM   CPJKDMX W,   cpjkd,location  ,cpjkdcw cw
     WHERE cpjkd.jkid = w.jkid and w.mxid=cw.mxid
 	AND cpjkd.L_id=location.`L_id` ". $filter ;
@@ -3680,8 +3754,8 @@ function cpghdghlist_pc() {
 		
 		if ($loc=="cpcksploc")
 			{
-				$sqlstr = "SELECT cpxsd.khmc,cpckd.ckrq as czrq,xm.cdmc,xm.cpmc,xm.bzmc,xm.cpgg,xm.cpph,
-				xm.jldw,cpckd.ckdh  as dh,m.ccsl aS sl,m.cczl AS zl,location.l_name AS ckmc
+				$sqlstr = "SELECT cpxsd.khid,cpxsd.khmc,cpckd.ckrq as czrq,xm.cdmc,xm.cpmc,xm.bzmc,xm.cpgg,xm.cpph,
+				xm.jldw,cpckd.ckdh  as dh,m.ccsl aS sl,m.cczl AS zl,location.l_name AS ckmc,cpxsd.xjbz
 			FROM   CPxsdmx xm, cpckd,cpckdmx m,cpxsd,location  
 			WHERE cpxsd.xsid=xm.xsid and  cpckd.ckid = m.ckid 
 			and   cpxsd.xsid=cpckd.xsid and xm.mxid=m.xsmxid
@@ -3691,9 +3765,9 @@ function cpghdghlist_pc() {
 			{
 		
 		$sqlstr = "SELECT d.ckid,d.xsid,d.ckrq,d.czy,d.thr,d.ztbz,d.cnote,d.shr,d.delbz,d.xsrq,d.xsdh,
-		d.rq,d.shrq,d.ckdh,d.cwsh,d.cwshrq,d.cphm,d.ckcl,d.ckzt,d.cgy,d.l_id,d.ckmc,d.khmc,
+		d.rq,d.shrq,d.ckdh,d.cwsh,d.cwshrq,d.cphm,d.ckcl,d.ckzt,d.cgy,d.l_id,d.ckmc,d.khmc,d.khid,d.xjbz,
 		cw.* FROM (
-		SELECT cpckd.* ,cpxsd.l_id,cpxsd.ckmc,cpxsd.khmc,cpxsd.xsrq,cpxsd.xsdh FROM CPCKD  
+		SELECT cpckd.* ,cpxsd.l_id,cpxsd.ckmc,cpxsd.khmc,cpxsd.khid,cpxsd.xsrq,cpxsd.xsdh,cpxsd.xjbz FROM CPCKD  
 		INNER JOIN cpxsd  ON (cpckd.xsid = cpxsd.xsid) where cpckd.ckid>0 ". $filter ; 
 		
 		$sqlstr .= ") d LEFT OUTER JOIN  (
@@ -5634,22 +5708,25 @@ function cpkclist_pc() {
 	{
 	  if ($loc=='cpkckhloc')
 	  {
-	     $sqlstr=" SELECT  c.*,
- 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
+	     $sqlstr=" SELECT c.*,  CASE WHEN c.kdsl <0 THEN 0 ELSE c.kdsl END AS kdsl,CASE WHEN c.kdzl <0 THEN 0 ELSE c.kdzl END AS kdzl,
+		 CASE WHEN c.kdsl <0 THEN mx.sl ELSE mx.sl-c.kdsl END AS sl,CASE WHEN c.kdzl <0 THEN mx.zl ELSE mx.zl-c.kdzl END AS zl,
+ 		 ck.L_name AS ckmc, kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
 		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
 	  }
 	  else
 	  {
-	     $sqlstr=" SELECT  c.*,
- 		 ck.L_name AS ckmc, mx.sl-c.kdsl AS sl,mx.zl-c.kdzl AS zl,kh.c_name AS khmc,kh.c_shortname AS khjc,
+	     $sqlstr=" SELECT c.*,  
+		 CASE WHEN c.kdsl <0 THEN 0 ELSE c.kdsl END AS kdsl,CASE WHEN c.kdzl <0 THEN 0 ELSE c.kdzl END AS kdzl,
+		 CASE WHEN c.kdsl <0 THEN mx.sl ELSE mx.sl-c.kdsl END AS sl,CASE WHEN c.kdzl <0 THEN mx.zl ELSE mx.zl-c.kdzl END AS zl,
+ 		 ck.L_name AS ckmc, kh.c_name AS khmc,kh.c_shortname AS khjc,
  		 cd.p_name AS cdmc,cp.S_name AS cpmc ,bz.PS_name AS bzmc ,mx.sl AS kcsl,  mx.zl AS kczl  
 		 FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,location ck, 
 		 (SELECT kcid,SUM(sl) AS sl ,SUM(zl) AS zl FROM cpkcmx ";
 	  }
 
-	     $sqlstr .=" where cpkcmx.sl<>0 ";
+	     $sqlstr .=" where (cpkcmx.sl<>0 OR cpkcmx.Zl<>0) ";
 
 		 if ($_GET["area"])
     	  {
@@ -5665,7 +5742,7 @@ function cpkclist_pc() {
 	}
 	else
 	{
-      $sqlstr = " SELECT c.*,ck.L_name as ckmc,kh.c_name as khmc,
+      $sqlstr = " SELECT c.*,CASE WHEN c.kdsl <0 THEN 0 ELSE c.kdsl END AS kdsl,CASE WHEN c.kdzl <0 THEN 0 ELSE c.kdzl END AS kdzl,ck.L_name as ckmc,kh.c_name as khmc,
       kh.c_shortname as khjc,cd.p_name as cdmc,cp.S_name as cpmc ,bz.PS_name as bzmc ";
       $sqlstr .= " ,mx.id as kcmxid,mx.area,mx.cw,mx.czdj,mx.sl,mx.zl,mx.sm,mx.mints,mx.czrq 
       FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx mx ,location ck";
@@ -5932,7 +6009,12 @@ function cpghdcwlist_pc(){
 function packinglist($optype) {
 	
 	$optype =$_GET['optype'];
-		
+	$active =1;
+	if (isset($_GET["active"]))
+	{
+     $active=$_GET['active'];
+	}
+			
 	switch($optype) 
 	{case 'location' :
 		$lid =(int)$_GET['p_l_id'];
@@ -5944,7 +6026,7 @@ function packinglist($optype) {
 		c.*
 		FROM packing a LEFT OUTER JOIN (
 		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts,Bytcdj,Gstcdj,Cgtcdj  
-		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where a.xmlb=0  and  E_code='".$_GET['p_e_code']."'";
+		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where a.xmlb=0  and  E_code='".$_GET['p_e_code']."' and a.active=1 ";
 	   break;
 	 case 'gfgl' :
 		$lid =(int)$_GET['p_l_id'];
@@ -5956,7 +6038,7 @@ function packinglist($optype) {
 		c.*
 		FROM packing a LEFT OUTER JOIN (
 		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,id,mints,czts,Bytcdj,Bytcdjt,Gstcdj,Cgtcdj  
-		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where  a.xmlb=1  and  E_code='".$_GET['p_e_code']."'";
+		FROM packing_l WHERE  L_id=".$lid." ) c ON a.PS_id=c.Pid where  a.xmlb=1  and  E_code='".$_GET['p_e_code']."'  and a.active=1 ";
 	   break;	   
 	 case 'customer' :
 		$khid =(int)$_GET['khid'];
@@ -5969,7 +6051,7 @@ function packinglist($optype) {
 		FROM V_packing_L a LEFT OUTER JOIN (
 		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,czts  
 		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
-		where  a.L_id=".$lid." and  a.E_code='".$_GET['p_e_code']."'";
+		where  a.L_id=".$lid." and  a.E_code='".$_GET['p_e_code']."'  and a.active=1";
 		
 		/*$sqlstr = "SELECT `PS_id`,`PS_name`,`Quantity_Unit`,`Weight_Unit`,`PS_shortname`,`Rate`,
 	    `Weight_Status`,`PS_code`,`Active`,`E_code`, 
@@ -5983,10 +6065,11 @@ function packinglist($optype) {
 	break;
 	default:
 		$sqlstr = " SELECT * ,PS_id as id  FROM packing where E_code='" . $_GET['p_e_code'] . "'";
-		if ($_GET['active']) {
-			$sqlstr = $sqlstr . " and Active=" . $_GET['active'];
-		}
-		$sqlstr = $sqlstr . "   order by PS_code ";
+	//	if ($_GET['active']) {
+	//		$sqlstr = $sqlstr . " and Active=" . $_GET['active'];
+	//	}
+	    $sqlstr .= " and Active=" . $active;
+		$sqlstr .=  "   order by PS_code ";
 	break;
 	}
 
@@ -6088,6 +6171,12 @@ WHERE editbz=1 AND l_id=".$lid." AND E_code='".$E_code."') packing";
 
 function commoditylist_pc() {
 
+	$active =1;
+	if (isset($_GET["active"]))
+	{
+     $active=$_GET['active'];
+	}
+
 	$sqlstr = "select CT.Quantity_Unit,CT.Weight_Unit,C.*,T.T_id,CT.CT_name FROM commodity C ,commoditytype CT,type T ";
 
 	$sqlstr = "select C.*,T.T_id,C.S_id as id,CT_name FROM commodity C ,commoditytype CT,type T ";
@@ -6097,9 +6186,9 @@ function commoditylist_pc() {
 	if ($_GET['displayall']) {
 		$all = $_GET['displayall'];
 	}
-
+	$sqlstr = $sqlstr . " and  C.Active =". $active; 
 	if ($all == "0") {
-		$sqlstr = $sqlstr . " and T.Active=1 and  CT.Active=1 and C.Active =1 ";
+		$sqlstr = $sqlstr . " and T.Active=1 and  CT.Active=1 ";
 	}
 
 	if ($_GET['CT_id'] != '0') {
@@ -8886,6 +8975,7 @@ function cpjkdmxsave() {
 		   $cpjkdjestr .= ")";
 		
 			mysql_query($cpjkdjestr);
+			
 			if (mysql_errno() > 0) {
 				mysql_query('rollback');
 				return '{result:"fail",msg:"费用数据保存失败!" }';
@@ -8908,7 +8998,444 @@ function cpjkdmxsave() {
 	}
 }
 
+function cpjkdjesave() {
+	//return "sdfsfhsdfhsdfkhdskf";
+	
+	/*$headers = array();
+    foreach($_SERVER as $key => $value) {
+        if (substr($key, 0, 5) <> 'HTTP_') {
+            continue;
+        }
+        $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+        $headers[$header] = $value;
+    }
+	var_dump($headers);
+	return "";
+*/
+/*	$cookies = explode('; ', $_SERVER['HTTP_COOKIE']);
+    $allCookies = [];
 
+    foreach($cookies as $cookie) {
+        $keyAndValue = explode('=', $cookie);
+        $allCookies[$keyAndValue[0]] = $keyAndValue[1];
+    }
+
+    var_dump(urldecode(json_encode($allCookies)));
+//urldecode(json_encode(
+   return urldecode(json_encode( $allCookies['ext-sys_enterprise_name']));
+*/
+	
+	$jeid='';
+	if (isset($_GET['jeid']))
+	{
+     $jeid=$_GET['jeid'];
+	}
+	
+	$loc='';
+	if (isset($_GET['loc']))
+	{
+     $loc=$_GET['loc'];
+	}
+
+    if ($jeid>'' && $loc != 'workersave')
+	{
+			$cpjkdjedel = " delete from cpjkdje where jeid=".$jeid;
+			mysql_query($cpjkdjedel);
+			if (mysql_errno() > 0) {
+				return '{result:"fail",msg:"费用数据删除失败!"}';
+			}else{
+				return '{result:"success",msg:"费用数据删除成功!"}';
+			}
+	  
+	}
+    
+
+
+	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+	$cpjkdje = $o['cpjkdje'];
+	if ($loc=='workersave') 
+	{
+		foreach ($cpjkdje as $jerow) {	
+	 		 $cpjkdjedel = "update  cpjkdje set byg='".$jerow['byg']."', gs='".$jerow['gs']."', cg='".$jerow['cg']."'  where jeid=".$jeid;
+	  		 mysql_query($cpjkdjedel);
+	  		 if (mysql_errno() > 0) {
+		  			return '{result:"fail",msg:"作业人员数据保存失败!"}';
+	  		 }else{
+		  			return '{result:"success",msg:"作业人员数据保存成功!"}';
+	  		  }
+	    }
+	}
+	$L_id = $_GET['p_l_id'];  
+	$i = 0;
+	$sumjcsl = 0;
+	$sumjczl = 0;
+	$sumjcje = 0;
+	$jeid=0;
+	mysql_query('start transaction');
+		foreach ($cpjkdje as $jerow) {
+			$cpjkdjestr = " insert into cpjkdje (work,byg,gs,cg,dw,sl,dj,je,workid,mxid,xjbz,zljs,inbz,indj)";
+			$cpjkdjestr .= " values ('" . $jerow['work']. "','" . $jerow['byg']. "','" . $jerow['gs']. "','" . $jerow['cg'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je'];
+			$cpjkdjestr .= "," . $jerow['workid'] ;
+		    $cpjkdjestr .= "," .  $jerow['mxid'] ;
+		   $cpjkdjestr .= "," .($jerow['xjbz']?'1':'0') ;
+		   $cpjkdjestr .= "," .($jerow['zljs']?'1':'0') ;
+		   $cpjkdjestr .= "," .($jerow['inbz']?'1':'0') ;
+		   $cpjkdjestr .= "," .($jerow['indj']?'1':'0') ; 
+		   $cpjkdjestr .= ")";
+		
+			mysql_query($cpjkdjestr);
+			$jeid=mysql_insert_id();
+			if (mysql_errno() > 0) {
+				mysql_query('rollback');
+				//return $cpjkdjestr;
+				return '{result:"fail",msg:"费用数据保存失败!" }';
+				//return '费用数据保存失败!!' . $cpjkdjestr;
+				break;
+			}
+		}	
+	
+
+
+	mysql_query('commit');
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+		//return $cpjkdjestr;
+		return '{result:"fail",msg:"数据保存失败!" }';
+		//return '数据保存失败!!!';
+	} 
+	else 
+	{
+		return '{result:"success",msg:"费用数据保存成功!",jeid:'.$jeid.' }';
+	}
+}
+
+function cpckdjesave() {
+	$jeid='';
+	if (isset($_GET['jeid']))
+	{
+     $jeid=$_GET['jeid'];
+	}
+	
+	$loc='';
+	if (isset($_GET['loc']))
+	{
+     $loc=$_GET['loc'];
+	}
+	
+	  
+
+
+    if ($jeid>'' && $loc != 'workersave')
+	{
+		$cpckdjedel = " delete from cpckdje where jeid=".$jeid;
+	
+		mysql_query($cpckdjedel);
+		if (mysql_errno() > 0) {
+			return '{result:"fail",msg:"费用数据删除失败!'.$cpckdjedel.'"}';
+		}else{
+			return '{result:"success",msg:"费用数据删除成功!'.$cpckdjedel.'"}';
+		}
+	  
+	}
+    
+
+
+	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+	$cpckdje = $o['cpckdje'];
+	if ($loc=='workersave') 
+	{
+		foreach ($cpckdje as $jerow) {	
+	 		 $cpckdjedel = "update  cpckdje set byg='".$jerow['byg']."', gs='".$jerow['gs']."', cg='".$jerow['cg']."'  where jeid=".$jeid;
+	  		 mysql_query($cpckdjedel);
+	  		 if (mysql_errno() > 0) {
+		  			return '{result:"fail",msg:"作业人员数据保存失败!'.$cpckdjedel.'"}';
+	  		 }else{
+		  			return '{result:"success",msg:"作业人员数据保存成功!'.$cpckdjedel.'"}';
+	  		  }
+	    }
+	}
+
+
+
+	$L_id = $_GET['p_l_id'];  
+	$i = 0;
+	
+
+	$sumjcsl = 0;
+	$sumjczl = 0;
+	$sumjcje = 0;
+	$jeid=0;
+	
+
+
+
+
+	mysql_query('start transaction');
+		foreach ($cpckdje as $jerow) {
+		$cpckdjestr = " insert into cpckdje (work,byg,gs,cg,dw,sl,dj,je,xjje,workid,ckmxid,xjbz,zljs,inbz,indj)";
+		$cpckdjestr .= " values ('" . $jerow['work']. "','" . $jerow['byg']. "','" . $jerow['gs']. "','" . $jerow['cg'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $jerow['xjje'];
+		$cpckdjestr .= "," . $jerow['workid'] ;
+	    $cpckdjestr .= "," .  $jerow['mxid'] ;
+	    $cpckdjestr .= "," .($jerow['xjbz']?'1':'0') ;
+	    $cpckdjestr .= "," .($jerow['zljs']?'1':'0') ;
+	    $cpckdjestr .= "," .($jerow['inbz']?'1':'0') ;
+	    $cpckdjestr .= "," .($jerow['indj']?'1':'0') ; 
+	    $cpckdjestr .= ")";
+		
+			mysql_query($cpckdjestr);
+			$jeid=mysql_insert_id();
+			if (mysql_errno() > 0) {
+				mysql_query('rollback');
+				//return $cpckdjestr;
+				return '{result:"fail",msg:"费用数据保存失败!" }';
+				//return '费用数据保存失败!!' . $cpckdjestr;
+				break;
+			}
+		}	
+	mysql_query('commit');
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败!" }';
+	} 
+	else 
+	{
+		return '{result:"success",msg:"费用数据保存成功!",jeid:'.$jeid.' }';
+	}
+}
+function cpghdjesave() {
+	$jeid='';
+	if (isset($_GET['jeid']))
+	{
+     $jeid=$_GET['jeid'];
+	}
+	$loc='';
+	if (isset($_GET['loc']))
+	{
+     $loc=$_GET['loc'];
+	}
+	
+	  
+
+
+    if ($jeid>'' && $loc != 'workersave')
+	{
+		$cpghdjedel = " delete from wxcpghdje where jeid=".$jeid;
+		mysql_query($cpghdjedel);
+		if (mysql_errno() > 0) {
+			return '{result:"fail",msg:"费用数据删除失败!"}';
+		}else{
+			return '{result:"success",msg:"费用数据删除成功!"}';
+		}
+	
+	  
+	}
+    
+
+
+	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+	$cpghdje = $o['cpghdje'];
+	if ($loc=='workersave') 
+	{
+		foreach ($cpghdje as $jerow) {	
+	 		 $cpghdjedel = "update  wxcpghdje set byg='".$jerow['byg']."', gs='".$jerow['gs']."', cg='".$jerow['cg']."'  where jeid=".$jeid;
+	  		 mysql_query($cpghdjedel);
+	  		 if (mysql_errno() > 0) {
+		  			return '{result:"fail",msg:"作业人员数据保存失败!'.$cpghdjedel.'"}';
+	  		 }else{
+		  			return '{result:"success",msg:"作业人员数据保存成功!'.$cpghdjedel.'"}';
+	  		  }
+	    }
+	}
+
+
+
+
+    
+	
+    
+//	return "delete  cpghdje where jeid=".$jeid;
+
+
+	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+
+	$L_id = $_GET['p_l_id'];  
+	$i = 0;
+	
+
+	$sumjcsl = 0;
+	$sumjczl = 0;
+	$sumjcje = 0;
+	$jeid=0;
+	$cpghdje = $o['cpghdje'];
+	mysql_query('start transaction');
+		foreach ($cpghdje as $jerow) {
+		$cpghdjestr = " insert into wxcpghdje (work,byg,gs,cg,dw,sl,dj,je,xjje,workid,mxid,xjbz,zljs,inbz,indj)";
+		$cpghdjestr .= " values ('" . $jerow['work']. "','" . $jerow['byg']. "','" . $jerow['gs']. "','" . $jerow['cg'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $jerow['xjje'];
+		$cpghdjestr .= "," . $jerow['workid'] ;
+	    $cpghdjestr .= "," .  $jerow['mxid'] ;
+	    $cpghdjestr .= "," .($jerow['xjbz']?'1':'0') ;
+	    $cpghdjestr .= "," .($jerow['zljs']?'1':'0') ;
+	    $cpghdjestr .= "," .($jerow['inbz']?'1':'0') ;
+	    $cpghdjestr .= "," .($jerow['indj']?'1':'0') ; 
+	    $cpghdjestr .= ")";
+		
+			mysql_query($cpghdjestr);
+			$jeid=mysql_insert_id();
+			if (mysql_errno() > 0) {
+				mysql_query('rollback');
+				//return $cpckdjestr;
+				return '{result:"fail",msg:"费用数据保存失败!'.$cpghdjestr.'" }';
+				//return '费用数据保存失败!!' . $cpckdjestr;
+				break;
+			}
+		}	
+	mysql_query('commit');
+	//return "cpghdjestr=".$cpghdjestr;
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败!'.$cpghdjestr.'" }';
+	} 
+	else 
+	{
+		return '{result:"success",msg:"费用数据保存成功!'.$cpghdjestr.'",jeid:'.$jeid.' }';
+	}
+}
+function cpgfdjesave() {
+	$jeid='';
+	if (isset($_GET['jeid']))
+	{
+     $jeid=$_GET['jeid'];
+	}
+
+	$loc='';
+	if (isset($_GET['loc']))
+	{
+     $loc=$_GET['loc'];
+	}
+	
+	  
+
+
+    if ($jeid>'' && $loc != 'workersave')
+	{
+		$cpgfdjedel = " delete from wxcpgfdje where jeid=".$jeid;
+		mysql_query($cpgfdjedel);
+		if (mysql_errno() > 0) {
+			return '{result:"fail",msg:"费用数据删除失败!"}';
+		}else{
+			return '{result:"success",msg:"费用数据删除成功!"}';
+		}
+	
+	  
+	}
+    
+
+
+	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+	$cpgfdje = $o['cpgfdje'];
+	if ($loc=='workersave') 
+	{
+		foreach ($cpgfdje as $jerow) {	
+	 		 $cpgfdjedel = "update  wxcpgfdje set byg='".$jerow['byg']."', gs='".$jerow['gs']."', cg='".$jerow['cg']."'  where jeid=".$jeid;
+	  		 mysql_query($cpgfdjedel);
+	  		 if (mysql_errno() > 0) {
+		  			return '{result:"fail",msg:"作业人员数据保存失败!'.$cpgfdjedel.'"}';
+	  		 }else{
+		  			return '{result:"success",msg:"作业人员数据保存成功!'.$cpgfdjedel.'"}';
+	  		  }
+	    }
+	}
+
+
+
+
+
+    
+ 	
+	$str = $_GET['data'];
+
+    
+    $s = base64_decode($str);
+	//return $s;
+	$o = json_decode($s);
+	$o = json_decode($o, true);
+
+	$L_id = $_GET['p_l_id'];  
+	$i = 0;
+	
+
+	$sumjcsl = 0;
+	$sumjczl = 0;
+	$sumjcje = 0;
+	$jeid=0;
+	$cpgfdje = $o['cpgfdje'];
+	mysql_query('start transaction');
+		foreach ($cpgfdje as $jerow) {
+		$cpgfdjestr = " insert into wxcpgfdje (work,byg,gs,cg,dw,sl,dj,je,xjje,workid,mxid,xjbz,zljs,inbz,indj)";
+		$cpgfdjestr .= " values ('" . $jerow['work']. "','" . $jerow['byg']. "','" . $jerow['gs']. "','" . $jerow['cg'] . "','" . $jerow['dw'] . "'," . $jerow['sl'] . "," . $jerow['dj'] . "," . $jerow['je']. "," . $jerow['xjje'];
+		$cpgfdjestr .= "," . $jerow['workid'] ;
+	    $cpgfdjestr .= "," .  $jerow['mxid'] ;
+	    $cpgfdjestr .= "," .($jerow['xjbz']?'1':'0') ;
+	    $cpgfdjestr .= "," .($jerow['zljs']?'1':'0') ;
+	    $cpgfdjestr .= "," .($jerow['inbz']?'1':'0') ;
+	    $cpgfdjestr .= "," .($jerow['indj']?'1':'0') ; 
+	    $cpgfdjestr .= ")";
+		
+			mysql_query($cpgfdjestr);
+			$jeid=mysql_insert_id();
+			if (mysql_errno() > 0) {
+				mysql_query('rollback');
+				//return $cpckdjestr;
+				return '{result:"fail",msg:"费用数据保存失败!" }';
+				//return '费用数据保存失败!!' . $cpckdjestr;
+				break;
+			}
+		}	
+	mysql_query('commit');
+	if (mysql_errno() > 0) {
+		mysql_query('rollback');
+		return '{result:"fail",msg:"数据保存失败!" }';
+	} 
+	else 
+	{
+		return '{result:"success",msg:"费用数据保存成功!",jeid:'.$jeid.' }';
+	}
+}
 function cpgfdmxsave() {
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];  
@@ -8916,7 +9443,7 @@ function cpgfdmxsave() {
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $czy =$o['username'] ;
+    $czy =$_SESSION['LoginUserName'] ;
     $s = base64_decode($str);
 
 	$o = json_decode($s);
@@ -9061,7 +9588,7 @@ function cpgfkdmxsave() {
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $czy =$o['username'] ;
+    $czy =$_SESSION['LoginUserName'] ;
     $s = base64_decode($str);
 
 	$o = json_decode($s);
@@ -9897,7 +10424,7 @@ function cpckdckshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	
 		
@@ -9973,7 +10500,7 @@ function cpckdcwshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	
 		
@@ -10049,7 +10576,7 @@ function cpckdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10113,7 +10640,7 @@ function cpghdghshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10218,7 +10745,7 @@ function wxcpgfdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10371,7 +10898,7 @@ function cpghdckshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10463,7 +10990,7 @@ function cpghdcwshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10555,7 +11082,7 @@ function cptzdckshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
@@ -10622,7 +11149,7 @@ function cpjkdcwshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName']; //  $o['username'] ;
 				
 
 	if ($loc=="ok"){
@@ -10691,7 +11218,7 @@ function cptzdywshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
@@ -10761,8 +11288,8 @@ function cpjkdckshsave()
 		$s = base64_decode($_GET['userInfo']);
 		$o = json_decode($s);
 		$o = json_decode($o, true);
-    	$shr =$o['username'] ;
-	
+    	//$shr =$o['username'] ;
+		$shr =$_SESSION['LoginUserName'];
 	if ($loc=="ok"){	
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];  
@@ -10822,7 +11349,8 @@ function cpjkdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    //$shr =$o['username'] ;
+	$shr =$_SESSION['LoginUserName'];
 				
 
 	if ($loc=="ok"){
@@ -10962,7 +11490,7 @@ function cptzdcwshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update cptzd set ztbz=2";
 		$sqlstr .= " ,cwshrq=NOW(), cwsh='".$shr."' where  ztbz=1 and delbz=0  and tzid=".$tzid;
@@ -10996,7 +11524,7 @@ function cpjkdcwshsave_()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	//if ($loc=="ok"){	
 		$sqlstr = " update cpjkd set ztbz=3";
 	//}else
@@ -11022,7 +11550,7 @@ function cpckdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	
  * if ($loc=="ok"){	
 		$sqlstr = " update cpckd set ztbz=1";
@@ -11107,7 +11635,7 @@ function cpckdcwshsave_old()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	//if ($loc=="ok"){	
 		$sqlstr = " update cpckd set ztbz=3";
 	//}else
@@ -11134,7 +11662,7 @@ function cpxsdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update cpxsd set ztbz=1";
 		$sqlstr .= ",shrq=NOW(), shr='".$shr."' where  ztbz=0 and delbz=0 and xsid=".$xsid;
@@ -11170,7 +11698,7 @@ function cpghdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 	if ($loc=="ok"){	
 		$sqlstr = " update wxcpghd set ztbz=1";
 		$sqlstr .= ",khshrq=NOW(), khshr='".$shr."' where  ztbz=0 and delbz=0 and ghid=".$xsid;
@@ -11348,7 +11876,7 @@ function cktjjdsavenew() {
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $jby =$o['username'] ;
+    $jby =$_SESSION['LoginUserName'] ;
 	$l_id = $_GET['p_l_id'];
 	$ny = $_GET['ny'];
 	$yu = $_GET['yu'];
@@ -11452,14 +11980,11 @@ switch ($optype) {
 case 1 :
 //insert
 
-$str = $arr['Active'];
-if (isset($str)) {
-	if ($str) {
-		$Active=1;
-	} else {
-	$Active=0;
+$Active =1;
+	if (isset($_GET["active"]))
+	{
+     $Active=$_GET['active'];
 	}
-}
 $str = $arr['Aloneprice'];
 if (isset($str)) {
 	if ($str) {
@@ -12352,7 +12877,7 @@ if ($loc=='sjsh')
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$o['username'] ;
+    $shr =$_SESSION['LoginUserName'] ;
 
 	$sjid = $_GET['data'];
 	
