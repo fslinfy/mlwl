@@ -131877,8 +131877,7 @@ Ext.application({
     sys_DisplayAll = 1;
     oldthis = this;
     mainApp = this;
-    encode_keyStr =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    encode_keyStr ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
     mainTabPanel = Ext.getCmp("maintabpanel");
     getcookie();
     pagereset();
@@ -131890,10 +131889,21 @@ Ext.application({
       data: [],
     });
     var LODOP = getLodop();
-    console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
-    if (CheckIsInstall() == 0) {
-      var d ="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-      d ="<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!! 点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+
+    //console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
+    try {
+      if (CheckIsInstall() == 0) {
+        var d = "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+        d = "<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!! 点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+        //d ="<br><font color='#FF00FF'>点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装CLodop云打印服务</a>,安装后请刷新页面。</font>";
+        var c = Ext.getCmp("maintabpanel");
+        c.removeAll();
+        c.add({ xtype: "panel", title: "主页", closable: false, html: d });
+      }
+    }
+    catch {
+      var d = "<br><font color='#FF00FF'>点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装CLodop云打印服务</a>,安装后请刷新页面。</font>";
+      d = "<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!! 点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
       var c = Ext.getCmp("maintabpanel");
       c.removeAll();
       c.add({ xtype: "panel", title: "主页", closable: false, html: d });
@@ -131904,5 +131914,5 @@ Ext.application({
     } else {
       user_login();
     }
-  },
+  }
 });
