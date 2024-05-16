@@ -20,9 +20,10 @@ if (!$act) {
 $act = strtolower($act);
 $retval = '';
 session_start();
- $LoginUserName=$_SESSION['LoginUserName'];
+ $LoginUserName=urldecode($_SESSION['LoginUserName']);
  $LoginUserId=$_SESSION['LoginUserId'];
-
+ //echo "非法访问！".urldecode($LoginUserName);
+ //return;  
 $SE=get_seo();
 IF (($SE<1)  || (!$LoginUserName)  || $LoginUserName=="" )
 {
@@ -10582,8 +10583,8 @@ function cpckdshsave()
 	$s = base64_decode($_GET['userInfo']);
 	$o = json_decode($s);
 	$o = json_decode($o, true);
-    $shr =$_SESSION['LoginUserName'] ;
-	$shr =$o['username'] ;
+    $shr =urldecode($_SESSION['LoginUserName']) ;
+	$shr =urldecode $o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];

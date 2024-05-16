@@ -130534,12 +130534,7 @@ function createmenu() {
   mainTabPanel = Ext.getCmp("maintabpanel");
   var h = Ext.create("Ext.state.CookieProvider");
   var i = h.get("apptypeid");
-  var g =
-    sys_ActionPHP +
-    "?act=menusystemlist&termtype=classic&appid=" +
-    i +
-    "&userInfo=" +
-    base64encode(Ext.encode(obj2str(sys_userInfo)));
+  var g = sys_ActionPHP +"?act=menusystemlist&termtype=classic&appid=" + i + "&userInfo=" + base64encode(Ext.encode(obj2str(sys_userInfo)));
   Ext.Ajax.request({
     url: g,
     scriptTag: true,
@@ -131897,17 +131892,13 @@ Ext.application({
     var LODOP = getLodop();
     console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
     if (CheckIsInstall() == 0) {
-      var d =
-        "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-     
-        
- d =
-        "<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!! 点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+      var d ="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+      d ="<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!! 点击这里<a href='CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
       var c = Ext.getCmp("maintabpanel");
       c.removeAll();
       c.add({ xtype: "panel", title: "主页", closable: false, html: d });
-    } else {
     }
+    console.log("sys_system_name",sys_system_name)
     if (sys_system_name == "" || sys_system_name == undefined) {
       system_setting();
     } else {

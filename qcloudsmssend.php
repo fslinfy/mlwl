@@ -67,11 +67,8 @@ if ($act=="cpckd"){
    if (count($phone_array)>0){
 
     $templateId =111420;
-	$params =array();//
+	  $params =array();
     array_push($params,$ckstr);
-
-     //[$ckstr];
-
 	try {
     	$ssender = new SmsSingleSender($appid, $appkey);
 		$sendcount=0;
@@ -542,5 +539,5 @@ function printsl($sl)
         return round($sl,2);
     }   
     return round($sl,3);
-}
+  }
 ?>

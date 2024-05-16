@@ -220,7 +220,7 @@ function sysuserlogin() {
 		
 			$query = mysql_query($sqlstr1);
 		}
-		$_SESSION['LoginUserName']=urlencode($name);
+		$_SESSION['LoginUserName']=  urlencode($name);
 		$_SESSION['LoginUserId']=$id;
 	return urldecode(json_encode($arr));
 	//$arr['success'] = true;
