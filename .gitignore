@@ -1,8 +1,5 @@
-
 /node_modules
 /.vs
 package-lock.json
 package.json
 /uploadFiles
-/js
-

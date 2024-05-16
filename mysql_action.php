@@ -1744,7 +1744,7 @@ function locationselecttreelist() {
 	
 	$sqlstr = $sqlstr . " and E_code='" . $p_e_code . "'  ";
 	$sqlstr = $sqlstr . " ORDER BY L_code";
-//	return $sqlstr;
+	//return $sqlstr;
 	$query = mysql_query($sqlstr);
 	if ($query) {
 		$tree = array();
@@ -10584,7 +10584,7 @@ function cpckdshsave()
 	$o = json_decode($s);
 	$o = json_decode($o, true);
     $shr =urldecode($_SESSION['LoginUserName']) ;
-	$shr =urldecode $o['username'] ;
+	$shr =$o['username'] ;
 	$loc = $_GET['loc'];
 	$str = $_GET['data'];
     $L_id = $_GET['p_l_id'];
