@@ -19,6 +19,8 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
   locQuery: function (the) {
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
+    var ckid = v.get("ckid");
+    console.log(ckid,khid);
     var store = cpgfdmxStore0;
     bz = 0;
     /*
@@ -32,6 +34,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
        */
     store.proxy.extraParams.deletebz = bz;
     store.proxy.extraParams.khid = khid;
+    store.proxy.extraParams.p_l_id = ckid;
     // store.proxy.extraParams.startdate = d1;
     //  store.proxy.extraParams.enddate = d2;
     store.reload();
@@ -78,7 +81,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
     cpgfdmxStore0.on("load", function () {
       var v = that.viewname.getViewModel();
       var khid = v.get("khid");
-      // var ckid = v.get('ckid');
+      var ckid = v.get('ckid');
       var store = that.viewname.getStore();
       //   start_date = v.get('start_date');
       //   end_date = v.get('end_date');
@@ -94,6 +97,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
       store.proxy.extraParams.loc = "wxcpgfdmfh";
       store.proxy.extraParams.deletebz = bz;
       store.proxy.extraParams.khid = khid;
+      store.proxy.extraParams.p_l_id = ckid;
       //   store.proxy.extraParams.startdate = d1;
       //  store.proxy.extraParams.enddate = d2;
       store.reload();
@@ -109,6 +113,10 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
           PrintCpgfkdgfid(gfid);
         },
       },
+      "#btnQueryCkmc": {
+        click: this.onSelectCkbmView,
+      },
+
       "#btnQueryKhmc": {
         click: this.onSelectKhbmView,
       },
@@ -124,11 +132,27 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
       },
     });
     that.getView().down("#QueryDate").setHidden(true);
-    that.getView().down("#QueryKhmc").setHidden(false);
+    //that.getView().down("#QueryKhmc").setHidden(false);
     that.getView().down("#deletebz").setHidden(true);
     that.locQuery(that);
     var tool = that.viewname.down("#QueryToolbarView");
     tool.down("#btnNew").setHidden(true);
+    if (sys_location_id > 0) {
+      v.set("ckmc", sys_location_name);
+      v.set("ckid", sys_location_id);
+      sys_current_ckid=sys_location_id;
+      sys_current_ckmc=sys_location_name;
+      that.viewname.down("#QueryKhmc").setHidden(false);
+      that.viewname.down("#QueryCkmc").setHidden(true);
+    }
+    if (sys_customer_id > 0) {
+      v.set("khmc", sys_customer_name);
+      v.set("khid", sys_customer_id);
+      sys_current_khid=sys_customer_id;
+      sys_current_khmc=sys_customer_name;
+      that.viewname.down("#QueryKhmc").setHidden(true);
+      that.viewname.down("#QueryCkmc").setHidden(false);
+    }
   },
   onFilterChange: function (v) {
     var store = that.viewname.getStore();
@@ -144,6 +168,10 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
   },
   onSelectKhbmView: function (record) {
     treeSelect("khmc", that, "", that.viewname, true);
+    return false;
+  },
+  onSelectCkbmView: function (record) {
+    treeSelect("ckmc", that, "", that.viewname, true);
     return false;
   },
   khmcTriggerClick: function (record) {

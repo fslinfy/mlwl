@@ -27,7 +27,23 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     var khid = th.viewname.getViewModel().get("khid");
     var cdid = th.viewname.getViewModel().get("cdid");
     var cpid = th.viewname.getViewModel().get("cpid");
+    if (khid == 0) {
+      tool.down("#btnNew").setDisabled(true);
+      Ext.MessageBox.alert("注意！", "请选择客户！");
+      return false;
+    }
+    if (ckid == 0) {
+      tool.down("#btnNew").setDisabled(true);
+      Ext.MessageBox.alert("注意！", "请选提货仓库！");
+      return false;
+    }
+    tool.down("#btnNew").setDisabled(false);
+
+    sys_current_ckid=ckid;
+    sys_current_khid=khid;
     var store = th.viewname.getStore();
+    
+
     store.proxy.extraParams.p_l_id = ckid;
     store.proxy.extraParams.khid = khid;
     store.proxy.extraParams.cdid = cdid;
@@ -43,17 +59,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     var khid = that.viewname.getViewModel().get("khid");
     var ckid = that.viewname.getViewModel().get("ckid");
     var tool = that.viewname.down("#QueryToolbarView");
-    if (khid == 0) {
-      tool.down("#btnNew").setDisabled(true);
-      Ext.MessageBox.alert("注意！", "请选择客户！");
-      return false;
-    }
-    if (ckid == 0) {
-      tool.down("#btnNew").setDisabled(true);
-      Ext.MessageBox.alert("注意！", "请选提货仓库！");
-      return false;
-    }
-    tool.down("#btnNew").setDisabled(false);
+    
     this.locQuery(this);
   },
   onBtnNewClick: function (rs) {

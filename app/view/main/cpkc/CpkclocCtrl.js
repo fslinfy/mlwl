@@ -1,4 +1,16 @@
-﻿sys_DisplayAll = "cpkc";
+﻿var cdmcCallBack = function (node) {
+  //console.log("cdmcCallBack",node);
+  that.locQuery();
+}
+var cpmcCallBack = function (node) {
+  console.log("cpmcCallBack",node);
+  that.locQuery();
+}
+var khmcCallBack = function (node) {
+  console.log("khmcCallBack",node);
+  that.locQuery();
+}
+sys_DisplayAll = "cpkc";
 var LODOP;
 var that;
 var cpkcmxStore;
@@ -209,26 +221,23 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
           jsonData.push([]);
           jsonData.push([]);
         }
-        arr = [
-          {
-            merge: {
-              c: 10,
-            },
-            style: {
-              fill: {
-                bgcolor: "red",
-              },
-              font: {
-                size: 36,
-                bold: true,
-              },
-            },
-            text: "客户：" + oldobj.khmc,
+        arr = [{
+          merge: {
+            c: 10,
           },
-        ];
+          style: {
+            fill: {
+              bgcolor: "red",
+            },
+            font: {
+              size: 36,
+              bold: true,
+            },
+          },
+          text: "客户：" + oldobj.khmc,
+        }, ];
         jsonData.push(arr); //增加小标题
-        arr = [
-          {
+        arr = [{
             text: "    产地       ",
             style: {
               font: {
@@ -302,14 +311,30 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
       }
       arr = [];
       //  var oldobj = kcarray[i].data;
-      arr.push({ text: oldobj.cdmc });
-      arr.push({ text: oldobj.cpmc });
-      arr.push({ text: oldobj.bzmc });
-      arr.push({ text: oldobj.cpgg });
-      arr.push({ text: oldobj.cpph });
-      arr.push({ text: oldobj.jldw });
-      arr.push({ text: slrenderer(oldobj.sl) });
-      arr.push({ text: slrenderer(oldobj.zl) });
+      arr.push({
+        text: oldobj.cdmc
+      });
+      arr.push({
+        text: oldobj.cpmc
+      });
+      arr.push({
+        text: oldobj.bzmc
+      });
+      arr.push({
+        text: oldobj.cpgg
+      });
+      arr.push({
+        text: oldobj.cpph
+      });
+      arr.push({
+        text: oldobj.jldw
+      });
+      arr.push({
+        text: slrenderer(oldobj.sl)
+      });
+      arr.push({
+        text: slrenderer(oldobj.zl)
+      });
       sumsl += oldobj.sl;
       sumzl += oldobj.zl;
       jsonData.push(arr);
@@ -320,29 +345,26 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
   getexcelsheetdata: function (kcarray, khid, khmc) {
     var that = this;
     var jsonData = [];
-    var arr = [
-      {
-        merge: {
-          c: 11,
-        },
-        style: {
-          font: {
-            sz: 24,
-            bold: true,
-            color: {
-              rgb: "FF4F81BD",
-            },
-          },
-          alignment: {
-            horizontal: "center",
-          },
-        },
-        text: "商品库存表",
+    var arr = [{
+      merge: {
+        c: 11,
       },
-    ];
+      style: {
+        font: {
+          sz: 24,
+          bold: true,
+          color: {
+            rgb: "FF4F81BD",
+          },
+        },
+        alignment: {
+          horizontal: "center",
+        },
+      },
+      text: "商品库存表",
+    }, ];
     jsonData.push(arr); //增加标题
-    arr = [
-      {
+    arr = [{
         merge: {
           c: 3,
         },
@@ -370,8 +392,7 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
     ];
     jsonData.push(arr); //增加小标题
     jsonData.push([]);
-    arr = [
-      {
+    arr = [{
         text: "    产地       ",
         style: {
           font: {
@@ -445,14 +466,30 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
       var oldobj = kcarray[i].data;
       if (oldobj.khid == khid) {
         var oldobj = kcarray[i].data;
-        arr.push({ text: oldobj.cdmc });
-        arr.push({ text: oldobj.cpmc });
-        arr.push({ text: oldobj.bzmc });
-        arr.push({ text: oldobj.cpgg });
-        arr.push({ text: oldobj.cpph });
-        arr.push({ text: oldobj.jldw });
-        arr.push({ text: slrenderer(oldobj.kcsl) });
-        arr.push({ text: slrenderer(oldobj.kczl) });
+        arr.push({
+          text: oldobj.cdmc
+        });
+        arr.push({
+          text: oldobj.cpmc
+        });
+        arr.push({
+          text: oldobj.bzmc
+        });
+        arr.push({
+          text: oldobj.cpgg
+        });
+        arr.push({
+          text: oldobj.cpph
+        });
+        arr.push({
+          text: oldobj.jldw
+        });
+        arr.push({
+          text: slrenderer(oldobj.kcsl)
+        });
+        arr.push({
+          text: slrenderer(oldobj.kczl)
+        });
         sumsl += oldobj.kcsl;
         sumzl += oldobj.kczl;
         jsonData.push(arr);
@@ -465,9 +502,15 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
       arr.push({});
       arr.push({});
       arr.push({});
-      arr.push({ text: "合计" });
-      arr.push({ text: slrenderer(sumsl) });
-      arr.push({ text: slrenderer(sumzl) });
+      arr.push({
+        text: "合计"
+      });
+      arr.push({
+        text: slrenderer(sumsl)
+      });
+      arr.push({
+        text: slrenderer(sumzl)
+      });
       jsonData.push(arr);
     }
     return jsonData;
@@ -485,7 +528,8 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
     return false;
   },
   onSelectKhbmView: function (record) {
-    treeSelect("khmc", that, "cpkc", that.viewname, true);
+   // treeSelect("khmc", that, "cpkc", that.viewname, true);
+   SelectKhmc(khmcCallBack,'cpkc');
     return false;
   },
   khmcTriggerClick: function (record) {
@@ -494,14 +538,18 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
   },
   SelectCkbmView: function (record) {
     treeSelect("ckmc", that, "cpkc", that.viewname, true);
+    
     return false;
   },
   onSelectCdbmView: function (record) {
-    treeSelect("cdmc", that, "cpkc", that.viewname, true);
+    // treeSelect("cdmc", that, "cpkc", that.viewname, true);
+    SelectCdmc(cdmcCallBack,'cpkc');
+
     return false;
   },
   SelectCpbmView: function (record) {
-    treeSelect("cpmc", that, "cpkc", that.viewname, true);
+    //treeSelect("cpmc", that, "cpkc", that.viewname, true);
+    SelectCpmc(cpmcCallBack,'cpkc');
     return false;
   },
   onFilterChange: function (v) {

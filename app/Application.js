@@ -71,6 +71,10 @@ Ext.define("MyApp.Application", {
     sys_location_name = "";
     sys_customer_id = 0;
     sys_customer_name = "";
+    sys_current_khid = 0;
+    sys_current_khmc = "";
+    sys_current_ckid = 0;
+    sys_current_ckmc = "";
     sys_system_sh = 0;
     sys_system_edit = 0;
     sys_system_del = 0;

@@ -167,6 +167,9 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshCtrl", {
     gfid = rec.data.gfid;
     mgfid = gfid;
     var record = rec.data;
+    sys_current_khid=rec.data.khid;;
+    sys_current_ckid=rec.data.L_id;
+    console.log('rec gf',rec);
     console.log("CpgfshShowView", record);
     record["op"] = "sh";
     record["gsop"] = false;

@@ -3,7 +3,7 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
   xtype: "selectJkspWindow",
   reference: "popupSelectJkspWindow",
   itemId: "selectJkspWindow",
-  title: "选择商品",
+  title: "选择商品内容",
   width: 800,
   height: 600,
   minWidth: 500,
@@ -15,6 +15,19 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
     type: "hbox",
     align: "stretch",
   },
+  onShow: function() {
+   
+   
+ /*that.getView().down("#btnbzmcTreerefresh").fireEvent('click');
+var s=that.getView().down("#btnbzmcTreerefresh").up("#selectCdmcTreePanel2").getStore();
+s.proxy.extraParams.p_c_id = sys_current_khid;
+s.proxy.extraParams.p_l_id = sys_current_ckid;
+s.proxy.extraParams.aaaaaaaaaa = "6";
+s.reload();
+*/
+   //ele.cli。 .fireEvent('click');
+
+ },
   defaults: {
     xtype: "treepanel",
     singleExpand: false,
@@ -59,7 +72,7 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
           expanded: true,
           draggable: false,
         },
-        autoLoad: true,
+        autoLoad: false,
       },
       tbar: [
         {
@@ -195,7 +208,8 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
           },
           extraParams: {
             p_e_code: sys_enterprise_code,
-            p_l_id: sys_location_id,
+            p_l_id: sys_current_ckid,
+            p_c_id: sys_current_khid,
             userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
           },
         },
@@ -207,7 +221,7 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
           expanded: true,
           draggable: false,
         },
-        autoLoad: false,
+        autoLoad: true,
       },
       tbar: [
         {
@@ -220,6 +234,9 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
             this.reset();
           },
           listeners: {
+            show:function(){
+              console.log("show");
+            },
             change: function () {
               var tree = this.up("treepanel"),
                 v,
@@ -247,10 +264,24 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
               Ext.resumeLayouts(true);
             },
             buffer: 250,
-          },
+          }
         },
-      ],
-    },
+        {
+          type: "button",
+          icon: "images/refresh.png",
+          itemId: "btnbzmcTreerefresh",
+          Id: "btnbzmcTreerefresh",
+          reference:"",
+          handler: function () {
+           var s= this.up("#selectCdmcTreePanel2").getStore();
+            s.proxy.extraParams.p_c_id = sys_current_khid;
+            s.proxy.extraParams.p_l_id = sys_current_ckid;
+            s.proxy.extraParams.aaaaaaaaaa = "3";
+            s.reload();
+          }
+        }
+      ]
+    }
   ],
   buttons: [
     "->",
@@ -267,5 +298,5 @@ Ext.define("MyApp.view.main.tree.NewCpjkSelectTree", {
         this.up("#selectJkspWindow").close();
       },
     },
-  ],
-});
+  ]
+})

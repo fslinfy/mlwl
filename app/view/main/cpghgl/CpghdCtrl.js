@@ -469,6 +469,8 @@ Ext.define("MyApp.view.main.cpghgl.CpghdCtrl", {
     ghid = rec.data.ghid;
     var record = rec.data;
     khid = rec.data.khid;
+    sys_current_khid=rec.data.khid;;
+    sys_current_ckid=rec.data.L_id;
     // that.ghmxid=rec.data.mxid;
     //console.log("onCpghdmxShowView", record);
     var endrq = rec.data.endrq; // Ext.Date.format(rec.data.endrq, 'Y-m-d');

@@ -149,6 +149,8 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
     gfid = rec.data.gfid;
     mgfid = gfid;
     var record = rec.data;
+    sys_current_khid=rec.data.khid;;
+    sys_current_ckid=rec.data.L_id;
     //   console.log('CpgfshShowView',record);
     that.gfdrecord = rec;
     record["op"] = "cwsh";

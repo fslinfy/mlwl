@@ -18,7 +18,7 @@
     "MyApp.store.StatesStore",
     "MyApp.view.main.cpjkgl.CpjkdEdit",
     "MyApp.view.main.cpjkgl.CpjkdmxEdit",
-    "MyApp.view.main.tree.WorkerSelectTree",
+    "MyApp.view.main.tree.WorkerSelectTree"
   ],
   id: "CpjkdGrid",
   plugins: ["gridfilters"],

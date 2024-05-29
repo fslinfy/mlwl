@@ -32,6 +32,10 @@ var gfdworkCallBack = function (node) {
     })
     sumjs(null, cpgfdmxje, p.getViewModel());
 }
+
+var AddgfcpCallBack = function (node) {
+    console.log('  add------CallBack', node);
+}
 var packingCallBack = function (node) {
     console.log('packing------CallBack', node);
     //var p= this.lookupReference('popupcpgfWindow');
@@ -59,7 +63,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     requires: [
         
          'MyApp.view.main.DataSave'
-        , 'MyApp.view.main.report.PrintCpgfd'
+        , 'MyApp.view.main.report.PrintCpgfd',
+        'MyApp.view.main.tree.CpTreeSelect'
      
     ],
     onBtnQueryClick: function (button, e, options) {
@@ -156,6 +161,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         });
         // console.log("init  2");
     },
+
     onUploadFile: function () {
         uploadWin = new Ext.Window({
             width: 600,
@@ -305,8 +311,17 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         treeSelect('bzmc', that, '', that.getView().down('#cpgfdmxedit'), false);
         return false;
     },
+    
+    onAddCpbmView: function (record) {
+     //88   treeSelect('cpmc', that, '', that.getView().down('#cpgfdmxedit'), false);
+     cpbmtreeSelect(AddgfcpCallBack); 
+     
+     return false;
+    },
+
     onSelectCpbmView: function (record) {
-        treeSelect('cpmc', that, '', that.getView().down('#cpgfdmxedit'), false);
+       // treeSelect('cpmc', that, '', that.getView().down('#cpgfdmxedit'), false);
+       cpbmtreeSelect(AddgfcpCallBack); 
         return false;
     },
     onSelectWorkerView: function (button) {

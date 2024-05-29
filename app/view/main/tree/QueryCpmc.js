@@ -3,6 +3,7 @@ Ext.define("MyApp.view.main.tree.QueryCpmc", {
   alias: "widget.QueryCpmc",
   itemId: "QueryCpmc",
   layout: "hbox",
+  requires: ["MyApp.view.main.tree.SelectTreeCpmc"],
   defaults: { border: 0, cls: "x-btn-text-icon details", disabled: false },
   items: [
     {
@@ -17,8 +18,7 @@ Ext.define("MyApp.view.main.tree.QueryCpmc", {
       triggerCls: "x-form-clear-trigger",
       onTriggerClick: function () {
         this.reset();
-        that.getView().getViewModel().set("cpid", 0);
-        //    that.cpmcTriggerClick()
+        this.up("#QueryCpmc").down("#textQueryCpid").reset();
       },
     },
     {

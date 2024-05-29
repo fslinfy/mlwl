@@ -33,6 +33,23 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     var khid = th.viewname.getViewModel().get("khid");
     var cdid = th.viewname.getViewModel().get("cdid");
     var cpid = th.viewname.getViewModel().get("cpid");
+    
+    var tool = that.viewname.down("#QueryToolbarView");
+    if (khid == 0) {
+      tool.down("#btnNew").setDisabled(true);
+      Ext.MessageBox.alert("注意！", "请选择客户！");
+      return false;
+    }
+    if (ckid == 0) {
+      tool.down("#btnNew").setDisabled(true);
+      Ext.MessageBox.alert("注意！", "请选提货仓库！");
+      return false;
+    }
+    tool.down("#btnNew").setDisabled(false);
+
+    sys_current_ckid=ckid;
+    sys_current_khid=khid;
+    
     var store = th.viewname.getStore();
     store.proxy.extraParams.p_l_id = ckid;
     store.proxy.extraParams.khid = khid;
@@ -46,20 +63,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     return false;
   },
   onBtnQueryClick: function (button, e, options) {
-    var khid = that.viewname.getViewModel().get("khid");
-    var ckid = that.viewname.getViewModel().get("ckid");
-    var tool = that.viewname.down("#QueryToolbarView");
-    if (khid == 0) {
-      tool.down("#btnNew").setDisabled(true);
-      Ext.MessageBox.alert("注意！", "请选择客户！");
-      return false;
-    }
-    if (ckid == 0) {
-      tool.down("#btnNew").setDisabled(true);
-      Ext.MessageBox.alert("注意！", "请选提货仓库！");
-      return false;
-    }
-    tool.down("#btnNew").setDisabled(false);
+    
     this.locQuery(this);
   },
   onBtnNewClick: function (rs) {
@@ -87,6 +91,8 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     var ckid = that.viewname.getViewModel().get("ckid");
     var ckmc = that.viewname.getViewModel().get("ckmc");
     var record = {};
+    sys_current_khid=khid;
+    sys_current_ckid=ckid;
     record["khid"] = khid;
     record["khmc"] = khmc;
     record["ckid"] = ckid;
@@ -240,7 +246,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
   onSelectNewKhbmView: function (record) {
     console.log("onSelectnewKhbmView");
     that.popupmx = that.getView().down("#cpghdmxedit");
-    treeSelect("khmc", that, "cpkc", that.viewname, false, khmcCallBack);
+    treeSelect("khmc", that, "", that.viewname, false, khmcCallBack);
     return false;
   },
   khmcTriggerClick: function (record) {

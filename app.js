@@ -129165,6 +129165,7 @@ function treeSelect(q, t, w, u, r, o) {
       return;
       break;
   }
+   console.log(" app.js treeSelect sys_current_khid",sys_current_khid,"sys_current_Ckid",sys_current_ckid);
   var v = Ext.create("Ext.data.TreeStore", {
     autoLoad: true,
     proxy: {
@@ -129174,8 +129175,8 @@ function treeSelect(q, t, w, u, r, o) {
       extraParams: {
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
         p_e_code: sys_enterprise_code,
-        p_l_id: sys_location_id,
-        p_c_id: p,
+        p_l_id: sys_current_ckid,
+        p_c_id: sys_current_khid,
         displayall: w,
       },
     },
@@ -129930,6 +129931,8 @@ function user_login() {
               }
               sys_location_id = b.replace(",", "");
               sys_location_id = sys_location_id.replace(",", "");
+              sys_current_ckid=sys_location_id
+              
               a.set("sys_location_id", sys_location_id);
               logingl();
             } else {
@@ -130941,6 +130944,8 @@ getcookie = function () {
   if (sys_location_id == undefined) {
     sys_location_id = 0;
     sys_location_name = "";
+    sys_current_ckid=0;
+    sys_current_ckmc='';
   }
   if (sys_location_areas == 0) {
     sys_location_areas = 1;
@@ -130950,6 +130955,8 @@ getcookie = function () {
   if (sys_customer_id == undefined) {
     sys_customer_id = 0;
     sys_customer_name = "";
+    sys_current_khid=0;
+    sys_current_khmc='';
   }
   sys_enterprise_code = g.get("sys_enterprise_code");
   sys_enterprise_name = g.get("sys_enterprise_name");
@@ -131865,6 +131872,10 @@ Ext.application({
     sys_location_name = "";
     sys_customer_id = 0;
     sys_customer_name = "";
+    sys_current_khid = 0;
+    sys_current_khmc = "";
+    sys_current_ckid = 0;
+    sys_current_ckmc = "";
     sys_system_sh = 0;
     sys_system_cwsh = 0;
     sys_system_edit = 0;

@@ -83,7 +83,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                   bind: "{khmc}",
                   margin: "0 0 0 0",
                 },
-                {
+                /*{
                   xtype: "button",
                   text: "...",
                   width: 30,
@@ -92,7 +92,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                   },
                   margin: "0 5 0 0",
                   handler: "onSelectNewKhbmView",
-                },
+                },*/
                 {
                   xtype: "QueryArea",
                   //,bind: {
@@ -156,9 +156,24 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
               },
               items: [
                 {
-                  name: "sl",
+                  xtype: "numberfield",
+                  name: "ckid",
+                  fieldLabel: "ckid",
+                  hidden: true,
+                  bind: "{ckid}",
+                },
+                {
+                  name: "ckmc",
+                  fieldLabel: "仓库名称",
+                  flex: 2,
+                  readOnly: true,
+                  bind: "{ckmc}",
+                  margin: "0 0 0 0",
+                },
+                {
+                  name: "khsl",
                   fieldLabel: "合计数量",
-                  bind: "{sl}",
+                  bind: "{khsl}",
                   //hidden: true,
                   readOnly: true,
                   flex: 1,
@@ -166,12 +181,12 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                   allowBlank: true,
                 },
                 {
-                  name: "zl",
+                  name: "khzl",
                   fieldLabel: "重量",
                   labelWidth: 40,
                   flex: 1,
                   readOnly: true,
-                  bind: "{zl}",
+                  bind: "{khzl}",
                   margin: "0 10 0 0",
                   allowBlank: true,
                 },
@@ -493,8 +508,9 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
               e,
               eOpts
             ) {
-              //console.log('You have clicked cell in the ' + cellIndex + ' column and ' + rowIndex + ' row')
+              console.log('You have clicked cell in the ' + cellIndex + ' column and ' + rowIndex + ' row')
               that.popupmx = that.lookupReference("gfdpopupWindow");
+              console.log("that.popupmx",that.popupmx)
               if (gfid == 0) {
                 if (cellIndex == 0) {
                   // console.log(that.popupmx);
@@ -520,6 +536,8 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                     return false;
                   } else {
                     if (cellIndex == 2) {
+
+
                       treeSelect(
                         "bzmc",
                         that,
@@ -528,6 +546,22 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                         false,
                         bzmcCallBack
                       );
+
+                      /*var p = that.lookupReference("gfdpopupWindow");
+                      sys_current_khid = p.getViewModel().get("khid");
+                      
+                      sys_current_ckid = p.getViewModel().get("ckid");
+                      console.log("treeSelect sys_current_khid sys_current_ckid",sys_current_khid,sys_current_ckid);
+                      console.log("viewname ",that.viewname.down("#selectTreePanel"));
+                     // console.log("viewname1",that.viewname.down("#selectTreePanel"));
+                     // var s = that.getView().down("#selectTreePanel").getStore();
+                     //var s = that.viewname.down("#selectTreePanel").getStore(); //down("#QueryToolbarView");
+                      // console.log("selectTreePanel store",s);
+                       //s.proxy.extraParams.p_c_id = sys_current_khid;
+                       //s.proxy.extraParams.p_l_id = sys_current_ckid;
+                       //s.reload();
+                       */
+
                       return false;
                     }
                   }

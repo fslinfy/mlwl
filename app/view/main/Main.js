@@ -41,7 +41,8 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
       return;
       break;
   }
-  var treestore = Ext.create("Ext.data.TreeStore", {
+  console.log("treeSelect sys_current_khid",sys_current_khid,"sys_current_Ckid",sys_current_ckid);
+treestore = Ext.create("Ext.data.TreeStore", {
     autoLoad: true,
     proxy: {
       type: "ajax",
@@ -54,8 +55,8 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
       extraParams: {
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
         p_e_code: sys_enterprise_code,
-        p_l_id: sys_location_id,
-        p_c_id: sys_customer_id,
+        p_l_id: sys_current_ckid,
+        p_c_id: sys_current_khid,
         displayall: kcbz,
       },
     },
@@ -144,7 +145,7 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
           handler: function () {
             //this.up("window").hide();
             onSelectOkClick();
-          },
+          }
         },
         {
           text: "放弃",
@@ -153,9 +154,9 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
           handler: function () {
             //this.up("window").destroy();
             selecttreeWin.destroy();
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     listeners: {
       select: function (node, event) {
@@ -164,8 +165,8 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
         } else {
           this.down("#btnTreeSelect").setDisabled(true);
         }
-      },
-    },
+      }
+    }
   });
   selecttreeWin = new Ext.Window({
     width: 440,
@@ -1252,6 +1253,9 @@ getcookie = function () {
   if (sys_location_id == undefined) {
     sys_location_id = 0;
     sys_location_name = "";
+    sys_current_ckid=0;
+    sys_current_ckmc='';
+
   }
   if (sys_location_areas == 0) {
     sys_location_areas = 1;
@@ -1261,6 +1265,9 @@ getcookie = function () {
   if (sys_customer_id == undefined) {
     sys_customer_id = 0;
     sys_customer_name = "";
+    sys_current_khid=0;
+    sys_current_khmc='';
+
   }
   sys_enterprise_code = Cookiecp.get("sys_enterprise_code"); //4
   sys_enterprise_name = Cookiecp.get("sys_enterprise_name");

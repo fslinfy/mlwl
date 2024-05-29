@@ -585,7 +585,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdEdit", {
   /*********************************** */
   buttons: [
     {
-      text: "增加商品",
+      text: "--增加商品a",
       icon: "images/add.gif",
       itemId: "btnAddCpmc",
     },
@@ -609,7 +609,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdEdit", {
       handler: "onCpgfdFormSubmit",
     },
     {
-      text: "放弃",
+      text: "***放弃",
       icon: "images/close.gif",
       handler: function () {
         // this.up("#cpgfdedit").close();

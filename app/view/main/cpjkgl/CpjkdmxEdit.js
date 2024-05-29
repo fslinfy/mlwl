@@ -2,6 +2,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdmxEdit", {
   extend: "Ext.window.Window",
   xtype: "formcpjkwindow",
   reference: "popupcpjkWindow",
+ 
   bind: {
     title: "{title}",
   },
@@ -103,14 +104,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdmxEdit", {
                   flex: 1,
                   readOnly: true,
                   margin: "0 0 0 0",
-                },
-                {
-                  xtype: "button",
-                  text: "...",
-                  width: 30,
-                  margin: "0 5 0 0",
-                  handler: "onSelectPackingView",
-                },
+                }
               ],
             },
             {
@@ -334,6 +328,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdmxEdit", {
                           parseFloat(value * rate).toFixed(3)
                         );
                         var store = customerGrid.getStore();
+                        console.log("CurCpjkdcwStore.data.length",CurCpjkdcwStore.data.length,store.data.length);
                         return sumjs(
                           store,
                           null,

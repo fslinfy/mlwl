@@ -89,6 +89,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     var v = this.getView().down("#CpxsdListGrid").getViewModel();
     khid = v.get("khid");
     var ckid = v.get("ckid");
+
     cpxsdmxStore.proxy.extraParams.loc = "cpxsdmxmfhck";
     cpxsdmxStore.proxy.extraParams.khid = khid;
     cpxsdmxStore.proxy.extraParams.ckid = ckid;
@@ -409,6 +410,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
   },
   onCpckdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
+    console.log("rec onCpckdmxShowView",rec);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -476,10 +478,14 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
   onCpxsdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
     //  dh = generateGUID();
+
     xsid = rec.data.xsid;
     dh = xsid.toString();
     var record = rec.data;
     khid = rec.data.khid;
+    console.log("ckrec ",record);
+    sys_current_khid=khid;
+    sys_current_ckid=rec.data.L_id;
     var endrq = Ext.Date.format(rec.data.endrq, "Y-m-d");
     var today = Ext.Date.format(new Date(), "Y-m-d");
     record["btnButtonHidden"] = true;

@@ -19,6 +19,8 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
   locQuery: function (the) {
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
+    var ckid = v.get("ckid");
+    console.log(ckid,khid);
     start_date = v.get("start_date");
     end_date = v.get("end_date");
     var d1 = Ext.Date.format(start_date, "Y-m-d");
@@ -32,6 +34,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
     }
     store.proxy.extraParams.deletebz = bz;
     store.proxy.extraParams.khid = khid;
+    store.proxy.extraParams.p_L_id = ckid;
     store.proxy.extraParams.startdate = d1;
     store.proxy.extraParams.enddate = d2;
     store.reload();
@@ -66,7 +69,8 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
           userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
           p_e_code: sys_enterprise_code,
           gfid: 0,
-          p_l_id: sys_location_id,
+          p_l_id: sys_current_ckid,
+          khid: sys_current_khid
         },
         reader: {
           type: "json",
@@ -77,7 +81,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
     cpgfdmxStore0.on("load", function () {
       var v = that.viewname.getViewModel();
       var khid = v.get("khid");
-      // var ckid = v.get('ckid');
+      var ckid = v.get('ckid');
       var store = that.viewname.getStore();
       start_date = v.get("start_date");
       end_date = v.get("end_date");
@@ -89,10 +93,12 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
       } else {
         bz = 0;
       }
+      console.log(ckid,khid);
       store.proxy.extraParams.act = "wxCpgfdlist_pc";
       store.proxy.extraParams.loc = "wxcpgfdloc";
       store.proxy.extraParams.deletebz = bz;
       store.proxy.extraParams.khid = khid;
+      store.proxy.extraParams.p_l_id = ckid;
       store.proxy.extraParams.startdate = d1;
       store.proxy.extraParams.enddate = d2;
       store.reload();
@@ -112,6 +118,9 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
       "#btnQueryKhmc": {
         click: this.onSelectKhbmView,
       },
+      "#btnQueryCkmc": {
+        click: this.onSelectCkbmView,
+      },
       "#btnDeleteCpmc": {
         click: this.onCpgfdshDeleteSubmit,
       },
@@ -120,7 +129,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
       },
     });
     that.getView().down("#QueryDate").setHidden(false);
-    that.getView().down("#QueryKhmc").setHidden(false);
+   // that.getView().down("#QueryKhmc").setHidden(false);
     that.getView().down("#deletebz").setHidden(false);
     var tool = that.viewname.down("#QueryToolbarView");
     tool.down("#btnNew").setHidden(true);
@@ -128,6 +137,23 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
     v.set("start_date", start_date);
     v.set("end_date", end_date);
     v.set("PageTitleName", "商品过车单明细");
+    if (sys_location_id > 0) {
+      v.set("ckmc", sys_location_name);
+      v.set("ckid", sys_location_id);
+      sys_current_ckid=sys_location_id;
+      sys_current_ckmc=sys_location_name;
+      that.viewname.down("#QueryKhmc").setHidden(false);
+      that.viewname.down("#QueryCkmc").setHidden(true);
+    }
+    if (sys_customer_id > 0) {
+      v.set("khmc", sys_customer_name);
+      v.set("khid", sys_customer_id);
+      sys_current_khid=sys_customer_id;
+      sys_current_khmc=sys_customer_name;
+      that.viewname.down("#QueryKhmc").setHidden(true);
+      that.viewname.down("#QueryCkmc").setHidden(false);
+    }
+
     that.locQuery(that);
   },
   onFilterChange: function (v) {
@@ -143,7 +169,12 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
     });
   },
   onSelectKhbmView: function (record) {
+    
     treeSelect("khmc", that, "", that.viewname, true);
+    return false;
+  },
+  onSelectCkbmView: function (record) {
+    treeSelect("ckmc", that, "", that.viewname, true);
     return false;
   },
   khmcTriggerClick: function (record) {

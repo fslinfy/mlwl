@@ -10,8 +10,8 @@ actionMethods:{create:"POST",read:"GET",update:"POST",destroy:"POST"},
 extraParams:{
     userInfo:base64encode(Ext.encode(obj2str(sys_userInfo))),
     p_e_code:sys_enterprise_code,
-    p_l_id:sys_location_id,
+    p_l_id:sys_current_ckid,
     optype:"",
-    khid:0
+    khid:sys_current_khid
 },
-reader:{type:"json",rootProperty:"rows",totalProperty:"results"}},autoLoad:true});
+reader:{type:"json",rootProperty:"rows",totalProperty:"results"}},autoLoad:false});

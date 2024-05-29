@@ -4,6 +4,7 @@ Ext.define("MyApp.view.main.tree.QueryKhmc", {
   itemId: "QueryKhmc",
   layout: "hbox",
   flex: 1,
+  requires: ["MyApp.view.main.tree.SelectTreeKhmc"],
   defaults: {
     border: 0,
     cls: "x-btn-text-icon details",
@@ -20,7 +21,7 @@ Ext.define("MyApp.view.main.tree.QueryKhmc", {
     {
       labelWidth: 60,
       xtype: "triggerfield",
-      //  hidden: (sys_customer_id > 0),
+      hidden: (sys_customer_id > 0),
       fieldLabel: "客户名称",
       itemId: "textQueryKhmc",
       bind: "{khmc}",
@@ -29,10 +30,8 @@ Ext.define("MyApp.view.main.tree.QueryKhmc", {
       triggerCls: "x-form-clear-trigger",
       onTriggerClick: function () {
         this.reset();
-        //console.log("onTriggerClick");
-        that.getView().getViewModel().set("khid", sys_customer_id);
-        //  this.up("gridpanel").getViewModel().set('khid', 0);
-        //khmcTriggerClick();
+        this.up("#QueryKhmc").down("#textQueryKhid").reset();
+        that.khmcTriggerClick();
       },
     },
     {
@@ -40,7 +39,7 @@ Ext.define("MyApp.view.main.tree.QueryKhmc", {
       itemId: "btnQueryKhmc",
       margin: "1 5 1 0",
       text: "...",
-      // hidden: (sys_customer_id > 0),
+       hidden: (sys_customer_id > 0),
       width: 30,
     },
   ],

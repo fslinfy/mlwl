@@ -1,9 +1,38 @@
-﻿var gfid = 0;
+﻿ var treestore;
+var gfid = 0;
 var that;
 var khmcCallBack = function (node) {
   that.popupmx.getViewModel().set("khid", node.data.id);
   that.popupmx.getViewModel().set("khmc", node.data.text);
 };
+var AddgfcpCallBack = function (node) {
+  console.log('sh add------CallBack', node);
+
+  
+  var p = that.popupmx;
+  var cpgfdmx = that.lookupReference("CpgfdmxGrid").getStore();
+  cpgfdmx.add({
+    cpid: node.cpmcdata.id,
+    xmmc: node.cpmcdata.text,
+    cdid: node.cdmcdata.id,
+    cdmc: node.cdmcdata.text,
+    bzid: node.bzmcdata.id,
+    bzmc: node.bzmcdata.text,
+    jldw: "吨",
+    khsl: 0,
+    khzl: 0,
+    sl:0,zl:0,
+    je: 0,
+    dj: node.bzmcdata.bydj,
+    rate: node.bzmcdata.rate,
+    byg: "",
+    cg: "",
+    gs: "",
+  });
+
+
+
+}
 var cdmcCallBack = function (node) {
   var customerGrid = that.lookupReference("CpgfdmxGrid");
   var selection = customerGrid.getSelectionModel().getSelection()[0];
@@ -17,6 +46,11 @@ var bzmcCallBack = function (node) {
   selection.set("bzid", node.data.id);
   selection.set("dj", node.data.bydj);
   selection.set("rate", node.data.rate);
+  console.log(selection.data.rate,selection.data.sl,selection.data.rate,"sl",selection);
+  if (selection.data.khsl>0){
+    selection.set("khzl", selection.data.khsl*node.data.rate);
+  }
+
 };
 var cpmcCallBack = function (node) {
   var customerGrid = that.lookupReference("CpgfdmxGrid");
@@ -29,6 +63,7 @@ var gfdDeleteCallBack = function (th) {
   th.locQuery();
   Ext.MessageBox.alert("提示！", "此过车单内容已作废！");
 };
+
 var addCpmcCallBack = function (node) {
   var rec = node.data;
   console.log(rec);
@@ -84,18 +119,33 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     "MyApp.view.main.cpgfkdgl.CpgfdEdit",
     "MyApp.view.main.tree.WorkerSelectTree",
     "MyApp.view.main.report.PrintCpgfkd",
+    "MyApp.view.main.tree.NewCpjkSelectTree",
+    "MyApp.view.main.tree.CpTreeSelect"
   ],
   locQuery: function (the) {
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
+    var ckid = v.get("ckid");
+    sys_current_khid=khid;
+    sys_current_ckid=ckid;
     cpgfdmxStore0.proxy.extraParams.loc = "wxcpgfdmxkdsh";
     cpgfdmxStore0.proxy.extraParams.khid = khid;
+    cpgfdmxStore0.proxy.extraParams.p_l_id = sys_current_ckid;
     cpgfdmxStore0.reload();
+    var tool = that.viewname.down("#QueryToolbarView");
+    tool.down("#btnNew").setText("新单");
+    tool.down("#btnNew").setDisabled(ckid==0);
+    
+    
+
+
   },
   onBtnQueryClick: function (button, e, options) {
     this.locQuery(that);
     return false;
   },
+
+
   init: function () {
     that = this;
     that.viewname = that.getView().down("#CpgfdListGrid");
@@ -132,10 +182,10 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     cpgfdmxStore0.on("load", function () {
       var v = that.viewname.getViewModel();
       var khid = v.get("khid");
-      // var ckid = v.get('ckid');
+      var ckid = v.get('ckid');
       var store = that.viewname.getStore();
       store.proxy.extraParams.khid = khid;
-      // store.proxy.extraParams.ckid = ckid;
+       store.proxy.extraParams.p_l_id = ckid;
       store.proxy.extraParams.act = "wxCpgfdlist_pc";
       store.proxy.extraParams.loc = "wxcpgfdkdsh";
       store.reload();
@@ -161,6 +211,9 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
       "#btnQueryKhmc": {
         click: this.onSelectKhbmView,
       },
+      "#btnQueryCkmc": {
+        click: this.onSelectCkbmView,
+      },
       "#btnPrintCpgfd": {
         //click: this.onPrintCpgfd
         click: function () {
@@ -174,17 +227,41 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
         change: this.onFilterChange,
       },
     });
-    that.getView().down("#QueryKhmc").setHidden(false);
+   /* that.getView().down("#QueryKhmc").setHidden(false);
     if (sys_location_id > 0) {
       that.getView().down("#QueryKhmc").setHidden(false);
     } else {
       that.getView().down("#QueryKhmc").setHidden(true);
     }
+    */
+    var viewname = that.viewname;
+    
+    var v = viewname.getViewModel();
+
+
+    if (sys_location_id > 0) {
+      v.set("ckmc", sys_location_name);
+      v.set("ckid", sys_location_id);
+      sys_current_ckid=sys_location_id;
+      sys_current_ckmc=sys_location_name;
+      viewname.down("#QueryKhmc").setHidden(false);
+      viewname.down("#QueryCkmc").setHidden(true);
+    }
+    if (sys_customer_id > 0) {
+      v.set("khmc", sys_customer_name);
+      v.set("khid", sys_customer_id);
+      sys_current_khid=sys_customer_id;
+      sys_current_khmc=sys_customer_name;
+      viewname.down("#QueryKhmc").setHidden(true);
+      viewname.down("#QueryCkmc").setHidden(false);
+    }
     that.locQuery(that);
     var tool = that.viewname.down("#QueryToolbarView");
     tool.down("#btnNew").setText("新单");
-    tool.down("#btnNew").setDisabled(false);
+    tool.down("#btnNew").setDisabled(true);
     tool.down("#btnNew").setHidden(false);
+
+
   },
   onFilterChange: function (v) {
     var store = that.viewname.getStore();
@@ -201,6 +278,10 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
   onBtnNewClick: function (rs) {
     khid = that.viewname.getViewModel().get("khid");
     var khmc = that.viewname.getViewModel().get("khmc");
+    ckid = that.viewname.getViewModel().get("ckid");
+    var ckmc = that.viewname.getViewModel().get("ckmc");
+    sys_current_ckid = ckid;
+    sys_current_ckmc = ckmc;
     gfid = 0;
     sys_current_khid = khid;
     var record = {};
@@ -211,9 +292,13 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     record["sfr"] = "";
     record["sfdh"] = "";
     record["gfdh"] = "";
+    record["cnote"] = "";
+    record["area"] = "";
     record["delbz"] = 0;
     record["gsop"] = false;
     record["khmc"] = khmc;
+    record["ckmc"] = ckmc;
+    record["ckid"] = ckid;
     record["kdrq"] = new Date();
     var todaysDate = new Date();
     todaysDate.setDate(todaysDate.getDate() + 2);
@@ -232,15 +317,145 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
   },
   onSelectCpbmView: function (record) {
     var p = that.lookupReference("gfdpopupWindow");
+    console.log("sys_current_khid",sys_current_khid,"sys_current_Ckid",sys_current_ckid);
+
     sys_current_khid = p.getViewModel().get("khid");
-    console.log(sys_current_khid);
+    
+    sys_current_ckid = p.getViewModel().get("ckid");
+    console.log("sys_current_khid sys_current_ckid",sys_current_khid,sys_current_ckid);
     if (sys_current_khid == 0) {
       Ext.MessageBox.alert("提示！", "请先选择客户名称！");
       return;
     }
-    treeSelect("cpmc", that, "", that.viewname, false, addCpmcCallBack);
+    if (sys_current_ckid == 0) {
+      Ext.MessageBox.alert("提示！", "请先选择仓库名称！");
+      return;
+    }
+    cpbmtreeSelect(AddgfcpCallBack); 
+   // treeSelect("cpmc", that, "", that.viewname, false, addCpmcCallBack);
+    return false;
+    
+    var view = this.getView();
+    this.dialog = view.add({
+      xtype: "selectJkspWindow",
+      session: true,
+    });
+    this.dialog.show();
+
+   /* var v = that.viewname.getViewModel();
+    var khid = v.get("khid");
+    var ckid = v.get("ckid");*/
+    //selectJkspTreeStore2
+    
+    var s = that.getView().down("#selectCdmcTreePanel2").getStore();
+   // s= that.getView().down("#selectCdmcTreePanel2").getSelectionModel().getStore();
+    console.log("store",sys_current_ckid,sys_current_khid,s);
+    s.proxy.extraParams.p_c_id = sys_current_khid;
+    s.proxy.extraParams.p_l_id = sys_current_ckid;
+    //s.reload();
+    
+    
+    
+    
     return false;
   },
+
+  onJkspSelectOkClick: function () {
+    //console.log("onJkspTreeAdd", current_newid);
+    var p = that.lookupReference("gfdpopupWindow").getViewModel();
+    var selecttree = that.getView().down("#selectCdmcTreePanel");
+    var sm = selecttree.getSelectionModel();
+    var cpmc="";
+    var cpid=0;
+    var cdmc="";
+    var bzmc="";
+
+    if (sm.hasSelection()) {
+      node = sm.getSelection()[0];
+      if (node.data.leaf) {
+       // p.set("cdid", node.data.id);
+       // p.set("cdmc", node.data.text);
+       cdmc=node.data.text;
+       cpid=node.data.id;
+      } 
+    }
+    if (cdmc==""){
+      
+        Ext.MessageBox.alert("注意！", "请选择商品产地名称！");
+        return false;
+    }
+
+    selecttree = that.getView().down("#selectCdmcTreePanel1");
+    sm = selecttree.getSelectionModel();
+    if (sm.hasSelection()) {
+      node = sm.getSelection()[0];
+      if (node.data.leaf) {
+        //p.set("cpid", node.data.id);
+        //p.set("cpmc", node.data.text);
+        cpmc=node.data.text;
+      } 
+    }
+    if (cpmc==""){
+      Ext.MessageBox.alert("注意！", "请选择商品名称！");
+      return false;
+    }
+    selecttree = that.getView().down("#selectCdmcTreePanel2");
+    sm = selecttree.getSelectionModel();
+    node=null;
+    if (sm.hasSelection()) {
+      node = sm.getSelection()[0];
+      if (!node.data.leaf) {
+        Ext.MessageBox.alert("注意！", "请选择商品包装规格！");
+        return false;
+      }
+    }
+
+
+        /*p.set("bzmc", node.data.text);
+        p.set("bzid", node.data.id);
+        p.set("rate", node.data.rate);
+        p.set("zljs", node.data.zljs);
+        p.set("czdj", 0);
+        p.set("phdj", 0);
+        p.set("bydj", node.data.bydj);
+        p.set("sldw", node.data.sldw);
+        p.set("zldw", node.data.zldw);
+        
+          selection.set("bzmc", node.data.text);
+  selection.set("bzid", node.data.id);
+  selection.set("dj", node.data.bydj);
+  selection.set("rate", node.data.rate);
+        */
+        if (node.data.zljs == 1) {
+          var jldw= node.data.zldw;
+        } else {
+          var jldw= node.data.sldw;
+        }
+
+
+        var cpgfdmx = that.lookupReference("CpgfdmxGrid").getStore();
+        cpgfdmx.add({
+          cpid: cpid,
+          xmmc: cpmc,
+          jldw: jldw,
+          cdmc:cdmc,
+          bzmc:node.data.text,
+          bzid:node.data.id,
+          sl: 0,
+          zl: 0,
+          je: 0,
+          dj: node.data.bydj,
+          rate:node.data.rate,
+          byg: "",
+          cg: "",
+          gs: "",
+        });
+
+
+        that.lookupReference("popupSelectJkspWindow").close();
+       return;
+  },
+
   onCpgfdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
     gfid = rec.data.gfid;
@@ -283,6 +498,15 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     treeSelect("khmc", that, "", that.popupmx, false, khmcCallBack);
     return false;
   },
+  onSelectCkbmView: function (record) {
+    treeSelect("ckmc", that, "", that.viewname, true);
+    return false;
+  },
+  ckmcTriggerClick: function (record) {
+    that.onBtnQueryClick();
+    return false;
+  },
+
   khmcTriggerClick: function (record) {
     that.onBtnQueryClick();
     return false;
@@ -353,6 +577,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     gfd["zl"] = sumzl;
     gfd["je"] = sumje;
     gfd["khid"] = p.data.khid;
+    gfd["ckid"] = p.data.ckid;
     gfd["gfid"] = gfid;
     gfd["khmc"] = p.data.khmc;
     gfd["area"] = p.data.area;
@@ -374,7 +599,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
       params: {
         act: "cpgfkdmxsave",
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
-        p_l_id: sys_location_id,
+        p_l_id: sys_current_ckid,
         loc: "",
         data: encodedString,
       },
@@ -461,14 +686,15 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdkdshCtrl", {
     var customerGrid = that.lookupReference("CpgfdmxGrid");
     var store = customerGrid.getStore();
     var v = that.lookupReference("gfdpopupWindow").getViewModel();
-    v.set("sl", store.sum("sl"));
-    v.set("zl", store.sum("zl"));
-    v.set("je", store.sum("je"));
+    v.set("khsl", store.sum("khsl"));
+    v.set("khzl", store.sum("khzl"));
+    
+    /*v.set("je", store.sum("je"));
     //        console.log(v.get('sl'), v.get('zl'), v.get('je'));
     if (v.get("xjbz")) {
       v.set("xjje", v.get("je"));
     } else {
       v.set("xjje", 0);
-    }
-  },
+    }*/
+  }
 });

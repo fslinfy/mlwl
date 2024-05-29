@@ -1,5 +1,8 @@
 ﻿var gfid = 0;
 var that;
+var AddgfcpCallBack = function (node) {
+  console.log('sh add------CallBack', node);
+}
 var khmcCallBack = function (node) {
   that.popupmx.getViewModel().set("khid", node.data.id);
   that.popupmx.getViewModel().set("khmc", node.data.text);
@@ -84,8 +87,10 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
     "MyApp.view.main.cpgfgl.CpgfdEdit",
     "MyApp.view.main.tree.WorkerSelectTree",
     "MyApp.view.main.report.PrintCpgfd",
+    "MyApp.view.main.tree.CpTreeSelect"
   ],
   locQuery: function (the) {
+    console.log("cpgfdshctrl locquery")
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     cpgfdmxStore0.proxy.extraParams.loc = "cpgfdmxsh";
@@ -228,13 +233,16 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
       Ext.MessageBox.alert("提示！", "请先选择客户名称！");
       return;
     }
-    treeSelect("cpmc", that, "", that.viewname, false, addCpmcCallBack);
+    //treeSelect("cpmc", that, "", that.viewname, false, addCpmcCallBack);
+    cpbmtreeSelect(AddgfcpCallBack); 
     return false;
   },
   onCpgfdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
     gfid = rec.data.gfid;
     var record = rec.data;
+    sys_current_khid=rec.data.khid;;
+    sys_current_ckid=rec.data.L_id;
     record["btnButtonHidden"] = false;
     record["op"] = "ywsh";
     record["gsop"] = false;

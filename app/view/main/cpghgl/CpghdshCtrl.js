@@ -40,20 +40,15 @@ var ghshsaveCallBack = function (th) {
         if (btn == "yes") {
           PrintCpghdghid(mghid);
         }
-        // th.getView().down("#cpghdsowview").close();
         p.close();
         th.locQuery(th);
-      },
+      }
     });
-    //p.close();
-    //th.locQuery(th)
   } else {
     p.close();
     th.locQuery(th);
     Ext.MessageBox.alert("提示！", "此过户单过户内容已作废！");
   }
-  //that.getView().down("#cpghdsowview").close();
-  //that.locQuery(th);
 };
 Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
   extend: "Ext.app.ViewController",

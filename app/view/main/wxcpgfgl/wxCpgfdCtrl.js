@@ -239,8 +239,10 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     gfid = rec.data.gfid;
     var record = rec.data;
     khid = rec.data.khid;
+    sys_current_khid=khid;
+    sys_current_ckid=rec.data.L_id;
     // that.ghmxid=rec.data.mxid;
-    //console.log("onCpgfdmxShowView", record);
+    console.log("onCpgfdmxShowView", record);
     var endrq = rec.data.endrq; // Ext.Date.format(rec.data.endrq, 'Y-m-d');
     var today = Ext.Date.format(new Date(), "Y-m-d");
     //console.log("date", today,'  end:', endrq);

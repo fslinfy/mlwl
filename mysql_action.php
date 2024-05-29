@@ -1451,7 +1451,7 @@ function commodityselecttreelist() {
 //return $_GET['displayall'];
 	$sqlstr = "SELECT DISTINCT type.`t_code` AS code, type.`T_name` AS text  , Type.`T_id`  AS id";
 	$sqlstr = $sqlstr . " FROM `commodity` s INNER JOIN `commoditytype` ct  ON (`s`.`CT_id` = `ct`.`CT_id`) ";
-	$sqlstr = $sqlstr . " INNER JOIN `type` ON (`ct`.`T_id` = `type`.`T_id`) WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1";
+	$sqlstr = $sqlstr . " INNER JOIN `type` ON (`ct`.`T_id` = `type`.`T_id`) WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1 and s.s_name<>'' ";
 	$sqlstr = $sqlstr . " and Type.E_code='" . $p_e_code . "'  ";
 	
 	$displayall=$_GET['displayall'];
@@ -1486,7 +1486,7 @@ function commodityselecttreelist() {
         ON (`s`.`CT_id` = `ct`.`CT_id`)
     INNER JOIN `type` 
         ON (`ct`.`T_id` = `type`.`T_id`)
-WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1 ";
+WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1 and s.s_name<>''";
 	$sqlstr = $sqlstr . " and Type.E_code='" . $p_e_code . "'  ";
 	
 	if ($displayall=='cpkc')
@@ -1525,7 +1525,7 @@ FROM
         ON (`s`.`CT_id` = `ct`.`CT_id`)
     INNER JOIN `type` 
         ON (`ct`.`T_id` = `type`.`T_id`)
-WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1 ";
+WHERE   ct.`Active`=1 AND s.`Active`=1 AND type.`Active`=1  and s.s_name<>'' ";
 	$sqlstr = $sqlstr . " and Type.E_code='" . $p_e_code . "'";
 	if ($displayall=='cpkc')
 	{
@@ -2201,18 +2201,19 @@ function packingselecttreelist() {
 		SELECT PS_id AS Pid ,`Czdj`,`Phdj`,`Czdj2`,`Phdj2`,`Bydj`,`Pbdj`,`Ghdj`,`Pfdj`,Khps_id as id,Khid,mints,L_id  
 		FROM packing_kh WHERE khid=".$khid." and L_id=".$lid." ) c ON a.PS_id=c.Pid 
 		where active=1 and  a.l_id=".$lid."  and  E_code='".$_GET['p_e_code']."' and a.Xmlb=".$gfbz;
-		
+		$sqlstr =" select * from (".$sqlstr .") w order by ps_code";
 	}
 	else
 	{
 		$sqlstr = " SELECT * ,PS_id as id  FROM packing where E_code='" . $_GET['p_e_code'] . "'";
 		$sqlstr = $sqlstr . " and Active=1  and Xmlb=".$gfbz;
 		$sqlstr = $sqlstr . "   order by PS_code ";
+			
 	}
 
+	//return $sqlstr;	
 
-
- // return $sqlstr;
+ 
 	$query = mysql_query($sqlstr);
 	if ($query) {
 		$tree = array();
@@ -5054,8 +5055,13 @@ function cpxsdmxlist_pc() {
 	   switch($loc) 
 		{
       	case 'cpxsdmxsh' :
-		  $khkd=$_GET["khkd"];
-	   	$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and cpxsd.khkd=".$khkd;
+		  
+		  $khkd=(int)$_GET["khkd"];
+		  if ($khkd==0 ){
+	   	$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and cpxsd.khkd=0";
+		  }else{
+			$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and cpxsd.khkd>0";
+		  }
 		break;
 	  	case 'cpxsdmxmfh' :
 		$filter .=" and cpxsd.ztbz=1 and cpxsd.fhbz<1 and cpxsd.delbz=0 ";  
@@ -5226,11 +5232,11 @@ function cpghdmxlist_pc() {
 
 function wxcpgfdmxlist_pc() {
 	
-	$Lid=$_GET["p_l_id"];
+	$Lid=(int)$_GET["p_l_id"];
 	$gfid=(int)$_GET["gfid"];
 	$khid=(int)$_GET["khid"];
-	$ckid=(int)$_GET["ckid"];
-	$lid=(int)$_GET["L_id"];
+	//$ckid=(int)$_GET["ckid"];
+	//$lid=(int)$_GET["L_id"];
 	$deletebz=0;
 
 	if (isset($_GET["deletebz"])){
@@ -5346,11 +5352,11 @@ function wxcpgfdmxlist_pc() {
 
 
 function cpxsdlist_pc() {	
-	$Lid=$_GET["p_l_id"];
+	$Lid=(int)$_GET["p_l_id"];
 	$xsid=(int)$_GET["xsid"];
 	$khid=(int)$_GET["khid"];
-	$ckid=(int)$_GET["ckid"];
-	$lid=(int)$_GET["L_id"];
+	//$ckid=(int)$_GET["ckid"];
+	//$lid=(int)$_GET["L_id"];
     
     $loc=$_GET["loc"];
 	if ($xsid>0)
@@ -5361,12 +5367,13 @@ function cpxsdlist_pc() {
 	   switch($loc) 
 		{
       	case 'cpxsdsh' :
-		   $khkd=$_GET["khkd"];
-		   if ($khkd==0 ){
-				$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and khkd=0";
-		   }else{
-		  		 $filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and khkd>0";
-		   }
+		   $khkd=(int)$_GET["khkd"];
+		  // if ($khkd==0 ){
+			//	$filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and khkd=0";
+		   //}else{
+		  	//	 $filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 and khkd>0";
+		  // }
+		  $filter .=" and cpxsd.ztbz=0 and cpxsd.delbz=0 ";
 		   break;
 	  	case 'cpxsdmfh' :
 			$filter .=" and cpxsd.ztbz=1 and cpxsd.delbz=0 and cpxsd.fhbz<1 ";  
@@ -5401,9 +5408,9 @@ function cpxsdlist_pc() {
     	{
     		$filter .=" and cpxsd.khid=".$khid;
     	}
-    	if ($ckid>0)
+    	if ($Lid>0)
     	{
-    		$filter .=" and cpxsd.L_id=".$ckid;
+    		$filter .=" and cpxsd.L_id=".$Lid;
     	}
 	//	$filter .=" and cpxsd.rq<'2019-06-17 18:03:13'";
 //		if ($lid>0)
@@ -5416,18 +5423,18 @@ function cpxsdlist_pc() {
 //             $filter=$filter." and cpxsd.xsid in (select cpxsd.xsid from cpxsd ,cpxsdmx where cpxsd.xsid=cpxsdmx.xsid and cpxsdmx.xssl>cpxsdmx.ccsl  " .$filter. ")";
 //		}
 		$sqlstr ="SELECT *,xsid as id FROM cpxsd where xsid>0 ".$filter ;
-     //	return $sqlstr ; 
+     	//return $sqlstr ; 
 		$query = mysql_query($sqlstr);
 		return getjsonstoredata($query, 0);
 }
 
 
 function cpghdlist_pc() {	
-	$Lid=$_GET["p_l_id"];
+	$Lid=(int)$_GET["p_l_id"];
 	$ghid=(int)$_GET["ghid"];
 	$khid=(int)$_GET["khid"];
-	$ckid=(int)$_GET["ckid"];
-	$lid=(int)$_GET["L_id"];
+	//$ckid=(int)$_GET["ckid"];
+	//$lid=(int)$_GET["L_id"];
     
     $loc=$_GET["loc"];
 	if ($ghid>0)
@@ -5594,17 +5601,16 @@ function cpghdlist_pc() {
 
 		}
 
-
-     //	return $sqlstr . $loc; 
+     //	return $sqlstr ; 
 		$query = mysql_query($sqlstr);
 		return getjsonstoredata($query, 0);
 }
 function wxcpgfdlist_pc() {	
-	$Lid=$_GET["p_l_id"];
+	$Lid=(int)$_GET["p_l_id"];
 	$gfid=(int)$_GET["gfid"];
 	$khid=(int)$_GET["khid"];
-	$ckid=(int)$_GET["ckid"];
-	$lid=(int)$_GET["L_id"];
+	//$ckid=(int)$_GET["ckid"];
+	//$lid=(int)$_GET["L_id"];
 
 	$deletebz=0;
 	if (isset($_GET["deletebz"])){
@@ -9655,7 +9661,7 @@ function cpgfkdmxsave() {
 	$dh =$arr['dh'];
 	$cpgfdstr = " insert into wxcpgfd (gfdh,L_id,khid,khmc,cphm,area,sfr,czy,cnote,khsl,khzl,kdrq,endrq)values('";
 	$cpgfdstr .= $dh. "'";
-	$cpgfdstr .= "," . $L_id;
+	$cpgfdstr .= "," . $o['ckid'];
 	$cpgfdstr .= "," . $o['khid'];
 	$cpgfdstr .= ",'" . $o['khmc'] . "'";
 	$cpgfdstr .= ",'" . $o['cphm'] . "'";
@@ -9673,7 +9679,7 @@ function cpgfkdmxsave() {
 	$gfid=mysql_insert_id();
 	if ((mysql_errno() > 0 ) ||($gfid==0)) {
 		mysql_query('rollback');
-		return '{result:"fail",msg:"数据保存失败!" }';
+		return '{result:"fail",msg:"数据保存失败!!"'.$cpgfdstr.'  }';
 		//return '数据保存失败!' . $cpgfdstr;
 	}
 	foreach ($cpgfdmx as $row) {
@@ -9695,7 +9701,7 @@ function cpgfkdmxsave() {
 	mysql_query('commit');
 	if (mysql_errno() > 0) {
 		mysql_query('rollback');
-		return '{result:"fail",msg:"数据保存失败!" }';
+		return '{result:"fail",msg:"数据保存失败!"'.$cpgfdstr.' }';
 		//return '数据保存失败!!!';
 	} 
 	else 
@@ -10668,7 +10674,7 @@ function cpghdghshsave()
 			mysql_query($sqlstr);
 			if (mysql_errno() > 0) {
 				mysql_query('rollback');
-				return '{result:"fail",msg:"数据保存失败!"}';
+				return '{result:"fail",msg:"数据保存失败!"'. $sqlstr.'}';
 				//return '数据保存失败!' . $sqlstr;
 			}else
 			{

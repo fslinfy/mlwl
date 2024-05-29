@@ -149,7 +149,10 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
     gfid = rec.data.gfid;
     mgfid = gfid;
     var record = rec.data;
-    //console.log('CpgfshShowView',record);
+    sys_current_khid=rec.data.khid;;
+    sys_current_ckid=rec.data.L_id;
+
+    console.log('CpgfckshShowView',record);
     record["op"] = "cksh";
     record["gsop"] = false;
     record["w"] = 50;

@@ -5,6 +5,44 @@ var cpjkd_store;
 var CurCpjkdcwStore;
 var CurCpjkdjeStore;
 var CurCpjkdmxStore;
+var cdmcCallBack = function (node) {
+    console.log(node);
+}
+var AddSPCallBack = function (node) {
+  console.log("AddSPCallBack",node);
+  var p = that.lookupReference("jkdpopupWindow").getViewModel();
+  record = {};
+  
+  record["newrecord"] = true;
+  record["mints"] = 1;
+  record["jkdh"] = p.get("jkdh");
+  record["khid"] = sys_current_khid;
+  record["mxdh"] = generateGUID();
+  record["cdid"] =node.cdmcdata.id;
+  record["cdmc"] =node.cdmcdata.text;
+  record["cpid"] =node.cpmcdata.id ;
+  record["cpmc"] =node.cpmcdata.text ;
+  record["cpgg"] = "";
+  record["bzid"] =node.bzmcdata.id;
+  record["bzmc"] =node.bzmcdata.text;
+  record["rate"] = node.bzmcdata.rate;
+  record["zljs"] = node.bzmcdata.zljs;
+      
+  record["czdj"] = 0;
+  record["phdj"] = 0;
+  record["bydj"] = node.bzmcdata.bydj;
+  record["sldw"] = node.bzmcdata.sldw;
+  record["zldw"] = node.bzmcdata.zldw;
+      if (node.bzmcdata.zljs == 1) {
+        record["jldw"] = node.bzmcdata.zldw;
+      } else {
+        record["jldw"] = node.bzmcdata.sldw;
+      }
+  
+
+    that.createDialog(record, p.get("jkdh"));
+}
+
 var jkdworkCallBack = function (node) {
   var rec = node.data;
   var p = that.popupmx;
@@ -37,6 +75,36 @@ var jkdworkCallBack = function (node) {
   });
   sumjs(null, cpjkdmxje, p.getViewModel());
 };
+var selectcpmcCallBack = function (node) {
+  console.log('selectcpmc---CallBack', node);
+  var p = that.lookupReference("popupcpjkWindow").getViewModel();
+      p.set("cdid", node.cdmcdata.id);
+      p.set("cdmc", node.cdmcdata.text);
+  
+      p.set("cpid", node.cpmcdata.id);
+      p.set("cpmc", node.cpmcdata.text);
+  
+      p.set("bzmc", node.bzmcdata.text);
+      p.set("bzid", node.bzmcdata.id);
+      p.set("rate", node.bzmcdata.rate);
+      p.set("zljs", node.bzmcdata.zljs);
+      //  r.set('czdj', node.data.czdj);
+      //  r.set('phdj', node.data.phdj);
+      p.set("czdj", 0);
+      p.set("phdj", 0);
+      p.set("bydj", node.bzmcdata.bydj);
+      p.set("sldw", node.bzmcdata.sldw);
+      p.set("zldw", node.bzmcdata.zldw);
+      if (node.bzmcdata.zljs == 1) {
+        p.set("jldw", node.bzmcdata.zldw);
+      } else {
+        p.set("jldw", node.bzmcdata.sldw);
+      }
+  
+  return;
+
+
+};
 var packingCallBack = function (node) {
   //console.log('packing------CallBack', node);
   //var p= this.lookupReference('popupcpjkWindow');
@@ -65,10 +133,11 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     "MyApp.view.main.cpjkgl.CpjkdView",
     "MyApp.view.main.DataSave",
     "MyApp.view.main.report.PrintCpjkd",
-    "MyApp.view.main.tree.NewCpjkSelectTree",
+    "MyApp.view.main.tree.CpTreeSelect",
+    "MyApp.view.main.tree.NewCpjkSelectTree"
   ],
   onBtnQueryClick: function (button, e, options) {
-   // this.getView().getStore().load();
+    // this.getView().getStore().load();
     var allkh = that.viewname.getViewModel().get("allkh");
     var store = that.viewname.getStore();
     var v = that.viewname.getViewModel();
@@ -78,11 +147,8 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     } else {
       bz = 0;
     }
-  
-    
     store.proxy.extraParams.allkh = bz;
     store.reload();
-
     return false;
   },
   onItemSelected: function (sender, record) {
@@ -128,6 +194,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     that = this;
     //console.log("init");
     //console.log(base64encode('8888'));
+    //CurCpjkdcwStore
     that.viewname = that.getView();
     CurCpjkdcwStore = Ext.create("Ext.data.Store", {
       extend: "Ext.data.Store",
@@ -192,12 +259,8 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
       },
       "#FilterField": {
         change: this.onFilterChange,
-      } /*,
-            "#btnJkspTreeAdd": {
-                change: this.onJkspSelectOkClick
-            }*/,
+      }
     });
-    // console.log("init  2");
   },
   onUploadFile: function () {
     uploadWin = new Ext.Window({
@@ -231,10 +294,16 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     this.createDialog(button.getWidgetRecord());
   },
   onshowEditView: function (button) {
+    //sqltest2();
+    //sqltest1();
     var rec = button.getWidgetRecord();
-    // console.log("area",sys_location_area);
+    
     khid = rec.data.C_id;
+    sys_current_khid = khid;
+    sys_current_ckid = sys_location_id;
+    console.log("rec", rec,sys_current_ckid,sys_current_khid);
     var khmc = rec.data.C_name;
+    console.log('onshowEditView sys_current_ckid', sys_current_ckid, sys_current_khid, khmc);
     cpjkd_store.clearFilter();
     var index = cpjkd_store.find("khid", khid);
     var record = cpjkd_store.getAt(index);
@@ -267,7 +336,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     record["cphm"] = "";
     record["czy"] = sys_userInfo.username;
     jkdh = record["jkdh"];
-    console.log("jkdh=", jkdh);
+    console.log("jkdh1=", jkdh);
     var view = that.getView();
     that.isEdit = false; // !!record;
     that.dialog = view.add({
@@ -295,29 +364,15 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     var view = this.getView();
     system_khid = khid;
     current_newid = khid;
-    this.isEdit_mx = !!record;
+    console.log('createDialog', sys_current_khid, sys_current_ckid, record);
+    this.isEdit_mx =(jkdh==undefined)  ;// !!record;
     if (!this.isEdit_mx) {
-      record = {};
-      this.editrecordID = 0;
-      record["newrecord"] = true;
-      record["mints"] = 1;
-      record["jkdh"] = jkdh;
-      record["khid"] = khid;
-      record["mxdh"] = generateGUID();
-      record["cdid"] = 0;
-      record["cdmc"] = "";
-      record["cpid"] = 0;
-      record["cpmc"] = "";
-      record["cpgg"] = "";
-      record["bzid"] = 0;
-      record["bzmc"] = "";
+      
     } else {
       this.editrecordID = record["id"];
       record["newrecord"] = false;
       record["khid"] = khid;
-      // console.log("this.recordID",this.recordID);
     }
-    // console.log(record);
     record["title"] = "进库商品明细录入";
     this.dialog_mx = view.add({
       xtype: "formcpjkwindow",
@@ -345,20 +400,27 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     this.createDialog(button.getWidgetRecord().data, null);
   },
   onshowmxEditView: function (record) {
-    var p = this.lookupReference("jkdpopupWindow").getViewModel();
-    this.createDialog(null, p.get("jkdh"));
+   // var p = this.lookupReference("jkdpopupWindow").getViewModel();
+   // this.createDialog(null, p.get("jkdh"));
+   cpbmtreeSelect(AddSPCallBack);
   },
   onSelectCdbmView: function (record) {
     // console.log('onSelectCdbmView');
-    treeSelect("cdmc", that, "", that.getView().down("#cpjkdmxedit"), false);
+    //treeSelect("cdmc", that, "", that.getView().down("#cpjkdmxedit"), false);
+    SelectCdmc(cdmcCallBack);
     return false;
   },
   onSelectCpbmView: function (record) {
     treeSelect("cpmc", that, "", that.getView().down("#cpjkdmxedit"), false);
     return false;
   },
+  onCpbmSelectOkClick: function () {
+    console.log("onCpbmSelectOkClick", current_newid);
+    return;
+  },
   onJkspSelectOkClick: function () {
-    //console.log("onJkspTreeAdd", current_newid);
+    console.log("onJkspSelectOkClick", current_newid);
+    return;
     var p = that.lookupReference("popupcpjkWindow").getViewModel();
     var selecttree = that.getView().down("#selectCdmcTreePanel");
     var sm = selecttree.getSelectionModel();
@@ -415,6 +477,14 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
     return;
   },
   onSelectPackingView: function (record) {
+
+    cpbmtreeSelect(selectcpmcCallBack);
+    return;
+  
+
+    
+
+    console.log('onSelectPackingView sys_current_ckid', sys_current_ckid, sys_current_khid);
     //console.log("onSelectPackingView", khid);
     // that.popupmx = that.getView().down('#cpjkdmxedit');
     //treeSelect('bzmc', that, '', that.popupmx, false, packingCallBack);
@@ -427,9 +497,17 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdCtrl", {
       session: true,
     });
     this.dialog.show();
-    var s = that.getView().down("#selectCdmcTreePanel2").getStore();
-    s.proxy.extraParams.p_c_id = khid;
-    s.load();
+    console.log(this.getView().down("#btnbzmcTreerefresh"), this.lookupReference("btnbzmcTreerefresh"))
+    /* var s = that.getView().down("#selectCdmcTreePanel2").getStore();
+    //s = that.lookupReference("selectCdmcTreePanel2").getStore();
+     //s= this.up("#selectCdmcTreePanel2").getStore();
+      s.proxy.extraParams.p_c_id = sys_current_khid;
+      s.proxy.extraParams.p_l_id = sys_current_ckid;
+      s.proxy.extraParams.aaaaaaaaaa = "2";
+      s.reload();*/
+    this.getView().down("#btnbzmcTreerefresh").click;
+    //this.up("#selectCdmcTreePanel2").getStore().reload();
+
     return false;
   },
   onCpjkdjeAddClick: function (record) {

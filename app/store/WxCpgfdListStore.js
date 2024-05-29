@@ -14,7 +14,8 @@ Ext.define('MyApp.store.WxCpgfdListStore', {
         extraParams: {
             loc: 'wxcpgfdloc',
             userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
-            p_l_id: sys_location_id
+            p_l_id: sys_current_ckid,
+            khid: sys_current_khid
         },
         reader: {
             type: 'json',

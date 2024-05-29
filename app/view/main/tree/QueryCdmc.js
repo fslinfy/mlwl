@@ -3,6 +3,7 @@ Ext.define("MyApp.view.main.tree.QueryCdmc", {
   alias: "widget.QueryCdmc",
   itemId: "QueryCdmc",
   layout: "hbox",
+  requires: ["MyApp.view.main.tree.SelectTreeCdmc"],
   defaults: { border: 0, cls: "x-btn-text-icon details", disabled: false },
   items: [
     {
@@ -17,8 +18,7 @@ Ext.define("MyApp.view.main.tree.QueryCdmc", {
       triggerCls: "x-form-clear-trigger",
       onTriggerClick: function () {
         this.reset();
-        that.getView().getViewModel().set("cdid", 0);
-        that.cdmcTriggerClick();
+        this.up("#QueryCdmc").down("#textQueryCdid").reset();
       },
     },
     {
@@ -26,7 +26,7 @@ Ext.define("MyApp.view.main.tree.QueryCdmc", {
       itemId: "btnQueryCdmc",
       margin: "1 5 1 0",
       text: "...",
-      width: 30,
+      width: 30
     },
     {
       xtype: "textfield",
