@@ -51,7 +51,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdlocCtrl", {
     return false;
   },
   init: function () {
-    //        console.log("init");
+    //        //console.log("init");
     that = this;
     var viewname = that.getView().down("#CpghdListGrid");
     that.viewname = viewname;
@@ -184,7 +184,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdlocCtrl", {
     record["op"] = "loc";
     record["ckop"] = false;
     record["title"] = "商品过户单";
-    console.log(record);
+    //console.log(record);
     var view = this.getView();
     this.isEdit = false;
     this.dialog = view.add({
@@ -240,7 +240,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdlocCtrl", {
     if (ghid == 0) {
       return;
     }
-    //         console.log("p",p);
+    //         //console.log("p",p);
     var msg = "过户单：" + p.get("ghdh") + "<br>客户名称：" + p.get("khmc");
     var title = "真的作废此过户单内容？";
     Ext.MessageBox.show({
@@ -254,7 +254,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdlocCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        // console.log(btn, text);
+        // //console.log(btn, text);
         if (btn == "yes") {
           var p = that.lookupReference("popupCpghdWindow");
           p.down("#btnCpghdDelete").setHidden(true);

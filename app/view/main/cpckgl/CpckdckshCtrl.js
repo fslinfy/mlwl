@@ -3,7 +3,7 @@ var cpckdmxStore;
 var mmccsl = 0;
 var mmcczl = 0;
 var cwsaveCallBack = function (th) {
-  console.log("cwsaveCallBack");
+  //console.log("cwsaveCallBack");
   var cpckdmx_store = that.lookupReference("CpckdmxGrid").getStore();
   cpckdmx_store.load();
   var cpckdcw_store = that.lookupReference("cpckdmxcw0").getStore();
@@ -12,6 +12,17 @@ var cwsaveCallBack = function (th) {
   that.getView().down("#CpckdmxShEdit").close();
 };
 var ckckshsaveCallBack = function (th) {
+
+  if (that.loc=='ok'){
+
+    Ext.MessageBox.alert("注意!", "此单审核成功！");
+  }else{
+
+    Ext.MessageBox.alert("注意!", "此单删除成功！");
+  } 
+
+  
+
   that.getView().down("#cpckdshowview").close();
   that.locQuery(th);
 };
@@ -24,7 +35,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     "MyApp.view.main.cpckgl.CpckdmxShEdit",
   ],
   locQuery: function (that) {
-    console.log("cksh locQuery");
+    //console.log("cksh locQuery");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -148,7 +159,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     var ckid = rec.data.ckid;
     var record = rec.data;
     that.mainrecord = rec;
-    console.log("record", record);
+    //console.log("record", record);
     record["op"] = "cksh";
     record["gsop"] = false;
     record["w"] = 40;
@@ -204,7 +215,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     var rec = button.getWidgetRecord();
     mmccsl = 0;
     mmcczl = 0;
-    // console.log(rec.data);
+    // //console.log(rec.data);
     var mxid = rec.data.mxid;
     var kcid = rec.data.kcid;
     var record = rec.data;
@@ -218,7 +229,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     //     record['ccsl'] = record['mccsl'];
     //     record['cczl'] = record['mcczl'];
     // }
-    // console.log("onCpckdmxShowView", record['ccsl'], record['cczl']);
+    // //console.log("onCpckdmxShowView", record['ccsl'], record['cczl']);
     this.dialog_mx = view.add({
       xtype: "cpckdmxsheditwindow",
       //   xtype:'cpxsdcpckformwindow',
@@ -236,7 +247,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
   onGridReload: function () {
     var store = this.lookupReference("CpckdmxGrid").getStore();
     /*   store.each(function (rec) {
-               console.log(rec);
+               //console.log(rec);
                     if (rec.data.jeid > 0) {
                         gsbyrec = {};
                         gsbyrec["jeid"] = rec.data.jeid;
@@ -246,7 +257,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
                         gsby.push(gsbyrec);
                     }
                 })*/
-    console.log(store);
+    //console.log(store);
     var mxid = store.getAt(0).get("mxid");
     var cpckdcw_store = this.lookupReference("cpckdmxcw0").getStore();
     cpckdcw_store.clearFilter();
@@ -255,13 +266,13 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     });
   },
   onCpckdmxItemSelected: function (sender, record) {
-    //console.log("ckmcid",record);
+    ////console.log("ckmcid",record);
     var cpckdcw_store = that.lookupReference("cpckdmxcw0").getStore();
     var mxid = record.data.mxid;
-    //console.log("ckmcid",mxid);
+    ////console.log("ckmcid",mxid);
     cpckdcw_store.clearFilter();
     //cpckdcw_store.each(function (rec) {
-    //    console.log("ckdcw",rec);
+    //    //console.log("ckdcw",rec);
     //})
     cpckdcw_store.filterBy(function (record, id) {
       return record.get("ckmxid") == mxid;
@@ -274,9 +285,9 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
  */
   onSelectWorkerView: function (button) {
     var rec = button.getWidgetRecord();
-    //console.log("SelectWorkerView",rec);
+    ////console.log("SelectWorkerView",rec);
     if (rec.data.jeid > 0) {
-      //console.log("SelectWorkerView");
+      ////console.log("SelectWorkerView");
       SelectWorkerView(button);
     } else {
       if (rec.data.cwsl < rec.data.ccsl) {
@@ -285,7 +296,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
     }
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpckWorkerSelectOkClick(that);
   },
   khmcTriggerClick: function (record) {
     that.onBtnQueryClick();
@@ -336,21 +347,22 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
         sumsl = 0;
         sumzl = 0;
         cpckdcw_store.each(function (reccw) {
-          //console.log(ckmxid,reccw.data);
+        //  //console.log(ckmxid,reccw.data);
           if (reccw.data.ckmxid == ckmxid) {
             sumsl = sumsl + reccw.data.sl;
             sumzl = sumzl + reccw.data.zl;
           }
         });
-        //console.log(sumsl, Math.round(sumzl * 1000) / 1000,rec.data.ccsl,rec.data.cczl,rec.data);
+     //   //console.log(sumsl, sumzl,rec);
         if (
-          Math.round(rec.data.ccsl * 1000) != Math.round(sumsl * 1000) ||
-          Math.round(rec.data.cczl * 1000) != Math.round(sumzl * 1000)
+          Math.round(rec.data.cwsl * 1000) != Math.round(sumsl * 1000) ||
+          Math.round(rec.data.cwzl * 1000) != Math.round(sumzl * 1000)
         ) {
           ckstatus = 1;
         }
       }
     });
+    that.loc=loc; 
     if (loc == "ok") {
       if (ckstatus == 1) {
         Ext.MessageBox.alert(
@@ -372,7 +384,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
       var rq = Ext.decode(Ext.encode(p.get("ckrq"))).substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (rq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月出库单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
@@ -422,16 +434,18 @@ Ext.define("MyApp.view.main.cpckgl.CpckdckshCtrl", {
       sumsl = 0,
       sumzl = 0;
     cpckdcw_store.each(function (reccw) {
-      if (reccw.data.ccsl != 0 || reccw.data.cczl != 0) {
+      //console.log(reccw);
+      if (reccw.data.cwsl != 0 || reccw.data.cwzl != 0) {
         i++;
-        sumsl = sumsl + reccw.data.ccsl;
-        sumzl = sumzl + reccw.data.cczl;
+        sumsl = sumsl + reccw.data.cwl;
+        sumzl = sumzl + reccw.data.cwzl;
       }
     });
     if (i == 0) {
       Ext.MessageBox.alert("注意！", "输入出仓数量、重量！");
       return false;
     }
+    //console.log(sumsl,sumzl,p);
     if (sumsl != 0 || sumzl != 0) {
       if (
         Math.round(sumsl * 1000) != 1000 * p.get("ccsl") ||

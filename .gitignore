@@ -3,3 +3,5 @@
 package-lock.json
 package.json
 /uploadFiles
+/logs
+mysql_connect.php

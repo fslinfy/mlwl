@@ -7,8 +7,8 @@ var ghshsaveCallBack = function (th) {
   var p = th.lookupReference("popupCpghdWindow");
   //  var mckid = p.getViewModel().get('ckid');
   var mghid = that.ghid;
-  // console.log("qcloudsmssend",mghid);
-  if (th.loc == "ok") {
+  // //console.log("qcloudsmssend",mghid);
+  if (that.loc == "ok") {
     // 发信息
     /*Ext.Ajax.request({
             method: 'GET',
@@ -68,7 +68,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
     "MyApp.view.main.report.PrintCpghdgh",
   ],
   locQuery: function (that) {
-    console.log("sh locQuery");
+    //console.log("sh locQuery");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -174,7 +174,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
         click: function () {
           onPrintCpghd();
           // Printcpghdghid(mghid);
-          //console.log('printcpghd');
+          ////console.log('printcpghd');
         },
       },
       //    "#btnQueryCkmc": {
@@ -222,7 +222,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
     mghid = ghid;
     var record = rec.data;
     that.ghdrecord = rec;
-    console.log("CpghshShowView", record);
+    //console.log("CpghshShowView", record);
     record["op"] = "sh";
     record["gsop"] = false;
     record["w"] = 50;
@@ -255,7 +255,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
     var cpghdmx_store = that.lookupReference("CpghdmxGrid").getStore();
     cpghdmx_store.on("load", function () {
       //cpghdmx_store.each(function (rec) {
-      //    console.log('rec',rec);
+      //    //console.log('rec',rec);
       //})
       mxid = cpghdmx_store.getAt(0).get("mxid");
       cpghdcw_store.clearFilter();
@@ -277,14 +277,14 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
         cpghdcw_store.proxy.extraParams.ckid = ckid;
         cpghdcw_store.proxy.extraParams.loc = 'ckid';
         cpghdcw_store.load();
-        //console.log('init4');
+        ////console.log('init4');
         this.onGridReload();
-        //console.log('init5');
+        ////console.log('init5');
         */
   },
   onGridReload: function () {
     var store = that.lookupReference("CpghdmxGrid").getStore();
-    // console.log(store);
+    // //console.log(store);
     var mxid = store.getAt(0).get("mxid");
     var cpghdcw_store = that.lookupReference("cpghdmxcw0").getStore();
     cpghdcw_store.clearFilter();
@@ -293,13 +293,13 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
     });
   },
   onCpghdmxItemSelected: function (sender, record) {
-    //console.log("ckmcid",record);
+    ////console.log("ckmcid",record);
     var cpghdcw_store = that.lookupReference("cpghdmxcw0").getStore();
     var mxid = record.data.mxid;
-    //console.log("ckmcid",mxid);
+    ////console.log("ckmcid",mxid);
     cpghdcw_store.clearFilter();
     //cpghdcw_store.each(function (rec) {
-    //    console.log("ckdcw",rec);
+    //    //console.log("ckdcw",rec);
     //})
     cpghdcw_store.filterBy(function (record, id) {
       return record.get("mxid") == mxid;
@@ -312,11 +312,11 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
     },*/
   onSelectWorkerView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log(rec);
+    //console.log(rec);
     SelectWorkerView(button);
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpghWorkerSelectOkClick(that);
   },
   khmcTriggerClick: function (record) {
     that.onBtnQueryClick();
@@ -373,13 +373,13 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
       var cghrq = ghsh["ghrq"].substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (cghrq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月过户单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
     that.loc = loc;
     that.ghid = ghid;
-    console.log(ghsh);
+    //console.log(ghsh);
     //        return ;
     Ext.MessageBox.show({
       title: title,
@@ -410,8 +410,10 @@ Ext.define("MyApp.view.main.cpghgl.CpghdckshCtrl", {
             ghshsaveCallBack,
             the
           );
+        }else{
+          issave=false;
         }
-      },
+      }
     });
     /*   var abc = Ext.Msg.confirm(title, msg, function (e) {
                if (e == 'yes') {

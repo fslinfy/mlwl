@@ -38,7 +38,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdmfhCtrl", {
     return false;
   },
   init: function () {
-    //        console.log("init");
+    //        //console.log("init");
     that = this;
     this.control({
       "#btnQuery": {
@@ -151,7 +151,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdmfhCtrl", {
     var rec = button.getWidgetRecord();
     ghid = rec.data.ghid;
     var record = rec.data;
-    // console.log(record);
+    // //console.log(record);
     record["btnButtonHidden"] = true;
     //record['deletebz'] = true;
     record["op"] = "loc";
@@ -208,7 +208,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdmfhCtrl", {
     if (ghid == 0) {
       return;
     }
-    //         console.log("p",p);
+    //         //console.log("p",p);
     var msg = "过户单：" + p.get("ghdh") + "<br>客户名称：" + p.get("khmc");
     var title = "真的作废此过户单内容？";
     Ext.MessageBox.show({
@@ -222,7 +222,7 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdmfhCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        // console.log(btn, text);
+        // //console.log(btn, text);
         if (btn == "yes") {
           var p = that.lookupReference("popupCpghdWindow");
           p.down("#btnCpghdDelete").setHidden(true);

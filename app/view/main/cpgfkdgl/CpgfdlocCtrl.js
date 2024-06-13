@@ -20,7 +20,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
-    console.log(ckid,khid);
+    //console.log(ckid,khid);
     start_date = v.get("start_date");
     end_date = v.get("end_date");
     var d1 = Ext.Date.format(start_date, "Y-m-d");
@@ -93,7 +93,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
       } else {
         bz = 0;
       }
-      console.log(ckid,khid);
+      //console.log(ckid,khid);
       store.proxy.extraParams.act = "wxCpgfdlist_pc";
       store.proxy.extraParams.loc = "wxcpgfdloc";
       store.proxy.extraParams.deletebz = bz;
@@ -240,7 +240,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdlocCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        // console.log(btn, text);
+        // //console.log(btn, text);
         if (btn == "yes") {
           var p = that.lookupReference("gfdpopupWindow");
           p.down("#btnDeleteCpmc").setHidden(true);

@@ -36,7 +36,7 @@ AjaxDataSave = function (act, loc, data, CallBackFunction, the) {
         //		slideInDuration: 100,
         //		minWidth: 400
         //	});
-        CallBackFunction(the);
+        CallBackFunction(the,result);
       } else {
         Ext.MessageBox.alert("错误!", "数据保存失败！");
       }

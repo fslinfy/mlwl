@@ -1,5 +1,6 @@
 ﻿var gfid = 0;
 var that;
+displaycksh=true;
 var curcpgfdjeStore;
 /*
 var khmcCallBack = function (node) {
@@ -53,7 +54,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     end_date = v.get("end_date");
     var d1 = Ext.Date.format(start_date, "Y-m-d");
     var d2 = Ext.Date.format(end_date, "Y-m-d");
-    console.log(d1, d2, start_date, end_date);
+    //console.log(d1, d2, start_date, end_date);
     // var store = that.viewname.getStore();
     cpgfdmxStore0.proxy.extraParams.loc = "wxcpgfdmxgfloc";
     cpgfdmxStore0.proxy.extraParams.khid = khid;
@@ -68,6 +69,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
   },
   init: function () {
     that = this;
+    displaycksh =true;
     that.viewname = that.getView().down("#CpgfdListGrid");
     var v = that.viewname.getViewModel();
     v.set("PageTitleName", "商品过车单明细查询");
@@ -96,8 +98,8 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
         reader: {
           type: "json",
           rootProperty: "rows",
-        },
-      },
+        }
+      }
     });
     cpgfdmxStore0.on("load", function () {
       var v = that.viewname.getViewModel();
@@ -138,7 +140,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
       },
       "#FilterField": {
         change: this.onFilterChange,
-      },
+      }
     });
     that.getView().down("#QueryKhmc").setHidden(false);
     if (sys_location_id > 0) {
@@ -170,7 +172,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     gfid = rec.data.gfid;
     mgfid = gfid;
     var record = rec.data;
-    console.log("CpgfshShowView", record);
+    //console.log("CpgfshShowView", record);
     record["op"] = "loc";
     record["gsop"] = true;
     record["w"] = 0;
@@ -199,7 +201,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
   },
   onCpgfdmxgheditView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log("onCpgfdmxgheditView 商品过车处理", rec.data);
+    //console.log("onCpgfdmxgheditView 商品过车处理", rec.data);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -213,7 +215,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     var view = this.getView();
     this.isEdit_mx = !!record;
     that.ghmxid = mxid;
-    console.log("endrq", record);
+    //console.log("endrq", record);
     that.recordID = record["id"];
     record["newrecord"] = false;
     record["xjbz"] = rec0.data.xjbz;
@@ -234,24 +236,9 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     cpgfdje_store.filter({
       filterFn: function (item) {
         return item.get("mxid") == mxid && item.get("gfid") == gfid;
-      },
+      }
     });
   },
-  /*    onCpgfdjeDeleteClick: function (button) {
-                var customerGrid = this.lookupReference('cpgfdmxje'),
-                selection = customerGrid.getSelectionModel().getSelection()[0];
-            var msg = "费用项目：" + selection.get('work') + "<br>数量：" + selection.get('sl') + "<br>单位：" + selection.get('dw') + "<br>单价：" + selection.get('dj') + "<br>金额:" + selection.get('je');
-            var abc = Ext.Msg.confirm('真的删除费用内容？', msg, function (e) {
-                if (e == 'yes') {
-                    selection.drop();
-                    var panel = that.lookupReference('popupmxWindow').getViewModel();
-                    var store = customerGrid.getStore();
-                    that.sumjs(null, store, panel);
-                }
-            });
-    
-        },
-*/
   onSelectKhbmView: function (record) {
     treeSelect("khmc", that, "", that.viewname, true);
     return false;
@@ -265,11 +252,11 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     if (rec.data.mxdh == "1") {
       return;
     }
-    console.log("rec=", rec);
+    //console.log("rec=", rec);
     SelectWorkerView(button);
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick();
+    cpgfWorkerSelectOkClick();
   },
   onwxCpgfdFormSubmit: function () {
     //  this.wxCpgfdshSave('cpgfdloc', that);
@@ -300,11 +287,6 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
         mx.push(rec.data);
       }
     });
-    // if (recs==0)
-    //  {
-    //     Ext.MessageBox.alert('注意！', '请输入明细机械作用数据内容！');
-    //   return false;
-    // }
     var gfd = {};
     gfd["gfrq"] = Ext.decode(Ext.encode(p.get("gfrq")));
     gfd["gfid"] = gfid;
@@ -326,12 +308,12 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
     var cgfrq = gfd["gfrq"].substr(0, 10);
     var ctoday = Ext.Date.format(new Date(), "Y-m-d");
     if (cgfrq < sys_option_min_date && ctoday >= sys_option_min_date) {
-      Ext.MessageBox.alert("注意！", "此单是上月过车单，不能作删除处理！");
+      Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
       return false;
     }
     that.loc = loc;
     that.gfid = gfid;
-    console.log("gfd", gfd);
+    //console.log("gfd", gfd);
     //return ;
     Ext.MessageBox.show({
       title: title,
@@ -351,7 +333,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
             .setHidden(true);
           var str = obj2str(gfd);
           var encodedString = base64encode(Ext.encode(str));
-          // console.log('save....');
+          // //console.log('save....');
           AjaxDataSave(
             "wxcpgfdshsave",
             loc,
@@ -360,7 +342,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdlocCtrl", {
             the
           );
         }
-      },
+      }
     });
-  },
+  }
 });

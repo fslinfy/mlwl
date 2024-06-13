@@ -14,7 +14,7 @@ function SelectWorkerView(button) {
   });
   that.dialog.show();
 }
-function WorkerSelectOkClick(the) {
+function cpgfWorkerSelectOkClick(the) {
   var records = that.getView().down("#selectWorkerTreePanel").getChecked();
   var names = [];
   var by = [];
@@ -115,7 +115,7 @@ function onCpgfdmxShEdit(button) {
   var rec = button.getWidgetRecord();
   var gfid = rec.data.gfid;
   var record = rec.data;
-  console.log(record);
+  //console.log(record);
   record["op"] = "cksh";
   record["gsop"] = false;
   record["w"] = 40;
@@ -146,7 +146,7 @@ function onCpgfdmxShEdit(button) {
 function onPrintwxCpgfd() {
   var p = that.lookupReference("popupCpgfdWindow").getViewModel();
   if (p.get("ztbz") < "2") {
-    //console.log('ztbz',p.get('ztbz'),p);
+    ////console.log('ztbz',p.get('ztbz'),p);
     Ext.MessageBox.alert("注意！", "此过车内容未进行过车业务审核，不能打印！");
     return;
   }

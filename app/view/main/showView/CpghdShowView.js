@@ -68,6 +68,14 @@ Ext.define("MyApp.view.main.showView.CpghdShowView", {
                   hidden: true,
                   bind: "{khid}",
                 },
+                                
+                {
+                  name: "shrs",
+                  fieldLabel: "shrs",
+                  bind: "{shrs}",
+                  hidden: true
+                },
+
                 {
                   name: "khmc",
                   fieldLabel: "客户名称",
@@ -353,9 +361,9 @@ Ext.define("MyApp.view.main.showView.CpghdShowView", {
                   bind: "{czy}",
                 },
                 {
-                  name: "shr",
+                  name: "khshr",
                   fieldLabel: "业务审核",
-                  bind: "{shr}",
+                  bind: "{khshr}",
                 },
                 {
                   name: "cwsh",
@@ -447,12 +455,19 @@ Ext.define("MyApp.view.main.showView.CpghdShowView", {
   ],
   listeners: {
     beforedestroy: function (obj) {
-      curcpghdjeStore.getProxy().clear();
-      curcpghdjeStore.data.clear();
-      curcpghdjeStore.sync();
-      curcpghdcwStore.getProxy().clear();
-      curcpghdcwStore.data.clear();
-      curcpghdcwStore.sync();
+      var curcpghdjeStore = that.lookupReference("cpghdmxje0").getStore();
+      
+      if (curcpghdjeStore) {
+          curcpghdjeStore.getProxy().clear();
+          curcpghdjeStore.data.clear();
+          curcpghdjeStore.sync();
+      }
+      var curcpghdcwStore = that.lookupReference("cpghdmxcw0").getStore();
+      if (curcpghdcwStore) {
+          curcpghdcwStore.getProxy().clear();
+          curcpghdcwStore.data.clear();
+          curcpghdcwStore.sync();
+      }
     },
   },
 });

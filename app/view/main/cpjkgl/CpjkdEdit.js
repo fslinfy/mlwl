@@ -428,6 +428,7 @@ Ext.define("MyApp.view.main.cpjkgl.CpjkdEdit", {
     {
       text: "保存进仓单",
       icon: "images/right.gif",
+      itemId:"btnCpjkdSave",
       handler: "onCpjkdFormSubmit",
     },
     {

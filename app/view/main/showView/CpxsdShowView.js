@@ -386,7 +386,14 @@ Ext.define("MyApp.view.main.showView.CpxsdShowView", {
                   bind: "{xsid}",
                   hidden: true,
                 },
-              ],
+                
+                {
+                  name: "shrs",
+                  fieldLabel: "shrs",
+                  bind: "{shrs}",
+                  hidden: true
+                }
+              ]
             },
             {
               xtype: "fieldcontainer",

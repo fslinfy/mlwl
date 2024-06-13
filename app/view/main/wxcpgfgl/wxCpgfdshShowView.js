@@ -1,12 +1,12 @@
 var that;
 var gfdworkCallBack = function (node) {
   var workrec = node.data;
-  var gfmxrec = that.record.data;
+  var gfmxrec = that.record;
   var gfdrec = that.gfdrecord.data;
-  console.log("gfdrec", gfdrec);
-  console.log("workrec", workrec);
-  console.log("recId", that.recordID.data);
-  console.log("rec", that.record.data);
+  console.log("local ", local );
+  //console.log("workrec", workrec);
+  //console.log("recId", that.recordID.data);
+  //console.log("rec", that.record.data);
   var cpgfd = {};
   var arrayjemx = [];
   var jemx = {};
@@ -26,12 +26,12 @@ var gfdworkCallBack = function (node) {
   jemx["je"] = workrec.bydj * jemx["sl"];
   if (gfdrec.xjbz) {
     jemx["xjbz"] = 1;
-    console.log("xjbz", gfdrec.xjbz, 1);
+    //console.log("xjbz", gfdrec.xjbz, 1);
     jemx["xjje"] = workrec.bydj * jemx["sl"];
   } else {
     jemx["xjbz"] = 0;
     jemx["xjje"] = 0;
-    console.log("xjbz", gfdrec.xjbz, 0);
+    //console.log("xjbz", gfdrec.xjbz, 0);
   }
   jemx["workid"] = workrec.id;
   jemx["mxid"] = gfmxrec.mxid;
@@ -40,7 +40,7 @@ var gfdworkCallBack = function (node) {
   jemx["indj"] = 0;
   arrayjemx.push(jemx);
   cpgfd["cpgfdje"] = arrayjemx;
-  console.log("gfd", cpgfd);
+  //console.log("gfd", cpgfd);
   //    return;
   var str = obj2str(cpgfd);
   var encodedString = base64encode(Ext.encode(str));
@@ -402,11 +402,11 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
           ],
           listeners: {
             itemcontextmenu: function (tree, record, item, index, e, eOpts) {
-              console.log("that", that, that.gfdrecord);
+              //console.log("that", that, that.gfdrecord);
               that.record = record;
               that.recordID = record;
               var gfdrec = that.gfdrecord.data;
-              console.log("rec", record.data.jeid, gfdrec);
+              //console.log("rec", record.data.jeid, gfdrec);
               if (gfdrec.ztbz > 3 || gfdrec.ztbz < 1 || gfdrec.delbz) return;
               if (record.data.jeid > 0) {
                 var menu_grid = new Ext.menu.Menu({
@@ -415,7 +415,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                       text: "删除当前作业项目",
                       icon: "images/delete.gif",
                       handler: function () {
-                        console.log("删除当前作业项目");
+                        //console.log("删除当前作业项目");
                         var abc = Ext.Msg.confirm(
                           "注意",
                           "真的删除当前作业项目内容？",
@@ -440,7 +440,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                                   var result = Ext.decode(
                                     response.responseText
                                   );
-                                  console.log(result);
+                                  //console.log(result);
                                   if (result.result == "success") {
                                     var p =
                                       that.lookupReference("popupCpgfdWindow");
@@ -475,7 +475,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                       text: "选择项目作业人员",
                       disabled: gfdrec.ztbz == 0,
                       handler: function () {
-                        console.log("选择项目作业人员");
+                        //console.log("选择项目作业人员");
                         var view = that.getView();
                         that.dialog = view.add({
                           xtype: "selectWorkerWindow",
@@ -494,7 +494,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                       text: "增加新的作业项目",
                       icon: "images/add.gif",
                       handler: function () {
-                        console.log("增加新的作业项目");
+                        //console.log("增加新的作业项目");
                         var rec = record;
                         var gfdrec = that.gfdrecord.data;
                         that.popupmx = that.getView().down("#CpgfdmxGrid");
@@ -502,7 +502,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                         obj["xjbz"] = gfdrec.xjbz;
                         obj["khid"] = gfdrec.khid;
                         obj["bzid"] = rec.data.bzid;
-                        console.log("bzid", rec, obj, that.popupmx);
+                        //console.log("bzid", rec, obj, that.popupmx);
                         treeSelect(
                           "work",
                           that,
@@ -565,9 +565,9 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdshShowView", {
                   bind: "{shr}",
                 },
                 {
-                  name: "cwshr",
+                  name: "cwsh",
                   fieldLabel: "财务审核",
-                  bind: "{cwshr}",
+                  bind: "{cwsh}",
                 },
                 {
                   name: "ckshr",

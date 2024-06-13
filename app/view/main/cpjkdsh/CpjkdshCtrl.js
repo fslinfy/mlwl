@@ -16,10 +16,10 @@ var jkdshsaveCallBack = function (th) {
       },
       scope: this,
       success: function (response) {
-        /* console.log('response',response.responseText);
+        /* //console.log('response',response.responseText);
                 var result = Ext.decode(response.responseText);
                 result=response.responseText;
-                console.log('result',result);
+                //console.log('result',result);
                 if (result.result == 'success') {
                    // Ext.MessageBox.alert('错误!', '数据保存失败！');
                   //  that.getView().down("#cpxsdshowview").close();
@@ -58,12 +58,12 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
   alias: "controller.CpjkdshCtrl",
   requires: [
     "MyApp.view.main.cpjkdsh.CpjkdshView",
-    "MyApp.view.main.cpckgl.CpckdCtrlFunction",
+    "MyApp.view.main.cpjkdsh.CpjkdCtrlFunction",
     "MyApp.view.main.tree.WorkerSelectTree",
     "MyApp.view.main.UploadFiles",
   ],
   locQuery: function (the) {
-    console.log("sh locquery");
+    //console.log("sh locquery");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -152,7 +152,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
         change: this.onFilterChange,
       },
     });
-    console.log(sys_location_id, sys_customer_id);
+    //console.log(sys_location_id, sys_customer_id);
     if (sys_customer_id > 0) {
       that.getView().down("#QueryKhmc").setHidden(true);
       that.getView().down("#QueryCkmc").setHidden(false);
@@ -192,7 +192,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
     var record = rec.data;
     that.mainrecord = record;
     that.jkdrecord = record;
-    console.log("that.jkdrecord ", that.jkdrecord);
+    //console.log("that.jkdrecord ", that.jkdrecord);
     issave = false;
     record["btnButtonHidden"] = false;
     record["op"] = "ywsh";
@@ -298,10 +298,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
     }
     if (issave) return;
     issave = true;
-    the
-      .lookupReference("popupCpjkdWindow")
-      .down("#btnCpjkdSave")
-      .setHidden(true);
+
     var cpjkdmx_store = that.lookupReference("CpjkdmxGrid").getStore();
     var gsby = [];
     var gsbyrec = {};
@@ -319,7 +316,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
     ywsh["jkid"] = jkid;
     ywsh["gsby"] = gsby;
     //  ywsh["shr"] =userInfo.username;
-    //console.log(ywsh)
+    ////console.log(ywsh)
     //return;
     var msg = "进库单号：" + p.get("jkdh") + "<br>客户名称：" + p.get("khmc"); // + "<br>进库日期：" + p.get('jkrq');
     var title = "真的删除此进库单内容？";
@@ -329,13 +326,17 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
       var rq = Ext.decode(Ext.encode(p.get("czrq"))).substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (rq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月入库单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
     that.loc = loc;
     var abc = Ext.Msg.confirm(title, msg, function (e) {
       if (e == "yes") {
+        the
+        .lookupReference("popupCpjkdWindow")
+        .down("#btnCpjkdSave")
+        .setHidden(true);
         if (loc == "delete") {
           var encodedString = jkid;
         } else {
@@ -343,6 +344,8 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
           var encodedString = base64encode(Ext.encode(str));
         }
         AjaxDataSave("cpjkdshsave", loc, encodedString, jkdshsaveCallBack, the);
+      }else{
+        issave=false;
       }
     });
   },
@@ -361,7 +364,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdshCtrl", {
     that.dialog.show();
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpjkWorkerSelectOkClick(that);
   },
   SelectKhbmView: function (record) {
     treeSelect("khmc", that, "", that.viewname, true);

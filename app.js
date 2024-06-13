@@ -129113,6 +129113,7 @@ Ext.cmd.derive(
   0
 );
 function treeSelect(q, t, w, u, r, o) {
+console.log('call addp.js treeselect ')
   this.callback = o;
   this.mc = q;
   var p = sys_customer_id;
@@ -129175,8 +129176,8 @@ function treeSelect(q, t, w, u, r, o) {
       extraParams: {
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
         p_e_code: sys_enterprise_code,
-        p_l_id: sys_current_ckid,
-        p_c_id: sys_current_khid,
+        p_l_id: sys_location_id,
+        p_c_id: sys_customer_id,
         displayall: w,
       },
     },
@@ -129285,6 +129286,7 @@ function treeSelect(q, t, w, u, r, o) {
     if (a.hasSelection()) {
       node = a.getSelection()[0];
       selecttreeWin.destroy();
+      console.log("select node ",node, c,"end");
       if (c.id) {
         if (o == undefined) {
           c.getViewModel().set(this.f_mc, node.data.text);
@@ -129298,7 +129300,17 @@ function treeSelect(q, t, w, u, r, o) {
           o(node);
         }
       } else {
+        console.log("select node2 ",node, c,"end");
+        sys_option_min_date=node.data.minrq;
         sys_location_id = node.data.id;
+        var ck = new Ext.state.CookieProvider({
+          expires: new Date(
+            new Date().getTime() + 120 * (1000 * 60 * 60 * 24 * 30)
+          ),
+        });
+        ck.set("sys_option_min_date",sys_option_min_date);
+        ck.set("sys_location_id",sys_location_id);
+
         logingl();
       }
     }
@@ -129757,6 +129769,7 @@ function system_setting() {
 }
 function user_login() {
   getcookie();
+console.log("l_id",sys_location_id);
   apploginForm = new Ext.form.FormPanel({
     labelAlign: "left",
     buttonAlign: "center",
@@ -129883,6 +129896,7 @@ function user_login() {
     items: [apploginForm],
   }).show();
   appsubmit = function () {
+  console.log('app.js   system login',apploginForm.form.isValid());
     if (apploginForm.form.isValid()) {
       var c = Ext.getCmp("username").getValue();
       if (sys_customer_id == 0 && c.length == 0) {
@@ -129898,6 +129912,8 @@ function user_login() {
         params: { act: "systemlogin", sys_guid: sys_guid },
         success: function (l, k) {
           var m = k.result.data;
+          console.log(m,'m',m.length);
+          console.log('c',c,c.length);
           if (parseInt(m.userid) > 0) {
             var b = m.lidstring;
             sys_system_menustring = b;
@@ -129915,18 +129931,22 @@ function user_login() {
             });
             sys_system_cwsh = parseInt(m.cwsh);
             sys_system_sh = parseInt(m.sh);
+            sys_customer_shrs = parseInt(m.shrs);
             sys_system_edit = parseInt(m.edit);
             sys_system_del = parseInt(m.del);
             sys_system_new = parseInt(m["new"]);
             sys_system_lastdel = parseInt(m.lastdel);
-            sys_option_min_date = m.mindate;
+           // sys_option_min_date = m.mindate;
             a.set("userid", m.userid);
-            a.set("option_min_date", m.mindate);
+//            a.set("option_min_date", option_min_date);
             a.set("username", m.username);
             apploginWin.destroy();
+
             if (c.length > 0 && sys_customer_id == 0) {
-              if (Tongji(b, ",") != 2) {
+              if (Tongji(b, ",") > 2) {
                 treeSelect("ckmc", this, b, "", true);
+              //  console.log('sys_option_min_date',sys_option_min_date)
+
                 return;
               }
               sys_location_id = b.replace(",", "");
@@ -130438,10 +130458,15 @@ function logingl() {
         systemid: sys_location_id,
       },
       success: function (n) {
+       
         var m = Ext.util.JSON.decode(n.responseText);
         var o = m.data;
+        console.log(o,'app.js');
         sys_location_name = o.username;
         sys_area_store.removeAll();
+        if (o.userid>0){
+
+
         var k = o.L_area;
         sys_location_area = "";
         if (k.length == 0) {
@@ -130468,7 +130493,18 @@ function logingl() {
         l.set("sys_location_id", sys_location_id);
         l.set("sys_location_area", sys_location_area);
         l.set("sys_system_name", sys_system_name);
-        createmenu();
+        createmenu();  
+        
+      }else{
+        Ext.MessageBox.alert("注意！", "没有可管理的仓库！");
+        sys_userInfo = {
+          username: "",
+          password: "",
+          userid: "0",
+          khsystem: "0",
+        };
+        console.log(sys_location_id,sys_location_name,sys_userInfo);
+     }
       },
       failure: function (b) {
         Console.LOG(b.responseText);
@@ -130537,6 +130573,7 @@ function createmenu() {
   mainTabPanel = Ext.getCmp("maintabpanel");
   var h = Ext.create("Ext.state.CookieProvider");
   var i = h.get("apptypeid");
+  console.log("sys_userInfo",sys_userInfo);
   var g = sys_ActionPHP +"?act=menusystemlist&termtype=classic&appid=" + i + "&userInfo=" + base64encode(Ext.encode(obj2str(sys_userInfo)));
   Ext.Ajax.request({
     url: g,
@@ -131683,8 +131720,10 @@ onCkbmSelectOkClick = function () {
   var e = g.that0;
   var i = g.vmodel;
   var h = g.getSelectionModel();
+  
   if (h.hasSelection()) {
     node = h.getSelection()[0];
+    console.log('ckbm',node);
     i.getViewModel().set("ckmc", node.data.text);
     i.getViewModel().set("ckid", node.data.id);
     this.up("window").hide();
@@ -131872,11 +131911,13 @@ Ext.application({
     sys_location_name = "";
     sys_customer_id = 0;
     sys_customer_name = "";
+    sys_customer_shrs =0;
     sys_current_khid = 0;
     sys_current_khmc = "";
     sys_current_ckid = 0;
     sys_current_ckmc = "";
     sys_system_sh = 0;
+    sys_option_min_date="";
     sys_system_cwsh = 0;
     sys_system_edit = 0;
     sys_system_del = 0;

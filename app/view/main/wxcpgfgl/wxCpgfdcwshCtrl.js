@@ -1,5 +1,6 @@
 ﻿var gfid = 0;
 var that;
+displaycksh =true;
 var curcpgfdjeStore;
 /*
 var khmcCallBack = function (node) {
@@ -59,6 +60,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
   },
   init: function () {
     that = this;
+    displaycksh =true;
     that.viewname = that.getView().down("#CpgfdListGrid");
     var v = that.viewname.getViewModel();
     v.set("PageTitleName", "商品过车财务审核");
@@ -151,7 +153,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
     var record = rec.data;
     sys_current_khid=rec.data.khid;;
     sys_current_ckid=rec.data.L_id;
-    //   console.log('CpgfshShowView',record);
+    //   //console.log('CpgfshShowView',record);
     that.gfdrecord = rec;
     record["op"] = "cwsh";
     record["gsop"] = false;
@@ -181,7 +183,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
   },
   onCpgfdmxgheditView: function (button) {
     var rec = button.getWidgetRecord();
-    //  console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
+    //  //console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -198,7 +200,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
     var view = this.getView();
     this.isEdit_mx = !!record;
     that.ghmxid = mxid;
-    // console.log("endrq", record);
+    // //console.log("endrq", record);
     that.recordID = record["id"];
     record["newrecord"] = false;
     record["xjbz"] = rec0.data.xjbz;
@@ -254,11 +256,11 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
     if (rec.data.mxdh == "1") {
       return;
     }
-    console.log("rec=", rec);
+    //console.log("rec=", rec);
     SelectWorkerView(button);
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpgfWorkerSelectOkClick(that);
   },
   onwxCpgfdFormSubmit: function () {
     this.wxCpgfdshSave("cpgfdcwsh", that);
@@ -316,13 +318,13 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdcwshCtrl", {
       var cgfrq = gfd["gfrq"].substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (cgfrq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月过车单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
     that.loc = loc;
     that.gfid = gfid;
-    console.log(gfd);
+    //console.log(gfd);
     //return ;
     Ext.MessageBox.show({
       title: title,

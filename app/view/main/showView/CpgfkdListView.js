@@ -314,6 +314,11 @@
       dataIndex: "czy",
     },
     {
+      text: "审核人",
+      sortable: false,
+      dataIndex: "khshr",
+    },
+    {
       text: "",
       width: 60,
       sortable: false,

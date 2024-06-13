@@ -160,11 +160,11 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
   onSelectOkClick = function () {
     var mc = this.mc;
     var viewname = this.viewname;
-    console.log("viewname", viewname);
+    //console.log("viewname", viewname);
     var sm = selecttree.getSelectionModel();
     if (sm.hasSelection()) {
       node = sm.getSelection()[0];
-      console.log("node", node);
+      //console.log("node", node);
       selecttreeWin.close();
       if (callback == undefined) {
         viewname.getViewModel().set(this.f_mc, node.data.text);

@@ -411,7 +411,13 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdEdit", {
                   bind: "{cgy}",
                   margin: "3 0 0 0",
                 },
-              ],
+                {
+                  name: "cgy",
+                  fieldLabel: "仓库复核",
+                  bind: "{cgy}",
+                  margin: "3 0 0 0",
+                }
+              ]
             },
             {
               xtype: "fieldcontainer",

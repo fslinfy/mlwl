@@ -1,6 +1,7 @@
 function test() {
   alert("aaaaaaaaaaaaaaaaaa ");
 }
+
 function treeSelect(mc, the, kcbz, viewname, resh, callback) {
   this.callback = callback;
   this.mc = mc;
@@ -41,8 +42,7 @@ function treeSelect(mc, the, kcbz, viewname, resh, callback) {
       return;
       break;
   }
-  console.log("treeSelect sys_current_khid",sys_current_khid,"sys_current_Ckid",sys_current_ckid);
-treestore = Ext.create("Ext.data.TreeStore", {
+  treestore = Ext.create("Ext.data.TreeStore", {
     autoLoad: true,
     proxy: {
       type: "ajax",
@@ -55,10 +55,10 @@ treestore = Ext.create("Ext.data.TreeStore", {
       extraParams: {
         userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
         p_e_code: sys_enterprise_code,
-        p_l_id: sys_current_ckid,
-        p_c_id: sys_current_khid,
+        p_l_id: sys_location_id,
+        p_c_id: sys_customer_id,
         displayall: kcbz,
-      },
+      }
     },
     root: {
       id: "",
@@ -66,15 +66,7 @@ treestore = Ext.create("Ext.data.TreeStore", {
       py_code: "",
       text: "全部",
       expanded: true,
-    }, //,
-    //  listeners: {
-    //注意beforeload的参数。与3.x中的不同
-    // beforeload: function (ds, opration, opt) {
-    //opration.params.nodeid = opration.node.data.id;
-    //获得节点的相应属性，也有所不同
-    //opration.params.name = opration.node.data.text;
-    // }
-    //  },
+    } 
   });
   var selecttree = Ext.create("Ext.tree.Panel", {
     singleExpand: true,
@@ -83,56 +75,48 @@ treestore = Ext.create("Ext.data.TreeStore", {
     useArrows: true,
     lines: true,
     expanded: true,
-    //  mc:mc,
-    //  viewname:viewname,
-    //frame: true,
     border: true,
     itemId: "selectTreePanel",
     reference: "selectTreePanel",
     store: treestore,
-    tbar: [
-      {
-        labelWidth: 40,
-        xtype: "triggerfield",
-        fieldLabel: "过滤",
-        flex: 1,
-        triggerCls: "x-form-clear-trigger",
-        onTriggerClick: function () {
-          // Will trigger the change listener
-          this.reset();
-        },
-        listeners: {
-          change: function () {
-            var tree = this.up("treepanel"),
-              v,
-              matches = 0,
-              v = new RegExp(this.getValue(), "i");
-            Ext.suspendLayouts();
-            tree.store.filter({
-              filterFn: function (node) {
-                var children = node.childNodes,
-                  len = children && children.length,
-                  visible = node.isLeaf()
-                    ? v.test(node.get("text")) ||
-                      v.test(node.get("py_code")) ||
-                      v.test(node.get("code"))
-                    : false,
-                  i;
-                for (
-                  i = 0;
-                  i < len && !(visible = children[i].get("visible"));
-                  i++
-                );
-                return visible;
-              },
-              id: "titleFilter",
-            });
-            Ext.resumeLayouts(true);
-          },
-          buffer: 250,
-        },
+    tbar: [{
+      labelWidth: 40,
+      xtype: "triggerfield",
+      fieldLabel: "过滤",
+      flex: 1,
+      triggerCls: "x-form-clear-trigger",
+      onTriggerClick: function () {
+        this.reset();
       },
-    ],
+      listeners: {
+        change: function () {
+          var tree = this.up("treepanel"),
+            v,
+            matches = 0,
+            v = new RegExp(this.getValue(), "i");
+          Ext.suspendLayouts();
+          tree.store.filter({
+            filterFn: function (node) {
+              var children = node.childNodes,
+                len = children && children.length,
+                visible = node.isLeaf() ?
+                v.test(node.get("text")) ||
+                v.test(node.get("py_code")) ||
+                v.test(node.get("code")) :
+                false,
+                i;
+              for (
+                i = 0; i < len && !(visible = children[i].get("visible")); i++
+              );
+              return visible;
+            },
+            id: "titleFilter",
+          });
+          Ext.resumeLayouts(true);
+        },
+        buffer: 250,
+      },
+    }, ],
     bbar: {
       reference: "bbar",
       items: [
@@ -187,7 +171,6 @@ treestore = Ext.create("Ext.data.TreeStore", {
     if (sm.hasSelection()) {
       node = sm.getSelection()[0];
       selecttreeWin.destroy();
-      //  console.log("callback",callback)
       if (callback == undefined) {
         viewname.getViewModel().set(this.f_mc, node.data.text);
         viewname.getViewModel().set(this.f_id, node.data.id);
@@ -202,9 +185,8 @@ treestore = Ext.create("Ext.data.TreeStore", {
     }
   };
 }
+
 function change_password() {
-  //    var cp1 = new Ext.state.CookieProvider();
-  // console.log(' login ', sys_system_name, sys_system_id, sys_location_id, sys_customer_id);
   apploginWin = new Ext.Window({
     width: 440,
     height: 440,
@@ -217,18 +199,12 @@ function change_password() {
     closeAction: "destroy",
     border: false,
     hasvcode: false,
-    //modal : true,
-    // init: function () {
-    //    console.log("init");
-    // },
     items: [
       (apploginForm = new Ext.form.FormPanel({
         labelAlign: "left",
         buttonAlign: "center",
         bodyStyle: "padding:5px",
         frame: true,
-        //margins : '20 20 20 20',
-        //padding : '20 20 0 20',
         defaults: {
           xtype: "textfield",
           allowBlank: false,
@@ -236,8 +212,7 @@ function change_password() {
           enableKeyEvents: true,
           labelWidth: 70,
         },
-        items: [
-          {
+        items: [{
             name: "p_l_id",
             hidden: true,
             value: sys_location_id,
@@ -311,8 +286,8 @@ function change_password() {
                   }
                 }
                 appchangeCode(0);
-              },
-            },
+              }
+            }
           },
           {
             name: "VerifyCode",
@@ -330,8 +305,8 @@ function change_password() {
                     appsubmit();
                   }
                 }
-              },
-            },
+              }
+            }
           },
           {
             xtype: "box",
@@ -344,12 +319,10 @@ function change_password() {
             xtype: "displayfield",
             height: 30,
             padding: "0 20 10 20",
-            value:
-              '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
+            value: '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
           },
         ],
-        buttons: [
-          {
+        buttons: [{
             id: "submitButton",
             text: "确认更改",
             cls: "x-btn-text-icon",
@@ -406,7 +379,7 @@ function change_password() {
           var result = action.result.data;
           if (parseInt(result.userid) > 0) {
             apploginWin.destroy();
-            //  console.log(result);
+            //  //console.log(result);
             var obj = sys_userInfo;
             obj["password"] = psw2;
             sys_userInfo = obj;
@@ -453,8 +426,9 @@ function change_password() {
     //	});
   }, 250);
 }
+
 function system_setting() {
-  //    console.log("system_setting");
+  //    //console.log("system_setting");
   var appid = 1;
   if (sys_customer_id > 0) appid = 2;
   appsettingWin = new Ext.Window({
@@ -469,7 +443,7 @@ function system_setting() {
     border: false,
     hasvcode: false,
     //    init: function () {
-    //      console.log("init");
+    //      //console.log("init");
     // },
     items: [
       (appsettingForm = new Ext.form.FormPanel({
@@ -484,8 +458,7 @@ function system_setting() {
           enableKeyEvents: true,
           labelWidth: 60,
         },
-        items: [
-          {
+        items: [{
             xtype: "combo",
             name: "appid",
             id: "appid",
@@ -566,12 +539,10 @@ function system_setting() {
             xtype: "displayfield",
             height: 30,
             padding: "0 20 10 20",
-            value:
-              '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
+            value: '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
           },
         ],
-        buttons: [
-          {
+        buttons: [{
             id: "syssubmitButton",
             text: "确认",
             cls: "x-btn-text-icon",
@@ -598,7 +569,7 @@ function system_setting() {
     if (appsettingForm.form.isValid()) {
       var systemid = Ext.getCmp("systemid").getValue();
       var appid = Ext.getCmp("appid").getValue();
-      //  console.log(appid, systemid);
+      //  //console.log(appid, systemid);
       // return;
       appsettingForm.form.doAction("submit", {
         url: "checkloginp.php",
@@ -610,7 +581,7 @@ function system_setting() {
         },
         success: function (form, action) {
           var result = action.result.data;
-          //  console.log(result);
+          //  //console.log(result);
           if (parseInt(result.userid) > 0) {
             sys_system_name = result.username;
             sys_system_id = parseInt(result.userid);
@@ -690,17 +661,18 @@ function system_setting() {
     //	});
   }, 250);
 }
+
 function user_login() {
   getcookie();
-  console.log(
+  //console.log(
     "user_login",
     sys_enterprise_name,
     sys_location_name,
     sys_customer_name
   );
-  console.log("user_login", sys_location_id, sys_customer_id);
-  console.log("user_login", sys_enterprise_code);
-  console.log("userInfo", sys_userInfo);
+  //console.log("user_login", sys_location_id, sys_customer_id);
+  //console.log("user_login", sys_enterprise_code);
+  //console.log("userInfo", sys_userInfo);
   apploginForm = new Ext.form.FormPanel({
     labelAlign: "left",
     buttonAlign: "center",
@@ -713,8 +685,7 @@ function user_login() {
       enableKeyEvents: true,
       labelWidth: 60,
     },
-    items: [
-      {
+    items: [{
         name: "p_l_id",
         hidden: true,
         value: sys_location_id,
@@ -792,12 +763,10 @@ function user_login() {
         xtype: "displayfield",
         height: 30,
         padding: "0 20 10 20",
-        value:
-          '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
+        value: '<div style="margin:5px 0px 0px 80px;color:red">(如果图片不清晰请单击图片更换图片)</div>',
       },
     ],
-    buttons: [
-      {
+    buttons: [{
         id: "submitButton",
         text: "登录",
         cls: "x-btn-text-icon",
@@ -818,7 +787,7 @@ function user_login() {
       },
     ],
   });
-  console.log("111111111 0");
+  //console.log("111111111 0");
   apploginWin = new Ext.Window({
     width: 440,
     height: 400,
@@ -832,8 +801,9 @@ function user_login() {
     hasvcode: false,
     items: [apploginForm],
   }).show();
-  console.log("111111111 1");
+  //console.log("111111111 1");
   appsubmit = function () {
+    //console.log('main.js  login appsubmit');
     if (apploginForm.form.isValid()) {
       var loginname = Ext.getCmp("username").getValue();
       var psw = Ext.getCmp("password").getValue();
@@ -863,6 +833,7 @@ function user_login() {
             });
             sys_system_cwsh = parseInt(result.cwsh);
             sys_system_sh = parseInt(result.sh);
+            sys_customer_shrs = parseInt(m.shrs);
             sys_system_edit = parseInt(result.edit);
             sys_system_del = parseInt(result.del);
             sys_system_new = parseInt(result.new);
@@ -900,7 +871,7 @@ function user_login() {
       });
     }
   };
-  // console.log("111111111 2");
+  // //console.log("111111111 2");
   appchangeCode = function (obj) {
     if (obj == 0 && apploginWin.hasvcode) return;
     apploginWin.hasvcode = true;
@@ -914,12 +885,12 @@ function user_login() {
     //	remove : true
     //	});
   }, 250);
-  console.log("111111111 3");
+  //console.log("111111111 3");
 }
+
 function pagereset() {
   Ext.getCmp("main_north").removeAll();
-  var items = [
-    {
+  var items = [{
       xtype: "displayfield",
       value: sys_enterprise_name + "->" + sys_system_name, // + "(操作员：" + sys_userInfo.username + ")"
     },
@@ -931,7 +902,7 @@ function pagereset() {
       scope: this,
       handler: function () {
         // uploadFile();
-        console.log("login", sys_system_name, sys_location_name);
+        //console.log("login", sys_system_name, sys_location_name);
         if (sys_system_name == "" || sys_system_name == undefined) {
           system_setting();
         } else {
@@ -942,9 +913,13 @@ function pagereset() {
   ];
   items.push();
   Ext.getCmp("main_north").add(
-    Ext.getCmp("main_north").add({ xtype: "panel", tbar: items })
+    Ext.getCmp("main_north").add({
+      xtype: "panel",
+      tbar: items
+    })
   );
 }
+
 function createmenu() {
   var oldmenu = "";
   mainTabPanel = Ext.getCmp("maintabpanel");
@@ -958,7 +933,7 @@ function createmenu() {
   //var URL = sys_ActionPHP + '?act=menusystemlist&termtype=classic&appid=' + appid;
   var URL =
     "mysql_action.php?act=menusystemlist&termtype=classic&appid=" + appid;
-  console.log(URL);
+  //console.log(URL);
   Ext.Ajax.request({
     url: URL,
     scriptTag: true,
@@ -972,11 +947,9 @@ function createmenu() {
       var menu0 = obj.rows;
       var menu1 = menu0;
       var cbarmenu = "";
-      var items = [
-        {
+      var items = [{
           xtype: "displayfield",
-          value:
-            sys_enterprise_name +
+          value: sys_enterprise_name +
             "->" +
             sys_system_name +
             "(操作员：" +
@@ -1014,7 +987,7 @@ function createmenu() {
                     widgetName: lcwidgetName,
                     menu_id: value.menu_id,
                     handler: function (ee) {
-                      console.log(ee.text, ee.viewpath);
+                      //console.log(ee.text, ee.viewpath);
                       if (ee.widgetName == "systemlogin") {
                         user_login();
                         return;
@@ -1048,7 +1021,10 @@ function createmenu() {
       });
       //mainApp
       Ext.getCmp("main_north").removeAll();
-      Ext.getCmp("main_north").add({ xtype: "panel", tbar: items });
+      Ext.getCmp("main_north").add({
+        xtype: "panel",
+        tbar: items
+      });
       //mainapp.down('#menubar').removeAll();
       //mainapp.down('#menubar').add({xtype: 'panel',tbar: items})
     },
@@ -1057,6 +1033,7 @@ function createmenu() {
     },
   });
 }
+
 function fndisplayhelp(lctitle) {
   app_helptitle = lctitle;
   app_admin = 1;
@@ -1067,6 +1044,7 @@ function fndisplayhelp(lctitle) {
     LoadJS("js/displayhelp.js");
   }
 }
+
 function loadModel(url, tab, id) {
   var model;
   Ext.Ajax.request({
@@ -1083,8 +1061,8 @@ function loadModel(url, tab, id) {
     },
     //  this.loadMask.hide();
     failure: function (response, opt) {
-      //	console.log(opt);
-      //	console.log(response);
+      //	//console.log(opt);
+      //	//console.log(response);
       Ext.Msg.alert("错误", "发生错误！");
       return 0;
     },
@@ -1093,10 +1071,11 @@ function loadModel(url, tab, id) {
   //}
   return 0;
 }
+
 function addTab(url, id, id0, mid) {
   var tabid = "tab_" + mid;
   var tab = Ext.getCmp(tabid);
-  console.log(id0, tab, tabid, url);
+  //console.log(id0, tab, tabid, url);
   url = trim(url);
   if (!tab) {
     tab = id0.add(
@@ -1121,18 +1100,20 @@ trim = function (str) {
   if (i > j) return "";
   return str.substring(i, j);
 };
+
 function jsonPCallback() {
   alert("jsonPCallback");
 }
 lfy = function (str) {
-  console.log("lfy");
+  //console.log("lfy");
 };
+
 function linfuyang(str) {
-  console.log("linfuyang");
+  //console.log("linfuyang");
 }
 storeBtnDeleteClick = function (that, grid, store) {
   var rs = grid.getSelectionModel().getSelection();
-  console.log(rs[0]);
+  //console.log(rs[0]);
   store.remove(rs[0]);
   return;
 };
@@ -1146,7 +1127,7 @@ storeFilter = function (store, fieldarray, filter) {
   return false;
 };
 onStoreSync = function (that, store, ops) {
-  //   console.log('onStoreSync');
+  //   //console.log('onStoreSync');
   store.sync({
     success: function (batch, options) {
       if (ops > 0) {
@@ -1228,9 +1209,12 @@ getcookie = function () {
   if (!loginusername) {
     loginusername = "";
   }
-  var obj = { username: loginusername, password: "" };
+  var obj = {
+    username: loginusername,
+    password: ""
+  };
   sys_userInfo = obj; // base64encode(Ext.encode( obj2str(obj)));
-  //console.log(sys_userInfo);
+  ////console.log(sys_userInfo);
   sys_guid = Cookiecp.get("system_guid");
   if (!sys_guid) {
     sys_guid = generateGUID();
@@ -1253,8 +1237,8 @@ getcookie = function () {
   if (sys_location_id == undefined) {
     sys_location_id = 0;
     sys_location_name = "";
-    sys_current_ckid=0;
-    sys_current_ckmc='';
+    sys_current_ckid = 0;
+    sys_current_ckmc = '';
 
   }
   if (sys_location_areas == 0) {
@@ -1265,8 +1249,8 @@ getcookie = function () {
   if (sys_customer_id == undefined) {
     sys_customer_id = 0;
     sys_customer_name = "";
-    sys_current_khid=0;
-    sys_current_khmc='';
+    sys_current_khid = 0;
+    sys_current_khmc = '';
 
   }
   sys_enterprise_code = Cookiecp.get("sys_enterprise_code"); //4
@@ -1275,48 +1259,7 @@ getcookie = function () {
     sys_enterprise_code = "";
     sys_enterprise_name = "";
   }
-  // console.log('location:',sys_location_id,sys_location_name,sys_location_areas);
-  //console.log('khbm:',sys_customer_id,sys_customer_name);
 };
-/*
-Ext.define('MyApp.view.main.Main', {
-    extend: 'Ext.container.Container',
-    xtype: 'layout-border',
-    requires: [
-        'MyApp.view.main.MainController'
-       // , 'Ext.window.Window'
-    ],
-    title: 'system',
-    controller: "main",
-    layout: 'border',
-    defaults: {
-        collapsible: false,
-        border: 1,
-        margin: '0 0 0 0'
-    },
-    items: [
-    {
-        xtype: "tabpanel",
-        region: 'center',
-        autoDestroy: false,
-        id: "maintabpanel",
-        defaults: {
-            layout: 'fit',
-            border: 1,
-            closeAction: 'destroy',
-            closable: true
-        },
-        items: [
-            {
-                xtype: 'panel',
-                title: "主页",
-                closable: false
-            }
-        ]
-    }
-    ]
-});
-*/
 Ext.define("MyApp.view.main.Main", {
   extend: "Ext.panel.Panel",
   xtype: "app-main",
@@ -1333,56 +1276,8 @@ Ext.define("MyApp.view.main.Main", {
   titleRotation: 0,
   tabRotation: 0,
   layout: "fit",
-  /*header: {
-        layout: {
-            align: 'stretchmax'
-        },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
-        iconCls: 'fa-th-list'
-    },
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },*/
-  /*
-        responsiveConfig: {
-            tall: {
-                headerPosition: 'top'
-            },
-            wide: {
-                headerPosition: 'left'
-            }
-        },
-    
-        defaults: {
-            bodyPadding: 20,
-            tabConfig: {
-                plugins: 'responsive',
-                responsiveConfig: {
-                    ////  wide: {
-                    //     iconAlign: 'left',
-                    //     textAlign: 'left'
-                    // },
-                    tall: {
-                        iconAlign: 'top',
-                        textAlign: 'center',
-                        width: 120
-                    }
-                }
-            }
-        },
-    */
   layout: "border",
-  items: [
-    {
+  items: [{
       xtype: "panel",
       region: "north",
       id: "main_north",
@@ -1401,19 +1296,17 @@ Ext.define("MyApp.view.main.Main", {
         closeAction: "destroy",
         closable: true,
       },
-      items: [
-        {
-          xtype: "panel",
-          title: "主页",
-          closable: false,
-        },
-      ],
+      items: [{
+        xtype: "panel",
+        title: "主页",
+        closable: false,
+      }]
     },
     {
       xtype: "panel",
       region: "south",
       height: 40,
       html: "<p>Footer content</p>",
-    },
-  ],
+    }
+  ]
 });

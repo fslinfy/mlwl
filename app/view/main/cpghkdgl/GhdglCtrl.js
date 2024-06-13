@@ -6,8 +6,8 @@ var saveCallBack = function (th) {
   that.locQuery(th);
   th.viewname.down("#cpghdedit").close();
 };
-var khmcCallBack = function (node) {
-  //console.log('onSelectnew KhbmView    khmcCallBack  ' ,node.data );
+var kdkhmcCallBack = function (node) {
+  ////console.log('onSelectnew KhbmView    khmcCallBack  ' ,node.data );
   var p = that.lookupReference("popupCpghdWindow").getViewModel();
   p.set("newkhid", node.data.id);
   p.set("newkhmc", node.data.text);
@@ -57,7 +57,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     store.proxy.extraParams.cpid = cpid;
     store.reload();
     selectedData = that.getView().getSelectionModel().getSelection();
-    //        console.log("selected ",selectedData)
+    //        //console.log("selected ",selectedData)
     var tool = that.viewname.down("#QueryToolbarView");
     tool.down("#btnNew").setDisabled(selectedData.length == 0);
     return false;
@@ -75,7 +75,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     selectedData.forEach(function (rec) {
       if (rec.data.sl > 0 || rec.data.zl > 0) {
         rows++;
-        //    console.log("rec", rec.data);
+        //    //console.log("rec", rec.data);
       }
     });
     if (rows == 0) {
@@ -112,6 +112,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
       session: true,
     });
     var cpghdmx = that.lookupReference("CpghdmxGrid").getStore();
+    //var cpghdmx = that.up("#CpghdmxGrid").getStore();
     cpghdmx.removeAll();
     cpghdmx.load();
     //cpghdmx_store.each(function (rec) {
@@ -137,19 +138,20 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
           xsje: 0,
           sm: "",
         };
-        //  console.log("add", record0);
+        //  //console.log("add", record0);
         cpghdmx.add(record0);
       }
     });
     that.dialog.show();
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log(" help");
+    //console.log(" help");
     return false;
   },
   init: function () {
-    console.log("sys_location_id", sys_location_id);
-    console.log("sys_customer_id", sys_customer_id);
+    //console.log("sys_location_id", sys_location_id);
+    //console.log("sys_customer_id", sys_customer_id);
+    //console.log("sys_customer_shrs", sys_customer_shrs);
     that = this;
     that.viewname = that.getView();
     var tool = that.viewname.down("#QueryToolbarView");
@@ -235,18 +237,18 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
       },
     });
     //that.viewname.down("#btnQueryCkmc").setHidden(true);
-    //console.log(that.viewname.down("#btnQueryCkmc"))
+    ////console.log(that.viewname.down("#btnQueryCkmc"))
     var store = that.viewname.getStore();
   },
   onSelectKhbmView: function (record) {
-    console.log("onSelectKhbmView");
+    //console.log("onSelectKhbmView");
     treeSelect("khmc", that, "cpkc", that.viewname, true);
     return false;
   },
   onSelectNewKhbmView: function (record) {
-    console.log("onSelectnewKhbmView");
+    //console.log("onSelectnewKhbmView");
     that.popupmx = that.getView().down("#cpghdmxedit");
-    treeSelect("khmc", that, "", that.viewname, false, khmcCallBack);
+    treeSelect("khmc", that, "", that.viewname, false, kdkhmcCallBack);
     return false;
   },
   khmcTriggerClick: function (record) {
@@ -254,7 +256,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
     return false;
   },
   onSelectionChange: function (grid, selection) {
-    //console.log(selection.getCount()  );
+    ////console.log(selection.getCount()  );
     //var tool = that.viewname.down("#QueryToolbarView");
     // tool.down('#btnNew').setDisabled(selection.getCount() == 0);
     selectedData = that.getView().getSelectionModel().getSelection();
@@ -296,7 +298,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
       return false;
     }
     var cpghd = form.getValues();
-    console.log("cpghd", cpghd);
+    //console.log("cpghd", cpghd);
     if (cpghd["newkhid"] == 0) {
       Ext.MessageBox.alert("注意！", "输入选择新客户！");
       return false;
@@ -313,7 +315,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        //  console.log(btn, text);
+        //  //console.log(btn, text);
         if (btn == "yes" || btn == "no") {
           that
             .lookupReference("popupCpghdWindow")
@@ -337,12 +339,12 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
           while (cnote.indexOf('"') > 0) {
             cnote = cnote.replace('"', " ");
           }
-          //  console.log("cnote=", cnote,cnote.indexOf("\n"));
+          //  //console.log("cnote=", cnote,cnote.indexOf("\n"));
           if (cnote.indexOf("\n") > 0) {
             cnote = "!" + bade64_encode(cnote) + "~";
             cpghd["cnote"] = cnote;
           }
-          //  console.log("cnote=", cnote);
+          //  //console.log("cnote=", cnote);
           //  return ;
           cpghd["xsrq"] = Ext.decode(Ext.encode(p.get("xsrq")));
           cpghd["endrq"] = Ext.decode(Ext.encode(p.get("endrq")));
@@ -370,7 +372,7 @@ Ext.define("MyApp.view.main.cpghkdgl.GhdglCtrl", {
             arraymx.push(mxrec);
           });
           cpghd["cpghdmx"] = arraymx;
-          //                   console.log(cpghd);
+          //                   //console.log(cpghd);
           //                  return ;
           var str = obj2str(cpghd);
           var encodedString = base64encode(Ext.encode(str));

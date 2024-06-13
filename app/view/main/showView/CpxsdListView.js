@@ -245,6 +245,12 @@
       text: "经办人",
       sortable: false,
       dataIndex: "czy",
+    }
+    ,
+    {
+      text: "审核人",
+      sortable: false,
+      dataIndex: "shr",
     },
     {
       text: "状态",

@@ -47,7 +47,8 @@ var jkdworkCallBack = function (node) {
     success: function (response) {
       var result = Ext.decode(response.responseText);
       if (result.result == "success") {
-        var store = that.lookupReference("CpjkdmxGrid").getStore();
+       // var store = that.lookupReference("CpjkdmxGrid").getStore();
+       store=cpjkdmxStore;
         store.proxy.extraParams.jkid = that.mainrecord.jkid;
         store.proxy.extraParams.loc = that.locname;
         store.reload();
@@ -449,9 +450,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdShowView", {
                         var rec = record; //  button.getWidgetRecord();
                         console.log("rec", rec);
                         that.popupmx = that.getView().down("#CpjkdmxGrid");
-                        var khrec = that
-                          .lookupReference("popupCpjkdWindow")
-                          .getViewModel();
+                        var khrec = that.lookupReference("popupCpjkdWindow").getViewModel();
                         var jkdrec = that.jkdrecord;
                         console.log("khrec", khrec, jkdrec);
                         var obj = [];
@@ -468,16 +467,16 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdShowView", {
                           jkdworkCallBack
                         );
                         return false;
-                      },
-                    },
-                  ],
+                      }
+                    }
+                  ]
                 });
               }
               var position = e.getXY();
               e.stopEvent();
               menu_grid.showAt(position);
-            },
-          },
+            }
+          }
         },
         {
           xtype: "grid",

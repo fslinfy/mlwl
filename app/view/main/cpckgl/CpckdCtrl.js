@@ -11,6 +11,75 @@ var saveCallBack = function (th) {
   that.locQuery(th);
 };
 var ckdworkCallBack = function (node) {
+  console.log("ckdworkCallBack",that.record);
+
+  var rec = node.data;
+  var p = that.popupmx;
+  var xjbz = p.getViewModel().get("xjbz");
+  var mxid = p.getViewModel().get("mxid");
+  var dw = "吨";
+  var kcid = p.getViewModel().get("kcid");
+  if (rec.zljs == "1") {
+    dw = p.getViewModel().get("zldw");
+    var sl = p.getViewModel().get("cczl");
+  } else {
+    dw = p.getViewModel().get("sldw");
+    var sl = p.getViewModel().get("ccsl");
+  }
+  var i = 0;
+  var sumzl = 0;
+  var newarray = [];
+  var cpckdcw_store = that.lookupReference("cpckdmxcw").getStore();
+  cpckdcw_store.each(function (reccw) {
+    i = 0;
+    sumzl = sumzl + reccw.data.cczl;
+    newarray.forEach(function (item, index) {
+      if (item.area == reccw.data.area) {
+        item.sl = item.sl + reccw.data.ccsl;
+        item.zl = item.zl + reccw.data.cczl;
+        i = 1;
+      }
+    });
+    if (i == 0) {
+      var rec1 = {
+        mxid: mxid,
+        area: reccw.data.area,
+        sl: reccw.data.ccsl,
+        zl: reccw.data.cczl,
+      };
+      newarray.push(rec1);
+    }
+  });
+  var cpckdmxje = that.lookupReference("cpckdmxje").getStore();
+  newarray.forEach(function (item, index) {
+    if (rec.zljs == "1") {
+      sl = item.zl;
+    } else {
+      sl = item.sl;
+    }
+    if (sl > 0) {
+      cpckdmxje.add({
+        dw: dw,
+        mxid: mxid,
+        workid: rec.id,
+        work: rec.text,
+        area: item.area,
+        sl: sl,
+        dh: dh,
+        xjbz: xjbz,
+        dj: rec.dj,
+        je: Math.ceil(sl * rec.dj),
+        sm: "",
+        zljs: rec.zljs,
+        inbz: rec.inbz,
+        indj: rec.indj,
+      });
+    }
+  });
+  that.sumjs(null, cpckdmxje, p.getViewModel());
+};
+var ckdmxworkCallBack = function (node) {
+  console.log("ckdmxworkCallBack",that.ckmxrecord);
   var rec = node.data;
   var p = that.popupmx;
   var xjbz = p.getViewModel().get("xjbz");
@@ -85,7 +154,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     "MyApp.view.main.report.PrintCpckd",
   ],
   locQuery: function (the) {
-    console.log(this, the);
+    //console.log(this, the);
     var v = this.getView().down("#CpxsdListGrid").getViewModel();
     khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -100,7 +169,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     return false;
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log("onBtnHelpClick");
+    //console.log("onBtnHelpClick");
     Ext.Ajax.request({
       method: "POST",
       url: "http://api.weixin.qq.com/cgi-bin/message/subscribe/send",
@@ -129,7 +198,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
         },
       }),
       success: function (response) {
-        console.log(response);
+        //console.log(response);
         //var result = Ext.decode(response.responseText);
         //if (result.result == 'success') {
         //}
@@ -138,7 +207,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
         //}
       },
       failure: function (err) {
-        console.log(err);
+        //console.log(err);
         Ext.MessageBox.alert("错误!", "帮助发生错误！" + err);
       },
     });
@@ -296,7 +365,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
       },
     });
     cpckdcwStore.on("load", function () {
-      //   console.log("cpckdcwStore load");
+      //   //console.log("cpckdcwStore load");
       curcpckdjeStore.sync();
       curcpckdjeStore.clearFilter();
       curcpckdjeStore.removeAll();
@@ -314,9 +383,9 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
             record.get("kcmxid") == reccw.data.id
           );
         }).items.length;
-        // console.log("find:",ss);
+        // //console.log("find:",ss);
         if (ss < 1) {
-          console.log("cw kc reccw:  ", reccw);
+          //console.log("cw kc reccw:  ", reccw);
           rec = {
             kcmxid: reccw.data.id,
             area: reccw.data.area,
@@ -410,7 +479,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
   },
   onCpckdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log("rec onCpckdmxShowView",rec);
+    //console.log("rec onCpckdmxShowView",rec);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -468,7 +537,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
   queryfromrow: function (thisp, row, col) {
     //仔细观察参数和api里面的参数
     // var record = thisp.getStore().getAt(row);
-    // console.log(row, col);
+    // //console.log(row, col);
     //if (col == 0) {
     //获得记录
     // var record = thisp.getStore().getAt(row);
@@ -483,7 +552,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     dh = xsid.toString();
     var record = rec.data;
     khid = rec.data.khid;
-    console.log("ckrec ",record);
+    //console.log("ckrec ",record);
     sys_current_khid=khid;
     sys_current_ckid=rec.data.L_id;
     var endrq = Ext.Date.format(rec.data.endrq, "Y-m-d");
@@ -516,7 +585,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     that.createdialog(record);
   },
   createdialog: function (record) {
-    //  console.log(record);
+    //  //console.log(record);
     var view = this.getView();
     this.isEdit = false; // !!record;
     this.dialog = view.add({
@@ -552,10 +621,11 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     that.popupmx = that.getView().down("#cpckdmxedit"); // this.lookupReference('popupmxWindow');
     var rec = that.lookupReference("popupmxWindow").getViewModel();
     var obj = [];
+    that.ckmxrecord=rec;
     obj["xjbz"] = rec.data.xjbx;
     obj["khid"] = khid;
     obj["bzid"] = rec.data.bzid;
-    treeSelect("work", that, obj, that.popupmx, false, ckdworkCallBack);
+    treeSelect("work", that, obj, that.popupmx, false, ckdmxworkCallBack);
     return false;
   },
   onCpckdjeDeleteClick: function (button) {
@@ -649,6 +719,8 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     }
     var ckdrec = form.getValues();
     var rec = ckdrec;
+    
+    
     var p = this.lookupReference("popupCpxsdWindow").getViewModel();
     var rq = rec.ckrq; //Ext.decode(Ext.encode(p.get('ckrq')));
     if (rq < sys_option_min_date) {
@@ -658,6 +730,9 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
       );
       return false;
     }
+    
+    that.lookupReference("popupCpxsdWindow").down("#btnCpxsdSave").setHidden(true);
+
     xsid = rec.xsid;
     var cpckd = {};
     cpckd["cnote"] = rec.cnote;
@@ -717,6 +792,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     });
     if (cwrec == 0) {
       Ext.MessageBox.alert("注意！", "请输入出仓内容！");
+      that.lookupReference("popupCpxsdWindow").down("#btnCpxsdSave").setHidden(false);
       return false;
     }
     cwrec == 0;
@@ -789,7 +865,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
     cpckd["cpckdmx"] = arraymx;
     cpckd["cpckdje"] = arrayje;
     cpckd["cpckdcw"] = arraycw;
-    console.log(cpckd);
+    //console.log(cpckd);
     //return ;
     var str = obj2str(cpckd);
     var encodedString = base64encode(Ext.encode(str));
@@ -807,8 +883,10 @@ Ext.define("MyApp.view.main.cpckgl.CpckdCtrl", {
         fn: function (btn, text) {
           if (btn == "yes") {
             that.data_save(xsid, encodedString);
+          }else{
+            that.lookupReference("popupCpxsdWindow").down("#btnCpxsdSave").setHidden(false);
           }
-        },
+        }
       });
       return;
     }

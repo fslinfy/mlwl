@@ -1,22 +1,22 @@
 ﻿var gfid = 0;
 var that;
 var AddgfcpCallBack = function (node) {
-  console.log('sh add------CallBack', node);
+  //console.log('sh add------CallBack', node);
 }
 var khmcCallBack = function (node) {
   that.popupmx.getViewModel().set("khid", node.data.id);
   that.popupmx.getViewModel().set("khmc", node.data.text);
 };
 var cdmcCallBack = function (node) {
-  //console.log('node');
-  //console.log(node.data.text);
+  ////console.log('node');
+  ////console.log(node.data.text);
   var customerGrid = that.lookupReference("CpgfdmxGrid");
   var selection = customerGrid.getSelectionModel().getSelection()[0];
   selection.set("cdmc", node.data.text);
 };
 var bzmcCallBack = function (node) {
-  console.log("node", node);
-  //console.log(node.data.bydj);
+  //console.log("node", node);
+  ////console.log(node.data.bydj);
   var customerGrid = that.lookupReference("CpgfdmxGrid");
   var selection = customerGrid.getSelectionModel().getSelection()[0];
   selection.set("bzmc", node.data.text);
@@ -24,7 +24,7 @@ var bzmcCallBack = function (node) {
   selection.set("rate", node.data.rate);
 };
 var cpmcCallBack = function (node) {
-  //  console.log(node.data);
+  //  //console.log(node.data);
   var customerGrid = that.lookupReference("CpgfdmxGrid");
   var selection = customerGrid.getSelectionModel().getSelection()[0];
   selection.set("xmmc", node.data.text);
@@ -90,7 +90,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
     "MyApp.view.main.tree.CpTreeSelect"
   ],
   locQuery: function (the) {
-    console.log("cpgfdshctrl locquery")
+    //console.log("cpgfdshctrl locquery")
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     cpgfdmxStore0.proxy.extraParams.loc = "cpgfdmxsh";
@@ -228,7 +228,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
   onSelectCpbmView: function (record) {
     var p = that.lookupReference("gfdpopupWindow");
     sys_current_khid = p.getViewModel().get("khid");
-    console.log(sys_current_khid);
+    //console.log(sys_current_khid);
     if (sys_current_khid == 0) {
       Ext.MessageBox.alert("提示！", "请先选择客户名称！");
       return;
@@ -306,7 +306,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
       return false;
     }
     var rq = Ext.decode(Ext.encode(p.get("gfrq")));
-    console.log(rq, sys_option_min_date);
+    //console.log(rq, sys_option_min_date);
     if (rq < sys_option_min_date) {
       Ext.MessageBox.alert(
         "注意！",
@@ -370,6 +370,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
       gfd["xjje"] = 0;
     }
     gfd["gfdmx"] = mx;
+  //console.log('cpgfd save ',gfd);
     var str = obj2str(gfd);
     var encodedString = base64encode(Ext.encode(str));
     Ext.Ajax.request({
@@ -384,7 +385,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
       scope: this,
       success: function (response) {
         var result = Ext.decode(response.responseText);
-        //  console.log("result", result);
+        //  //console.log("result", result);
         if (result.result == "success") {
           //Ext.MessageBox.alert('提示', '过货单已保存，单号是：' + result.dh);
           //that.DeletecpjkdAll(cpjkdmx_store, cpjkdcw_store, cpjkdje_store, jkdh);
@@ -540,7 +541,7 @@ Ext.define("MyApp.view.main.cpgfgl.CpgfdshCtrl", {
     v.set("sl", store.sum("sl"));
     v.set("zl", store.sum("zl"));
     v.set("je", store.sum("je"));
-    console.log(v.get("sl"), v.get("zl"), v.get("je"));
+    //console.log(v.get("sl"), v.get("zl"), v.get("je"));
     if (v.get("xjbz")) {
       v.set("xjje", v.get("je"));
     } else {

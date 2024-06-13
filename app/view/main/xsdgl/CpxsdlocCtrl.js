@@ -43,7 +43,7 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdlocCtrl", {
     return false;
   },
   init: function () {
-    //        console.log("init");
+    //        //console.log("init");
     that = this;
     var viewname = that.getView().down("#CpxsdListGrid");
     that.viewname = viewname;

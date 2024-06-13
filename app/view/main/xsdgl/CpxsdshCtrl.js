@@ -1,31 +1,40 @@
 ﻿var that;
 var xsid;
 var cpxsdmxStore;
-var xsshsaveCallBack = function (th) {
+var xsshsaveCallBack = function (th, ret) {
   // that.getView().down("#cpxsdshowview").close();
   // that.locQuery(th);
+  //console.log(th, ret);
   var p = th.lookupReference("popupCpxsdWindow");
   var mxsid = p.getViewModel().get("xsid");
   if (that.loc == "ok") {
-    Ext.MessageBox.show({
-      title: "提示",
-      msg: "打印商品销售单",
-      buttons: Ext.MessageBox.YESNO,
-      buttonText: {
-        yes: "确认打印",
-        no: "放  弃",
-      },
-      icon: Ext.MessageBox["WARNING"],
-      scope: this,
-      fn: function (btn, text) {
-        if (btn == "yes") {
-          PrintCpxsdxsid(mxsid);
-        }
-        p.close();
-        that.locQuery(th);
-      },
-    });
+    if (ret.zt == "1") {
+      Ext.MessageBox.show({
+        title: "提示",
+        msg: "打印商品销售单",
+        buttons: Ext.MessageBox.YESNO,
+        buttonText: {
+          yes: "确认打印",
+          no: "放  弃",
+        },
+        icon: Ext.MessageBox["WARNING"],
+        scope: this,
+        fn: function (btn, text) {
+          if (btn == "yes") {
+            PrintCpxsdxsid(mxsid);
+          }
+          p.close();
+          that.locQuery(th);
+        },
+      });
+    } else {
+      Ext.MessageBox.alert("注意!", "数据审核成功！");
+      p.close();
+      that.locQuery(th);
+
+    }
   } else {
+    Ext.MessageBox.alert("注意!", "销售单取消成功！");
     p.close();
     that.locQuery(th);
   }
@@ -38,7 +47,7 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
     "MyApp.view.main.report.PrintCpxsd",
   ],
   locQuery: function (th) {
-    //  console.log("locQuery cpxsdshctrl");
+    //  //console.log("locQuery cpxsdshctrl");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -65,7 +74,7 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
     return false;
   },
   init: function () {
-    //        console.log("init");
+    //        //console.log("init");
     that = this;
     this.control({
       "#btnQuery": {
@@ -139,7 +148,12 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
     });
     cpxsdmxStore.on("load", function () {
       var v = that.viewname.getViewModel();
-      var khid = v.get("khid");
+      if  (v.get("khid")==null){
+         var khid = sys_customer_id;
+      }else{
+        var khid = v.get("khid");
+      }
+
       var ckid = v.get("ckid");
       var khkd = 0;
       if (sys_customer_id > 0) {
@@ -197,7 +211,7 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
     record["op"] = "loc";
     record["ckop"] = false;
     record["title"] = "商品销售单-审核处理";
-    //  console.log(record);
+    //console.log(record);
     var view = this.getView();
     this.isEdit = false;
     this.dialog = view.add({
@@ -214,9 +228,16 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
         cpxsdmx_store.add(rec);
       }
     });
+    //console.log("xsd rec",record);
+    const shrarray = record.shr.split(';');
+
+    var sh = shrarray.includes(sys_userInfo.username);
+
+    //console.log("shrarray", shrarray, "sh", sh);
     var p = this.lookupReference("popupCpxsdWindow");
     p.down("#btnCpxsdSave").setText("审核通过此单");
-    p.down("#btnCpxsdSave").setHidden(!sys_system_sh);
+    p.down("#btnCpxsdSave").setHidden(!sys_system_sh || sh);
+
     p.down("#btnCpxsdDelete").setHidden(!sys_system_del);
     p.down("#btnPrintCpxsd").setHidden(true);
     //var p = this.lookupReference('popupCpxsdWindow');
@@ -250,22 +271,46 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
   CpxsdshSave: function (loc, th) {
     var p = th.lookupReference("popupCpxsdWindow").getViewModel();
     xsid = p.get("xsid");
-    // console.log("khkd",p.get('khkd'));
+    shr = p.get("shr");
+    shrs = parseInt(p.get("shrs"));
+    // //console.log("khkd",p.get('khkd'));
     if (xsid == 0) {
       return;
     }
     var msg = "销售提货单：" + "<br>客户名称：" + p.get("khmc"); // + "<br>进库日期：" + p.get('xsrq');
     var title = "真的取消此提货单内容？";
+    var data = {};
+    data["xsid"] = xsid;
     if (loc == "ok") {
       title = "真的审核通过此提货单内容？";
+      var shrarray = [];
+      if (shr != "") {
+        var shrarray = shr.split(';');
+      }
+      if (shrarray.length + 1 >= shrs) {
+        data["ztbz"] = 1;
+      } else {
+        data["ztbz"] = 0;
+      }
+
+      //    if (shrarray.length == 0) {
+      //    data["shr"] = sys_userInfo.username;
+      // } else {
+      shrarray.push(sys_userInfo.username);
+      data["shr"] = shrarray.join(';');
+      // }
     }
+    //console.log("data", data);
+    //return;
+    var d = base64encode(Ext.encode(obj2str(data)))
+    //console.log("data:", d);
     that.loc = loc;
     var abc = Ext.Msg.confirm(title, msg, function (e) {
       if (e == "yes") {
         var p = that.lookupReference("popupCpxsdWindow");
         p.down("#btnCpxsdSave").setHidden(true);
-        AjaxDataSave("cpxsdshsave", loc, xsid, xsshsaveCallBack, th);
-        // console.log("cpxsdshsave");
+        AjaxDataSave("cpxsdshsave", loc, d, xsshsaveCallBack, th);
+        // //console.log("cpxsdshsave");
       }
     });
   },

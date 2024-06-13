@@ -14,7 +14,7 @@ function SelectWorkerView(button) {
   });
   that.dialog.show();
 }
-function WorkerSelectOkClick(the) {
+function cpghWorkerSelectOkClick(the) {
   var records = that.getView().down("#selectWorkerTreePanel").getChecked();
   var names = [];
   var by = [];

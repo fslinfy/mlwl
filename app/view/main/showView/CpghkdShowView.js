@@ -108,8 +108,8 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   readOnly: true,
                   fieldLabel: "过户日期",
                   allowBlank: false,
-                },
-              ],
+                }
+              ]
             },
             {
               xtype: "fieldcontainer",
@@ -185,10 +185,10 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   readOnly: true,
                   fieldLabel: "有效日期",
                   allowBlank: false,
-                },
-              ],
-            },
-          ],
+                }
+              ]
+            }
+          ]
         },
         /*
                 {
@@ -276,8 +276,8 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   align: "right",
                   width: 80, //flex: 1,
                   renderer: slrenderer,
-                },
-              ],
+                }
+              ]
             },
             {
               text: "过户内容",
@@ -307,7 +307,7 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
               sortable: false,
               dataIndex: "sm",
               flex: 1,
-            },
+            }
             /* {
                         xtype: 'widgetcolumn',
                         width: 70, sortable: false,
@@ -320,7 +320,7 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                             handler: 'onCpckdmxShowView'
                         }
                     }*/
-          ],
+          ]
         },
         {
           xtype: "fieldcontainer",
@@ -356,9 +356,9 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   bind: "{czy}",
                 },
                 {
-                  name: "shr",
+                  name: "khshr",
                   fieldLabel: "业务审核",
-                  bind: "{shr}",
+                  bind: "{khshr}",
                 },
                 {
                   name: "cwsh",
@@ -376,8 +376,8 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   fieldLabel: "ghid",
                   bind: "{ghid}",
                   hidden: true,
-                },
-              ],
+                }
+              ]
             },
             {
               xtype: "fieldcontainer",
@@ -400,13 +400,13 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
                   //     readOnly: "{!ckop}"
                   //  },
                   fieldLabel: "备注",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   ],
   buttons: [
     {
@@ -420,7 +420,7 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
       text: "此单已删除!!",
       bind: {
         hidden: "{!delbz}",
-      },
+      }
     },
     "->",
     {
@@ -447,19 +447,26 @@ Ext.define("MyApp.view.main.showView.CpghkdShowView", {
       handler: function () {
         //this.up("window").hide();
         this.up("window").close();
-      },
-    },
+      }
+    }
   ],
   listeners: {
     beforedestroy: function (obj) {
+
+      /*var curcpghdjeStore = that.lookupReference("cpghdmxje0").getStore();
+      
+      if (curcpghdjeStore) {
+
       curcpckdjeStore.getProxy().clear();
       curcpckdjeStore.data.clear();
       curcpckdjeStore.sync();
+      }
       curcpckdcwStore.getProxy().clear();
       curcpckdcwStore.data.clear();
       curcpckdcwStore.sync();
       that.locQuery(that);
       //                console.log("beforedestroy");
-    },
-  },
+      */
+    }
+  }
 });

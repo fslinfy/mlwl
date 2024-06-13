@@ -32,7 +32,7 @@ Ext.define('MyApp.model.CpghdModel', {
         { name: 'newkhid', type: 'int' },
         { name: 'newkhmc' },
         { name: 'jebz', type: 'bool' },
-
+        { name: 'shrs', type: 'int' },
         { name: 'xssl', type: 'float' },
         { name: 'xszl', type: 'float' },
         { name: 'xsje', type: 'float' },

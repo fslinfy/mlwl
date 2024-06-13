@@ -27,6 +27,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     var khid = th.viewname.getViewModel().get("khid");
     var cdid = th.viewname.getViewModel().get("cdid");
     var cpid = th.viewname.getViewModel().get("cpid");
+    var tool = this.getView().down("#QueryToolbarView");
     if (khid == 0) {
       tool.down("#btnNew").setDisabled(true);
       Ext.MessageBox.alert("注意！", "请选择客户！");
@@ -50,7 +51,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     store.proxy.extraParams.cpid = cpid;
     store.reload();
     selectedData = that.getView().getSelectionModel().getSelection();
-    //        console.log("selected ",selectedData)
+    //        //console.log("selected ",selectedData)
     var tool = that.viewname.down("#QueryToolbarView");
     tool.down("#btnNew").setDisabled(selectedData.length == 0);
     return false;
@@ -71,7 +72,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     selectedData.forEach(function (rec) {
       if (rec.data.sl > 0 || rec.data.zl > 0) {
         rows++;
-        //    console.log("rec", rec.data);
+        //    //console.log("rec", rec.data);
       }
     });
     if (rows == 0) {
@@ -105,7 +106,9 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
       },
       session: true,
     });
+    //this.lookupReference("CpxsdmxGrid").getStore();
     var cpxsdmx = that.lookupReference("CpxsdmxGrid").getStore();
+    //var cpxsdmx = that.up("#CpxsdmxGrid").getStore();
     cpxsdmx.removeAll();
     cpxsdmx.load();
     //cpxsdmx_store.each(function (rec) {
@@ -131,19 +134,19 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
           xsje: 0,
           sm: "",
         };
-        //  console.log("add", record0);
+        //  //console.log("add", record0);
         cpxsdmx.add(record0);
       }
     });
     that.dialog.show();
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log(" help");
+    //console.log(" help");
     return false;
   },
   init: function () {
-    console.log("sys_location_id", sys_location_id);
-    console.log("sys_customer_id", sys_customer_id);
+    //console.log("sys_location_id", sys_location_id);
+    //console.log("sys_customer_id", sys_customer_id);
     that = this;
     that.viewname = that.getView();
     var tool = that.viewname.down("#QueryToolbarView");
@@ -226,7 +229,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
       },
     });
     //that.viewname.down("#btnQueryCkmc").setHidden(true);
-    //console.log(that.viewname.down("#btnQueryCkmc"))
+    ////console.log(that.viewname.down("#btnQueryCkmc"))
     var store = that.viewname.getStore();
   },
   onSelectKhbmView: function (record) {
@@ -238,7 +241,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
     return false;
   },
   onSelectionChange: function (grid, selection) {
-    //console.log(selection.getCount()  );
+    ////console.log(selection.getCount()  );
     //var tool = that.viewname.down("#QueryToolbarView");
     // tool.down('#btnNew').setDisabled(selection.getCount() == 0);
     selectedData = that.getView().getSelectionModel().getSelection();
@@ -290,7 +293,7 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        //  console.log(btn, text);
+        //  //console.log(btn, text);
         if (btn == "yes" || btn == "no") {
           that
             .lookupReference("popupCpxsdWindow")
@@ -315,12 +318,12 @@ Ext.define("MyApp.view.main.xsdgl.XsdglCtrl", {
           while (cnote.indexOf('"') > 0) {
             cnote = cnote.replace('"', " ");
           }
-          //  console.log("cnote=", cnote,cnote.indexOf("\n"));
+          //  //console.log("cnote=", cnote,cnote.indexOf("\n"));
           if (cnote.indexOf("\n") > 0) {
             cnote = "!" + bade64_encode(cnote) + "~";
             cpxsd["cnote"] = cnote;
           }
-          //  console.log("cnote=", cnote);
+          //  //console.log("cnote=", cnote);
           //  return ;
           cpxsd["xsrq"] = Ext.decode(Ext.encode(p.get("xsrq")));
           cpxsd["endrq"] = Ext.decode(Ext.encode(p.get("endrq")));

@@ -18,7 +18,6 @@ header('content-type: application/json; charset=utf-8');
 	$db_pass="lfy670313";
 	$db_name="wms";
 	//$db_name="mlwl_dev";
-	//$db_name="wms_bak";
 	$timezone="Asia/Shanghai";
  	define('CLIENT_MULTI_RESULTS', 131072);
 	$link=mysql_connect($host,$db_user,$db_pass,1,CLIENT_MULTI_RESULTS) 

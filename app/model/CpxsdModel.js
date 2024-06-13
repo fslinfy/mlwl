@@ -35,7 +35,8 @@ Ext.define('MyApp.model.CpxsdModel', {
         { name: 'xjbz', type: 'bool' },
         { name: 'khkd', type: 'bool' },
         { name: 'shbz', type: 'bool' },
-        { name: 'cdbz', type: 'bool' }
+        { name: 'cdbz', type: 'bool' },
+        { name: 'shrs', type: 'int' }
     ]
 });
 

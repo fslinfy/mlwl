@@ -18,7 +18,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdmfhCtrl", {
     return false;
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log(" help");
+    //console.log(" help");
     return false;
   },
   init: function () {
@@ -134,7 +134,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdmfhCtrl", {
       session: true,
     });
     this.dialog.show();
-    console.log("ckid", ckid);
+    //console.log("ckid", ckid);
     /*var cpckdcw_store = that.lookupReference('cpckdmxcw0').getStore();
         cpckdcw_store.proxy.extraParams.ckid = ckid;
         cpckdcw_store.proxy.extraParams.loc = 'ckid';

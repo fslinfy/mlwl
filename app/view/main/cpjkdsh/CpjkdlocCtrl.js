@@ -174,7 +174,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdlocCtrl", {
     return false;
   },
   onSelectCkbmView: function (record) {
-    //  console.log('onSelectCkbmView');
+    //  //console.log('onSelectCkbmView');
     treeSelect("ckmc", that, "", that.viewname, true);
     return false;
   },
@@ -183,12 +183,12 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdlocCtrl", {
     return false;
   },
   onCpjkdmxShowView: function (button) {
-    // console.log("mainTabPanel",mainTabPanel,Ext.getCmp("maintabpanel"));
+    // //console.log("mainTabPanel",mainTabPanel,Ext.getCmp("maintabpanel"));
     var rec = button.getWidgetRecord();
     var jkid = rec.data.jkid;
     var record = rec.data;
     that.jkdrecord = record;
-    console.log("that.jkdrecord ", that.jkdrecord);
+    //console.log("that.jkdrecord ", that.jkdrecord);
     record["op"] = "loc";
     record["gsop"] = true;
     record["w"] = 0;
@@ -261,7 +261,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdlocCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        console.log(btn, text);
+        //console.log(btn, text);
         if (btn == "yes") {
           AjaxDataSave(
             "cpjkdcwshsave",
@@ -277,7 +277,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdlocCtrl", {
                 
                 var abc = Ext.Msg.confirm(title, msg, function (e) {
                     if (e == 'yes') {
-                        console.log('test', 'testing!');
+                        //console.log('test', 'testing!');
                          AjaxDataSave('cpjkdcwshsave', "cancel", jkid, saveCallBack, that);
                     }
                 })

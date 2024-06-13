@@ -338,9 +338,9 @@ Ext.define("MyApp.view.main.showView.CpgfdShowView", {
                   bind: "{czy}",
                 },
                 {
-                  name: "shr",
+                  name: "khshr",
                   fieldLabel: "业务审核",
-                  bind: "{shr}",
+                  bind: "{khshr}",
                 },
                 {
                   name: "cwsh",

@@ -34,10 +34,10 @@ var gfdworkCallBack = function (node) {
 }
 
 var AddgfcpCallBack = function (node) {
-    console.log('  add------CallBack', node);
+    //console.log('  add------CallBack', node);
 }
 var packingCallBack = function (node) {
-    console.log('packing------CallBack', node);
+    //console.log('packing------CallBack', node);
     //var p= this.lookupReference('popupcpgfWindow');
     var r = that.popupmx.getViewModel();
     r.set('bzmc', node.data.text);
@@ -87,7 +87,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         return storeBtnDeleteClick(this, grid, store);
     },
     onBtnHelpClick: function (button, e, options) {
-        //  console.log(" help")
+        //  //console.log(" help")
         return false;
     },
     onBtnSaveClick: function (button, e, options) {
@@ -109,8 +109,8 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     },
     init: function () {
         that = this;
-        //console.log("init");
-        //console.log(base64encode('8888'));
+        ////console.log("init");
+        ////console.log(base64encode('8888'));
         cpgfd_store = Ext.create('Ext.data.Store', {
             extend: 'Ext.data.Store',
             alias: 'store.CpgfdStore',
@@ -121,7 +121,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                 id: 'CpgfdModel'
             }
         });
-        // console.log("init  0");
+        // //console.log("init  0");
         /*  cpgfd_store = Ext.create('Ext.data.Store', {
               extend: 'Ext.data.Store',
               alias: 'store.CpgfdStore',
@@ -159,7 +159,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                 change: this.onJkspSelectOkClick
             }*/
         });
-        // console.log("init  2");
+        // //console.log("init  2");
     },
 
     onUploadFile: function () {
@@ -192,7 +192,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
     },
     onshowEditView: function (button) {
         var rec = button.getWidgetRecord();
-        // console.log("area",sys_location_area);
+        // //console.log("area",sys_location_area);
         khid = rec.data.C_id;
         var khmc = rec.data.C_name;
         cpgfd_store.clearFilter();
@@ -239,7 +239,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             session: true
         });
         that.dialog.show();
-        //console.log("this=",this,that);
+        ////console.log("this=",this,that);
         var cpgfdmx = that.lookupReference('CpgfdmxGrid').getStore();
         cpgfdmx.filter(
             { filterFn: function (item) { return item.get("gfdh") == gfdh; } }
@@ -272,9 +272,9 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             this.editrecordID = record['id'];
             record['newrecord'] = false;
             record['khid'] = khid;
-            // console.log("this.recordID",this.recordID);
+            // //console.log("this.recordID",this.recordID);
         }
-        // console.log(record);
+        // //console.log(record);
         record['title'] = '过货商品明细录入';
         this.dialog_mx = view.add({
             xtype: 'formcpgfwindow',
@@ -302,12 +302,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         this.createDialog(null, p.get('gfdh'));
     },
     onSelectCdbmView: function (record) {
-        // console.log('onSelectCdbmView');
+        // //console.log('onSelectCdbmView');
         treeSelect('cdmc', that, '', that.getView().down('#cpgfdmxedit'), false);
         return false;
     },
     onSelectBzbmView: function (record) {
-        // console.log('onSelectCdbmView');
+        // //console.log('onSelectCdbmView');
         treeSelect('bzmc', that, '', that.getView().down('#cpgfdmxedit'), false);
         return false;
     },
@@ -446,7 +446,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             return false
         }
         // Ext.MessageBox.alert('注意！', '请输入商品过货明细数据！11111111111111111111');
-        // console.log('注意！', '请输入商品过货明细数据！11111111111111111111');
+        // //console.log('注意！', '请输入商品过货明细数据！11111111111111111111');
         //     return false;
         // 、、if (form.isValid()) {
         var rec = form.getValues();
@@ -532,7 +532,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         if (isEdit) {
             var r = that.editrecordID;
-            //   console.log(r);
+            //   //console.log(r);
             var rec = cpgfdmx_store.getById(r);
             rec.set('cpgg', gfdmx['cpgg']);
             rec.set('cdid', gfdmx['cdid']);
@@ -641,7 +641,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         }
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         var khid = p.get('khid');
-        //console.log(p);
+        ////console.log(p);
         var index = cpgfd_store.find('khid', khid);
         var rec = cpgfd_store.getAt(index);
   
@@ -663,12 +663,12 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         rec.set('sfr', p.get('sfr'));
         
         cpgfd_store.sync();
-        //  console.log('rece', rec.data);
+        //  //console.log('rece', rec.data);
         var cpgfd = rec.data;
         var gfdh = rec.get("gfdh");
         cpgfd['czrq'] = Ext.decode(Ext.encode(p.get('czrq')));
         cpgfd['gfrq'] = Ext.decode(Ext.encode(p.get('gfrq')));
-        //     console.log(cpgfd['czrq'], Ext.encode(p.get('czrq')));
+        //     //console.log(cpgfd['czrq'], Ext.encode(p.get('czrq')));
         var cpgfdcw_store = this.lookupReference('cpgfdmxcw0').getStore();
         if (cpgfdcw_store.getCount() == 0) {
             Ext.MessageBox.alert('注意！', '请输入商品过货仓位明细数量及重量！!');
@@ -715,7 +715,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             })
             recmx0 = recmx.data;
             if ((recmx0['mints'] == '') || (recmx0['mints'] == undefined)) recmx0['mints'] = 0;
-            //console.log(recmx0);
+            ////console.log(recmx0);
             recmx0['cpgfdcw'] = arraycw;
             arrayje = [];
             cpgfdje_store.each(function (recje) {
@@ -736,7 +736,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
             return false;
         }
         cpgfd['cpgfdmx'] = arraymx;
-         console.log('gfd', cpgfd);
+         //console.log('gfd', cpgfd);
          return;
     return;
         var str = obj2str(cpgfd);
@@ -756,7 +756,7 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
                 var result = Ext.decode(response.responseText);
                 if (result.result == 'success') {
                     // PrintCpgfdJkid(result.gfid);
-                    //console.log('gfdh=', result.dh);
+                    ////console.log('gfdh=', result.dh);
                     //Ext.toast.msg("提示",'进库单已保存，单号是：'+result.gfdh);
                     Ext.MessageBox.alert('提示', '过货单已保存，单号是：' + result.dh);
                     that.DeletecpgfdAll(cpgfdmx_store, cpgfdcw_store, cpgfdje_store, gfdh);
@@ -772,13 +772,13 @@ Ext.define('MyApp.view.main.cpgfgl.CpgfdCtrl', {
         });
     },
     sumje: function () {
-     //   console.log(           "sumje"        );
+     //   //console.log(           "sumje"        );
         var cpgfdmx_store = this.lookupReference('CpgfdmxGrid').getStore();
         var p = this.lookupReference('gfdpopupWindow').getViewModel();
         p.set('sl') = cpgfdmx_store.sum("sl");
         p.set('zl') = cpgfdmx_store.sum("zl");
         p.set('je') = cpgfdmx_store.sum("je");
-    //    console.log( p.get('sl'), p.get('zl'), p.get('je'))
+    //    //console.log( p.get('sl'), p.get('zl'), p.get('je'))
         if (p.get('xjbz')) {
             p.set('xjje') = cpgfdmx_store.sum("je");
         }else

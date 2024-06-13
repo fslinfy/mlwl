@@ -6,7 +6,7 @@ var issave = false;
 var ghshsaveCallBack = function (th) {
   var p = th.lookupReference("popupCpghdWindow");
   var mghid = that.ghid;
-  // console.log("qcloudsmssend",mghid);
+  // //console.log("qcloudsmssend",mghid);
   if (th.loc == "ok") {
     // 发信息
     Ext.Ajax.request({
@@ -60,7 +60,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     "MyApp.view.main.report.PrintCpghdgh",
   ],
   locQuery: function (that) {
-    console.log("sh locQuery");
+    //console.log("sh locQuery");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -167,7 +167,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
         click: function () {
           onPrintCpghd();
           // Printcpghdghid(mghid);
-          //console.log('printcpghd');
+          ////console.log('printcpghd');
         },
       },
       //    "#btnQueryCkmc": {
@@ -215,7 +215,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     mghid = ghid;
     var record = rec.data;
     that.ghdrecord = rec;
-    console.log("CpghshShowView", record);
+    //console.log("CpghshShowView", record);
     record["op"] = "sh";
     record["gsop"] = false;
     record["w"] = 50;
@@ -247,7 +247,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     var cpghdmx_store = that.lookupReference("CpghdmxGrid").getStore();
     cpghdmx_store.on("load", function () {
       //cpghdmx_store.each(function (rec) {
-      //    console.log('rec',rec);
+      //    //console.log('rec',rec);
       //})
       mxid = cpghdmx_store.getAt(0).get("mxid");
       cpghdcw_store.clearFilter();
@@ -269,14 +269,14 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
         cpghdcw_store.proxy.extraParams.ckid = ckid;
         cpghdcw_store.proxy.extraParams.loc = 'ckid';
         cpghdcw_store.load();
-        //console.log('init4');
+        ////console.log('init4');
         this.onGridReload();
-        //console.log('init5');
+        ////console.log('init5');
         */
   },
   onGridReload: function () {
     var store = that.lookupReference("CpghdmxGrid").getStore();
-    // console.log(store);
+    // //console.log(store);
     var mxid = store.getAt(0).get("mxid");
     var cpghdcw_store = that.lookupReference("cpghdmxcw0").getStore();
     cpghdcw_store.clearFilter();
@@ -285,13 +285,13 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     });
   },
   onCpghdmxItemSelected: function (sender, record) {
-    //console.log("ckmcid",record);
+    ////console.log("ckmcid",record);
     var cpghdcw_store = that.lookupReference("cpghdmxcw0").getStore();
     var mxid = record.data.mxid;
-    //console.log("ckmcid",mxid);
+    ////console.log("ckmcid",mxid);
     cpghdcw_store.clearFilter();
     //cpghdcw_store.each(function (rec) {
-    //    console.log("ckdcw",rec);
+    //    //console.log("ckdcw",rec);
     //})
     cpghdcw_store.filterBy(function (record, id) {
       return record.get("mxid") == mxid;
@@ -304,11 +304,11 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     },*/
   onSelectWorkerView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log(rec);
+    //console.log(rec);
     SelectWorkerView(button);
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpghWorkerSelectOkClick(that);
   },
   khmcTriggerClick: function (record) {
     that.onBtnQueryClick();
@@ -355,7 +355,7 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
     //ghsh["ghrq"] =  p.get('ghrq');
     ghsh["ghrq"] = Ext.decode(Ext.encode(p.get("ghrq")));
     ghsh["gsby"] = gsby;
-    console.log(ghsh);
+    //console.log(ghsh);
     //ghsh["fhbz"] = 1;
     var msg = "过户单号：" + p.get("ghdh") + "<br>客户名称：" + p.get("khmc");
     var title = "真的取消此过户单内容？";
@@ -367,11 +367,12 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
       var cghrq = ghsh["ghrq"].substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (cghrq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月过户单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
     that.loc = loc;
+    the.loc = loc;
     that.ghid = ghid;
     // return ;
     Ext.MessageBox.show({
@@ -403,8 +404,10 @@ Ext.define("MyApp.view.main.cpghgl.CpghdshCtrl", {
             ghshsaveCallBack,
             the
           );
+        }else{
+          issave=false;
         }
-      },
+      }
     });
     /*   var abc = Ext.Msg.confirm(title, msg, function (e) {
                if (e == 'yes') {

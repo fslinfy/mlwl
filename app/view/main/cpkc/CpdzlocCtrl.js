@@ -16,7 +16,7 @@ Ext.define("MyApp.view.main.cpkc.CpdzlocCtrl", {
   ],
   locQuery: function () {
     var khid = that.viewname.getViewModel().get("khid");
-    console.log("khid=", khid);
+    //console.log("khid=", khid);
     if (khid < 1) {
       Ext.MessageBox.alert("注意!", "请选择统计客户");
       return;
@@ -27,7 +27,7 @@ Ext.define("MyApp.view.main.cpkc.CpdzlocCtrl", {
     var ny = that.viewname.getViewModel().get("ny");
     var yu = that.viewname.getViewModel().get("yu");
     sys_current_khid = khid;
-    console.log(ny, yu, khid);
+    //console.log(ny, yu, khid);
     var store = that.viewname.getStore();
     store.proxy.extraParams.p_l_id = ckid;
     store.proxy.extraParams.khid = khid;
@@ -119,7 +119,7 @@ Ext.define("MyApp.view.main.cpkc.CpdzlocCtrl", {
     var store = that.viewname.getStore();
   },
   khmcTriggerClick: function (record) {
-    // console.log(record);
+    // //console.log(record);
     // that.onBtnQueryClick();
     return false;
   },
@@ -156,7 +156,7 @@ Ext.define("MyApp.view.main.cpkc.CpdzlocCtrl", {
     return false;
   },
   onSelectBzbmView: function (record) {
-    // console.log(record);
+    // //console.log(record);
     treeSelect("bzmc", that, "", that.viewname, false);
     return false;
   },

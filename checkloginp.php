@@ -91,7 +91,7 @@ function systemsetting() {
 	}
 	if ($id == "0") {
 		$arr['success'] = true;
-		$arr['data'] = array('userid' => 0, 'username' => urlencode('数据设置失败！！！ '));
+		$arr['data'] = array('userid' => 0, 'username' => urlencode('数据设置失败！！！ '),'sqlcmd'=>$sqlstr);
 	} else {
 		$arr['success'] = true;
 		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'E_code' => $E_code, 'E_name' => urlencode($E_name), 'areas' => $areas, 'appid' => $appid);
@@ -127,29 +127,29 @@ function sysuserlogin() {
 	$userid =(int)$_POST['username'];
 	//return $userid;
 	$userpsw =base64_encode($_POST['password']);
-	//if ($username=="")
-	//	{
-	//		$sqlstr = "select u.c_id as userid,'system' as username ,0 as edit,0 as sh,0 as del,0 as cwsh,	0 as new ,'' as lidstring,1 as khsystem,0 as lastdel from customer  u where u.active=1 and c_id=".$p_khid." and password='".$userpsw."'";
-	
-	//	}
-	//	else
-	//	{
 			if ($p_khid == "0") {
-				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked,option_min_date(".$p_l_id.") AS minrq  from users u ,usertype t
+				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked,
+				'' AS minrq,0 as shrs from users u ,usertype t
 				where t.typeid=u.typeid and u.active=1 ";
 			} 
 			else 
 			{
-				$sqlstr = "select u.*,0 as khsystem ,option_min_date(".$p_l_id.") AS minrq from khusers u where u.active=1  and u.khid=" . $p_khid;
+				$sqlstr = "select u.*,0 as khsystem ,'' AS minrq,
+				customer.shrs FROM khusers u,customer WHERE u.khid=customer.c_id AND  u.active=1 AND customer.active=1 AND u.khid=" . $p_khid;
 			}	
-			//if ($userid>0){
-				//$sqlstr .= " and  u.userid=" . $userid ;
-				$sqlstr .= " and ( u.userid=" . $userid . " or  u.username='" . $username . "') ";
-			//}else{
-		//		$sqlstr .= " and   u.username='" . $username . "' ";
-		//	}
-			//$sqlstr .= " and ( u.userid=" . $userid . " or  u.username='" . $username . "') ";
-    		
+			/*
+if ($p_khid == "0") {
+				$sqlstr = "select u.userid,u.username,u.lastdel,t.edit,t.sh,t.del,t.cwsh,t.new,U.lidstring,0 as khsystem,u.smsactive,u.locked,
+				option_min_date(".$p_l_id.") AS minrq,0 as shrs from users u ,usertype t
+				where t.typeid=u.typeid and u.active=1 ";
+			} 
+			else 
+			{
+				$sqlstr = "select u.*,0 as khsystem ,option_min_date(".$p_l_id.") AS minrq,
+				customer.shrs FROM khusers u,customer WHERE u.khid=customer.c_id AND  u.active=1 AND customer.active=1 AND u.khid=" . $p_khid;
+			}
+			*/
+			$sqlstr .= " and ( u.userid=" . $userid . " or  u.username='" . $username . "') ";
 			$sqlstr .= " and  u.password='" . $userpsw . "'";
 	//}
 	$id = 0;
@@ -158,6 +158,7 @@ function sysuserlogin() {
 	$minrq = "";
 	$lidstring = "";
 	$sh = 0;
+	$shrs = 0;
 	$cwsh = 0;
 	$edit = 0;
 		$smsactive = 0;
@@ -180,6 +181,7 @@ function sysuserlogin() {
 			$minrq = $row['minrq'];
 			$lastdel = $row['lastdel'];
 			$sh = $row['sh'];
+			$shrs = $row['shrs'];
 			$cwsh = $row['cwsh'];
 			$edit = $row['edit'];
 			$smsactive=$row['smsactive'];
@@ -191,7 +193,7 @@ function sysuserlogin() {
 	}
 	if ($id <1) {
 		$arr['success'] = true;
-		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户ID或用户名称或密码错误，登录失败！！！ '));
+		$arr['data'] = array('userid' => 0, 'username' => urlencode('用户ID或用户名称或密码错误，登录失败!!'),"sqlcmd" => $sqlstr);
 		return urldecode(json_encode($arr));
 	} 
 	if ($locked>0) {
@@ -208,7 +210,7 @@ function sysuserlogin() {
 	
 	 
 		$arr['success'] = true;
-		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'lidstring' => $lidstring,'sh' => $sh, 'cwsh' => $cwsh, 'edit' => $edit, 'del' => $del, 'lastdel' => $lastdel, 'new' => $new, 'khsystem' => $khsystem,'mindate' => $minrq);
+		$arr['data'] = array('userid' => $id, 'username' => urlencode($name), 'lidstring' => $lidstring,'sh' => $sh, 'cwsh' => $cwsh, 'edit' => $edit, 'del' => $del, 'lastdel' => $lastdel, 'new' => $new, 'khsystem' => $khsystem,'mindate' => $minrq,shrs => $shrs);
 		if ($username=="")
 		{}else{
 			if ($p_khid == "0") {

@@ -1,7 +1,7 @@
 ﻿Ext.define("MyApp.view.main.cpjkdsh.CpjkdCtrlFunction", {
   extend: "Ext.Mixin",
 });
-function WorkerSelectOkClick(the) {
+function cpjkWorkerSelectOkClick(the) {
   var names = [];
   var by = [];
   var gs = [];
@@ -58,7 +58,7 @@ function WorkerSelectOkClick(the) {
   //    selection.set('cg', cg.join(';'));
   that.getView().down("#selectWorkerWindow").close();
   //}
-  console.log("jkdrecord", that.mainrecord, the.mainrecord);
+  //console.log("jkdrecord", that.mainrecord, the.mainrecord);
   var cpjkd = {};
   var arrayjemx = [];
   var jemx = {};
@@ -85,7 +85,9 @@ function WorkerSelectOkClick(the) {
     success: function (response) {
       var result = Ext.decode(response.responseText);
       if (result.result == "success") {
-        var store = the.lookupReference("CpjkdmxGrid").getStore();
+        //var store = the.lookupReference("CpjkdmxGrid").getStore();
+store=cpjkdmxStore;
+//var store = the.up("#CpjkdmxGrid").getStore();
         store.proxy.extraParams.loc = the.locname;
         //store.proxy.extraParams.khid =the.mainrecord.data.khid ;
         store.proxy.extraParams.jkid = the.mainrecord.jkid;
@@ -119,9 +121,9 @@ function imagesload(id) {
       var cnote = "";
       data = data.substring(1);
       var obj = JSON.parse(data);
-      // console.log(obj);
+      // //console.log(obj);
       if (obj.results > 0) {
-        //console.log(obj.rows);
+        ////console.log(obj.rows);
         var arrrec = obj.rows;
         that.lookupReference("popupCpjkdWindow").down("#imageShow").removeAll();
         arrrec.forEach(function (rec) {
@@ -129,7 +131,7 @@ function imagesload(id) {
           if (cnote.length > 0) {
             var cnote = Ext.decode(base64decode(cnote));
           }
-          //  console.log("rec",rec);
+          //  //console.log("rec",rec);
           //that.creatOneImage(rec.id, rec.filename, rec.fileguid, cnote, rec.w, rec.h, true);
           creatOneImage(
             rec.id,
@@ -149,7 +151,7 @@ function imagesload(id) {
   });
 }
 function creatOneImage(id, title, pjg, cnote, w, h, delbz) {
-  //  console.log(title,pjg);
+  //  //console.log(title,pjg);
   if (w > 400) {
     h = (h * 400) / w;
     w = 400;
@@ -159,7 +161,7 @@ function creatOneImage(id, title, pjg, cnote, w, h, delbz) {
     h = 300;
   }
   var s = that.lookupReference("popupCpjkdWindow").down("#imageShow");
-  //console.log(title,pjg,s);
+  ////console.log(title,pjg,s);
   var boximage = Ext.create("Ext.container.Container", {
     items: [
       {
@@ -178,7 +180,7 @@ function creatOneImage(id, title, pjg, cnote, w, h, delbz) {
             icon: "images/delete.gif",
             hidden: !delbz,
             handler: function () {
-              // console.log("handler");
+              // //console.log("handler");
               //that.imagesdelete(id, pjg);
               imagesdelete(id, pjg);
             },
@@ -219,7 +221,7 @@ function creatOneImage(id, title, pjg, cnote, w, h, delbz) {
   return;
 }
 function imagesdelete(imgid, imgfile) {
-  // console.log(imgid, imgfile);
+  // //console.log(imgid, imgfile);
   var abc = Ext.Msg.confirm("注意！ ", "真的删除此图片吗？", function (e) {
     if (e == "yes") {
       Ext.Ajax.request({
@@ -289,7 +291,7 @@ function SelectWorkerView(button) {
     });
     that.dialog.show();
 };
-function WorkerSelectOkClick() {
+function cpjkWorkerSelectOkClick() {
     var names = [];
     var by = [];
     var gs = [];

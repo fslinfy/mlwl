@@ -1,13 +1,13 @@
 ﻿var cdmcCallBack = function (node) {
-  //console.log("cdmcCallBack",node);
+  ////console.log("cdmcCallBack",node);
   that.locQuery();
 }
 var cpmcCallBack = function (node) {
-  console.log("cpmcCallBack",node);
+  //console.log("cpmcCallBack",node);
   that.locQuery();
 }
 var khmcCallBack = function (node) {
-  console.log("khmcCallBack",node);
+  //console.log("khmcCallBack",node);
   that.locQuery();
 }
 sys_DisplayAll = "cpkc";
@@ -57,12 +57,12 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
   },
   onBtnHelpClick: function (button, e, options) {
     //     this.printtest();
-    console.log("HELP");
+    //console.log("HELP");
     return;
   },
   init: function () {
-    console.log("start_date");
-    console.log(sys_option_min_date);
+    //console.log("start_date");
+    //console.log(sys_option_min_date);
     that = this;
     that.viewname = that.getView();
     if (sys_customer_id > 0) {

@@ -45,7 +45,7 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
               triggerCls: "x-form-clear-trigger",
               onTriggerClick: function () {
                 this.reset();
-              },
+              }
             },
             {
               xtype: "checkbox",
@@ -59,15 +59,15 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
                 color: "#000",
               },
               bind: "{active}",
-              itemId: "active",
-            },
-          ],
+              itemId: "active"
+            }
+          ]
         },
         {
-          xtype: "QueryToolbarView",
-        },
-      ],
-    },
+          xtype: "QueryToolbarView"
+        }
+      ]
+    }
   ],
   columns: [
     {
@@ -84,7 +84,7 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         allowBlank: false,
         regex: /(^[0-9A-Z]{1,5}$)/,
         type: "string",
-      },
+      }
     },
     {
       text: "客户名称",
@@ -95,12 +95,12 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: false,
         type: "string",
-      },
+      }
     },
     {
       text: "客户简称",
@@ -111,12 +111,12 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: true,
         type: "string",
-      },
+      }
     },
     {
       text: "客户地址",
@@ -127,12 +127,12 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: true,
         type: "string",
-      },
+      }
     },
     {
       text: "联系电话",
@@ -142,7 +142,7 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
       editor: {
         allowBlank: true,
         type: "string",
-      },
+      }
     },
     {
       text: "移动电话",
@@ -152,7 +152,18 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
       editor: {
         allowBlank: true,
         type: "string",
-      },
+      }
+    },
+    {
+      text: "审核人数",
+      dataIndex: "shrs",
+      flex: 1,
+      align: "center",
+      editor: {
+        allowBlank: false,
+        type: "numberfield",
+        decimalPrecision: 1
+      }
     },
     {
       text: "月度开始日",
@@ -164,7 +175,7 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         allowBlank: false,
         type: "numberfield",
         decimalPrecision: 1,
-      },
+      }
     },
     {
       xtype: "datecolumn",
@@ -179,7 +190,7 @@ Ext.define("MyApp.view.main.customer.CustomerView", {
         format: "y-m-d",
         //disabledDays: [0, 6],
         //disabledDaysText: 'Plants are not available on the weekends'
-      },
+      }
     },
     {
       xtype: "checkcolumn",

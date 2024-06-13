@@ -484,10 +484,10 @@ Ext.define("MyApp.view.main.cpkc.CpjxclocCtrl", {
       arr.push({ text: slrenderer(sumtzzl) });
       arr.push({ text: slrenderer(sumkcsl) });
       arr.push({ text: slrenderer(sumkczl) });
-      ////    console.log("arr",arr);
+      ////    //console.log("arr",arr);
       jsonData.push(arr);
     }
-    //console.log(jsonData);
+    ////console.log(jsonData);
     return jsonData;
   },
   slrender: function (sss) {

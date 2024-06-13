@@ -4,7 +4,17 @@ var khid = 0;
 var zl = 0;
 var ckrec = {};
 var ckcwshsaveCallBack = function (th) {
-  console.log("saveCallBack");
+  ////console.log("saveCallBack");
+
+  if (that.loc == 'ok') {
+    Ext.MessageBox.alert("注意!", "此单财务复核成功！");
+  } else {
+    if (that.loc == 'delete') {
+      Ext.MessageBox.alert("注意!", "此单出仓内容删除成功！");
+    } else {
+      Ext.MessageBox.alert("注意!", "此单仓库复核已取消！");
+    }
+  }
   that.getView().down("#cpckdshowview").close();
   that.locQuery(th);
 };
@@ -24,7 +34,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     "MyApp.view.main.tree.WorkerSelectTree",
   ],
   locQuery: function (that) {
-    console.log(" cwsh locQuery");
+    //console.log(" cwsh locQuery");
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
@@ -32,7 +42,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     cpckdmxStore.proxy.extraParams.khid = khid;
     cpckdmxStore.proxy.extraParams.l_id = ckid;
     cpckdmxStore.reload();
-    //console.log("locQuery",khid,ckid);
+    ////console.log("locQuery",khid,ckid);
   },
   onBtnQueryClick: function (button, e, options) {
     this.locQuery(this);
@@ -41,7 +51,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     return false;
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log(" help");
+    //console.log(" help");
     return false;
   },
   init: function () {
@@ -154,9 +164,9 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
   },
   onSelectWorkerView: function (button) {
     var rec = button.getWidgetRecord();
-    //console.log("SelectWorkerView",rec);
+    ////console.log("SelectWorkerView",rec);
     if (rec.data.jeid > 0) {
-      //console.log("SelectWorkerView");
+      ////console.log("SelectWorkerView");
       SelectWorkerView(button);
     } else {
       if (rec.data.cwsl < rec.data.ccsl) {
@@ -165,7 +175,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     }
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpckWorkerSelectOkClick(that);
   },
   onCpckdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
@@ -177,7 +187,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     record["w"] = 40;
     record["title"] = "商品出库单-财务审核";
     that.mainrecord = rec;
-    console.log("ckdrecord:", rec, that.mainrecord);
+    //console.log("ckdrecord:", rec, that.mainrecord);
     var view = this.getView();
     that.isEdit = false;
     that.dialog = view.add({
@@ -268,6 +278,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     if (ckid == 0) {
       return;
     }
+
     var gsby = [];
     var cpckdmx_store = that.lookupReference("CpckdmxGrid").getStore();
     var gsbyrec = {};
@@ -292,10 +303,11 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
       var rq = Ext.decode(Ext.encode(p.get("ckrq"))).substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (rq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月出库单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
+    that.loc = loc;
     Ext.MessageBox.show({
       title: title,
       msg: msg,
@@ -332,6 +344,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
     if (ckid == 0) {
       return;
     }
+    that.loc = "";
     var msg = "出库单号：" + p.get("ckdh") + "<br>客户名称：" + p.get("khmc");
     var title = "真的取消此出库单仓管复核内容？";
     Ext.MessageBox.show({
@@ -350,7 +363,7 @@ Ext.define("MyApp.view.main.cpckgl.CpckdcwshCtrl", {
             .lookupReference("popupCpckdWindow")
             .down("#btnCpckdCancel")
             .setDisabled(true);
-          //console.log(ckid,msg);
+          ////console.log(ckid,msg);
           AjaxDataSave(
             "cpckdckshsave",
             "cancel",

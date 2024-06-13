@@ -14,7 +14,7 @@ function SelectWorkerView(button) {
   });
   that.dialog.show();
 }
-function WorkerSelectOkClick(the) {
+function cpckWorkerSelectOkClick(the) {
   var records = that.getView().down("#selectWorkerTreePanel").getChecked();
   var names = [];
   var by = [];
@@ -116,7 +116,7 @@ function onCpckdmxShEdit(button) {
   var rec = button.getWidgetRecord();
   var ckid = rec.data.ckid;
   var record = rec.data;
-  console.log(record);
+  //console.log(record);
   record["op"] = "cksh";
   record["gsop"] = false;
   record["w"] = 40;
@@ -229,7 +229,7 @@ function onPrintCpckd() {
 }
 /*
 function AjaxDataSave(act,loc,data,CallBackFunction,the) {
-					console.log("开始数据保存！");
+					//console.log("开始数据保存！");
 			Ext.Ajax.request({
 				method: 'GET',
 				url: sys_ActionPHP,
@@ -244,9 +244,9 @@ function AjaxDataSave(act,loc,data,CallBackFunction,the) {
 				success: function (response) {
 					
 					var result = Ext.decode(response.responseText);
-					console.log("数据保存:",result.result);
+					//console.log("数据保存:",result.result);
 					if (result.result == 'success') {
-                        console.log("call back:",CallBackFunction);	
+                        //console.log("call back:",CallBackFunction);	
                       
                         CallBackFunction(the);    
 					

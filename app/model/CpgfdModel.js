@@ -38,7 +38,7 @@ Ext.define('MyApp.model.CpgfdModel', {
         {name: 'gfzl',  type: 'float'        },
 
         { name: 'fhbz', type: 'int' },
-        
+        { name: 'shrs', type: 'int' },
         { name: 'khshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },
         { name: 'khshr' },
         { name: 'ckshrq', type: 'date', dateFormat: 'Y-m-d h:ia' },

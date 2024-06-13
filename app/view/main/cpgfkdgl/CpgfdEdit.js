@@ -609,9 +609,9 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdEdit", {
                   bind: "{czy}",
                 },
                 {
-                  name: "shr",
+                  name: "khshr",
                   fieldLabel: "审核员",
-                  bind: "{shr}",
+                  bind: "{khshr}",
                 },
                 {
                   name: "cwr",

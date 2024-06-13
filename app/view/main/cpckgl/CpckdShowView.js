@@ -1,5 +1,84 @@
 var that;
 var ckdworkCallBack = function (node) {
+  console.log(" ckdworkCallBack   in cpckdshowview");
+  var workrec = node.data;
+  var ckmxrec = that.record.data;
+  var ckdrec = that.mainrecord.data;
+  console.log("ckdrec", ckdrec);
+  console.log("workrec", workrec);
+  console.log("recId", that.recordID.data);
+  console.log("rec", that.record.data);
+  var cpckd = {};
+  var arrayjemx = [];
+  var jemx = {};
+  //work,byg,gs,cg,dw,sl,dj,je,workid,mxid,xjbz,zljs,inbz,indj
+  jemx["work"] = workrec.text;
+  jemx["byg"] = "";
+  jemx["gs"] = "";
+  jemx["cg"] = "";
+  if (workrec.zljs > 0) {
+    jemx["dw"] = "吨";
+    jemx["sl"] = ckmxrec.cczl;
+  } else {
+    jemx["dw"] = ckmxrec.jldw;
+    jemx["sl"] = ckmxrec.ccsl;
+  }
+  jemx["dj"] = workrec.dj;
+  jemx["je"] = workrec.dj * jemx["sl"];
+  if (ckdrec.xjbz) {
+    jemx["xjbz"] = 1;
+    console.log("xjbz", ckdrec.xjbz, 1);
+    jemx["xjje"] = workrec.dj * jemx["sl"];
+  } else {
+    jemx["xjbz"] = 0;
+    jemx["xjje"] = 0;
+    console.log("xjbz", ckdrec.xjbz, 0);
+  }
+  jemx["workid"] = workrec.id;
+  jemx["mxid"] = ckmxrec.mxid;
+  jemx["zljs"] = workrec.zljs;
+  jemx["inbz"] = 0;
+  jemx["indj"] = 0;
+  arrayjemx.push(jemx);
+  cpckd["cpckdje"] = arrayjemx;
+  console.log("ckd", cpckd);
+  //    return;
+  var str = obj2str(cpckd);
+  var encodedString = base64encode(Ext.encode(str));
+  Ext.Ajax.request({
+    method: "GET",
+    url: sys_ActionPHP,
+    params: {
+      act: "cpckdjesave",
+      userInfo: base64encode(Ext.encode(obj2str(sys_userInfo))),
+      p_l_id: sys_location_id,
+      data: encodedString,
+    },
+    scope: this,
+    success: function (response) {
+      var result = Ext.decode(response.responseText);
+      if (result.result == "success") {
+        var store = that.lookupReference("CpckdmxGrid").getStore();
+        // store.proxy.extraParams.ckid =  ckmxrec.ckid;
+        // store.proxy.extraParams.loc = 'cpckdmxcwsh';
+        store.reload();
+        // var storelist = that.listmxstore;
+        // storelist.reload()
+        //cpckdmxStore.reload();
+        that.locQuery(that);
+        Ext.MessageBox.alert("提示", "出库单费用项目已保存!");
+      } else {
+        Ext.MessageBox.alert("错误!", result.msg);
+      }
+    },
+    failure: function () {
+      Ext.MessageBox.alert("错误!", "发生错误！");
+    },
+  });
+};
+
+var ckdmxworkCallBack0 = function (node) {
+  
   var workrec = node.data;
   var ckmxrec = that.record.data;
   var ckdrec = that.mainrecord.data;

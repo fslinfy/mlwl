@@ -1,6 +1,7 @@
 ﻿var that;
 var cpckdmxStore;
 var cklocsaveCallBack = function (th) {
+    Ext.MessageBox.alert("注意!", "此单取消财务审核成功！");
     that.getView().down("#cpckdshowview").close();
     that.locQuery(th);
 }
@@ -12,7 +13,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdlocCtrl', {
         'MyApp.view.main.cpckgl.CpckdlocView'
     ],
     locQuery: function (that) {
-        console.log("locQuery");
+        //console.log("locQuery");
         var v = that.viewname.getViewModel();
         var khid = v.get('khid');
         var ckid = v.get('ckid');
@@ -45,13 +46,13 @@ Ext.define('MyApp.view.main.cpckgl.CpckdlocCtrl', {
         return false;
     },
     onBtnHelpClick: function (button, e, options) {
-        console.log(" help");
+        //console.log(" help");
         return false;
     },
 
     init: function () {
-        //console.log("mainTabPanel",mainTabPanel,Ext.getCmp("maintabpanel"));
-        // console.log(Math.round(135.25),Math.round(135.25+0.5));
+        ////console.log("mainTabPanel",mainTabPanel,Ext.getCmp("maintabpanel"));
+        // //console.log(Math.round(135.25),Math.round(135.25+0.5));
 
         that = this;
         that.viewname = that.getView().down("#CpckdListGrid");
@@ -283,7 +284,7 @@ Ext.define('MyApp.view.main.cpckgl.CpckdlocCtrl', {
             fn: function (btn, text) {
                 if (btn == "yes") {
                     that.lookupReference('popupCpckdWindow').down("#btnCpckdCancel").setDisabled(true);
-                    //console.log(ckid,msg);
+                    ////console.log(ckid,msg);
                     AjaxDataSave('cpckdcwshsave', "cancel", ckid, cklocsaveCallBack, the);
                 }
             }

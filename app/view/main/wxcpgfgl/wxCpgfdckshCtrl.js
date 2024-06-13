@@ -1,5 +1,6 @@
 ﻿var gfid = 0;
 var that;
+displaycksh =true;
 var curcpgfdjeStore;
 /*
 var khmcCallBack = function (node) {
@@ -152,7 +153,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
     sys_current_khid=rec.data.khid;;
     sys_current_ckid=rec.data.L_id;
 
-    console.log('CpgfckshShowView',record);
+    //console.log('CpgfckshShowView',record);
     record["op"] = "cksh";
     record["gsop"] = false;
     record["w"] = 50;
@@ -183,7 +184,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
   },
   onCpgfdmxgheditView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log("onCpgfdmxgheditView 商品过车处理", rec.data);
+    //console.log("onCpgfdmxgheditView 商品过车处理", rec.data);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -197,7 +198,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
     var view = this.getView();
     this.isEdit_mx = !!record;
     that.ghmxid = mxid;
-    //   console.log("endrq", record);
+    //   //console.log("endrq", record);
     that.recordID = record["id"];
     record["newrecord"] = false;
     record["xjbz"] = rec0.data.xjbz;
@@ -249,11 +250,11 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
     if (rec.data.mxdh == "1") {
       return;
     }
-    console.log("rec=", rec);
+    //console.log("rec=", rec);
     SelectWorkerView(button);
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpgfWorkerSelectOkClick(that);
   },
   onwxCpgfdFormSubmit: function () {
     this.wxCpgfdshSave("cpgfdcksh", that);
@@ -311,13 +312,13 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
       var cgfrq = gfd["gfrq"].substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (cgfrq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月过车单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
     that.loc = loc;
     that.gfid = gfid;
-    console.log(gfd);
+    //console.log(gfd);
     //      return ;
     Ext.MessageBox.show({
       title: title,
@@ -341,7 +342,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
             .setHidden(true);
           var str = obj2str(gfd);
           var encodedString = base64encode(Ext.encode(str));
-          // console.log('save....');
+          // //console.log('save....');
           AjaxDataSave(
             "wxcpgfdshsave",
             loc,
@@ -367,7 +368,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
         v.set('sl', store.sum('sl'));
         v.set('zl', store.sum('zl'));
         v.set('je', store.sum('je'));
-        console.log(v.get('sl'),v.get('zl'),v.get('je'));
+        //console.log(v.get('sl'),v.get('zl'),v.get('je'));
         if (v.get('xjbz')) {
             v.set('xjje', v.get('je'));
         }
@@ -395,7 +396,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdckshCtrl", {
             var zl = store1.sum('zl');
     
             if ((sl > panel.get('khsl')) || (zl > panel.get('khzl'))) {
-                // console.log(sl,zl);
+                // //console.log(sl,zl);
                 return false;
             };
             panel.set('sl', sl);

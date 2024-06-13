@@ -4,8 +4,8 @@ var cpjkdmxStore;
 var zl = 0;
 var jkrec = {};
 var CpjkdmxItemworkerselected = function (e) {
-  console.log("e");
-  console.log(e);
+  //console.log("e");
+  //console.log(e);
 };
 var jkdcwshsaveCallBack = function (th) {
   var p = th.lookupReference("popupCpjkdWindow");
@@ -18,16 +18,16 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
   alias: "controller.CpjkdcwshCtrl",
   requires: [
     "MyApp.view.main.cpjkdsh.CpjkdcwshView",
-    "MyApp.view.main.cpckgl.CpckdCtrlFunction",
+    "MyApp.view.main.cpjkdsh.CpjkdCtrlFunction",
     "MyApp.view.main.tree.WorkerSelectTree",
     "MyApp.view.main.UploadFiles",
   ],
   locQuery: function (the) {
-    console.log("cwsh locquery");
+    //console.log("cwsh locquery");
     var v = the.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
-    console.log("v", v);
+    //console.log("v", v);
     cpjkdmxStore.proxy.extraParams.loc = "cpjkdmxcwsh";
     cpjkdmxStore.proxy.extraParams.khid = khid;
     cpjkdmxStore.proxy.extraParams.ckid = ckid;
@@ -42,7 +42,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     return false;
   },
   onBtnHelpClick: function (button, e, options) {
-    console.log(" help");
+    //console.log(" help");
     return false;
   },
   init: function () {
@@ -85,7 +85,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     });
     cpjkdmxStore.on("load", function () {
       var v = that.viewname.getViewModel();
-      console.log("v", v);
+      //console.log("v", v);
       var khid = v.get("khid");
       var ckid = v.get("ckid");
       var store = that.viewname.getStore();
@@ -126,7 +126,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
       },
       //
     });
-    console.log(sys_location_id, sys_customer_id);
+    //console.log(sys_location_id, sys_customer_id);
     if (sys_customer_id > 0) {
       that.getView().down("#QueryKhmc").setHidden(true);
       that.getView().down("#QueryCkmc").setHidden(false);
@@ -144,7 +144,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     that.viewname.getViewModel().set("PageTitleName", "商品进仓单财务审核");
   },
   addWorkerRow: function (v) {
-    console.log("v", v);
+    //console.log("v", v);
   },
   onFilterChange: function (v) {
     var store = that.viewname.getStore();
@@ -163,7 +163,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     var rec = button.getWidgetRecord();
     var jkid = rec.data.jkid;
     var record = rec.data;
-    console.log("that.jkdrecord", record);
+    //console.log("that.jkdrecord", record);
     that.jkdrecord = record;
     record["btnButtonHidden"] = false;
     record["op"] = "cwsh";
@@ -210,10 +210,10 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
   itemcontextmenu: function (grid, record, item, index, e) {
     e.stopEvent();
     //contextMenu.showAt(e.getXY());
-    console.log(e.getXY());
+    //console.log(e.getXY());
   },
   onCpjkdmxItemSelected: function (sender, record) {
-    console.log(record);
+    //console.log(record);
     var cpjkdcw_store = this.lookupReference("cpjkdmxcw0").getStore();
     var mxid = record.data.mxid;
     cpjkdcw_store.clearFilter();
@@ -223,20 +223,20 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
   },
   onCpjkdmxItemcontextmenu: function () {
     // Optimize : create menu once
-    console.log("rec");
+    //console.log("rec");
     /*
             if (record.data.jeid >0){
                 var menu_grid = new Ext.menu.Menu({ items:
                     [
-                        { text: '删除当前作业项目', handler: function() {console.log("删除当前作业项目");}},
-                        { text: '选择项目作业人员', handler: function() {CpjkdmxItemworkerselected(record);console.log("选择项目作业人员");}}
+                        { text: '删除当前作业项目', handler: function() {//console.log("删除当前作业项目");}},
+                        { text: '选择项目作业人员', handler: function() {CpjkdmxItemworkerselected(record);//console.log("选择项目作业人员");}}
                     ]
                     });
             
               }else{
                 var menu_grid = new Ext.menu.Menu({ items:
                     [
-                        { text: '增加新的作业项目', handler: function() {console.log("增加新的作业项目");} }
+                        { text: '增加新的作业项目', handler: function() {//console.log("增加新的作业项目");} }
                         
                     ]
                     });
@@ -272,7 +272,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
                if (jkid == 0) {
                    return;
                }
-               console.log('test', 'testing!');
+               //console.log('test', 'testing!');
                // Ext.MessageBox.alert('test', 'testing!');
                //  return;
                //var that = this;
@@ -309,7 +309,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     ywsh["jkid"] = jkid;
     ywsh["gsby"] = gsby;
     //ywsh["shr"] =userInfo.username;
-    // console.log(ywsh)
+    // //console.log(ywsh)
     // return;
     var msg = "进库单号：" + p.get("jkdh") + "<br>客户名称：" + p.get("khmc"); // + "<br>进库日期：" + p.get('jkrq');
     var title = "此单已业务审核，真的删除此进库单内容？";
@@ -319,7 +319,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
       var rq = Ext.decode(Ext.encode(p.get("czrq"))).substr(0, 10);
       var ctoday = Ext.Date.format(new Date(), "Y-m-d");
       if (rq < sys_option_min_date && ctoday >= sys_option_min_date) {
-        Ext.MessageBox.alert("注意！", "此单是上月入库单，不能作删除处理！");
+        Ext.MessageBox.alert("注意！", "此单已封帐，不能作删除处理！");
         return false;
       }
     }
@@ -348,7 +348,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
       return;
     }
     that.recordID = rec;
-    console.log(rec);
+    //console.log(rec);
     var view = that.getView();
     that.dialog = view.add({
       xtype: "selectWorkerWindow",
@@ -357,13 +357,13 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
     that.dialog.show();
   },
   onWorkerSelectOkClick: function () {
-    WorkerSelectOkClick(that);
+    cpjkWorkerSelectOkClick(that);
   },
   /*    onCpjkdjeAddClick: function (button) {
           var rec = button.getWidgetRecord();
           
           that.recordID = rec;
-          console.log("onCpjkdjeAddClick rec",rec);
+          //console.log("onCpjkdjeAddClick rec",rec);
           if (rec.data.jeid == 0) {
             //  return;
           }
@@ -371,11 +371,11 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
           var khrec = that.lookupReference('popupCpjkdWindow').getViewModel();
           
           
-            console.log('khrec',khrec);
+            //console.log('khrec',khrec);
           var obj = [];
           obj['khid'] = khrec.data.khid;
           obj['bzid'] = rec.data.bzid;
-            console.log('bzid', rec, obj);
+            //console.log('bzid', rec, obj);
           treeSelect('work', that, obj, that.popupmx, false, jkdworkCallBack);
           return false;
       },
@@ -387,7 +387,7 @@ Ext.define("MyApp.view.main.cpjkdsh.CpjkdcwshCtrl", {
           var gs = [];
           var cg = [];
           var records = that.getView().down("#selectWorkerTreePanel").getChecked();
-          console.log("onWorkerSelectOkClick");
+          //console.log("onWorkerSelectOkClick");
           Ext.Array.each(records, function (rec) {
               names.push(rec.get('text'));
               switch (rec.get('pname')) {

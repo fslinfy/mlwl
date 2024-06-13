@@ -1,13 +1,14 @@
 ﻿var gfid = 0;
 var that;
+displaycksh =false;
 var curcpgfdjeStore;
 var khmcCallBack = function (node) {
   that.popupmx.getViewModel().set("khid", node.data.id);
   that.popupmx.getViewModel().set("khmc", node.data.text);
 };
 /*var cdmcCallBack = function (node) {
-   ////console.log('node');
-   ////console.log(node.data.text);
+   //////console.log('node');
+   //////console.log(node.data.text);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     
@@ -17,7 +18,7 @@ var khmcCallBack = function (node) {
 */
 var gfdworkCallBack = function (node) {
   var rec = node.data;
-  //console.log('gfdworkCallBack',rec);
+  ////console.log('gfdworkCallBack',rec);
   var p = that.popupmx;
   var xjbz = p.getViewModel().get("xjbz");
   var mxid = p.getViewModel().get("mxid");
@@ -39,6 +40,13 @@ var gfdworkCallBack = function (node) {
   var sumzl = 0;
   var newarray = [];
   var cpgfdmxje = that.lookupReference("cpgfdmxje").getStore(); // that.down('#cpgfdmxje').getStore();
+  
+  cpgfdmxje.clearFilter();
+  cpgfdmxje.filter({
+    filterFn: function (item) {
+      return item.get("mxid") == mxid && item.get("gfid") == gfid;
+    },
+  });
   cpgfdmxje.add({
     dw: dw,
     mxid: mxid,
@@ -55,12 +63,14 @@ var gfdworkCallBack = function (node) {
     inbz: rec.inbz,
     indj: rec.indj,
   });
+
   that.sumjs(null, cpgfdmxje, p.getViewModel());
+  //console.log(gfid,mxid,cpgfdmxje);
 };
 /*
 var bzmcCallBack = function (node) {
-   //console.log('node',node);
-   ////console.log(node.data.bydj);
+   ////console.log('node',node);
+   //////console.log(node.data.bydj);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     
@@ -69,7 +79,7 @@ var bzmcCallBack = function (node) {
     selection.set('rate', node.data.rate);
 }
 var cpmcCallBack = function (node) {
-  //  //console.log(node.data);
+  //  ////console.log(node.data);
     var customerGrid = that.lookupReference('wxCpgfdmxGrid');
     var selection = customerGrid.getSelectionModel().getSelection()[0];
     selection.set('xmmc', node.data.text);
@@ -127,7 +137,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     "MyApp.view.main.report.PrintwxCpgfd",
   ],
   locQuery: function (the) {
-    console.log(this, the);
+    //console.log(this, the);
     var v = the.viewname.getViewModel();
     var khid = v.get("khid");
     cpgfdmxStore0.proxy.extraParams.loc = "wxcpgfdfhck";
@@ -218,7 +228,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     } else {
       that.getView().down("#QueryKhmc").setHidden(true);
     }
-    console.log("sys_location_areas", sys_location_areas, sys_location_id);
+    //console.log("sys_location_areas", sys_location_areas, sys_location_id);
     that.locQuery(that);
   },
   onFilterChange: function (v) {
@@ -242,10 +252,10 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     sys_current_khid=khid;
     sys_current_ckid=rec.data.L_id;
     // that.ghmxid=rec.data.mxid;
-    console.log("onCpgfdmxShowView", record);
+    //console.log("onCpgfdmxShowView", record);
     var endrq = rec.data.endrq; // Ext.Date.format(rec.data.endrq, 'Y-m-d');
     var today = Ext.Date.format(new Date(), "Y-m-d");
-    //console.log("date", today,'  end:', endrq);
+    ////console.log("date", today,'  end:', endrq);
     record["btnButtonHidden"] = true;
     record["gfrq"] = new Date();
     record["cwr"] = "";
@@ -286,7 +296,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     this.dialog.show();
     var cpgfdmx_store = this.lookupReference("CpgfdmxGrid").getStore();
     cpgfdmxStore0.each(function (rec) {
-      //console.log(rec.data);
+      ////console.log(rec.data);
       if (rec.data.gfid == record.gfid) {
         rec.data.sl = 0;
         rec.data.zl = 0;
@@ -299,13 +309,13 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     p.down("#btnCpgfdDelete").setHidden(!sys_system_del);
     p.down("#field_gfrq").setValue(new Date());
     p.down("#btnCpgfdSave").setHidden(false);
-    //console.log('cpgfdmx_store',cpgfdmx_store,record);
+    ////console.log('cpgfdmx_store',cpgfdmx_store,record);
     var cpgfdje_store = this.lookupReference("cpgfdmxje0").getStore();
     cpgfdje_store.removeAll();
   },
   onCpgfdmxgheditView: function (button) {
     var rec = button.getWidgetRecord();
-    //console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
+    ////console.log("onCpgfdmxgheditView 商品过车处理",rec.data);
     if (rec.data.mccsl == 0 && rec.data.mcczl == 0) {
       return;
     }
@@ -319,7 +329,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     var view = this.getView();
     this.isEdit_mx = !!record;
     that.ghmxid = mxid;
-    //console.log("rec0", rec0);
+    ////console.log("rec0", rec0);
     that.recordID = record["id"];
     record["newrecord"] = false;
     record["xjbz"] = rec0.data.xjbz;
@@ -329,7 +339,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       record["sl"] = record["khsl"];
       record["zl"] = record["khzl"];
     }
-    //  //console.log("onCpgfdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
+    //  ////console.log("onCpgfdmxShowView", record['ccsl'], record['cczl'], record['bzid']);
     this.dialog_mx = view.add({
       xtype: "gfdformmxwindow",
       viewModel: {
@@ -344,7 +354,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
         return item.get("mxid") == mxid && item.get("gfid") == gfid;
       },
     });
-    //  //console.log("cpgfdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
+    //  ////console.log("cpgfdcw_store", cpghdcw_store, 'cpghdje_store', cpghdje_store);
   },
   onCpgfdjeAddClick: function (record) {
     that.popupmx = that.getView().down("#cpgfdmxedit"); // this.lookupReference('popupgfdmxWindow');
@@ -354,7 +364,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     obj["khid"] = khid;
     obj["gfbz"] = 1;
     //    obj['bzid'] = rec.data.bzid;
-    ////console.log('bzid', rec, obj);
+    //////console.log('bzid', rec, obj);
     treeSelect("work", that, obj, that.popupmx, false, gfdworkCallBack);
     return false;
   },
@@ -424,7 +434,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       scope: this,
       success: function (response) {
         var result = Ext.decode(response.responseText);
-        //  //console.log("result", result);
+        //  ////console.log("result", result);
         if (result.result == "success") {
           that.getView().down("#cpgfdshowview").close();
           that.locQuery(that);
@@ -526,7 +536,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     v.set("sl", store.sum("sl"));
     v.set("zl", store.sum("zl"));
     v.set("je", store.sum("je"));
-    //console.log(v.get('sl'),v.get('zl'),v.get('je'));
+    ////console.log(v.get('sl'),v.get('zl'),v.get('je'));
     if (v.get("xjbz")) {
       v.set("xjje", v.get("je"));
     } else {
@@ -543,7 +553,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       return false;
     }
     var rec = form.getValues();
-    //   //console.log('onCpgfdmxFormSubmit', rec);
+    //   ////console.log('onCpgfdmxFormSubmit', rec);
     var p = this.lookupReference("popupgfdmxWindow").getViewModel();
     var cpgfdje_store = this.lookupReference("cpgfdmxje").getStore();
     var i = 0;
@@ -585,7 +595,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     recmx.set("xjje", Math.round(100 * xjje) / 100);
     recmx.set("area", area);
     //cpgfdje_store.sync();
-    //console.log("recmx",recmx);
+    ////console.log("recmx",recmx);
     if (i == 0) {
       Ext.MessageBox.show({
         title: "继续吗？",
@@ -627,17 +637,17 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       var sl = store1.sum("sl");
       var zl = store1.sum("zl");
       if (sl > panel.get("khsl") || zl > panel.get("khzl")) {
-        // //console.log(sl,zl);
+        // ////console.log(sl,zl);
         return false;
       }
       panel.set("sl", sl);
       panel.set("zl", zl);
     }
-    ////console.log('sumje');
+    //////console.log('sumje');
     return true;
   },
   onCpgfdSaveSubmit: function () {
-    // //console.log('onCpgfdFormSubmit');
+    // ////console.log('onCpgfdFormSubmit');
     var dialog = this.dialog,
       form = this.lookupReference("windowForm"),
       isEdit = this.isEdit,
@@ -648,10 +658,10 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     }
     var ckdrec = form.getValues();
     var rec = ckdrec;
-    // //console.log("rec", rec);
+    //console.log("rec", rec);
     var p = this.lookupReference("popupCpgfdWindow").getViewModel();
     var rq = rec.gfrq; //Ext.decode(Ext.encode(p.get('gfrq')));
-    //console.log(rq,sys_option_min_date);
+    ////console.log(rq,sys_option_min_date);
     if (rq < sys_option_min_date) {
       Ext.MessageBox.alert(
         "注意！",
@@ -659,6 +669,8 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       );
       return false;
     }
+    that.lookupReference("popupCpgfdWindow").down("#btnCpgfdSave").setHidden(true);
+
     gfid = rec.gfid;
     var cpgfd = {};
     cpgfd["cnote"] = rec.cnote;
@@ -680,7 +692,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     var summccsl = Math.round(cpgfdmx_store.sum("khsl") * 1000) / 1000;
     var summcczl = Math.round(cpgfdmx_store.sum("khzl") * 1000) / 1000;
     var sumjesl = Math.round(cpgfdje_store.sum("sl") * 1000) / 1000;
-    //console.log('sumjesl=',sumjesl);
+    ////console.log('sumjesl=',sumjesl);
     if (
       summccsl == sumccsl &&
       summcczl == sumcczl &&
@@ -714,13 +726,17 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     });
     if (cwrec == 0) {
       Ext.MessageBox.alert("注意！", "请输入过车内容！");
+      that.lookupReference("popupCpgfdWindow").down("#btnCpgfdSave").setHidden(false);
       return false;
     }
+
+
+
     cwrec == 0;
     var s = 0;
     cpgfdje_store.each(function (recje) {
       if (recje.get("gfid") == gfid) {
-        console.log("recje ", recje.data);
+        //console.log("recje ", recje.data);
         if (recje.get("sl") != 0) {
           if (sumjesl < 1 && s == 0) {
             //重不够吨按一吨计
@@ -732,14 +748,14 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
         }
       }
     });
-    //        //console.log("recje len",arrayje);
+    //        ////console.log("recje len",arrayje);
     cpgfd["cpgfdmx"] = arraymx;
     cpgfd["cpgfdje"] = arrayje;
-    // console.log('cpgfd', cpgfd,msg);
-    //  //console.log('msg',msg);
+    // //console.log('cpgfd', cpgfd,msg);
+    //  ////console.log('msg',msg);
     // return;
     var str = obj2str(cpgfd);
-    ////console.log('cpgfd str', str);
+    //////console.log('cpgfd str', str);
     var encodedString = base64encode(Ext.encode(str));
     //var that = this;
     // AjaxDataSave('cpgfdmxcksave', gfid, encodedString, saveCallBack,that);
@@ -756,9 +772,11 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
         icon: Ext.MessageBox["WARNING"],
         scope: this,
         fn: function (btn, text) {
-          ////console.log(btn, text);
+          //////console.log(btn, text);
           if (btn == "yes") {
             that.data_save(gfid, encodedString);
+          }else{
+            that.lookupReference("popupCpgfdWindow").down("#btnCpgfdSave").setHidden(false);
           }
         },
       });
@@ -768,7 +786,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
     //-------------------------------------
   },
   data_save: function (loc, dataStr) {
-    ////console.log("id",loc);
+    //////console.log("id",loc);
     // return ;
     Ext.Ajax.request({
       method: "GET",
@@ -784,6 +802,7 @@ Ext.define("MyApp.view.main.wxcpgfgl.wxCpgfdCtrl", {
       success: function (response) {
         var result = Ext.decode(response.responseText);
         if (result.result == "success") {
+          Ext.MessageBox.alert("注意!","过车数据已保存。");
           that.getView().down("#cpgfdshowview").close();
           that.locQuery(that);
         } else {

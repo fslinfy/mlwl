@@ -320,6 +320,24 @@
       dataIndex: "czy",
     },
     {
+      text: "业务审核",
+      hidden:!displaycksh,
+      sortable: false,
+      dataIndex: "shr",
+    },
+    {
+      text: "仓库审核",
+      sortable: false,
+      hidden:!displaycksh,
+      dataIndex: "ckshr",
+    },
+    {
+      text: "财务审核",
+      sortable: false,
+      hidden:!displaycksh,
+      dataIndex: "cwsh",
+    },
+    {
       text: "",
       width: 60,
       sortable: false,

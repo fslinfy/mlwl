@@ -256,6 +256,11 @@
       dataIndex: "ghr",
     },
     {
+      text: "审核人",
+      sortable: false,
+      dataIndex: "khshr",
+    },
+    {
       text: "新客户名称",
       width: 200,
       sortable: false,

@@ -13,7 +13,7 @@ Ext.define("MyApp.view.main.cpkc.CpjxcmxlocCtrl", {
     var cdid = v.get("cdid");
     var ny = v.get("ny");
     var yu = v.get("yu");
-    console.log(khid, ckid, cdid, cpid);
+    //console.log(khid, ckid, cdid, cpid);
     /*  if (khid==0)
         {
             Ext.MessageBox.alert('注意！', '请选择客户名称！');

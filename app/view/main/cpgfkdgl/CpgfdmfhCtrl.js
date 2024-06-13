@@ -20,7 +20,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
     var v = that.viewname.getViewModel();
     var khid = v.get("khid");
     var ckid = v.get("ckid");
-    console.log(ckid,khid);
+    //console.log(ckid,khid);
     var store = cpgfdmxStore0;
     bz = 0;
     /*
@@ -123,7 +123,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
       "#btnDeleteCpmc": {
         //  click:function () {
         //
-        // console.log("#btnDeleteCpmc");
+        // //console.log("#btnDeleteCpmc");
         //  }
         click: this.onCpgfdshDeleteSubmit,
       },
@@ -180,7 +180,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
   },
   onCpgfdmxShowView: function (button) {
     var rec = button.getWidgetRecord();
-    console.log(rec);
+    //console.log(rec);
     gfid = rec.data.gfid;
     var record = rec.data;
     record["btnButtonHidden"] = false;
@@ -237,7 +237,7 @@ Ext.define("MyApp.view.main.cpgfkdgl.CpgfdmfhCtrl", {
       icon: Ext.MessageBox["WARNING"],
       scope: this,
       fn: function (btn, text) {
-        // console.log(btn, text);
+        // //console.log(btn, text);
         if (btn == "yes") {
           var p = that.lookupReference("gfdpopupWindow");
           p.down("#btnDeleteCpmc").setHidden(true);
