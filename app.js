@@ -131942,7 +131942,7 @@ Ext.application({
     });
     var LODOP = getLodop();
 
-    //console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
+    console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
     try {
       if (CheckIsInstall() == 0) {
         var d = "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";

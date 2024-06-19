@@ -144,9 +144,9 @@ Ext.define("MyApp.view.main.cpghgl.CpghdghlocCtrl", {
       //    "#btnQueryCkmc": {
       //      click: function () { SelectCkbmView(); }
       //   },
-      "#btnCpghdDelete": {
-        click: this.onCpghdshDeleteSubmit,
-      },
+      //"#btnCpghdDelete": {
+      //  click: this.onCpghdshDeleteSubmit,
+      //},
       "#btnCpghdDelete": {
         click: this.onCpghdshDeleteSubmit,
       },

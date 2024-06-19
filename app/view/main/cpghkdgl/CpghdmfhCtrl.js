@@ -3,6 +3,7 @@ var ghid;
 var cpghdmxStore;
 var mfhsaveCallBack = function (th) {
   //th.getView().down("#popupCpghdWindow").close();
+  //var p = that.lookupReference("popupCpghdWindow");
   var win = th.lookupReference("popupCpghdWindow");
   win.close();
   that.locQuery(th);

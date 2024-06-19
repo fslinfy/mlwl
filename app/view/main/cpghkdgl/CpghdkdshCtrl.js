@@ -293,6 +293,9 @@ Ext.define("MyApp.view.main.cpghkdgl.CpghdkdshCtrl", {
       }
         shrarray.push(sys_userInfo.username);
         data["shr"] = shrarray.join(';');
+       
+   // }else{
+     //  var d=ghid;
     }
     that.loc = loc;
     var d= base64encode(Ext.encode(obj2str(data)))    

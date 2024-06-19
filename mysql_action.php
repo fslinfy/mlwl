@@ -9019,7 +9019,7 @@ function cpghdshsave()
 	}
 	mysql_query($sqlstr);
 	if (mysql_errno() > 0) {
-		return '{result:"fail",msg:"数据保存失败!"}';
+		return '{result:"fail",msg:"数据保存失败!",sql:"'.$sqlstr.'"}';
 		//	return '数据保存失败!!!'.$sqlstr;
 	} else {
 		return '{result:"success",zt:"' . $ztbz . '"}';
