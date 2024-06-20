@@ -2,6 +2,7 @@
  var gfid = 0;
  var that;
  var khmcCallBack = function (node) {
+   console.log('cpgfkdsh  khmcCallBack', that.popupmx );
    that.popupmx.getViewModel().set("khid", node.data.id);
    that.popupmx.getViewModel().set("khmc", node.data.text);
  };
@@ -150,17 +151,11 @@
      var tool = that.viewname.down("#QueryToolbarView");
      tool.down("#btnNew").setText("新单");
      tool.down("#btnNew").setDisabled(ckid == 0);
-
-
-
-
    },
    onBtnQueryClick: function (button, e, options) {
      this.locQuery(that);
      return false;
    },
-
-
    init: function () {
      that = this;
      that.viewname = that.getView().down("#CpgfdListGrid");
@@ -281,8 +276,6 @@
      tool.down("#btnNew").setText("新单");
      tool.down("#btnNew").setDisabled(true);
      tool.down("#btnNew").setHidden(false);
-
-
    },
    onFilterChange: function (v) {
      var store = that.viewname.getStore();

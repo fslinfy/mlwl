@@ -113,7 +113,7 @@ function get_seo(){
 	if(get_referer()=='localhost:8080'){
 	$s = 1;
 	}
-	else if(get_referer()=='fsminglian.com'){
+	else if(get_referer()=='mlwl.fsminglian.com'){
 	$s = 1;
 	}
 	return $s;

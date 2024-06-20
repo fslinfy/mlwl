@@ -131842,7 +131842,8 @@ Ext.toast = (function () {
   };
 })();
 Ext.Loader.setConfig({ enabled: true });
-getSystemInfo();
+//getSystemInfo();
+LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
 Ext.application({
   name: "MyApp",
   appFolder: "app",

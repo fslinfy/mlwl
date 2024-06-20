@@ -6,8 +6,8 @@ var cpmcCallBack = function (node) {
   //console.log("cpmcCallBack",node);
   that.locQuery();
 }
-var khmcCallBack = function (node) {
-  //console.log("khmcCallBack",node);
+var cpkckhmcCallBack = function (node) {
+  console.log("cpkckhmcCallBack",node);
   that.locQuery();
 }
 sys_DisplayAll = "cpkc";
@@ -528,8 +528,8 @@ Ext.define("MyApp.view.main.cpkc.CpkclocCtrl", {
     return false;
   },
   onSelectKhbmView: function (record) {
-   // treeSelect("khmc", that, "cpkc", that.viewname, true);
-   SelectKhmc(khmcCallBack,'cpkc');
+    treeSelect("khmc", that, "cpkc", that.viewname, true);
+   // SelectKhmc(cpkckhmcCallBack,'cpkc');
     return false;
   },
   khmcTriggerClick: function (record) {
