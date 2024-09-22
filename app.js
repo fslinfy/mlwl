@@ -131841,7 +131841,7 @@ Ext.toast = (function () {
     },
   };
 })();
-Ext.Loader.setConfig({ enabled: true });
+//Ext.Loader.setConfig({ enabled: true });
 //getSystemInfo();
 LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
 Ext.application({
@@ -131894,7 +131894,7 @@ Ext.application({
     }
   },
   launch: function () {
-    console.log("init", window.location.href);
+    //console.log("init", window.location.href);
     sys_current_tab = "";
     sys_WebUrl = "";
     sys_ActionPHP = "mysql_action.php";
@@ -131943,7 +131943,7 @@ Ext.application({
     });
     var LODOP = getLodop();
 
-    console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
+    //console.log("app LODOP.VERSION",LODOP.VERSION,CheckIsInstall());
     try {
       if (CheckIsInstall() == 0) {
         var d = "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";

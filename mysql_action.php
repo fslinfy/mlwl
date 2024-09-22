@@ -4141,12 +4141,13 @@ function cpkclist_pc()
 			WHERE  mx.kcid=c.kcid AND c.L_id=ck.L_id AND c.khid=kh.c_id AND c.cpid=cp.s_id  AND ck.Active=1 
 			AND c.cdid=cd.p_id AND c.bzid=bz.ps_id  and kh.active=1 and cd.active=1 and cp.active=1  ";
 	} else {
-		$sqlstr = " SELECT c.*,CASE WHEN c.kdsl <0 THEN 0 ELSE c.kdsl END AS kdsl,CASE WHEN c.kdzl <0 THEN 0 ELSE c.kdzl END AS kdzl,ck.L_name as ckmc,kh.c_name as khmc,
-      kh.c_shortname as khjc,cd.p_name as cdmc,cp.S_name as cpmc ,bz.PS_name as bzmc ";
-		$sqlstr .= " ,mx.id as kcmxid,mx.area,mx.cw,mx.czdj,mx.sl,mx.zl,mx.sm,mx.mints,mx.czrq 
-      FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx mx ,location ck";
-		$sqlstr .= " where c.L_id=ck.L_id and c.kcid=mx.kcid and c.khid=kh.c_id and c.cpid=cp.s_id and ck.active=1 
-      and c.cdid=cd.p_id and c.bzid=bz.ps_id and (mx.sl<>0 or mx.zl<>0 )   and kh.active=1 and cd.active=1 and cp.active=1 ";
+		$sqlstr = " SELECT c.cdid,c.cpid,c.bzid,c.jldw,c.L_id,c.kcid,c.khid,c.cpph, 
+		CASE WHEN c.kdsl <0 THEN 0 ELSE c.kdsl END AS kdsl,CASE WHEN c.kdzl <0 THEN 0 ELSE c.kdzl END AS kdzl,
+		ck.L_name as ckmc,kh.c_name as khmc,kh.c_shortname as khjc,cd.p_name as cdmc,cp.S_name as cpmc ,bz.PS_name as bzmc,
+		mx.id as kcmxid,mx.area,mx.cw,mx.czdj,mx.sl,mx.zl,mx.sm,mx.mints,mx.czrq 
+      FROM cpkc c,customer kh,produces cd,packing bz,commodity cp,cpkcmx mx ,location ck 
+	  where c.L_id=ck.L_id and c.kcid=mx.kcid and c.khid=kh.c_id and c.cpid=cp.s_id and ck.active=1 
+      and c.cdid=cd.p_id and c.bzid=bz.ps_id and (mx.sl<>0 or mx.zl<>0 ) and kh.active=1 and cd.active=1 and cp.active=1 ";
 		if ($_GET["area"]) {
 			if ($_GET["area"] != "") {
 				$sqlstr = $sqlstr . " and mx.area='" . $_GET["area"] . "'";
@@ -4398,9 +4399,10 @@ function packinglist($optype)
 			break;
 		default:
 			$sqlstr = " SELECT * ,PS_id as id  FROM packing where E_code='" . $_GET['p_e_code'] . "'";
-			//	if ($_GET['active']) {
-			//		$sqlstr = $sqlstr . " and Active=" . $_GET['active'];
-			//	}
+			if (isset($_GET["xmlb"])) {
+			
+					$sqlstr = $sqlstr . " and xmlb=" . $_GET['xmlb'];
+    		}
 			$sqlstr .= " and Active=" . $active;
 			$sqlstr .=  "   order by PS_code ";
 			break;

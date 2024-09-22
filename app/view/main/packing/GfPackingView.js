@@ -110,6 +110,63 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
         },
       },
     },
+    {
+      text: "数量单位",
+      dataIndex: "Quantity_Unit",
+      width: 80,
+      align: "left",
+      sortable: false,
+      filter: {
+        type: "string",
+        itemDefaults: {
+          emptyText: "Search for…",
+        },
+      },
+      editor: {
+        allowBlank: true,
+        //regex:/>([^<>]+)</,
+        type: "string",
+      }
+    },
+    {
+      //xtype: "numbercolumn",
+      align: "right",
+      //formatter: 'usMoney',
+      format: "00000.00",
+      //align: 'right',
+      text: "转换系数",
+      dataIndex: "Rate",
+      width: 80,
+      align: "right",
+      sortable: false,
+      editor: {
+        type: "numberfield",
+        //	regex: /(^[0-9]{1,8}.[0-9]{3}$)/,
+        decimalPrecision: 3,
+        align: "right",
+        allowBlank: false,
+        minValue: 0,
+        maxValue: 100000,
+      }
+    },
+    {
+      text: "重量单位",
+      dataIndex: "Weight_Unit",
+      width: 80,
+      align: "left",
+      sortable: false,
+      filter: {
+        type: "string",
+        itemDefaults: {
+          emptyText: "Search for…",
+        },
+      },
+      editor: {
+        allowBlank: true,
+        type: "string",
+      }
+    },
+
     /*
 		{
 			text: '临时仓仓租单价',
@@ -230,7 +287,7 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         /*,
 				{
@@ -258,7 +315,7 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
 					}
 				}
 			*/
-      ],
+      ]
     },
     {
       text: "工作费用提成单价",
@@ -278,7 +335,7 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -295,7 +352,7 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -312,7 +369,7 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -329,34 +386,32 @@ Ext.define("MyApp.view.main.packing.GfPackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     {
       width: 90,
       text: "重量核算",
-      sortable: false,
       dataIndex: "Weight_Status",
       align: "center",
       renderer: function (val) {
         if (val) return "是";
         else return "";
-      },
+      }
     },
     {
       width: 50,
       text: "活跃",
-      sortable: false,
       dataIndex: "Active",
       align: "center",
       renderer: function (val) {
         if (val) return "是";
         else return "";
-      },
-    },
+      }
+    }
   ],
   listeners: {
     select: "onItemSelected",
-  },
+  }
 });

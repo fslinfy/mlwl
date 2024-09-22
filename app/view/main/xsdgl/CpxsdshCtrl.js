@@ -231,9 +231,9 @@ Ext.define("MyApp.view.main.xsdgl.CpxsdshCtrl", {
     //console.log("xsd rec",record);
     const shrarray = record.shr.split(';');
 
-    var sh = shrarray.includes(sys_userInfo.username);
+    var sh = shrarray.includes(sys_userInfo.username) || sys_userInfo.username == record.czy ;
 
-    //console.log("shrarray", shrarray, "sh", sh);
+    //console.log(sys_userInfo.username,"shrarray", shrarray, "sh", !sh,"czy", record.czy);
     var p = this.lookupReference("popupCpxsdWindow");
     p.down("#btnCpxsdSave").setText("审核通过此单");
     p.down("#btnCpxsdSave").setHidden(!sys_system_sh || sh);

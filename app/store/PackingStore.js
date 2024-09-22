@@ -12,6 +12,7 @@ extraParams:{
     p_e_code:sys_enterprise_code,
     p_l_id:sys_current_ckid,
     optype:"",
+    xmlb:0,
     khid:sys_current_khid
 },
 reader:{type:"json",rootProperty:"rows",totalProperty:"results"}},autoLoad:false});

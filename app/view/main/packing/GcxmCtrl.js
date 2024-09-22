@@ -5,9 +5,7 @@ Ext.Ajax.request({
   url: "mysql_action.PHP?act=getsqlselect&sql=select * from sys_ini where varmc='CZTSFL' ", //跨域请求的URL
   method: "GET",
   dataType: "json",
-  headers: {
-    "Content-Type": "application/json"
-  },
+  headers: { "Content-Type": "application/json" },
   async: false,
   //jsonData:Ext.util.JSON.decode(paraMap),
   success: function (response, options) {
@@ -20,15 +18,15 @@ Ext.Ajax.request({
     console.log("failure");
   },
 });
-Ext.define("MyApp.view.main.packing.PackingCtrl", {
+Ext.define("MyApp.view.main.packing.GcxmCtrl", {
   extend: "Ext.app.ViewController",
-  alias: "controller.PackingCtrl",
+  alias: "controller.GcxmCtrl",
   requires: [
     "MyApp.view.main.tree.PageTitle",
     "MyApp.store.PackingStore",
     "MyApp.model.PackingModel",
     "MyApp.view.main.QueryToolbarView",
-    "MyApp.view.main.packing.PackingView",
+    "MyApp.view.main.packing.GcxmView",
   ],
   onBtnQueryClick: function (button, e, options) {
     var v = that.viewname.getViewModel();
@@ -41,7 +39,7 @@ Ext.define("MyApp.view.main.packing.PackingCtrl", {
     console.log("active", active);
     var store = that.getView().getStore();
     store.proxy.extraParams.active = active;
-    store.proxy.extraParams.xmlb = 0;
+    store.proxy.extraParams.xmlb = 1;
     store.load();
     return false;
   },
@@ -54,21 +52,21 @@ Ext.define("MyApp.view.main.packing.PackingCtrl", {
   onBtnNewClick: function (rs) {
     this.getView()
       .getStore()
-      .addSorted([{
-        E_code: sys_enterprise_code,
-        Weight_Unit: '吨',
-        Quantity_Unit: '包',
-        Rate: 0.025,
-        PS_name: "",
-        Xmlb: 0,
-        Active: 1,
-        Weight_Status: 1
-      }, ]);
+      .addSorted([
+        {
+          E_code: sys_enterprise_code,
+          Weight_Unit:'吨',
+          Quantity_Unit:'包',
+          Rate:0.025,
+          PS_name:"",
+          Xmlb:1,Active:1,Weight_Status:1
+        },
+      ]);
     return false;
   },
   onBtnDeleteClick: function (button, e, options) {
     var store = this.getView().getStore();
-    var grid = Ext.getCmp("PackingGrid");
+    var grid = Ext.getCmp("GcxmGrid");
     return storeBtnDeleteClick(this, grid, store);
   },
   onBtnHelpClick: function (button, e, options) {
@@ -131,7 +129,7 @@ Ext.define("MyApp.view.main.packing.PackingCtrl", {
     var store = that.getView().getStore();
     that.viewname = that.getView();
     store.proxy.extraParams.active = 1;
-    store.proxy.extraParams.xmlb = 0;
+    store.proxy.extraParams.xmlb = 1 ;
     store.load();
     store.on("beforeload", this.onBeforeReload, this);
   },
@@ -151,8 +149,6 @@ Ext.define("MyApp.view.main.packing.PackingCtrl", {
   createDialog: function (record) {
     var view = this.getView();
     this.isEdit = !!record;
-    //      console.log("record");
-    //    console.log(record);
     this.dialog = view.add({
       xtype: "formwindow",
       viewModel: {
@@ -177,5 +173,5 @@ Ext.define("MyApp.view.main.packing.PackingCtrl", {
   },
   onCancelClick: function () {
     this.dialog = Ext.destroy(this.dialog);
-  }
+  },
 });

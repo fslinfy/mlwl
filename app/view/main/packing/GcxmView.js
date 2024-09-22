@@ -1,13 +1,13 @@
 ﻿var pagetitle = "包装规格维护";
-Ext.define("MyApp.view.main.packing.PackingView", {
+Ext.define("MyApp.view.main.packing.GcxmView", {
   extend: "Ext.grid.Panel",
-  xtype: "PackingView",
-  title: "Packing",
+  xtype: "GcxmView",
+  title: "Gcxm",
   requires: [],
   viewModel: { data: { active: 1 } },
-  id: "PackingGrid",
+  id: "GcxmGrid",
   plugins: ["cellediting", "gridfilters"],
-  controller: "PackingCtrl",
+  controller: "GcxmCtrl",
   columnLines: true,
   enableHdMenu: false,
   enableColumnHide: false,
@@ -35,7 +35,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
               triggerCls: "x-form-clear-trigger",
               onTriggerClick: function () {
                 this.reset();
-              },
+              }
             },
             {
               xtype: "checkbox",
@@ -50,14 +50,14 @@ Ext.define("MyApp.view.main.packing.PackingView", {
               },
               bind: "{active}",
               itemId: "active",
-            },
-          ],
+            }
+          ]
         },
         {
           xtype: "QueryToolbarView",
-        },
-      ],
-    },
+        }
+      ]
+    }
   ],
   columns: [
     {
@@ -70,13 +70,13 @@ Ext.define("MyApp.view.main.packing.PackingView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: false,
         regex: /(^[0-9A-Z]{1,5}$)/,
         type: "string",
-      },
+      }
     },
     {
       text: "包装名称",
@@ -88,12 +88,12 @@ Ext.define("MyApp.view.main.packing.PackingView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: false,
         type: "string",
-      },
+      }
     },
     {
       text: "数量单位",
@@ -105,13 +105,13 @@ Ext.define("MyApp.view.main.packing.PackingView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: true,
         //regex:/>([^<>]+)</,
         type: "string",
-      },
+      }
     },
     {
       //xtype: "numbercolumn",
@@ -121,7 +121,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
       //align: 'right',
       text: "转换系数",
       dataIndex: "Rate",
-      width: 80,
+      width: 120,
       align: "right",
       sortable: false,
       editor: {
@@ -132,7 +132,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
         allowBlank: false,
         minValue: 0,
         maxValue: 100000,
-      },
+      }
     },
     {
       text: "重量单位",
@@ -144,168 +144,12 @@ Ext.define("MyApp.view.main.packing.PackingView", {
         type: "string",
         itemDefaults: {
           emptyText: "Search for…",
-        },
+        }
       },
       editor: {
         allowBlank: true,
         type: "string",
-      },
-    },
-    {
-      text: "临时仓仓租单价",
-      columns: [
-        {
-          text: cztsfl + "天内",
-          columns: [
-            {
-              xtype: "numbercolumn",
-              align: "right",
-              format: "00000.00",
-              text: "不分批号",
-              dataIndex: "Czdj",
-              flex: 1,
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 3,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 9999.99,
-              },
-            },
-            {
-              xtype: "numbercolumn",
-              align: "right",
-              format: "00000.00",
-              text: "分批号",
-              dataIndex: "Phdj",
-              flex: 1,
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 3,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 9999.99,
-              },
-            },
-          ],
-        },
-        {
-          text: cztsfl + "天以后",
-          columns: [
-            {
-              xtype: "numbercolumn",
-              align: "right",
-              format: "00000.00",
-              text: "不分批号",
-              dataIndex: "Czdj2",
-              flex: 1,
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 3,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 9999.99,
-              },
-            },
-            {
-              xtype: "numbercolumn",
-              align: "right",
-              format: "00000.00",
-              text: "分批号",
-              dataIndex: "Phdj2",
-              flex: 1,
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 3,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 9999.99,
-              },
-            },
-          ],
-        },
-        {
-          text: "最小",
-          columns: [
-            {
-              xtype: "numbercolumn",
-              align: "center",
-              format: "00",
-              text: "天数",
-              dataIndex: "mints",
-              width: 50,
-              align: "center",
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 0,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 31,
-              },
-            },
-          ],
-        },
-        {
-          text: "周期",
-          columns: [
-            {
-              xtype: "numbercolumn",
-              align: "center",
-              format: "00",
-              text: "天数",
-              dataIndex: "czts",
-              width: 50,
-              align: "center",
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 0,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 31,
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      text: "固定仓",
-      columns: [
-        {
-          text: "每月平方",
-          columns: [
-            {
-              xtype: "numbercolumn",
-              align: "right",
-              format: "00000.00",
-              width: 70,
-              text: "单   价",
-              dataIndex: "Pfdj",
-              sortable: false,
-              editor: {
-                type: "numberfield",
-                decimalPrecision: 3,
-                align: "right",
-                allowBlank: true,
-                minValue: 0,
-                maxValue: 9999.99,
-              },
-            },
-          ],
-        },
-      ],
+      }
     },
     {
       text: "其它费用单价",
@@ -342,7 +186,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -359,9 +203,9 @@ Ext.define("MyApp.view.main.packing.PackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     {
       text: "工作费用提成单价",
@@ -381,7 +225,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -398,7 +242,7 @@ Ext.define("MyApp.view.main.packing.PackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
+          }
         },
         {
           xtype: "numbercolumn",
@@ -415,9 +259,9 @@ Ext.define("MyApp.view.main.packing.PackingView", {
             allowBlank: true,
             minValue: 0,
             maxValue: 9999.99,
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     {
       xtype: "checkcolumn",
@@ -451,5 +295,5 @@ Ext.define("MyApp.view.main.packing.PackingView", {
   ],
   listeners: {
     select: "onItemSelected",
-  },
+  }
 });
